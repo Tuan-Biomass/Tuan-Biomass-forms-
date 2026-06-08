@@ -452,21 +452,34 @@ document.getElementById("completeInductionBtn").onclick = async () => {
   document.getElementById("recordDate").textContent  = new Date().toLocaleString("en-AU");
 
   const payload = {
-    induction_type:         "Feedstock Truck Driver",
-    document_no:            CONFIG.documentNo,
-    person_id:              phone.replace(/\D/g, ""),
-    name, company, rego, phone,
-    company_contact,
-    company_contact_mobile,
-    company_contact_email,
-    date,
-    score:                  lastScore,
-    correct:                lastCorrect,
-    total:                  CONFIG.quiz.length,
-    acknowledged:           true,
-    sharepoint_folder:      CONFIG.sharePointFolder,
-    attachments,
-    submitted_at:           new Date().toISOString(),
+    induction_type:           "Feedstock Truck Driver",
+document_no:              CONFIG.documentNo,
+person_id:                phone.replace(/\D/g, ""),
+
+name:                     name,
+company:                  company,
+phone:                    phone,
+
+trade:                    "Feedstock Truck Driver",
+
+company_contact_name:     company_contact,
+company_contact_mobile:   company_contact_mobile,
+company_contact_email:    company_contact_email,
+
+emergency_name:           "",
+emergency_relationship:   "",
+emergency_phone:          "",
+
+date_inducted:            date,
+
+score:                    lastScore,
+correct:                  lastCorrect,
+total:                    CONFIG.quiz.length,
+acknowledged:             true,
+
+sharepoint_folder:        CONFIG.sharePointFolder,
+attachments:              attachments,
+submitted_at:             new Date().toISOString(),
   };
 
   if (CONFIG.webhookURL && CONFIG.webhookURL !== "PASTE_POWER_AUTOMATE_WEBHOOK_URL_HERE") {
