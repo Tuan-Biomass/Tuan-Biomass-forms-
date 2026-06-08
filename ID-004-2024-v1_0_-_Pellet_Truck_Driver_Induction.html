@@ -995,16 +995,33 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
   }
 
   const payload = {
-    induction_type:         "Pellet Truck Driver",
-    document_no:            "ID-004-2024-v1.0",
-    person_id:              phone.replace(/\D/g, ""),
-    name, company, rego, phone, companyContact, companyContactMobile, companyContactEmail, date,
-    score,
-    total:                  CONFIG.quiz.length,
-    acknowledged:           true,
-    sharepoint_folder:      CONFIG.sharePointFolder,
-    attachments,
-    submitted_at:           new Date().toISOString(),
+   induction_type:         "Pellet Truck Driver",
+document_no:            "ID-004-2024-v1.0",
+person_id:              phone.replace(/\D/g, ""),
+
+name:                   name,
+company:                company,
+phone:                  phone,
+
+trade:                  "Pellet Truck Driver",
+
+company_contact_name:   companyContact,
+company_contact_mobile: companyContactMobile,
+company_contact_email:  companyContactEmail,
+
+emergency_name:         "",
+emergency_relationship: "",
+emergency_phone:        "",
+
+date_inducted:          date,
+
+score:                  score,
+total:                  CONFIG.quiz.length,
+acknowledged:           true,
+
+sharepoint_folder:      CONFIG.sharePointFolder,
+attachments:            attachments,
+submitted_at:           new Date().toISOString(),
   };
 
   try {
