@@ -1,3 +1,6 @@
+
+raw
+Id 004 pellet truck driver induction · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +23,7 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: "Barlow", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
+ 
   .site-header {
     background: #fff; color: var(--green-dark);
     padding: 16px 24px; display: flex; align-items: center; gap: 16px;
@@ -35,18 +38,18 @@
   }
   .site-header h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 22px; color: var(--green-dark); }
   .site-header p  { font-size: 13px; color: var(--muted); margin-top: 2px; }
-
+ 
   .progress-wrap { background: var(--green-dark); padding: 0 24px 14px; }
   .progress-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; }
   .progress-fill  { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
   .progress-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px;
     font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
-
+ 
   .container { max-width: 780px; margin: 0 auto; padding: 32px 20px 80px; }
   .screen { display: none; }
   .screen.active { display: block; animation: fadeUp 0.3s ease; }
   @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-
+ 
   .card {
     background: var(--card); border-radius: 12px; padding: 32px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
@@ -63,7 +66,7 @@
     color: var(--green-dark); line-height: 1.15; margin-bottom: 16px;
   }
   .card p { font-size: 15px; line-height: 1.7; color: #374151; margin-bottom: 12px; }
-
+ 
   .rule-list { list-style: none; margin-top: 8px; }
   .rule-list li {
     display: flex; gap: 14px; align-items: flex-start;
@@ -79,7 +82,7 @@
   .rule-num.green  { background: var(--green); }
   .rule-num.amber  { background: var(--accent); color: var(--green-dark); }
   .rule-num.red    { background: var(--warn); }
-
+ 
   .alert-box {
     border-left: 4px solid var(--warn); background: #fff5f5;
     padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
@@ -91,7 +94,7 @@
     padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
     font-size: 14px; line-height: 1.8;
   }
-
+ 
   .form-group { margin-bottom: 18px; }
   .form-group label {
     display: block; font-family: "Barlow Condensed", sans-serif; font-weight: 600;
@@ -106,7 +109,7 @@
   .form-group input:focus { border-color: var(--green); background: white; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
-
+ 
   .checklist { list-style: none; margin-top: 8px; }
   .checklist li {
     display: flex; align-items: flex-start; gap: 12px;
@@ -114,10 +117,10 @@
   }
   .checklist li:last-child { border-bottom: none; }
   .checklist input[type=checkbox] { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--green); flex-shrink: 0; }
-
+ 
   .img-full { width: 100%; max-width: 100%; border-radius: 8px; margin: 16px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.1); image-rendering: -webkit-optimize-contrast; image-rendering: crisp-edges; }
   .img-caption { text-align: center; font-size: 12px; color: var(--muted); margin-top: -8px; margin-bottom: 16px; font-style: italic; }
-
+ 
   .quiz-counter { font-size: 13px; color: var(--muted); margin-bottom: 8px;
     font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
   .quiz-question { font-family: "Barlow Condensed", sans-serif; font-size: 20px; font-weight: 600;
@@ -136,7 +139,7 @@
   .quiz-feedback.show { display: block; }
   .quiz-feedback.pass { background: #f0fdf4; color: #14532d; border: 1px solid #86efac; }
   .quiz-feedback.fail { background: #fff5f5; color: #7f1d1d; border: 1px solid #fca5a5; }
-
+ 
   .btn {
     display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px;
     border-radius: 8px; font-family: "Barlow Condensed", sans-serif;
@@ -148,7 +151,7 @@
   .btn-secondary { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
   .btn-secondary:hover { background: #f0faf4; }
   .btn-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
-
+ 
   .result-badge {
     width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 20px;
     display: flex; align-items: center; justify-content: center;
@@ -168,7 +171,7 @@
     text-transform: uppercase; color: var(--muted); display: block; line-height: 1; margin-bottom: 2px;
   }
   .status-msg { margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic; }
-
+ 
   .hero {
     background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
     color: white; border-radius: 12px; padding: 40px 32px; margin-bottom: 20px;
@@ -185,30 +188,29 @@
     padding: 4px 12px; font-size: 12px; letter-spacing: 1px;
     font-family: "Barlow Condensed", sans-serif; margin-bottom: 14px; text-transform: uppercase;
   }
-
+ 
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
   @media (max-width: 520px) { .contact-grid { grid-template-columns: 1fr; } }
   .contact-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
   .contact-card .role   { font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
   .contact-card .name   { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
   .contact-card .detail { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
+ 
   .ppe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
   .ppe-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
   .ppe-card .ppe-label { font-weight: 600; font-size: 14px; color: var(--green-dark); margin-bottom: 6px; }
   .ppe-card ul { list-style: disc; padding-left: 16px; font-size: 13px; line-height: 1.8; color: #374151; }
-
+ 
   .table-style { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
   .table-style th { background: var(--green-dark); color: white; padding: 10px 12px; text-align: left;
     font-family: "Barlow Condensed", sans-serif; font-size: 13px; letter-spacing: 0.5px; }
   .table-style td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
   .table-style tr:last-child td { border-bottom: none; }
   .table-style td ul { list-style: disc; padding-left: 16px; line-height: 1.8; }
-
-
+ 
   .licence-table th, .licence-table td { font-weight: 400; font-family:"Barlow",sans-serif; }
   .licence-table input { width:100%; padding:9px 10px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); font-size:14px; }
-
+ 
   @media print {
     .site-header, .btn-row, .progress-wrap { display: none; }
     body { background: white; }
@@ -217,23 +219,20 @@
 </style>
 </head>
 <body>
-
-<!-- ═══════════════════════════════════════════
-     EDITABLE CONTENT — CHANGE THIS ONLY
-     ═══════════════════════════════════════════ -->
+ 
 <script>
 const CONFIG = {
   siteName:    "Tuan Biomass",
   siteAddress: "Tuan, Queensland",
   logoMark:    "TB",
-
+ 
   contacts: [
     { role: "Plant Manager",         name: "David Knight",  phone: "0439 013 224" },
     { role: "Safety Manager",        name: "Chris Foster",   phone: "0478 774 434" },
     { role: "Principal Contractor",  name: "Brett Stevens",  phone: "0430 939 468" },
     { role: "STL / QSL-WPC (Port)",  name: "QSL-Inductions", phone: "0437 458 551" },
   ],
-
+ 
   siteRules_tuan: [
     "Contact the loader operator on Channel 34 before entering the site.",
     "The loader operator has control of traffic movements. Follow their directions at all times.",
@@ -249,7 +248,7 @@ const CONFIG = {
     "Do not wander around the site without an authorised site worker present.",
     "Report all hazards, near misses, and incidents immediately to the site office or on-shift operator.",
   ],
-
+ 
   siteRules_port: [
     "Access to the Tuan Biomass Storage Facility is only available via STL property.",
     "All drivers must complete an induction at STL's Bundaberg Bulk Sugar Terminal before entering. Contact QSL-WPC on 0437 458 551 to arrange.",
@@ -267,7 +266,7 @@ const CONFIG = {
     "Mobile phone use is prohibited while driving or walking.",
     "Report all hazards, near misses, and incidents immediately.",
   ],
-
+ 
   hazards: [
     { hazard: "Being struck by moving plant", controls: [
       "Maximum speed 10 km/h within the work area.",
@@ -298,7 +297,7 @@ const CONFIG = {
       "Do not stand near or under a raised tipper body.",
     ]},
   ],
-
+ 
   quiz: [
     {
       question: "What UHF channel must drivers use before entering the Tuan site?",
@@ -361,18 +360,15 @@ const CONFIG = {
       feedback: "Zero tolerance. The use of drugs and alcohol is strictly prohibited at all times. Any worker suspected of being under the influence will be removed from site."
     },
   ],
-
+ 
   passMark: 80,
-
- webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
-
-sharePointFolder: "Contractor Documents",
+ 
+  webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/307226e2806b44dc83ec6ce2141315e3/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z9A9DcJNjkgdaMeDwfDL0M1ByhFlH3yZuIDF7UD6qNI",
+ 
+  sharePointFolder: "Contractor Documents",
 };
 </script>
-<!-- ═══════════════════════════════════════════
-     END OF EDITABLE CONTENT
-     ═══════════════════════════════════════════ -->
-
+ 
 <!-- HEADER -->
 <header class="site-header">
   <img src="https://i.ibb.co/1GR1Hq5P/Albioma-Logo.jpg" alt="Albioma" style="height:38px; width:auto;" onerror="this.style.display='none'">
@@ -381,14 +377,14 @@ sharePointFolder: "Contractor Documents",
     <p id="headerSub"></p>
   </div>
 </header>
-
+ 
 <div class="progress-wrap">
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div class="progress-label" id="progressLabel">Registration</div>
 </div>
-
+ 
 <div class="container">
-
+ 
   <!-- SCREEN 0: REGISTRATION -->
   <div class="screen active" id="screen-0">
     <div style="border-radius:12px; overflow:hidden; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);">
@@ -445,8 +441,7 @@ sharePointFolder: "Contractor Documents",
       </div>
     </div>
   </div>
-
-
+ 
   <!-- SCREEN 1: LICENCE & TICKET VERIFICATION -->
   <div class="screen" id="screen-1">
     <div class="card">
@@ -473,7 +468,7 @@ sharePointFolder: "Contractor Documents",
       </div>
     </div>
   </div>
-
+ 
   <!-- SCREEN 2: CONTACTS -->
   <div class="screen" id="screen-2">
     <div class="card">
@@ -482,14 +477,15 @@ sharePointFolder: "Contractor Documents",
       <p></p>
       <div class="contact-grid" id="contactGrid"></div>
     </div>
-<div class="alert-box" style="margin-top:16px;">
-       <strong>CCTV cameras are installed in high-risk areas to monitor safety and security across site.</strong>
-      </div>
+    <div class="alert-box" style="margin-top:16px;">
+      <strong>CCTV cameras are installed in high-risk areas to monitor safety and security across site.</strong>
+    </div>
     <div class="btn-row">
       <button class="btn btn-secondary" id="s1Back">Back</button>
       <button class="btn btn-primary"   id="s1Next">Next</button>
     </div>
   </div>
+ 
   <!-- SCREEN 3: CHAIN OF RESPONSIBILITY & FATIGUE -->
   <div class="screen" id="screen-3">
     <div class="card">
@@ -520,7 +516,7 @@ sharePointFolder: "Contractor Documents",
       <button class="btn btn-primary"   id="s2Next">Next</button>
     </div>
   </div>
-
+ 
   <!-- SCREEN 4: PPE & DRUG/ALCOHOL -->
   <div class="screen" id="screen-4">
     <div class="card">
@@ -554,7 +550,7 @@ sharePointFolder: "Contractor Documents",
       <button class="btn btn-primary"   id="s3Next">Next</button>
     </div>
   </div>
-
+ 
   <!-- SCREEN 5: PELLET LOADING — TUAN SITE -->
   <div class="screen" id="screen-5">
     <div class="card">
@@ -576,14 +572,14 @@ sharePointFolder: "Contractor Documents",
       <button class="btn btn-primary"   id="s4Next">Next</button>
     </div>
   </div>
-
-    <!-- SCREEN 6: PELLET UNLOADING — PORT -->
+ 
+  <!-- SCREEN 6: PELLET UNLOADING — PORT -->
   <div class="screen" id="screen-6">
     <div class="card">
       <div class="section-tag">Pellet Unloading</div>
       <h2>Port of Bundaberg — Storage Facility Rules</h2>
       <div class="alert-box">
-        <strong>Important:</strong> Access to the Tuan Biomass Storage Facility is only available via STL property. All drivers must complete an induction at STL's Bundaberg Bulk Sugar Terminal before entering. 
+        <strong>Important:</strong> Access to the Tuan Biomass Storage Facility is only available via STL property. All drivers must complete an induction at STL's Bundaberg Bulk Sugar Terminal before entering.
         Contact QSL-WPC on <strong>0437 458 551</strong> to arrange in advance.
       </div>
       <ul class="rule-list" id="portRulesList"></ul>
@@ -607,7 +603,7 @@ sharePointFolder: "Contractor Documents",
       <button class="btn btn-primary"   id="s5Next">Next</button>
     </div>
   </div>
-
+ 
   <!-- SCREEN 7: HAZARDS & EMERGENCY -->
   <div class="screen" id="screen-7">
     <div class="card">
@@ -639,7 +635,7 @@ sharePointFolder: "Contractor Documents",
       <button class="btn btn-primary"   id="s6Next">Proceed to Quiz</button>
     </div>
   </div>
-
+ 
   <!-- SCREEN 8: QUIZ -->
   <div class="screen" id="screen-8">
     <div class="card">
@@ -661,7 +657,7 @@ sharePointFolder: "Contractor Documents",
       <button class="btn btn-secondary" id="s7Back">Back to Induction</button>
     </div>
   </div>
-
+ 
   <!-- SCREEN 9: DECLARATION -->
   <div class="screen" id="screen-9">
     <div class="card">
@@ -683,21 +679,14 @@ sharePointFolder: "Contractor Documents",
       </div>
     </div>
   </div>
-
+ 
   <!-- SCREEN 10: INDUCTION COMPLETE -->
   <div class="screen" id="screen-10">
     <div class="card result-screen">
       <div class="result-badge pass">✓</div>
-
       <h2>Induction Complete</h2>
-
       <p>Thank you for completing the Tuan Biomass Pellet Truck Driver Induction.</p>
-
-      <p>
-        Before unsupervised access to site is granted, you must report to the
-        Site Office where the following will be completed:
-      </p>
-
+      <p>Before unsupervised access to site is granted, you must report to the Site Office where the following will be completed:</p>
       <ul style="text-align:left; max-width:700px; margin:15px auto; line-height:1.7; color:#374151;">
         <li>Verification of induction completion.</li>
         <li>Site tour conducted by an authorised Tuan Biomass representative.</li>
@@ -705,7 +694,6 @@ sharePointFolder: "Contractor Documents",
         <li>Issue of a site access FOB, if required.</li>
         <li>Confirmation of any site-specific requirements or restrictions.</li>
       </ul>
-
       <div class="record-box">
         <h3 style="font-family:'Barlow Condensed',sans-serif; color:var(--green-dark); margin-bottom:12px;">Induction Record</h3>
         <div><strong>Name</strong><span id="recordName"></span></div>
@@ -718,26 +706,20 @@ sharePointFolder: "Contractor Documents",
         <div><strong>Documents Submitted</strong><span id="recordDocs"></span></div>
         <div><strong>Date Completed</strong><span id="recordDate"></span></div>
       </div>
-
-      <div class="status-msg" id="completeStatus">
-        Induction successfully completed.
-      </div>
+      <div class="status-msg" id="completeStatus">Induction successfully completed.</div>
     </div>
   </div>
-
+ 
 </div><!-- end .container -->
-
+ 
 <script>
-// ── Initialise header & static elements ──────────────────────────────────────
-// logoMark replaced by img tag in header
 document.getElementById("headerTitle").textContent = CONFIG.siteName + " — Pellet Truck Driver Induction";
 document.getElementById("headerSub").textContent   = CONFIG.siteAddress;
 document.getElementById("passMarkHero").textContent = CONFIG.passMark;
 document.getElementById("quizPassNote").textContent = CONFIG.passMark;
 document.getElementById("quizTotalNote").textContent = CONFIG.quiz.length;
 document.getElementById("driverDate").value        = new Date().toISOString().split("T")[0];
-
-// ── Build contacts ────────────────────────────────────────────────────────────
+ 
 const cg = document.getElementById("contactGrid");
 CONFIG.contacts.forEach(c => {
   const d = document.createElement("div");
@@ -745,16 +727,13 @@ CONFIG.contacts.forEach(c => {
   d.innerHTML = `<div class="role">${c.role}</div><div class="name">${c.name}</div><div class="detail">${c.phone}</div>`;
   cg.appendChild(d);
 });
-
-
-// ── Licence file name display ─────────────────────────────────────────────────
+ 
 function showLicFileName(i, type) {
   const input = document.getElementById(type === 'camera' ? "licCamera" + i : "licFile" + i);
   const span  = document.getElementById("licFileName" + i);
   if (input && input.files.length && span) span.textContent = input.files[0].name;
 }
-
-// ── Build licence rows ────────────────────────────────────────────────────────
+ 
 const licenceTypes = ["C", "LR", "MR", "HR", "HC", "MC", "Forklift", "EWP", "Front End Loader", "Working at Heights", "First Aid", "Other"];
 const licenceRows = document.getElementById("licenceRows");
 if (licenceRows) {
@@ -776,24 +755,21 @@ if (licenceRows) {
     </tr>`);
   });
 }
-
-// ── Build Tuan rules ──────────────────────────────────────────────────────────
+ 
 const trl = document.getElementById("tuanRulesList");
 CONFIG.siteRules_tuan.forEach((r, i) => {
   const li = document.createElement("li");
   li.innerHTML = `<span class="rule-num green">${i+1}</span>${r}`;
   trl.appendChild(li);
 });
-
-// ── Build Port rules ──────────────────────────────────────────────────────────
+ 
 const prl = document.getElementById("portRulesList");
 CONFIG.siteRules_port.forEach((r, i) => {
   const li = document.createElement("li");
   li.innerHTML = `<span class="rule-num green">${i+1}</span>${r}`;
   prl.appendChild(li);
 });
-
-// ── Build hazard table ────────────────────────────────────────────────────────
+ 
 const ht = document.getElementById("hazardTable");
 CONFIG.hazards.forEach(h => {
   const tr = document.createElement("tr");
@@ -801,8 +777,7 @@ CONFIG.hazards.forEach(h => {
     <td><ul>${h.controls.map(c => `<li>${c}</li>`).join("")}</ul></td>`;
   ht.appendChild(tr);
 });
-
-// ── Screen navigation ─────────────────────────────────────────────────────────
+ 
 const SCREENS = [
   { label: "Registration",          pct: 0   },
   { label: "Licences",              pct: 10  },
@@ -816,7 +791,7 @@ const SCREENS = [
   { label: "Declaration",           pct: 92  },
   { label: "Complete",              pct: 100 },
 ];
-
+ 
 function goTo(n) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById("screen-" + n).classList.add("active");
@@ -824,8 +799,7 @@ function goTo(n) {
   document.getElementById("progressLabel").textContent = SCREENS[n].label;
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
-// ── Wire up all navigation buttons ───────────────────────────────────────────
+ 
 document.getElementById("startBtn").addEventListener("click", function() {
   const name                 = document.getElementById("driverName").value.trim();
   const company              = document.getElementById("driverCompany").value.trim();
@@ -839,10 +813,9 @@ document.getElementById("startBtn").addEventListener("click", function() {
   }
   goTo(1);
 });
-
+ 
 document.getElementById("licBack").addEventListener("click", () => goTo(0));
 document.getElementById("licNext").addEventListener("click", () => goTo(2));
-
 document.getElementById("s1Back").addEventListener("click", () => goTo(1));
 document.getElementById("s1Next").addEventListener("click", () => goTo(3));
 document.getElementById("s2Back").addEventListener("click", () => goTo(2));
@@ -856,23 +829,22 @@ document.getElementById("s5Next").addEventListener("click", () => goTo(7));
 document.getElementById("s6Back").addEventListener("click", () => goTo(6));
 document.getElementById("s6Next").addEventListener("click", () => { resetQuiz(); goTo(8); });
 document.getElementById("s7Back").addEventListener("click", () => goTo(7));
-
-// ── Quiz ──────────────────────────────────────────────────────────────────────
+ 
 let quizAnswers = [];
 let currentQ    = 0;
-
+ 
 function resetQuiz() {
   quizAnswers = new Array(CONFIG.quiz.length).fill(null);
   currentQ = 0;
   renderQuestion();
 }
-
+ 
 function renderQuestion() {
   const q = CONFIG.quiz[currentQ];
   document.getElementById("quizCounter").textContent =
     "Question " + (currentQ + 1) + " of " + CONFIG.quiz.length;
   document.getElementById("quizQuestion").textContent = q.question;
-
+ 
   const opts = document.getElementById("quizOptions");
   opts.innerHTML = "";
   q.options.forEach((opt, i) => {
@@ -882,54 +854,49 @@ function renderQuestion() {
     el.addEventListener("click", () => selectOption(i));
     opts.appendChild(el);
   });
-
+ 
   const fb = document.getElementById("quizFeedback");
   fb.className = "quiz-feedback";
   fb.textContent = "";
   document.getElementById("quizNextBtn").style.display   = "none";
   document.getElementById("quizSubmitBtn").style.display = "none";
 }
-
+ 
 function selectOption(idx) {
-  // Prevent re-selection after answering
   if (quizAnswers[currentQ] !== null) return;
-
   const q      = CONFIG.quiz[currentQ];
   const isLast = currentQ === CONFIG.quiz.length - 1;
   const correct = (idx === q.correct);
   quizAnswers[currentQ] = correct;
-
-  // Style options
+ 
   document.querySelectorAll(".option").forEach((el, i) => {
-    el.style.pointerEvents = "none"; // disable further clicks
+    el.style.pointerEvents = "none";
     if (i === q.correct) el.classList.add("show-correct");
     if (i === idx && !correct) el.classList.add("wrong");
     if (i === idx && correct)  { el.classList.remove("show-correct"); el.classList.add("correct"); }
   });
-
-  // Feedback
+ 
   const fb = document.getElementById("quizFeedback");
   fb.textContent = q.feedback;
   fb.className   = "quiz-feedback show " + (correct ? "pass" : "fail");
-
-  // Show appropriate button
+ 
   if (isLast) {
     document.getElementById("quizSubmitBtn").style.display = "inline-flex";
   } else {
     document.getElementById("quizNextBtn").style.display   = "inline-flex";
   }
 }
-
+ 
 document.getElementById("quizNextBtn").addEventListener("click", function() {
   currentQ++;
   renderQuestion();
 });
-
+ 
 document.getElementById("quizSubmitBtn").addEventListener("click", function() {
   const correct = quizAnswers.filter(Boolean).length;
   const score = Math.round((correct / CONFIG.quiz.length) * 100);
   const pass = score >= CONFIG.passMark;
-
+ 
   if (pass) {
     goTo(9);
   } else {
@@ -938,17 +905,16 @@ document.getElementById("quizSubmitBtn").addEventListener("click", function() {
     goTo(8);
   }
 });
-
-// ── Declaration ───────────────────────────────────────────────────────────────
+ 
 document.getElementById("submitDeclBtn").addEventListener("click", async function() {
   const checks = document.querySelectorAll(".decl-check");
   const allChecked = Array.from(checks).every(c => c.checked);
   if (!allChecked) { alert("Please tick all declaration items before submitting."); return; }
-
+ 
   const btn = document.getElementById("submitDeclBtn");
   btn.disabled = true;
   btn.textContent = "Submitting...";
-
+ 
   const name                 = document.getElementById("driverName").value.trim();
   const company              = document.getElementById("driverCompany").value.trim();
   const rego                 = document.getElementById("driverRego").value.trim();
@@ -958,8 +924,7 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
   const companyContactMobile = document.getElementById("companyContactMobile").value.trim();
   const companyContactEmail  = document.getElementById("companyContactEmail").value.trim();
   const score                = Math.round((quizAnswers.filter(Boolean).length / CONFIG.quiz.length) * 100);
-
-  // Populate result screen
+ 
   document.getElementById("recordName").textContent    = name || "Not recorded";
   document.getElementById("recordCompany").textContent = company || "Not recorded";
   document.getElementById("recordRego").textContent    = rego || "Not recorded";
@@ -967,8 +932,7 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
   document.getElementById("recordCompanyContactMobile").textContent = companyContactMobile || "Not recorded";
   document.getElementById("recordCompanyContactEmail").textContent = companyContactEmail || "Not provided";
   document.getElementById("recordScore").textContent   = score;
-
-  // Build documents list from licence files + doc upload
+ 
   const docList = [];
   const licTypes = ["C","LR","MR","HR","HC","MC","Forklift","EWP","Front End Loader","Working at Heights","First Aid","Other"];
   licTypes.forEach((t, i) => {
@@ -983,8 +947,7 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
   }
   document.getElementById("recordDocs").textContent = docList.length ? docList.join(", ") : "None submitted";
   document.getElementById("recordDate").textContent = new Date().toLocaleString("en-AU");
-
-  // Collect uploaded files as base64
+ 
   const attachments = [];
   if (docInput && docInput.files && docInput.files.length > 0) {
     for (const file of docInput.files) {
@@ -994,37 +957,30 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
       } catch(e) { console.warn("Could not read file", file.name, e); }
     }
   }
-
+ 
   const payload = {
-   induction_type:         "Pellet Truck Driver",
-document_no:            "ID-004-2024-v1.0",
-person_id:              phone.replace(/\D/g, ""),
-
-name:                   name,
-company:                company,
-phone:                  phone,
-
-trade:                  "Pellet Truck Driver",
-
-company_contact_name:   companyContact,
-company_contact_mobile: companyContactMobile,
-company_contact_email:  companyContactEmail,
-
-emergency_name:         "",
-emergency_relationship: "",
-emergency_phone:        "",
-
-date_inducted:          date,
-
-score:                  score,
-total:                  CONFIG.quiz.length,
-acknowledged:           true,
-
-sharepoint_folder:      CONFIG.sharePointFolder,
-attachments:            attachments,
-submitted_at:           new Date().toISOString(),
+    induction_type:         "Pellet Truck Driver",
+    document_no:            "ID-004-2024-v1.0",
+    person_id:              phone.replace(/\D/g, ""),
+    name:                   name,
+    company:                company,
+    phone:                  phone,
+    trade:                  "Pellet Truck Driver",
+    company_contact_name:   companyContact,
+    company_contact_mobile: companyContactMobile,
+    company_contact_email:  companyContactEmail,
+    emergency_name:         "",
+    emergency_relationship: "",
+    emergency_phone:        "",
+    date_inducted:          date,
+    score:                  score,
+    total:                  CONFIG.quiz.length,
+    acknowledged:           true,
+    sharepoint_folder:      CONFIG.sharePointFolder,
+    attachments:            attachments,
+    submitted_at:           new Date().toISOString(),
   };
-
+ 
   try {
     await fetch(CONFIG.webhookURL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
     document.getElementById("completeStatus").textContent = "✓ Induction successfully submitted.";
@@ -1038,3 +994,4 @@ submitted_at:           new Date().toISOString(),
 </script>
 </body>
 </html>
+ 
