@@ -1,3 +1,6 @@
+
+raw
+Id 003 feedstock truck driver induction · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -178,9 +181,8 @@ const CONFIG = {
     { question: "What is the site drug and alcohol rule?", options: ["Allowed after hours", "Only applies to employees", "Drugs and alcohol are strictly prohibited on site", "Only applies to forklift drivers"], correct: 2, feedback: "Drugs and alcohol are strictly prohibited on site. Contractors may be subject to random drug testing." }
   ],
   passMark: 80,
-  webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
-
-sharePointFolder: "Contractor Documents",
+  webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/307226e2806b44dc83ec6ce2141315e3/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=Z9A9DcJNjkgdaMeDwfDL0M1ByhFlH3yZuIDF7UD6qNI",
+  sharePointFolder: "Contractor Documents",
 };
 </script>
 <header class="site-header">
@@ -194,7 +196,7 @@ sharePointFolder: "Contractor Documents",
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div class="progress-label" id="progressLabel">Registration</div>
 </div>
-
+ 
 <div class="container">
   <div class="screen active" id="screen-0">
     <div class="hero-img">
@@ -254,7 +256,7 @@ sharePointFolder: "Contractor Documents",
       </div>
     </div>
   </div>
-
+ 
   <!-- SCREEN 1: LICENCE & TICKET VERIFICATION -->
   <div class="screen" id="screen-1">
     <div class="card">
@@ -308,7 +310,7 @@ sharePointFolder: "Contractor Documents",
   </div>
   <div class="screen" id="screen-7">
     <div class="card"><div class="section-tag">Hazard Controls</div><h2>Main Hazards</h2><table class="table-style"><thead><tr><th>Hazard</th><th>Controls</th></tr></thead><tbody id="hazardRows"></tbody></table></div>
-    <div class="card"><div class="section-tag">Non-Compliance</div><h2>Consequences</h2><div class="alert-box"><strong>Important:</strong> Any truck driver found not complying with site rules may have their rego recorded and reported to the trucking company’s management.</div><p>Failure to comply may result in removal from site or further action by management.</p></div>
+    <div class="card"><div class="section-tag">Non-Compliance</div><h2>Consequences</h2><div class="alert-box"><strong>Important:</strong> Any truck driver found not complying with site rules may have their rego recorded and reported to the trucking company's management.</div><p>Failure to comply may result in removal from site or further action by management.</p></div>
     <div class="btn-row"><button class="btn btn-secondary" data-back>Back</button><button class="btn btn-primary" id="beginQuizBtn">Start Quiz</button></div>
   </div>
   <div class="screen" id="screen-8">
@@ -406,7 +408,7 @@ document.getElementById("completeInductionBtn").onclick = async () => {
   const all = [...document.querySelectorAll("#ackList input")].every(cb=>cb.checked);
   document.getElementById("ackError").style.display = all ? "none" : "block";
   if(!all) return;
-
+ 
   const name    = document.getElementById("driverName").value.trim();
   const company = document.getElementById("driverCompany").value.trim();
   const rego    = document.getElementById("driverRego").value.trim().toUpperCase();
@@ -415,8 +417,7 @@ document.getElementById("completeInductionBtn").onclick = async () => {
   const company_contact_mobile = document.getElementById("companyContactMobile").value.trim();
   const company_contact_email = document.getElementById("companyContactEmail").value.trim();
   const date    = document.getElementById("driverDate").value;
-
-  // Collect uploaded files as base64
+ 
   const attachments = [];
   const docInput = document.getElementById("docUpload");
   if (docInput && docInput.files && docInput.files.length > 0) {
@@ -427,8 +428,7 @@ document.getElementById("completeInductionBtn").onclick = async () => {
       } catch(e) { console.warn("Could not read file", file.name, e); }
     }
   }
-
-  // Build documents list from licence files + doc upload
+ 
   const docList = [];
   const licTypes = ["C","LR","MR","HR","HC","MC","Forklift","EWP","Front End Loader","Working at Heights","First Aid","Other"];
   licTypes.forEach((t, i) => {
@@ -440,8 +440,7 @@ document.getElementById("completeInductionBtn").onclick = async () => {
   if (docInput && docInput.files && docInput.files.length) {
     for (const file of docInput.files) docList.push(file.name);
   }
-
-  // Populate result screen
+ 
   document.getElementById("recordName").textContent  = name || "Not recorded";
   document.getElementById("recordCompany").textContent = company || "Not recorded";
   document.getElementById("recordCompanyContact").textContent = company_contact || "Not recorded";
@@ -450,38 +449,31 @@ document.getElementById("completeInductionBtn").onclick = async () => {
   document.getElementById("recordScore").textContent = lastScore;
   document.getElementById("recordDocs").textContent  = docList.length ? docList.join(", ") : "None submitted";
   document.getElementById("recordDate").textContent  = new Date().toLocaleString("en-AU");
-
+ 
   const payload = {
     induction_type:           "Feedstock Truck Driver",
-document_no:              CONFIG.documentNo,
-person_id:                phone.replace(/\D/g, ""),
-
-name:                     name,
-company:                  company,
-phone:                    phone,
-
-trade:                    "Feedstock Truck Driver",
-
-company_contact_name:     company_contact,
-company_contact_mobile:   company_contact_mobile,
-company_contact_email:    company_contact_email,
-
-emergency_name:           "",
-emergency_relationship:   "",
-emergency_phone:          "",
-
-date_inducted:            date,
-
-score:                    lastScore,
-correct:                  lastCorrect,
-total:                    CONFIG.quiz.length,
-acknowledged:             true,
-
-sharepoint_folder:        CONFIG.sharePointFolder,
-attachments:              attachments,
-submitted_at:             new Date().toISOString(),
+    document_no:              CONFIG.documentNo,
+    person_id:                phone.replace(/\D/g, ""),
+    name:                     name,
+    company:                  company,
+    phone:                    phone,
+    trade:                    "Feedstock Truck Driver",
+    company_contact_name:     company_contact,
+    company_contact_mobile:   company_contact_mobile,
+    company_contact_email:    company_contact_email,
+    emergency_name:           "",
+    emergency_relationship:   "",
+    emergency_phone:          "",
+    date_inducted:            date,
+    score:                    lastScore,
+    correct:                  lastCorrect,
+    total:                    CONFIG.quiz.length,
+    acknowledged:             true,
+    sharepoint_folder:        CONFIG.sharePointFolder,
+    attachments:              attachments,
+    submitted_at:             new Date().toISOString(),
   };
-
+ 
   if (CONFIG.webhookURL && CONFIG.webhookURL !== "PASTE_POWER_AUTOMATE_WEBHOOK_URL_HERE") {
     try {
       await fetch(CONFIG.webhookURL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
