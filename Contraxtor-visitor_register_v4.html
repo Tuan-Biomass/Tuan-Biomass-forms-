@@ -9,7 +9,6 @@
 :root{--green:#2D6A4F;--green-dark:#1B4332;--accent:#D4A017;--danger:#DC2626;--bg:#F6F7F8;--card:#fff;--border:#D1D5DB;--muted:#6B7280;--text:#111827}
 *{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100%}body{font-family:"Barlow",sans-serif;background:var(--bg);color:var(--text)}
 .site-header{background:#fff;color:var(--green-dark);padding:14px 22px;display:flex;align-items:center;gap:14px;border-bottom:3px solid var(--green);box-shadow:0 2px 6px rgba(0,0,0,.06)}
-.logo-mark{width:34px;height:34px;border-radius:9px;background:var(--green-dark);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:19px;flex-shrink:0}
 .site-header h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:16px;color:var(--green-dark)}.site-header p{font-size:13px;color:var(--muted);margin-top:2px}
 .wrap{width:100%;max-width:1600px;margin:18px auto;padding:0 14px 60px}.card{background:var(--card);border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:22px}.home-card{min-height:calc(100vh - 125px)}
 .top-row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:14px}.title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:22px;color:var(--green-dark);line-height:1}.sub{font-size:14px;color:var(--muted);margin-top:7px}
@@ -17,7 +16,7 @@
 .on-site-count{font-family:"Barlow Condensed",sans-serif;font-size:22px;font-weight:700;color:var(--green-dark);margin:0}.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:12px;height:calc(100vh - 245px);min-height:520px;background:#fff}table{width:100%;border-collapse:collapse;background:#fff;min-width:720px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #E5E7EB;font-size:14px;vertical-align:middle}th{position:sticky;top:0;z-index:1;font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.5px;color:var(--green-dark);font-size:17px;background:#F9FAFB}tr:last-child td{border-bottom:none}.empty{padding:60px;text-align:center;color:var(--muted);font-size:16px;background:#fff;border:1px dashed var(--border);border-radius:12px}.action-cell{text-align:right}.table-wrap .btn{font-size:14px;padding:15px 24px}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{margin-bottom:18px}label{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:14px;letter-spacing:.8px;text-transform:uppercase;color:var(--green-dark);margin-bottom:6px}input[type=text],input[type=date],input[type=time],select,textarea{width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:9px;font-family:"Barlow",sans-serif;font-size:16px;color:var(--text);background:#fff}textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green)}.radio-group{display:flex;gap:12px}.radio-opt{flex:1;border:1.5px solid var(--border);border-radius:9px;padding:14px;cursor:pointer;font-size:17px;display:flex;align-items:center;gap:8px;background:#fff}.radio-opt input{accent-color:var(--green);width:18px;height:18px}.radio-opt.selected{border-color:var(--green);background:#F0FDF4}.actions{display:flex;gap:12px;justify-content:flex-end;margin-top:12px}.notice{border-radius:12px;padding:15px 17px;margin:16px 0;font-size:15px;line-height:1.5}.notice-warn{background:#FFFBEB;border:1px solid #FACC15;color:#713F12}.notice-danger{background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B}.notice-success{background:#F0FDF4;border:1px solid #86EFAC;color:#166534}.footer{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}.hidden{display:none!important}.small-actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}.file-input{width:100%;padding:14px;border:1.5px dashed var(--border);border-radius:10px;background:#F9FAFB;font-size:15px}.file-list{font-size:14px;color:var(--muted);margin-top:8px;line-height:1.5}.check-row{display:flex;gap:10px;align-items:flex-end}.check-row .field{flex:1}.check-row .btn{margin-bottom:18px}.doc-table-wrap{overflow:auto;border:1px solid var(--border);border-radius:12px;background:#fff;margin-bottom:14px}.doc-table{min-width:920px}.doc-table th,.doc-table td{vertical-align:top}.doc-table select,.doc-table input[type=date]{font-size:15px;padding:10px 12px}.doc-table .file-input{padding:10px}.doc-table .file-list{font-size:13px}.doc-remove{margin-top:0}.doc-actions{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:12px 0}.doc-note{font-size:13px;color:var(--muted);margin-top:4px}
 @media(max-width:900px){.wrap{padding:0 8px;margin:10px auto}.card{padding:14px}.top-row{display:block}.top-row .btn{margin-top:12px;width:100%}.title{font-size:22px}.big-signin{font-size:16px;min-height:58px;max-width:100%}.home-note{font-size:14px}.home-heading{display:block}.on-site-count{font-size:28px;margin-bottom:10px}.table-wrap{height:calc(100vh - 230px);min-height:480px}table{min-width:620px}th,td{font-size:16px;padding:16px 14px}.table-wrap .btn{font-size:16px;padding:14px 20px}.form-grid{grid-template-columns:1fr}.actions{flex-direction:column}.actions .btn{width:100%}.radio-group{flex-direction:column}}
-@media(max-width:520px){.site-header{padding:10px 12px}.logo-mark{width:40px;height:40px}.site-header h1{font-size:21px}.site-header p{font-size:12px}.wrap{padding:0 6px}.card{border-radius:10px;padding:10px}.big-signin{font-size:14px;min-height:42px}.home-note{font-size:19px;padding:12px}.table-wrap{height:calc(100vh - 220px);min-height:420px}table{min-width:520px}th,td{font-size:14px;padding:14px 10px}.table-wrap .btn{font-size:14px;padding:12px 16px}.empty{font-size:16px;padding:45px 14px}}
+@media(max-width:520px){.site-header{padding:10px 12px}.site-header h1{font-size:21px}.site-header p{font-size:12px}.wrap{padding:0 6px}.card{border-radius:10px;padding:10px}.big-signin{font-size:14px;min-height:42px}.home-note{font-size:19px;padding:12px}.table-wrap{height:calc(100vh - 220px);min-height:420px}table{min-width:520px}th,td{font-size:14px;padding:14px 10px}.table-wrap .btn{font-size:14px;padding:12px 16px}.empty{font-size:16px;padding:45px 14px}}
 </style>
 </head>
 <body>
@@ -99,7 +98,8 @@ const CONFIG={
   ticketUploadURL:"PASTE_YOUR_TICKET_UPLOAD_FLOW_URL_HERE",
   inductionURL:"contractor-induction.html"
 };
-let state={inducted:null,outIssue:null,signoutId:null,ticketId:null};const STORE_KEY="tuan_biomass_site_register_v4";
+let state={inducted:null,outIssue:null,signoutId:null,ticketId:null};
+const STORE_KEY="tuan_biomass_site_register_v4";
 function todayISO(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`}
 function timeNow(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${p(n.getHours())}:${p(n.getMinutes())}`}
 function loadRecords(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}}
@@ -108,11 +108,11 @@ function showPage(page){["pageHome","pageSignin","pageTickets","pageSignout"].fo
 function setDefaultDateTime(){document.getElementById("signinDate").value=todayISO();document.getElementById("timeIn").value=timeNow()}
 function selectRadio(group,val){state[group]=val;if(group==="inducted"){document.getElementById("opt-yes").classList.toggle("selected",val==="yes");document.getElementById("opt-no").classList.toggle("selected",val==="escorted");document.getElementById("escortContactField").classList.toggle("hidden",val!=="escorted");if(val!=="escorted")document.getElementById("escortContact").value=""}if(group==="outIssue"){document.getElementById("out-no").classList.toggle("selected",val==="no");document.getElementById("out-yes").classList.toggle("selected",val==="yes");document.getElementById("issueFields").classList.toggle("hidden",val!=="yes")}}
 function msg(id,type,text){document.getElementById(id).innerHTML=text?`<div class="notice notice-${type}">${text}</div>`:""}
-function validateSignIn(){for(const [id,m] of [["fullName","Please enter the person’s full name."],["company","Please enter the company name."],["mobileNumber","Please enter the mobile number. This is the system ID."],["signinDate","Please select the date."],["timeIn","Please enter the time in."]]){if(!document.getElementById(id).value.trim()){msg("signinMessage","danger",m);return false}}if(!state.inducted){msg("signinMessage","danger","Please select the site access type.");return false}if(state.inducted==="escorted"&&!document.getElementById("escortContact").value.trim()){msg("signinMessage","danger","Please enter the site contact responsible for the visitor.");return false}return true}
+function validateSignIn(){for(const [id,m] of [["fullName","Please enter the person's full name."],["company","Please enter the company name."],["mobileNumber","Please enter the mobile number. This is the system ID."],["signinDate","Please select the date."],["timeIn","Please enter the time in."]]){if(!document.getElementById(id).value.trim()){msg("signinMessage","danger",m);return false}}if(!state.inducted){msg("signinMessage","danger","Please select the site access type.");return false}if(state.inducted==="escorted"&&!document.getElementById("escortContact").value.trim()){msg("signinMessage","danger","Please enter the site contact responsible for the visitor.");return false}return true}
 async function postWebhook(payload){if(!CONFIG.webhookURL||CONFIG.webhookURL==="PASTE_YOUR_WEBHOOK_URL_HERE")return true;const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});return res.ok}
-async function checkInductionStatus(fullName,company,mobileNumber){
+async function checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime){
   if(!CONFIG.inductionCheckURL||CONFIG.inductionCheckURL==="PASTE_YOUR_INDUCTION_CHECK_FLOW_URL_HERE")return {inducted:true,source:"local demo mode"};
-  const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,mobile_number:mobileNumber,person_id:normaliseMobile(mobileNumber)})});
+  const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,mobile_number:mobileNumber,person_id:normaliseMobile(mobileNumber),date:date,arrival_time:arrivalTime})});
   if(!res.ok)throw new Error("Induction check failed");
   return await res.json();
 }
@@ -127,11 +127,13 @@ async function submitSignIn(){
   const mobileNumber=document.getElementById("mobileNumber").value.trim();
   const personId=normaliseMobile(mobileNumber);
   const rego=document.getElementById("rego").value.trim().toUpperCase();
+  const date=document.getElementById("signinDate").value;
+  const arrivalTime=document.getElementById("timeIn").value;
 
   if(state.inducted==="yes"){
     msg("signinMessage","warn","Checking induction status...");
     try{
-      const check=await checkInductionStatus(fullName,company,mobileNumber);
+      const check=await checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime);
       if(!check.inducted){
         msg("signinMessage","danger","No current induction was found. Opening the contractor induction now.");
         setTimeout(()=>redirectToInduction(fullName,company,rego,mobileNumber),900);
@@ -144,50 +146,40 @@ async function submitSignIn(){
   }
 
   const record={
-  id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),
-  type:"sign_in",
+    id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),
+    type:"sign_in",
+    person_id:personId,
+    mobile_number:mobileNumber,
+    status:"on_site",
+    induction_valid:"Y",
+    date:date,
+    full_name:fullName,
+    company:company,
+    arrival_time:arrivalTime,
+    departure_time:"",
+    hours_on_site:"",
+    inducted_previously:state.inducted==="yes"?"yes":"no",
+    visitor:state.inducted==="escorted"?"Y":"N",
+    access_type:state.inducted,
+    escorted_only:state.inducted==="escorted",
+    site_contact_responsible:state.inducted==="escorted"?document.getElementById("escortContact").value.trim():"",
+    vehicle_rego:rego,
+    tickets_uploaded:[],
+    safety_issue:"",
+    issue_details:"",
+    notes:"",
+    signed_in_at:new Date().toISOString(),
+    signed_out_at:""
+  };
 
-  person_id:personId,
-  mobile_number:mobileNumber,
-
-  status:"on_site",
-  induction_valid:"Y",
-
-  date:document.getElementById("signinDate").value,
-  full_name:fullName,
-  company:company,
-  arrival_time:document.getElementById("timeIn").value,
-  departure_time:"",
-  hours_on_site:"",
-
-  inducted_previously:state.inducted==="yes"?"yes":"no",
-  visitor:state.inducted==="escorted"?"Y":"N",
-  access_type:state.inducted,
-
-  escorted_only:state.inducted==="escorted",
-  site_contact_responsible:state.inducted==="escorted"
-    ?document.getElementById("escortContact").value.trim()
-    :"",
-
-  vehicle_rego:rego,
-
-  tickets_uploaded:[],
-  safety_issue:"",
-  issue_details:"",
-  notes:"",
-
-  signed_in_at:new Date().toISOString(),
-  signed_out_at:""
-};
-
-const records=loadRecords();
-records.push(record);
-saveRecords(records);
-await postWebhook({type:"sign_in",...record});
-clearSignInForm();
-showPage("home");
+  const records=loadRecords();
+  records.push(record);
+  saveRecords(records);
+  await postWebhook({type:"sign_in",...record});
+  clearSignInForm();
+  showPage("home");
 }
-  
+
 function clearSignInForm(){["fullName","company","mobileNumber","rego","escortContact"].forEach(id=>document.getElementById(id).value="");document.getElementById("escortContactField").classList.add("hidden");document.querySelectorAll("input[type=radio]").forEach(r=>r.checked=false);document.querySelectorAll(".radio-opt").forEach(o=>o.classList.remove("selected"));state.inducted=null;msg("signinMessage","","");setDefaultDateTime()}
 function startSignOut(id){const rec=loadRecords().find(r=>r.id===id);if(!rec)return;state.signoutId=id;state.outIssue=null;document.getElementById("signoutPerson").innerHTML=`<strong>${escapeHTML(rec.full_name)}</strong> — ${escapeHTML(rec.company)} — signed in at ${escapeHTML(rec.arrival_time)}`;["issueType","issueLocation","issueDetails","actionTaken"].forEach(x=>document.getElementById(x).value="");document.querySelectorAll("input[name=outIssue]").forEach(r=>r.checked=false);["out-no","out-yes"].forEach(id=>document.getElementById(id).classList.remove("selected"));document.getElementById("issueFields").classList.add("hidden");msg("signoutMessage","","");showPage("signout")}
 async function completeSignOut(){if(!state.signoutId)return;if(!state.outIssue){msg("signoutMessage","danger","Please select whether there was a safety issue, incident or injury while on site.");return}let issue=null;if(state.outIssue==="yes"){const type=document.getElementById("issueType").value.trim(),location=document.getElementById("issueLocation").value.trim(),details=document.getElementById("issueDetails").value.trim(),action=document.getElementById("actionTaken").value.trim();if(!type||!location||!details){msg("signoutMessage","danger","Please complete issue type, location and what happened.");return}issue={type,location,details,action_taken:action,reported_at:new Date().toISOString()}}const records=loadRecords();const rec=records.find(r=>r.id===state.signoutId);if(!rec)return;rec.status="signed_out";rec.departure_time=timeNow();rec.signed_out_at=new Date().toISOString();rec.safety_issue=state.outIssue;rec.issue_details=issue?JSON.stringify(issue):"";saveRecords(records);await postWebhook({type:"sign_out",...rec});state.signoutId=null;state.outIssue=null;showPage("home")}
@@ -205,3 +197,4 @@ window.addEventListener("load",()=>{setDefaultDateTime();renderHome()});
 </script>
 </body>
 </html>
+
