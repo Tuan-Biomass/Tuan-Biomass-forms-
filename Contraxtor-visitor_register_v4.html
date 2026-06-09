@@ -143,7 +143,49 @@ async function submitSignIn(){
     }
   }
 
-  const record={id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),person_id:personId,mobile_number:mobileNumber,status:"on_site",date:document.getElementById("signinDate").value,full_name:fullName,company:company,arrival_time:document.getElementById("timeIn").value,departure_time:"",inducted_previously:state.inducted==="yes"?"yes":"no",access_type:state.inducted,escorted_only:state.inducted==="escorted",site_contact_responsible:state.inducted==="escorted"?document.getElementById("escortContact").value.trim():"",vehicle_rego:rego,tickets_uploaded:[],safety_issue:"",issue_details:null,signed_in_at:new Date().toISOString(),signed_out_at:""};
+  const record={
+  id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),
+  type:"sign_in",
+
+  person_id:personId,
+  mobile_number:mobileNumber,
+
+  status:"On Site",
+  induction_valid:"Y",
+
+  date:document.getElementById("signinDate").value,
+  full_name:fullName,
+  company:company,
+  arrival_time:document.getElementById("timeIn").value,
+  departure_time:"",
+  hours_on_site:"",
+
+  inducted_previously:state.inducted==="yes"?"yes":"no",
+  visitor:state.inducted==="escorted"?"Y":"N",
+  access_type:state.inducted,
+
+  escorted_only:state.inducted==="escorted",
+  site_contact_responsible:state.inducted==="escorted"
+    ?document.getElementById("escortContact").value.trim()
+    :"",
+
+  vehicle_rego:rego,
+
+  tickets_uploaded:[],
+  safety_issue:"",
+  issue_details:null,
+  notes:"",
+
+  signed_in_at:new Date().toISOString(),
+  signed_out_at:""
+};
+
+const records=loadRecords();
+records.push(record);
+saveRecords(records);
+await postWebhook({type:"sign_in",...record});
+clearSignInForm();
+showPage("home");
   const records=loadRecords();records.push(record);saveRecords(records);await postWebhook({type:"sign_in",...record});clearSignInForm();showPage("home")}
 function clearSignInForm(){["fullName","company","mobileNumber","rego","escortContact"].forEach(id=>document.getElementById(id).value="");document.getElementById("escortContactField").classList.add("hidden");document.querySelectorAll("input[type=radio]").forEach(r=>r.checked=false);document.querySelectorAll(".radio-opt").forEach(o=>o.classList.remove("selected"));state.inducted=null;msg("signinMessage","","");setDefaultDateTime()}
 function startSignOut(id){const rec=loadRecords().find(r=>r.id===id);if(!rec)return;state.signoutId=id;state.outIssue=null;document.getElementById("signoutPerson").innerHTML=`<strong>${escapeHTML(rec.full_name)}</strong> — ${escapeHTML(rec.company)} — signed in at ${escapeHTML(rec.arrival_time)}`;["issueType","issueLocation","issueDetails","actionTaken"].forEach(x=>document.getElementById(x).value="");document.querySelectorAll("input[name=outIssue]").forEach(r=>r.checked=false);["out-no","out-yes"].forEach(id=>document.getElementById(id).classList.remove("selected"));document.getElementById("issueFields").classList.add("hidden");msg("signoutMessage","","");showPage("signout")}
