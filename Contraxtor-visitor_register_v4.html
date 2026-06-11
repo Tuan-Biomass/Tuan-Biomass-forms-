@@ -1,3 +1,5 @@
+REPLACED
+NOT FOUND - checking...
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -143,7 +145,7 @@ async function submitSignIn(){
       const check=await checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime);
       if(!check.inducted){
         const reason=check.message==="Induction expired"?"Your induction has expired.":"No induction record was found.";
-        msg("signinMessage","warn",);
+        msg("signinMessage","warn",`${reason} Opening the induction form now...`);
         setTimeout(()=>redirectToInduction(fullName,company,rego,mobileNumber),900);
         return;
       }
@@ -177,7 +179,7 @@ async function submitSignIn(){
           // Show warning and open upload docs for this record
           const newRec=records[records.length-1];
           state.ticketId=newRec.id;
-          document.getElementById("ticketPerson").innerHTML=;
+          document.getElementById("ticketPerson").innerHTML=`<strong>${escapeHTML(newRec.full_name)}</strong> — ${escapeHTML(newRec.company)}`;
           document.getElementById("ticketNotes").value="";
           document.getElementById("documentRows").innerHTML="";
           addDocumentRow();
