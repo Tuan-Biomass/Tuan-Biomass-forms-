@@ -161,7 +161,7 @@ async function submitSignIn(){
     const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_in",...record})});
     if(res.ok){
       const data=await res.json();
-      if(data.entry_id){record.entry_id=data.entry_id;sessionStorage.setItem(`entryID_${record.id}`,data.entry_id)}
+      if(data.entry_id){record.entry_id=data.entry_id;sessionStorage.setItem(`entryID_${record.id}`,data.entry_id);localStorage.setItem(`entryID_${record.id}`,data.entry_id)}
     }
   }catch(e){console.warn("Sign-in webhook error:",e)}
   const records=loadRecords();records.push(record);saveRecords(records);clearSignInForm();showPage("home");
@@ -218,7 +218,7 @@ async function completeSignOut(){
   const departureTime=timeNow();
   rec.status="signed_out";rec.departure_time=departureTime;rec.signed_out_at=new Date().toISOString();rec.safety_issue=state.outIssue;rec.issue_details=issueDetailsStr;
   saveRecords(records);
-  const entryID=sessionStorage.getItem(`entryID_${rec.id}`)||rec.entry_id||"";
+  const entryID=sessionStorage.getItem(`entryID_${rec.id}`)||localStorage.getItem(`entryID_${rec.id}`)||rec.entry_id||"";
   msg("signoutMessage","warn","Signing out...");
   try{
     const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
