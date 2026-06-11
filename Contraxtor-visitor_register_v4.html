@@ -1,4 +1,3 @@
-NOT FOUND - checking...
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -93,6 +92,7 @@ const CONFIG={
   webhookURL:"https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/8d6c3ce1484148a88baa68c0719b1d95/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=W-1lwoCZwzUUphCxfOJOdEt465JiMBpWis7Pl8oqPl4",
   inductionCheckURL:"https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/55cd38b7bffd45dd83188083da5df32a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=QFuqTfr5A9qFz77bc84c_DNb8wOdr02DXr8-avaAXh8",
   ticketUploadURL:"PASTE_YOUR_TICKET_UPLOAD_FLOW_URL_HERE",
+  docCheckURL:"https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/25273b612bd04cc7b8d6de8fa50f9b2f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7e-SqWgKrCZU3GOy9cckL3LelBLMODzCtkeDNEZjcLM",
   inductionURL:"contractor-induction.html"
 };
 let state={inducted:null,outIssue:null,signoutId:null,ticketId:null};
@@ -142,7 +142,8 @@ async function submitSignIn(){
     try{
       const check=await checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime);
       if(!check.inducted){
-        msg("signinMessage","danger","No current induction was found. Opening the contractor induction now.");
+        const reason=check.message==="Induction expired"?"Your induction has expired.":"No induction record was found.";
+        msg("signinMessage","warn",);
         setTimeout(()=>redirectToInduction(fullName,company,rego,mobileNumber),900);
         return;
       }
@@ -163,7 +164,31 @@ async function submitSignIn(){
       if(data.entry_id){record.entry_id=data.entry_id;sessionStorage.setItem(`entryID_${record.id}`,data.entry_id);localStorage.setItem(`entryID_${record.id}`,data.entry_id)}
     }
   }catch(e){console.warn("Sign-in webhook error:",e)}
-  const records=loadRecords();records.push(record);saveRecords(records);clearSignInForm();showPage("home");
+  const records=loadRecords();records.push(record);saveRecords(records);
+  // Background doc check
+  if(CONFIG.docCheckURL&&state.inducted==="yes"){
+    try{
+      const docRes=await fetch(CONFIG.docCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,person_id:personId,mobile_number:mobileNumber,date:date,arrival_time:arrivalTime})});
+      if(docRes.ok){
+        const docData=await docRes.json();
+        if(docData.docs_expired==="true"){
+          clearSignInForm();
+          showPage("home");
+          // Show warning and open upload docs for this record
+          const newRec=records[records.length-1];
+          state.ticketId=newRec.id;
+          document.getElementById("ticketPerson").innerHTML=;
+          document.getElementById("ticketNotes").value="";
+          document.getElementById("documentRows").innerHTML="";
+          addDocumentRow();
+          msg("ticketMessage","warn","⚠️ One or more of your licences or insurance documents are expired or missing. Please upload current documents before proceeding to site.");
+          showPage("tickets");
+          return;
+        }
+      }
+    }catch(e){console.warn("Doc check error:",e)}
+  }
+  clearSignInForm();showPage("home");
 }
 
 async function checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime){
