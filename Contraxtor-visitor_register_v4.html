@@ -92,7 +92,7 @@ const CONFIG={
   siteContact:"Chris Foster",
   sitePhone:"0478 774 434",
   webhookURL:"https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/8d6c3ce1484148a88baa68c0719b1d95/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=W-1lwoCZwzUUphCxfOJOdEt465JiMBpWis7Pl8oqPl4",
-  inductionCheckURL:"https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/25273b612bd04cc7b8d6de8fa50f9b2f/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7e-SqWgKrCZU3GOy9cckL3LelBLMODzCtkeDNEZjcLM",
+  inductionCheckURL:"https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
   ticketUploadURL:"PASTE_YOUR_TICKET_UPLOAD_FLOW_URL_HERE",
   inductionURL:"contractor-induction.html"
 };
@@ -107,7 +107,6 @@ function setDefaultDateTime(){document.getElementById("signinDate").value=todayI
 function selectRadio(group,val){state[group]=val;if(group==="inducted"){document.getElementById("opt-yes").classList.toggle("selected",val==="yes");document.getElementById("opt-no").classList.toggle("selected",val==="escorted");document.getElementById("escortContactField").classList.toggle("hidden",val!=="escorted");if(val!=="escorted")document.getElementById("escortContact").value=""}if(group==="outIssue"){document.getElementById("out-no").classList.toggle("selected",val==="no");document.getElementById("out-yes").classList.toggle("selected",val==="yes");document.getElementById("issueFields").classList.toggle("hidden",val!=="yes")}}
 function msg(id,type,text){document.getElementById(id).innerHTML=text?`<div class="notice notice-${type}">${text}</div>`:""}
 
-// Auto-fill name and company from mobile number lookup via induction check flow
 async function autoFillFromMobile(){
   const mobile=document.getElementById("mobileNumber").value.trim();
   if(!mobile||mobile.length<8)return;
@@ -121,9 +120,8 @@ async function autoFillFromMobile(){
       document.getElementById("fullName").value=data.full_name;
       document.getElementById("company").value=data.company||"";
       hint.innerHTML='<div class="autofill-hint">✓ Details filled from contractor register</div>';
-      // Auto-select inducted if found
       if(data.inducted){selectRadio("inducted","yes")}
-    } else {
+    }else{
       hint.innerHTML='<div class="autofill-hint">No existing record found — please enter details manually</div>';
     }
   }catch(e){hint.innerHTML="";console.warn("Autofill lookup failed:",e)}
@@ -140,7 +138,6 @@ async function submitSignIn(){
   const rego=document.getElementById("rego").value.trim().toUpperCase();
   const date=document.getElementById("signinDate").value;
   const arrivalTime=document.getElementById("timeIn").value;
-
   if(state.inducted==="yes"){
     msg("signinMessage","warn","Checking induction status...");
     try{
@@ -155,53 +152,19 @@ async function submitSignIn(){
       return;
     }
   }
-
   const record={
     id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),
-    entry_id:"",
-    type:"sign_in",
-    person_id:personId,
-    mobile_number:mobileNumber,
-    status:"on_site",
-    induction_valid:"Y",
-    date:date,
-    full_name:fullName,
-    company:company,
-    arrival_time:arrivalTime,
-    departure_time:"",
-    hours_on_site:"",
-    inducted_previously:state.inducted==="yes"?"yes":"no",
-    visitor:state.inducted==="escorted"?"Y":"N",
-    access_type:state.inducted,
-    escorted_only:state.inducted==="escorted",
-    site_contact_responsible:state.inducted==="escorted"?document.getElementById("escortContact").value.trim():"",
-    vehicle_rego:rego,
-    tickets_uploaded:[],
-    safety_issue:"",
-    issue_details:"",
-    notes:"",
-    signed_in_at:new Date().toISOString(),
-    signed_out_at:""
+    entry_id:"",type:"sign_in",person_id:personId,mobile_number:mobileNumber,status:"on_site",induction_valid:"Y",date:date,full_name:fullName,company:company,arrival_time:arrivalTime,departure_time:"",hours_on_site:"",inducted_previously:state.inducted==="yes"?"yes":"no",visitor:state.inducted==="escorted"?"Y":"N",access_type:state.inducted,escorted_only:state.inducted==="escorted",site_contact_responsible:state.inducted==="escorted"?document.getElementById("escortContact").value.trim():"",vehicle_rego:rego,tickets_uploaded:[],safety_issue:"",issue_details:"",notes:"",signed_in_at:new Date().toISOString(),signed_out_at:""
   };
-
   msg("signinMessage","warn","Signing in...");
-
   try{
     const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_in",...record})});
     if(res.ok){
       const data=await res.json();
-      if(data.entry_id){
-        record.entry_id=data.entry_id;
-        sessionStorage.setItem(`entryID_${record.id}`,data.entry_id);
-      }
+      if(data.entry_id){record.entry_id=data.entry_id;sessionStorage.setItem(`entryID_${record.id}`,data.entry_id)}
     }
   }catch(e){console.warn("Sign-in webhook error:",e)}
-
-  const records=loadRecords();
-  records.push(record);
-  saveRecords(records);
-  clearSignInForm();
-  showPage("home");
+  const records=loadRecords();records.push(record);saveRecords(records);clearSignInForm();showPage("home");
 }
 
 async function checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime){
@@ -222,7 +185,7 @@ function clearSignInForm(){
   document.getElementById("autofillHint").innerHTML="";
   document.querySelectorAll("input[type=radio]").forEach(r=>r.checked=false);
   document.querySelectorAll(".radio-opt").forEach(o=>o.classList.remove("selected"));
-  state.inducted=null;msg("signinMessage","","");setDefaultDateTime()
+  state.inducted=null;msg("signinMessage","","");setDefaultDateTime();
 }
 
 function startSignOut(id){
@@ -240,7 +203,6 @@ function startSignOut(id){
 async function completeSignOut(){
   if(!state.signoutId)return;
   if(!state.outIssue){msg("signoutMessage","danger","Please select whether there was a safety issue, incident or injury while on site.");return}
-
   let issueDetailsStr="";
   if(state.outIssue==="yes"){
     const type=document.getElementById("issueType").value.trim();
@@ -250,47 +212,22 @@ async function completeSignOut(){
     if(!type||!location||!details){msg("signoutMessage","danger","Please complete issue type, location and what happened.");return}
     issueDetailsStr=JSON.stringify({type,location,details,action_taken:action,reported_at:new Date().toISOString()});
   }
-
   const records=loadRecords();
   const rec=records.find(r=>r.id===state.signoutId);
   if(!rec)return;
-
   const departureTime=timeNow();
-  rec.status="signed_out";
-  rec.departure_time=departureTime;
-  rec.signed_out_at=new Date().toISOString();
-  rec.safety_issue=state.outIssue;
-  rec.issue_details=issueDetailsStr;
+  rec.status="signed_out";rec.departure_time=departureTime;rec.signed_out_at=new Date().toISOString();rec.safety_issue=state.outIssue;rec.issue_details=issueDetailsStr;
   saveRecords(records);
-
   const entryID=sessionStorage.getItem(`entryID_${rec.id}`)||rec.entry_id||"";
   msg("signoutMessage","warn","Signing out...");
-
   try{
     const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
-      type:"sign_out",
-      status:"signed_out",  // matches Condition 1 in Power Automate
-      entry_id:entryID,
-      person_id:rec.person_id,
-      mobile_number:rec.mobile_number,
-      full_name:rec.full_name,
-      company:rec.company,
-      date:rec.date,
-      arrival_time:rec.arrival_time,
-      time_out:departureTime,
-      safety_issue:state.outIssue,
-      safety_issue_details:issueDetailsStr,
-      notes:rec.notes||""
+      type:"sign_out",status:"signed_out",entry_id:entryID,person_id:rec.person_id,mobile_number:rec.mobile_number,full_name:rec.full_name,company:rec.company,date:rec.date,arrival_time:rec.arrival_time,time_out:departureTime,safety_issue:state.outIssue,safety_issue_details:issueDetailsStr,notes:rec.notes||""
     })});
     if(!res.ok){msg("signoutMessage","danger","Sign out could not be recorded. Please contact the site office.");return}
-  }catch(e){
-    msg("signoutMessage","danger","Sign out could not be recorded. Please contact the site office.");
-    console.error("Sign-out webhook error:",e);return;
-  }
-
+  }catch(e){msg("signoutMessage","danger","Sign out could not be recorded. Please contact the site office.");console.error("Sign-out webhook error:",e);return}
   sessionStorage.removeItem(`entryID_${rec.id}`);
-  state.signoutId=null;state.outIssue=null;
-  showPage("home");
+  state.signoutId=null;state.outIssue=null;showPage("home");
 }
 
 function renderHome(){const active=loadRecords().filter(r=>r.date===todayISO()&&r.status==="on_site");document.getElementById("statOnSite").textContent=active.length;const c=document.getElementById("activeList");if(!active.length){c.innerHTML=`<div class="empty">No visitors or contractors are currently signed in.</div>`;return}const rows=active.map(r=>`<tr><td>${escapeHTML(r.date)}</td><td><strong>${escapeHTML(r.full_name)}</strong></td><td>${escapeHTML(r.company)}</td><td>${escapeHTML(r.mobile_number||r.person_id||"-")}</td><td>${escapeHTML(r.arrival_time)}</td><td>${r.vehicle_rego?escapeHTML(r.vehicle_rego):"-"}</td><td>${r.site_contact_responsible?escapeHTML(r.site_contact_responsible):"-"}</td><td class="action-cell"><div class="small-actions"><button class="btn btn-warning" onclick="startTicketUpload('${r.id}')">Upload Documents</button><button class="btn btn-danger" onclick="startSignOut('${r.id}')">Sign Out</button></div></td></tr>`).join("");c.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Date</th><th>Name</th><th>Company</th><th>Mobile / ID</th><th>Time In</th><th>Rego</th><th>Responsible Person</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`}
@@ -307,4 +244,3 @@ window.addEventListener("load",()=>{setDefaultDateTime();renderHome()});
 </script>
 </body>
 </html>
-
