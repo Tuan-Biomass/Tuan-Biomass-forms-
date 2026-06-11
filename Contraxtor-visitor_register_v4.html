@@ -109,17 +109,7 @@ function setDefaultDateTime(){document.getElementById("signinDate").value=todayI
 function selectRadio(group,val){state[group]=val;if(group==="inducted"){document.getElementById("opt-yes").classList.toggle("selected",val==="yes");document.getElementById("opt-no").classList.toggle("selected",val==="escorted");document.getElementById("escortContactField").classList.toggle("hidden",val!=="escorted");if(val!=="escorted")document.getElementById("escortContact").value=""}if(group==="outIssue"){document.getElementById("out-no").classList.toggle("selected",val==="no");document.getElementById("out-yes").classList.toggle("selected",val==="yes");document.getElementById("issueFields").classList.toggle("hidden",val!=="yes")}}
 function msg(id,type,text){document.getElementById(id).innerHTML=text?`<div class="notice notice-${type}">${text}</div>`:""}
 function validateSignIn(){for(const [id,m] of [["fullName","Please enter the person's full name."],["company","Please enter the company name."],["mobileNumber","Please enter the mobile number. This is the system ID."],["signinDate","Please select the date."],["timeIn","Please enter the time in."]]){if(!document.getElementById(id).value.trim()){msg("signinMessage","danger",m);return false}}if(!state.inducted){msg("signinMessage","danger","Please select the site access type.");return false}if(state.inducted==="escorted"&&!document.getElementById("escortContact").value.trim()){msg("signinMessage","danger","Please enter the site contact responsible for the visitor.");return false}return true}
-async function postWebhook(payload){if(!CONFIG.webhookURL||CONFIG.webhookURL==="PASTE_YOUR_WEBHOOK_URL_HERE")return true;const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});return res.ok}
-async function checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime){
-  if(!CONFIG.inductionCheckURL||CONFIG.inductionCheckURL==="PASTE_YOUR_INDUCTION_CHECK_FLOW_URL_HERE")return {inducted:true,source:"local demo mode"};
-  const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,mobile_number:mobileNumber,person_id:normaliseMobile(mobileNumber),date:date,arrival_time:arrivalTime})});
-  if(!res.ok)throw new Error("Induction check failed");
-  return await res.json();
-}
-function redirectToInduction(fullName,company,rego,mobileNumber){
-  const params=new URLSearchParams({name:fullName,company:company,mobile:mobileNumber,person_id:normaliseMobile(mobileNumber),rego:rego||"",return:"site-register"});
-  window.location.href=`${CONFIG.inductionURL}?${params.toString()}`;
-}
+
 async function submitSignIn(){
   if(!validateSignIn())return;
   const fullName=document.getElementById("fullName").value.trim();
@@ -147,6 +137,7 @@ async function submitSignIn(){
 
   const record={
     id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),
+    entry_id:"",
     type:"sign_in",
     person_id:personId,
     mobile_number:mobileNumber,
@@ -172,17 +163,122 @@ async function submitSignIn(){
     signed_out_at:""
   };
 
+  msg("signinMessage","warn","Signing in...");
+
+  try{
+    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_in",...record})});
+    if(res.ok){
+      const data=await res.json();
+      // Capture entry_id returned from Power Automate
+      if(data.entry_id){
+        record.entry_id=data.entry_id;
+        sessionStorage.setItem(`entryID_${record.id}`,data.entry_id);
+      }
+    }
+  }catch(e){
+    // Continue even if webhook fails — record is saved locally
+    console.warn("Sign-in webhook error:",e);
+  }
+
   const records=loadRecords();
   records.push(record);
   saveRecords(records);
-  await postWebhook({type:"sign_in",...record});
   clearSignInForm();
   showPage("home");
 }
 
+async function checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime){
+  if(!CONFIG.inductionCheckURL||CONFIG.inductionCheckURL==="PASTE_YOUR_INDUCTION_CHECK_FLOW_URL_HERE")return {inducted:true,source:"local demo mode"};
+  const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,mobile_number:mobileNumber,person_id:normaliseMobile(mobileNumber),date:date,arrival_time:arrivalTime})});
+  if(!res.ok)throw new Error("Induction check failed");
+  return await res.json();
+}
+
+function redirectToInduction(fullName,company,rego,mobileNumber){
+  const params=new URLSearchParams({name:fullName,company:company,mobile:mobileNumber,person_id:normaliseMobile(mobileNumber),rego:rego||"",return:"site-register"});
+  window.location.href=`${CONFIG.inductionURL}?${params.toString()}`;
+}
+
 function clearSignInForm(){["fullName","company","mobileNumber","rego","escortContact"].forEach(id=>document.getElementById(id).value="");document.getElementById("escortContactField").classList.add("hidden");document.querySelectorAll("input[type=radio]").forEach(r=>r.checked=false);document.querySelectorAll(".radio-opt").forEach(o=>o.classList.remove("selected"));state.inducted=null;msg("signinMessage","","");setDefaultDateTime()}
-function startSignOut(id){const rec=loadRecords().find(r=>r.id===id);if(!rec)return;state.signoutId=id;state.outIssue=null;document.getElementById("signoutPerson").innerHTML=`<strong>${escapeHTML(rec.full_name)}</strong> — ${escapeHTML(rec.company)} — signed in at ${escapeHTML(rec.arrival_time)}`;["issueType","issueLocation","issueDetails","actionTaken"].forEach(x=>document.getElementById(x).value="");document.querySelectorAll("input[name=outIssue]").forEach(r=>r.checked=false);["out-no","out-yes"].forEach(id=>document.getElementById(id).classList.remove("selected"));document.getElementById("issueFields").classList.add("hidden");msg("signoutMessage","","");showPage("signout")}
-async function completeSignOut(){if(!state.signoutId)return;if(!state.outIssue){msg("signoutMessage","danger","Please select whether there was a safety issue, incident or injury while on site.");return}let issue=null;if(state.outIssue==="yes"){const type=document.getElementById("issueType").value.trim(),location=document.getElementById("issueLocation").value.trim(),details=document.getElementById("issueDetails").value.trim(),action=document.getElementById("actionTaken").value.trim();if(!type||!location||!details){msg("signoutMessage","danger","Please complete issue type, location and what happened.");return}issue={type,location,details,action_taken:action,reported_at:new Date().toISOString()}}const records=loadRecords();const rec=records.find(r=>r.id===state.signoutId);if(!rec)return;rec.status="signed_out";rec.departure_time=timeNow();rec.signed_out_at=new Date().toISOString();rec.safety_issue=state.outIssue;rec.issue_details=issue?JSON.stringify(issue):"";saveRecords(records);await postWebhook({type:"sign_out",...rec});state.signoutId=null;state.outIssue=null;showPage("home")}
+
+function startSignOut(id){
+  const rec=loadRecords().find(r=>r.id===id);
+  if(!rec)return;
+  state.signoutId=id;
+  state.outIssue=null;
+  document.getElementById("signoutPerson").innerHTML=`<strong>${escapeHTML(rec.full_name)}</strong> — ${escapeHTML(rec.company)} — signed in at ${escapeHTML(rec.arrival_time)}`;
+  ["issueType","issueLocation","issueDetails","actionTaken"].forEach(x=>document.getElementById(x).value="");
+  document.querySelectorAll("input[name=outIssue]").forEach(r=>r.checked=false);
+  ["out-no","out-yes"].forEach(id=>document.getElementById(id).classList.remove("selected"));
+  document.getElementById("issueFields").classList.add("hidden");
+  msg("signoutMessage","","");
+  showPage("signout");
+}
+
+async function completeSignOut(){
+  if(!state.signoutId)return;
+  if(!state.outIssue){msg("signoutMessage","danger","Please select whether there was a safety issue, incident or injury while on site.");return}
+
+  let issueDetailsStr="";
+  if(state.outIssue==="yes"){
+    const type=document.getElementById("issueType").value.trim();
+    const location=document.getElementById("issueLocation").value.trim();
+    const details=document.getElementById("issueDetails").value.trim();
+    const action=document.getElementById("actionTaken").value.trim();
+    if(!type||!location||!details){msg("signoutMessage","danger","Please complete issue type, location and what happened.");return}
+    issueDetailsStr=JSON.stringify({type,location,details,action_taken:action,reported_at:new Date().toISOString()});
+  }
+
+  const records=loadRecords();
+  const rec=records.find(r=>r.id===state.signoutId);
+  if(!rec)return;
+
+  const departureTime=timeNow();
+  rec.status="signed_out";
+  rec.departure_time=departureTime;
+  rec.signed_out_at=new Date().toISOString();
+  rec.safety_issue=state.outIssue;
+  rec.issue_details=issueDetailsStr;
+  saveRecords(records);
+
+  // Retrieve the entryID stored at sign-in
+  const entryID=sessionStorage.getItem(`entryID_${rec.id}`)||rec.entry_id||"";
+
+  msg("signoutMessage","warn","Signing out...");
+
+  try{
+    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+      type:"sign_out",
+      status:"sign_out",
+      entry_id:entryID,
+      person_id:rec.person_id,
+      mobile_number:rec.mobile_number,
+      full_name:rec.full_name,
+      company:rec.company,
+      date:rec.date,
+      arrival_time:rec.arrival_time,
+      time_out:departureTime,
+      safety_issue:state.outIssue,
+      safety_issue_details:issueDetailsStr,
+      notes:rec.notes||""
+    })});
+    if(!res.ok){
+      msg("signoutMessage","danger","Sign out could not be recorded. Please contact the site office.");
+      return;
+    }
+  }catch(e){
+    msg("signoutMessage","danger","Sign out could not be recorded. Please contact the site office.");
+    console.error("Sign-out webhook error:",e);
+    return;
+  }
+
+  // Clean up sessionStorage
+  sessionStorage.removeItem(`entryID_${rec.id}`);
+  state.signoutId=null;
+  state.outIssue=null;
+  showPage("home");
+}
+
 function renderHome(){const active=loadRecords().filter(r=>r.date===todayISO()&&r.status==="on_site");document.getElementById("statOnSite").textContent=active.length;const c=document.getElementById("activeList");if(!active.length){c.innerHTML=`<div class="empty">No visitors or contractors are currently signed in.</div>`;return}const rows=active.map(r=>`<tr><td>${escapeHTML(r.date)}</td><td><strong>${escapeHTML(r.full_name)}</strong></td><td>${escapeHTML(r.company)}</td><td>${escapeHTML(r.mobile_number||r.person_id||"-")}</td><td>${escapeHTML(r.arrival_time)}</td><td>${r.vehicle_rego?escapeHTML(r.vehicle_rego):"-"}</td><td>${r.site_contact_responsible?escapeHTML(r.site_contact_responsible):"-"}</td><td class="action-cell"><div class="small-actions"><button class="btn btn-warning" onclick="startTicketUpload('${r.id}')">Upload Documents</button><button class="btn btn-danger" onclick="startSignOut('${r.id}')">Sign Out</button></div></td></tr>`).join("");c.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Date</th><th>Name</th><th>Company</th><th>Mobile / ID</th><th>Time In</th><th>Rego</th><th>Responsible Person</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`}
 function documentTypeOptions(){return `<option value="">Select...</option><option>SWMS</option><option>Insurance / public liability</option><option>Driver licence</option><option>Forklift ticket</option><option>Loader ticket</option><option>Working at heights</option><option>Confined space</option><option>First aid</option><option>Other document / competency</option>`}
 function startTicketUpload(id){const rec=loadRecords().find(r=>r.id===id);if(!rec)return;state.ticketId=id;document.getElementById("ticketPerson").innerHTML=`<strong>${escapeHTML(rec.full_name)}</strong> — ${escapeHTML(rec.company)} — mobile ID: ${escapeHTML(rec.mobile_number||rec.person_id||"-")}`;document.getElementById("ticketNotes").value="";document.getElementById("documentRows").innerHTML="";addDocumentRow();msg("ticketMessage","","");showPage("tickets")}
@@ -190,7 +286,7 @@ function addDocumentRow(){const tbody=document.getElementById("documentRows");co
 function removeDocumentRow(rowId){const rows=[...document.querySelectorAll("#documentRows tr")];if(rows.length<=1){msg("ticketMessage","danger","Keep at least one document row.");return}const row=document.querySelector(`#documentRows tr[data-row-id="${rowId}"]`);if(row)row.remove();msg("ticketMessage","","")}
 function showSelectedFiles(rowId){const row=document.querySelector(`#documentRows tr[data-row-id="${rowId}"]`);if(!row)return;const files=[...row.querySelector(".doc-files").files];document.getElementById(`files_${rowId}`).innerHTML=files.length?files.map(f=>`${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>"):"No documents selected."}
 function fileToBase64(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(",")[1]);reader.onerror=reject;reader.readAsDataURL(file)})}
-async function submitTickets(){if(!state.ticketId)return;const notes=document.getElementById("ticketNotes").value.trim();const rows=[...document.querySelectorAll("#documentRows tr")];const documents=[];for(const row of rows){const document_type=row.querySelector(".doc-type").value.trim();const expiry_date=row.querySelector(".doc-expiry").value;const files=[...row.querySelector(".doc-files").files];if(!document_type&&!files.length&&!expiry_date)continue;if(!document_type){msg("ticketMessage","danger","Please select a document type for each row you are uploading.");return}if(!files.length){msg("ticketMessage","danger",`Please upload at least one file or photo for ${escapeHTML(document_type)}.`);return}documents.push({document_type,expiry_date,files})}if(!documents.length){msg("ticketMessage","danger","Please add at least one document row with a type and upload.");return}msg("ticketMessage","warn","Uploading document files...");const records=loadRecords();const rec=records.find(r=>r.id===state.ticketId);if(!rec)return;const uploadDocs=[];for(const doc of documents){const attachments=[];for(const file of doc.files){attachments.push({file_name:file.name,content_type:file.type||"application/octet-stream",size:file.size,content_base64:await fileToBase64(file)})}uploadDocs.push({document_type:doc.document_type,expiry_date:doc.expiry_date,attachments})}const upload={type:"document_upload",record_id:rec.id,person_id:rec.person_id||rec.mobile_number||rec.id,mobile_number:rec.mobile_number||"",full_name:rec.full_name,company:rec.company,notes:notes,uploaded_at:new Date().toISOString(),documents:uploadDocs};let ok=true;if(CONFIG.ticketUploadURL&&CONFIG.ticketUploadURL!=="PASTE_YOUR_TICKET_UPLOAD_FLOW_URL_HERE"){const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload)});ok=res.ok}else{ok=await postWebhook(upload)}if(!ok){msg("ticketMessage","danger","Upload failed. Try again or contact the site office.");return}rec.tickets_uploaded=rec.tickets_uploaded||[];for(const doc of documents){rec.tickets_uploaded.push({document_type:doc.document_type,expiry_date:doc.expiry_date,notes:notes,file_names:doc.files.map(f=>f.name),uploaded_at:upload.uploaded_at})}saveRecords(records);state.ticketId=null;showPage("home")}
+async function submitTickets(){if(!state.ticketId)return;const notes=document.getElementById("ticketNotes").value.trim();const rows=[...document.querySelectorAll("#documentRows tr")];const documents=[];for(const row of rows){const document_type=row.querySelector(".doc-type").value.trim();const expiry_date=row.querySelector(".doc-expiry").value;const files=[...row.querySelector(".doc-files").files];if(!document_type&&!files.length&&!expiry_date)continue;if(!document_type){msg("ticketMessage","danger","Please select a document type for each row you are uploading.");return}if(!files.length){msg("ticketMessage","danger",`Please upload at least one file or photo for ${escapeHTML(document_type)}.`);return}documents.push({document_type,expiry_date,files})}if(!documents.length){msg("ticketMessage","danger","Please add at least one document row with a type and upload.");return}msg("ticketMessage","warn","Uploading document files...");const records=loadRecords();const rec=records.find(r=>r.id===state.ticketId);if(!rec)return;const uploadDocs=[];for(const doc of documents){const attachments=[];for(const file of doc.files){attachments.push({file_name:file.name,content_type:file.type||"application/octet-stream",size:file.size,content_base64:await fileToBase64(file)})}uploadDocs.push({document_type:doc.document_type,expiry_date:doc.expiry_date,attachments})}const upload={type:"document_upload",record_id:rec.id,person_id:rec.person_id||rec.mobile_number||rec.id,mobile_number:rec.mobile_number||"",full_name:rec.full_name,company:rec.company,notes:notes,uploaded_at:new Date().toISOString(),documents:uploadDocs};let ok=true;if(CONFIG.ticketUploadURL&&CONFIG.ticketUploadURL!=="PASTE_YOUR_TICKET_UPLOAD_FLOW_URL_HERE"){const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload)});ok=res.ok}else{ok=true}if(!ok){msg("ticketMessage","danger","Upload failed. Try again or contact the site office.");return}rec.tickets_uploaded=rec.tickets_uploaded||[];for(const doc of documents){rec.tickets_uploaded.push({document_type:doc.document_type,expiry_date:doc.expiry_date,notes:notes,file_names:doc.files.map(f=>f.name),uploaded_at:upload.uploaded_at})}saveRecords(records);state.ticketId=null;showPage("home")}
 function normaliseMobile(value){let d=String(value||"").replace(/\D/g,"");if(d.startsWith("61")&&d.length===11)d="0"+d.slice(2);return d}
 function escapeHTML(str){return String(str||"").replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 window.addEventListener("load",()=>{setDefaultDateTime();renderHome()});
