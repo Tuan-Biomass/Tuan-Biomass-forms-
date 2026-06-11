@@ -1,3 +1,4 @@
+NOT FOUND - checking...
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,7 +112,7 @@ async function autoFillFromMobile(){
   const hint=document.getElementById("autofillHint");
   hint.innerHTML='<div class="autofill-hint">Looking up contractor details...</div>';
   try{
-    const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mobile_number:mobile,person_id:normaliseMobile(mobile),lookup_only:true})});
+    const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mobile_number:mobile,person_id:normaliseMobile(mobile),lookup_only:"true"})});
     if(!res.ok){hint.innerHTML="";return}
     const data=await res.json();
     if(data.full_name){
