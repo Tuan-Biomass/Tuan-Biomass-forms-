@@ -20,33 +20,23 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: "Barlow", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
   .site-header {
     background: #ffffff; color: var(--green-dark);
     padding: 16px 24px; display: flex; align-items: center; gap: 16px;
     position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
     border-bottom: 3px solid var(--green);
   }
-  .logo-mark {
-    width: 42px; height: 42px; background: var(--accent); border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 20px;
-    color: var(--green-dark); flex-shrink: 0;
-  }
   .site-header h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 22px; color: var(--green-dark); }
   .site-header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
-
   .progress-wrap { background: var(--green-dark); padding: 0 24px 14px; }
   .progress-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
   .progress-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px;
     font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
-
   .container { max-width: 780px; margin: 0 auto; padding: 32px 20px 80px; }
   .screen { display: none; }
   .screen.active { display: block; animation: fadeUp 0.3s ease; }
   @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-
   .card {
     background: var(--card); border-radius: 12px; padding: 32px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
@@ -63,7 +53,6 @@
     color: var(--green-dark); line-height: 1.15; margin-bottom: 16px;
   }
   .card p { font-size: 15px; line-height: 1.7; color: #374151; margin-bottom: 12px; }
-
   .rule-list { list-style: none; margin-top: 8px; }
   .rule-list li {
     display: flex; gap: 14px; align-items: flex-start;
@@ -79,7 +68,6 @@
   .rule-num.golden { background: var(--accent); color: var(--green-dark); }
   .rule-num.site   { background: var(--green); }
   .rule-num.hazard { background: var(--warn); }
-
   .alert-box {
     border-left: 4px solid var(--warn); background: #fff5f5;
     padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
@@ -91,7 +79,6 @@
     padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
     font-size: 14px; line-height: 1.8;
   }
-
   .form-group { margin-bottom: 18px; }
   .form-group label {
     display: block; font-family: "Barlow Condensed", sans-serif; font-weight: 600;
@@ -108,7 +95,6 @@
   }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
-
   .checklist { list-style: none; margin-top: 8px; }
   .checklist li {
     display: flex; align-items: flex-start; gap: 12px;
@@ -116,7 +102,6 @@
   }
   .checklist li:last-child { border-bottom: none; }
   .checklist input[type=checkbox] { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--green); flex-shrink: 0; }
-
   .img-full {
     width: 100%; border-radius: 8px; margin: 16px 0;
     box-shadow: 0 2px 12px rgba(0,0,0,0.1);
@@ -125,7 +110,6 @@
     text-align: center; font-size: 12px; color: var(--muted);
     margin-top: -8px; margin-bottom: 16px; font-style: italic;
   }
-
   .quiz-question {
     font-family: "Barlow Condensed", sans-serif; font-size: 20px; font-weight: 600;
     color: var(--green-dark); margin-bottom: 18px; line-height: 1.3;
@@ -149,7 +133,6 @@
   .quiz-feedback.show { display: block; }
   .quiz-feedback.pass { background: #f0fdf4; color: #14532d; border: 1px solid #86efac; }
   .quiz-feedback.fail { background: #fff5f5; color: #7f1d1d; border: 1px solid #fca5a5; }
-
   .btn {
     display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px;
     border-radius: 8px; font-family: "Barlow Condensed", sans-serif;
@@ -160,9 +143,7 @@
   .btn-primary:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
   .btn-secondary { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
   .btn-secondary:hover { background: #f0faf4; }
-  .btn-warn { background: var(--warn); color: white; }
   .btn-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
-
   .result-badge {
     width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 20px;
     display: flex; align-items: center; justify-content: center; font-size: 40px;
@@ -181,7 +162,6 @@
     text-transform: uppercase; color: var(--muted); display: block; line-height: 1; margin-bottom: 2px;
   }
   .status-msg { margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic; }
-
   .hero {
     background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
     color: white; border-radius: 12px; padding: 40px 32px; margin-bottom: 20px;
@@ -198,20 +178,17 @@
     padding: 4px 12px; font-size: 12px; letter-spacing: 1px;
     font-family: "Barlow Condensed", sans-serif; margin-bottom: 14px; text-transform: uppercase;
   }
-
   .licence-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
   .licence-table th { background: var(--green-dark); color: white; padding: 10px 12px; text-align: left; font-family: "Barlow Condensed", sans-serif; font-size: 13px; letter-spacing: 0.5px; }
   .licence-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
   .licence-table tr:last-child td { border-bottom: none; }
-  .licence-table input { border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; width: 100%; font-size: 13px; }
-
+  .licence-table input[type=text] { border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; width: 100%; font-size: 13px; }
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
   @media (max-width: 520px) { .contact-grid { grid-template-columns: 1fr; } }
   .contact-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
   .contact-card .role { font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
   .contact-card .name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
   .contact-card .detail { font-size: 13px; color: var(--muted); line-height: 1.6; }
-
   @media print {
     .site-header, .btn-row, .progress-wrap { display: none; }
     body { background: white; }
@@ -222,15 +199,10 @@
 <body>
 
 <script>
-/* ════════════════════════════════════
-   EDITABLE CONTENT — CHANGE THIS ONLY
-   ════════════════════════════════════ */
 const CONFIG = {
-
   siteName:    "Tuan Biomass",
   siteAddress: "Tuan, Queensland",
   logoMark:    "TB",
-
   emergency: {
     phone:       "000",
     site:        "David Knight — 0439 013 224",
@@ -239,25 +211,22 @@ const CONFIG = {
     fireEx:      "Wall of main shed",
     uhfChannel:  "34",
   },
-
   contacts: [
     { role: "Plant Manager",         name: "David Knight", phone: "0439 013 224", email: "david.knight@albioma.com" },
     { role: "Safety & Compliance",   name: "Chris Foster", phone: "0478 774 434", email: "christopher.foster@albioma.com" },
   ],
-
   goldenRules: [
     { title: "ATEX / Fire",             detail: "Comply with ATEX risk rules defined for this site. Adhere to the rules set out in any SWMS and hot work permit presented to you or in which you have taken part." },
     { title: "Personal Protective Equipment", detail: "Wear the PPE required in the area, where you are working." },
     { title: "Chemical Risks",          detail: "Follow the work instructions or safety data sheets for all products you use or handle." },
-    { title: "Movement",                detail: "Maintain clear, positive communication at all times while moving around site. Before crossing the ring road, contact the loader driver on UHF Channel 34 and confirm they have acknowledged you before proceeding. " },
-    { title: "Lifting Operations",      detail: "Follow the lifting plan at all times (markings, signals, slinging methods and designated lifting areas).Never walk or stand under a suspended load. Only use lifting gear with current inspection tags. Check the tag colour matches the current inspection period shown on the lifting gear rack. Do not use damaged or untagged lifting equipment." },
+    { title: "Movement",                detail: "Maintain clear, positive communication at all times while moving around site. Before crossing the ring road, contact the loader driver on UHF Channel 34 and confirm they have acknowledged you before proceeding." },
+    { title: "Lifting Operations",      detail: "Follow the lifting plan at all times (markings, signals, slinging methods and designated lifting areas). Never walk or stand under a suspended load. Only use lifting gear with current inspection tags. Check the tag colour matches the current inspection period shown on the lifting gear rack. Do not use damaged or untagged lifting equipment." },
     { title: "Confined Spaces",         detail: "Never enter a confined space without authorisation, atmosphere control, and surveillance." },
     { title: "Working at Heights",      detail: "Respect collective protection mechanisms. If removal is required, take compensatory measures. Always work with a harness and anti-fall system." },
     { title: "Isolation of Energy",     detail: "Work must only be carried out on equipment that has been isolated from all energy sources. Lockout Officers are responsible for isolating plant and equipment and applying lockout devices before work begins." },
-    { title: "Operation of Machinery",  detail: "You may only drive a machine or vehicle if you hold a vaild ticket for." },
+    { title: "Operation of Machinery",  detail: "You may only drive a machine or vehicle if you hold a valid ticket for it." },
     { title: "Hot Spot Work",           detail: "Do not carry out hot work unless a Hot Work Permit and risk assessment have been completed and authorised. All work must strictly comply with the conditions listed on the permit." },
   ],
-
   siteRules: [
     "Sign in and sign out when attending site.",
     "Smoking is permitted in designated areas only. No drugs or alcohol are permitted on site.",
@@ -275,9 +244,8 @@ const CONFIG = {
     "CCTV cameras are in operation in high-risk areas for safety and security monitoring.",
     "Report any unsafe condition, near miss, or incident immediately to your site contact.",
   ],
-
   hazards: [
-    "Rotating and moving machinery — Guards must be in place at all times. Never reach past guarding. Risk assesment and Authorisation is required before removing any guard.",
+    "Rotating and moving machinery — Guards must be in place at all times. Never reach past guarding. Risk assessment and Authorisation is required before removing any guard.",
     "Combustible biomass dust — No ignition sources in dust-prone areas. Avoid using compressed air or air tools unless authorised.",
     "Forklift and loader movements — use designated pedestrian walkways only.",
     "Working at heights — Authorisation is required before working at heights. A SWMS or JSA must be completed and the area below must be barricaded.",
@@ -286,89 +254,41 @@ const CONFIG = {
     "Slip and trip hazards — pellet fines, wet surfaces, and uneven ground.",
     "Noise — hearing protection is mandatory in high-noise zones.",
   ],
-
   ppeZones: [
     { zone: "Blue — Main Shed (Operational)", color: "#2563eb", items: ["Long hi-vis clothing", "Steel cap boots", "Hearing protection"] },
     { zone: "Yellow — Pellet Mills / High-Risk", color: "#d97706", items: ["Long hi-vis clothing", "Steel cap boots", "Hard hat", "Hearing protection"] },
     { zone: "Green — Ring Road / Open Grounds", color: "#16a34a", items: ["Long hi-vis clothing", "Steel cap boots", "Hearing protection"] },
     { zone: "Red — Office / Admin / Car Park", color: "#dc2626", items: ["Enclosed footwear", "Appropriate office dress"] },
   ],
-
   quiz: [
-    {
-      question: "Where is the site muster point in an emergency?",
-      options:  ["Main shed entrance", "Car park by the front gate", "Smoko Room", "Administration office"],
-      correctIndex: 1,
-      feedback: "The muster point is the car park by the front gate. Proceed there immediately in any emergency."
-    },
-    {
-      question: "What UHF channel must you contact before crossing or moving around the facility?",
-      options:  ["Channel 10", "Channel 22", "Channel 34", "Channel 40"],
-      correctIndex: 2,
-      feedback: "Always contact the loader driver on UHF Channel 34 before crossing or moving around the facility."
-    },
-    {
-      question: "What is required before any hot work (cutting, grinding, welding) can begin?",
-      options:  ["Verbal approval from your supervisor", "An approved hot work permit", "A safety glasses check", "Nothing — just use common sense"],
-      correctIndex: 1,
-      feedback: "An approved hot work permit is mandatory before any cutting, grinding, or welding on site."
-    },
-    {
-      question: "Where is the first aid kit located?",
-      options:  ["Main shed wall", "Administration office", "Smoko Room", "Near the front gate"],
-      correctIndex: 2,
-      feedback: "The first aid kit is located in the Smoko Room."
-    },
-    {
-      question: "Which PPE is required in the Yellow zone (pellet mills and high-risk areas)?",
-      options:  ["Hi-vis vest and safety glasses only", "Long hi-vis, steel cap boots, hard hat and hearing protection", "Steel cap boots and hard hat only", "No specific PPE required"],
-      correctIndex: 1,
-      feedback: "The Yellow zone requires long hi-vis clothing, steel cap boots, hard hat, and hearing protection."
-    },
-    {
-      question: "What must you do before entering a confined space?",
-      options:  ["Check with a workmate", "Enter quickly to minimise exposure", "Obtain a permit, atmosphere control, and have a watch person present", "Wear a dust mask and proceed"],
-      correctIndex: 2,
-      feedback: "Confined space entry requires a permit, atmosphere control, and a surveillance/watch person — no exceptions."
-    },
-    {
-  question: "Can machine guards be removed?",
-  options: [
-    "Yes, if the job is easier to complete",
-    "Yes, if you put them back afterwards",
-    "Only if authorised and the equipment has been isolated",
-    "Yes, if no one is watching"
+    { question: "Where is the site muster point in an emergency?", options: ["Main shed entrance", "Car park by the front gate", "Smoko Room", "Administration office"], correctIndex: 1, feedback: "The muster point is the car park by the front gate. Proceed there immediately in any emergency." },
+    { question: "What UHF channel must you contact before crossing or moving around the facility?", options: ["Channel 10", "Channel 22", "Channel 34", "Channel 40"], correctIndex: 2, feedback: "Always contact the loader driver on UHF Channel 34 before crossing or moving around the facility." },
+    { question: "What is required before any hot work (cutting, grinding, welding) can begin?", options: ["Verbal approval from your supervisor", "An approved hot work permit", "A safety glasses check", "Nothing — just use common sense"], correctIndex: 1, feedback: "An approved hot work permit is mandatory before any cutting, grinding, or welding on site." },
+    { question: "Where is the first aid kit located?", options: ["Main shed wall", "Administration office", "Smoko Room", "Near the front gate"], correctIndex: 2, feedback: "The first aid kit is located in the Smoko Room." },
+    { question: "Which PPE is required in the Yellow zone (pellet mills and high-risk areas)?", options: ["Hi-vis vest and safety glasses only", "Long hi-vis, steel cap boots, hard hat and hearing protection", "Steel cap boots and hard hat only", "No specific PPE required"], correctIndex: 1, feedback: "The Yellow zone requires long hi-vis clothing, steel cap boots, hard hat, and hearing protection." },
+    { question: "What must you do before entering a confined space?", options: ["Check with a workmate", "Enter quickly to minimise exposure", "Obtain a permit, atmosphere control, and have a watch person present", "Wear a dust mask and proceed"], correctIndex: 2, feedback: "Confined space entry requires a permit, atmosphere control, and a surveillance/watch person — no exceptions." },
+    { question: "Can machine guards be removed?", options: ["Yes, if the job is easier to complete", "Yes, if you put them back afterwards", "Only if authorised and the equipment has been isolated", "Yes, if no one is watching"], correctIndex: 2, feedback: "Machine guards must remain in place. Guards may only be removed if authorised and the equipment has been properly isolated." },
+    { question: "Who must you report a near miss or unsafe condition to?", options: ["Fix it yourself and say nothing", "Your own supervisor only", "Your site contact at Albioma immediately", "Write it in a notebook for later"], correctIndex: 2, feedback: "All near misses, hazards, and unsafe conditions must be reported immediately to your Albioma site contact." },
+    { question: "What is Albioma's policy on drugs and alcohol on site?", options: ["A breathalyser test is required each morning", "Zero tolerance — no drugs or alcohol permitted on site", "Allowed in small amounts after hours", "Only applies to machinery operators"], correctIndex: 1, feedback: "Zero tolerance. No drugs or alcohol are permitted on site at any time for any person." },
   ],
-  correctIndex: 2,
-  feedback: "Machine guards must remain in place. Guards may only be removed if authorised and the equipment has been properly isolated."
-    },
-    {
-      question: "Who must you report a near miss or unsafe condition to?",
-      options:  ["Fix it yourself and say nothing", "Your own supervisor only", "Your site contact at Albioma immediately", "Write it in a notebook for later"],
-      correctIndex: 2,
-      feedback: "All near misses, hazards, and unsafe conditions must be reported immediately to your Albioma site contact."
-    },
-    {
-      question: "What is Albioma's policy on drugs and alcohol on site?",
-      options:  ["A breathalyser test is required each morning", "Zero tolerance — no drugs or alcohol permitted on site", "Allowed in small amounts after hours", "Only applies to machinery operators"],
-      correctIndex: 1,
-      feedback: "Zero tolerance. No drugs or alcohol are permitted on site at any time for any person."
-    },
-  ],
-
   passMark: 80,
-
- webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
-
-sharePointFolder: "Contractor Documents",
+  webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
+  docUploadURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ea796d14f9dd4e28b18fb1aff4549436/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FeqbZvLGedzM-MoMUiaD4XEsurylA62HYCJmLFeDpg",
+  sharePointFolder: "Contractor Documents",
 };
-/* ════════════════════════════════════
-   END OF EDITABLE CONTENT
-   ════════════════════════════════════ */
+
+function getFolderForDocType(docType) {
+  const t = (docType || "").toLowerCase();
+  if (t === "swms") return "SWMS";
+  if (t.includes("insurance")) return "Insurance";
+  if (["forklift","ewp","front end loader","working at heights","confined space","first aid","crane"].some(x => t.includes(x))) return "Tickets";
+  if (["c","lr","mr","hr","hc","mc"].includes(t.trim())) return "Licences";
+  return "Other";
+}
 </script>
-<!-- HEADER -->
+
 <header class="site-header">
-<div>
+  <div>
     <h1>Tuan Biomass — Contractor Induction</h1>
     <p>Tuan, Queensland</p>
   </div>
@@ -388,8 +308,8 @@ sharePointFolder: "Contractor Documents",
       <h2>Welcome to Tuan Biomass</h2>
       <p>Before accessing this site you must complete this induction. It covers Albioma's Golden Rules, site rules, hazards, PPE requirements, and emergency procedures. A quiz follows — you must score <span id="passMarkDisplay">80</span>% or higher to pass.</p>
     </div>
-<img class="img-full" src="https://i.ibb.co/JRjH4mVR/Dryer-drum.jpg" alt="Dryer Drum">
-<div class="card">
+    <img class="img-full" src="https://i.ibb.co/JRjH4mVR/Dryer-drum.jpg" alt="Dryer Drum">
+    <div class="card">
       <div class="section-tag">Contractor Details</div>
       <h2>Register Before You Begin</h2>
       <div class="form-group">
@@ -405,7 +325,6 @@ sharePointFolder: "Contractor Documents",
         <div class="form-group"><label>Planned Date(s) on Site</label><input type="text" id="dates" placeholder="e.g. 22/04/2026"></div>
       </div>
       <div class="form-group"><label>High Risk Tasks Being Undertaken</label><input type="text" id="tasks" placeholder="e.g. Working at heights, hot work, confined space"></div>
-
       <div class="section-tag" style="margin-top:8px">Company Contact</div>
       <div class="form-row">
         <div class="form-group"><label>Company Contact Name</label><input type="text" id="companyContactName" placeholder="e.g. Supervisor or manager"></div>
@@ -427,10 +346,7 @@ sharePointFolder: "Contractor Documents",
     <div class="card">
       <div class="section-tag">Emergency Information</div>
       <h2>Know Before You Start</h2>
-      <div class="alert-box">
-        <strong>EMERGENCY</strong><br>
-        Site Emergency Contact: <span id="siteEmPhone"></span>
-      </div>
+      <div class="alert-box"><strong>EMERGENCY</strong><br>Site Emergency Contact: <span id="siteEmPhone"></span></div>
       <div class="info-box">
         <strong>Muster Point:</strong> <span id="musterPoint"></span><br>
         <strong>First Aid Kit:</strong> <span id="firstAidLoc"></span><br>
@@ -449,8 +365,10 @@ sharePointFolder: "Contractor Documents",
     <div class="card">
       <div class="section-tag">Albioma Golden Rules</div>
       <h2>Non-Negotiable Safety Rules</h2>
-      <p>All contractors must comply with Albioma's Golden Rules. Breaching any Golden Rule is grounds for immediate removal from site.</p><img class="img-full" src="https://i.ibb.co/Z6j32Gvc/Albioma-golden-rules.png" alt="Albioma Golden Rules"><img class="img-full" src="https://i.ibb.co/VKzxZXP/golden-rules-explained-png.png" alt="Golden Rules Explained">
-<p class="img-caption">Albioma Safety Golden Rules — Let's make safety our priority</p>
+      <p>All contractors must comply with Albioma's Golden Rules. Breaching any Golden Rule is grounds for immediate removal from site.</p>
+      <img class="img-full" src="https://i.ibb.co/Z6j32Gvc/Albioma-golden-rules.png" alt="Albioma Golden Rules">
+      <img class="img-full" src="https://i.ibb.co/VKzxZXP/golden-rules-explained-png.png" alt="Golden Rules Explained">
+      <p class="img-caption">Albioma Safety Golden Rules — Let's make safety our priority</p>
       <ul class="rule-list" id="goldenRulesList"></ul>
       <div class="btn-row">
         <button class="btn btn-secondary" onclick="goTo(1)">← Back</button>
@@ -482,11 +400,11 @@ sharePointFolder: "Contractor Documents",
     <div class="card">
       <div class="section-tag">PPE Requirements</div>
       <h2>PPE by Zone</h2>
-      <p>PPE requirements vary by zone. Know which zone you are working in.</p><img class="img-full" src="https://i.ibb.co/fzLMb693/ppe-map-1-png.png" alt="PPE Map 1"><img class="img-full" src="https://i.ibb.co/HLhK4y10/ppe-map-2-png.png" alt="PPE Map 2"><img class="img-full" src="https://i.ibb.co/qYKB0N6B/ppe-map-3-png.png" alt="PPE Map 3"><img class="img-full" src="https://i.ibb.co/RpbHRFXP/ppe-map-4-png.png" alt="PPE Map 4">
-
-
-
-
+      <p>PPE requirements vary by zone. Know which zone you are working in.</p>
+      <img class="img-full" src="https://i.ibb.co/fzLMb693/ppe-map-1-png.png" alt="PPE Map 1">
+      <img class="img-full" src="https://i.ibb.co/HLhK4y10/ppe-map-2-png.png" alt="PPE Map 2">
+      <img class="img-full" src="https://i.ibb.co/qYKB0N6B/ppe-map-3-png.png" alt="PPE Map 3">
+      <img class="img-full" src="https://i.ibb.co/RpbHRFXP/ppe-map-4-png.png" alt="PPE Map 4">
       <div id="ppeZoneList" style="margin-top:16px"></div>
       <div class="info-box" style="margin-top:16px">
         <strong>PPE Store:</strong> Main office — fill out the PPE register when collecting.<br>
@@ -553,7 +471,7 @@ sharePointFolder: "Contractor Documents",
     <div class="card">
       <div class="section-tag">Licence & Ticket Verification</div>
       <h2>Record Your Licences</h2>
-      <p>List all relevant licences and tickets below. Copies must be provided to the site contact before commencing work.</p>
+      <p>List all relevant licences and tickets below. Files uploaded here will be saved to the contractor documents folder in SharePoint.</p>
       <table class="licence-table">
         <thead><tr><th>Licence / Ticket Type</th><th>Expiry Date</th><th>Photo / File</th></tr></thead>
         <tbody id="licenceTable"></tbody>
@@ -561,17 +479,12 @@ sharePointFolder: "Contractor Documents",
     </div>
     <div class="card">
       <div class="section-tag">Supporting Documents</div>
-      <h2>Documents You Are Bringing</h2>
-      <p>Tick all documents you have available. Physical or digital copies must be provided to the site contact before commencing work.</p>
-      <ul class="checklist" id="docChecklist"></ul>
-      <div class="form-group" style="margin-top:16px">
-        <label>Upload Supporting Documents (SWMS, Insurance, etc.)</label>
-        <input type="file" id="swmsUpload" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple
-          style="width:100%;padding:10px 14px;border:1.5px dashed var(--border);border-radius:8px;background:var(--bg);font-size:14px;cursor:pointer;">
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">PDF, Word, Excel or image files accepted. Multiple files can be selected.</div>
-      </div>
-      <div class="form-group" style="margin-top:16px">
-        <label>Any additional documents or notes</label>
+      <h2>Insurance, SWMS &amp; Other Documents</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Upload insurance certificates, SWMS or any other supporting documents. Each file will be saved to the appropriate folder in SharePoint.</p>
+      <div id="extraDocRows"></div>
+      <button class="btn btn-secondary" style="margin-top:8px" onclick="addExtraDocRow()">+ Add Document</button>
+      <div class="form-group" style="margin-top:20px">
+        <label>Any additional notes</label>
         <textarea id="docNotes" rows="3" placeholder="e.g. SWMS will be emailed separately, waiting on renewed ticket..."></textarea>
       </div>
     </div>
@@ -625,18 +538,8 @@ let currentQ = 0;
 let answers = [];
 let quizAnswered = false;
 
-const LICENCE_TYPES = ["Forklift","EWP","Front End Loader","Working at Heights","Confined Space","Other","Other"];
-const DOC_ITEMS = [
-  "Forklift Licence",
-  "EWP Licence",
-  "Front End Loader Licence",
-  "Working at Heights Certificate",
-  "First Aid Certificate",
-  "SWMS (Safe Work Method Statement)",
-  "JSA (Job Safety Analysis)",
-  "Insurance Certificate",
-  "Other relevant licence or ticket",
-];
+const LICENCE_TYPES = ["Forklift","EWP","Front End Loader","Working at Heights","Confined Space","Crane","Other"];
+
 const ACK_ITEMS = [
   "I have received and read Albioma's Golden Rules.",
   "I have received and read the General Workplace Safety Rules including site access, PPE, permits, emergency procedures, and reporting requirements.",
@@ -646,6 +549,35 @@ const ACK_ITEMS = [
   "I have received emergency procedure information including the muster point, first aid location, alarm process, and fire extinguisher locations.",
 ];
 
+let extraDocCount = 0;
+
+function addExtraDocRow() {
+  const id = "extraDoc" + extraDocCount++;
+  const container = document.getElementById("extraDocRows");
+  const div = document.createElement("div");
+  div.id = id + "_row";
+  div.style.cssText = "display:grid;grid-template-columns:1fr 160px auto;gap:10px;align-items:center;margin-bottom:10px;";
+  div.innerHTML = `
+    <select id="${id}_type" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
+      <option value="">Select type...</option>
+      <option>Insurance / public liability</option>
+      <option>SWMS</option>
+      <option>Other document / competency</option>
+    </select>
+    <input type="date" id="${id}_expiry" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
+        📁 File<input type="file" id="${id}_file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?Array.from(this.files).map(f=>f.name).join(', '):''">
+      </label>
+      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
+        📷 Camera<input type="file" id="${id}_cam" accept="image/*" capture="environment" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''">
+      </label>
+      <span id="${id}_fname" style="font-size:11px;color:#6b7280;"></span>
+      <button type="button" onclick="document.getElementById('${id}_row').remove()" style="background:none;border:none;color:var(--warn);cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;">✕</button>
+    </div>`;
+  container.appendChild(div);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("passMarkDisplay").textContent = CONFIG.passMark;
   document.getElementById("siteEmPhone").textContent    = CONFIG.emergency.site;
@@ -654,31 +586,26 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("fireExLoc").textContent      = CONFIG.emergency.fireEx;
   document.getElementById("uhfChannel").textContent     = CONFIG.emergency.uhfChannel;
 
-  // Contacts
   const cg = document.getElementById("contactGrid");
   CONFIG.contacts.forEach(c => {
     cg.innerHTML += `<div class="contact-card"><div class="role">${c.role}</div><div class="name">${c.name}</div><div class="detail">${c.phone}<br>${c.email}</div></div>`;
   });
 
-  // Golden Rules list
   const gr = document.getElementById("goldenRulesList");
   CONFIG.goldenRules.forEach((r,i) => {
     gr.innerHTML += `<li><span class="rule-num golden">${i+1}</span><div><strong>${r.title}</strong><br><span style="color:#6b7280;font-size:14px">${r.detail}</span></div></li>`;
   });
 
-  // Site Rules
   const sr = document.getElementById("siteRulesList");
   CONFIG.siteRules.forEach((r,i) => {
     sr.innerHTML += `<li><span class="rule-num site">${i+1}</span><div>${r}</div></li>`;
   });
 
-  // Hazards
   const hz = document.getElementById("hazardsList");
   CONFIG.hazards.forEach(h => {
     hz.innerHTML += `<li><span class="rule-num hazard">!</span><div>${h}</div></li>`;
   });
 
-  // PPE Zones
   const pz = document.getElementById("ppeZoneList");
   CONFIG.ppeZones.forEach(z => {
     pz.innerHTML += `<div style="border-left:4px solid ${z.color};background:#f8f6f1;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:10px">
@@ -690,30 +617,21 @@ document.addEventListener("DOMContentLoaded", () => {
   // Licence table
   const lt = document.getElementById("licenceTable");
   LICENCE_TYPES.forEach((l, i) => {
-    lt.innerHTML += `
-      <tr>
-        <td>${l}</td>
-        <td><input type="text" id="licExpiry${i}" placeholder="DD/MM/YYYY" style="width:130px"></td>
-        <td>
-          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-            <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
-              📁 File
-              <input type="file" id="licFile${i}" accept="image/*,.pdf" style="display:none" onchange="showFileName(${i})">
-            </label>
-            <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
-              📷 Camera
-              <input type="file" id="licCamera${i}" accept="image/*" capture="environment" style="display:none" onchange="showCameraName(${i})">
-            </label>
-            <span id="licFileName${i}" style="font-size:11px;color:#6b7280;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-          </div>
-        </td>
-      </tr>`;
-  });
-
-  // Document checklist
-  const dc = document.getElementById("docChecklist");
-  DOC_ITEMS.forEach((item,i) => {
-    dc.innerHTML += `<li><input type="checkbox" id="doc${i}"><label for="doc${i}" style="cursor:pointer">${item}</label></li>`;
+    lt.innerHTML += `<tr>
+      <td>${l}</td>
+      <td><input type="text" id="licExpiry${i}" placeholder="DD/MM/YYYY" style="width:130px"></td>
+      <td>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+          <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
+            📁 File<input type="file" id="licFile${i}" accept="image/*,.pdf" style="display:none" onchange="showFileName(${i})">
+          </label>
+          <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
+            📷 Camera<input type="file" id="licCamera${i}" accept="image/*" capture="environment" style="display:none" onchange="showCameraName(${i})">
+          </label>
+          <span id="licFileName${i}" style="font-size:11px;color:#6b7280;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+        </div>
+      </td>
+    </tr>`;
   });
 
   // Acknowledgement checklist
@@ -721,6 +639,9 @@ document.addEventListener("DOMContentLoaded", () => {
   ACK_ITEMS.forEach((item,i) => {
     ac.innerHTML += `<li><input type="checkbox" id="ack${i}"><label for="ack${i}" style="cursor:pointer">${item}</label></li>`;
   });
+
+  // Start with one extra doc row
+  addExtraDocRow();
 
   updateProgress();
 });
@@ -734,18 +655,6 @@ function showCameraName(i) {
   const input = document.getElementById("licCamera" + i);
   const span  = document.getElementById("licFileName" + i);
   if (input && input.files.length && span) span.textContent = input.files[0].name;
-}
-
-function toggleLicenceUpload(i) {
-  const copy = document.getElementById("licCopy" + i);
-  const file = document.getElementById("licFile" + i);
-  const hint = document.getElementById("licFileHint" + i);
-  const show = copy && copy.value === "Yes";
-  if (file) {
-    file.style.display = show ? "block" : "none";
-    if (!show) file.value = "";
-  }
-  if (hint) hint.style.display = show ? "none" : "inline";
 }
 
 function goTo(n) {
@@ -766,32 +675,20 @@ function updateProgress() {
 
 function startInduction() {
   const name = document.getElementById("name").value.trim();
-  const co = document.getElementById("company").value.trim();
-  const emergencyName = document.getElementById("emergencyName").value.trim();
+  const co   = document.getElementById("company").value.trim();
+  const emergencyName         = document.getElementById("emergencyName").value.trim();
   const emergencyRelationship = document.getElementById("emergencyRelationship").value.trim();
-  const emergencyPhone = document.getElementById("emergencyPhone").value.trim();
-
-  if (!name || !co) {
-    alert("Please enter your name and company before continuing.");
-    return;
-  }
-
-  if (!emergencyName || !emergencyRelationship || !emergencyPhone) {
-    alert("Please enter the emergency contact name, relationship, and phone number before continuing.");
-    return;
-  }
-
+  const emergencyPhone        = document.getElementById("emergencyPhone").value.trim();
+  if (!name || !co) { alert("Please enter your name and company before continuing."); return; }
+  if (!emergencyName || !emergencyRelationship || !emergencyPhone) { alert("Please enter the emergency contact name, relationship, and phone number before continuing."); return; }
   contractor = {
-    name: name,
-    company: co,
-    trade: document.getElementById("trade").value.trim(),
-    companyContactName: document.getElementById("companyContactName").value.trim(),
+    name, company: co,
+    trade:                document.getElementById("trade").value.trim(),
+    companyContactName:   document.getElementById("companyContactName").value.trim(),
     companyContactMobile: document.getElementById("companyContactMobile").value.trim(),
-    companyContactEmail: document.getElementById("companyContactEmail").value.trim(),
-    phone: document.getElementById("phone").value.trim(),
-    emergencyName: emergencyName,
-    emergencyRelationship: emergencyRelationship,
-    emergencyPhone: emergencyPhone,
+    companyContactEmail:  document.getElementById("companyContactEmail").value.trim(),
+    phone:                document.getElementById("phone").value.trim(),
+    emergencyName, emergencyRelationship, emergencyPhone,
     dates: document.getElementById("dates").value.trim(),
     tasks: document.getElementById("tasks").value.trim(),
   };
@@ -801,22 +698,17 @@ function startInduction() {
 function proceedToQuiz() {
   const unchecked = ACK_ITEMS.map((_,i) => document.getElementById("ack"+i).checked).filter(v => !v).length;
   if (unchecked > 0) { alert("Please tick all acknowledgement boxes before proceeding to the quiz."); return; }
-  // Capture licence / ticket declarations
   const licenceRows = LICENCE_TYPES.map((type, i) => {
     const expiry = document.getElementById("licExpiry" + i)?.value.trim() || "";
-    const fileInput = document.getElementById("licFile" + i);
+    const fileInput   = document.getElementById("licFile" + i);
     const cameraInput = document.getElementById("licCamera" + i);
     const fileName = (fileInput && fileInput.files && fileInput.files.length ? fileInput.files[0].name : "")
                   || (cameraInput && cameraInput.files && cameraInput.files.length ? cameraInput.files[0].name : "");
     if (!expiry && !fileName) return null;
     return `${type}: expiry ${expiry || "—"}${fileName ? ", file " + fileName : ""}`;
   }).filter(Boolean);
-  contractor.licences = licenceRows.length > 0 ? licenceRows.join("; ") : "None declared";
-
-  // Capture document selections
-  const docsSelected = DOC_ITEMS.filter((_,i) => document.getElementById("doc"+i).checked);
-  contractor.docs = docsSelected.length > 0 ? docsSelected.join(", ") : "None declared";
-  contractor.docNotes = document.getElementById("docNotes").value.trim() || "—";
+  contractor.licences  = licenceRows.length > 0 ? licenceRows.join("; ") : "None declared";
+  contractor.docNotes  = document.getElementById("docNotes").value.trim() || "—";
   goTo(7);
 }
 
@@ -860,6 +752,15 @@ function nextQuestion() {
   if (currentQ < CONFIG.quiz.length - 1) { loadQuestion(currentQ + 1); } else { showResult(); }
 }
 
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 function showResult() {
   const correct = answers.filter((a,i) => a === CONFIG.quiz[i].correctIndex).length;
   const pct     = Math.round((correct / CONFIG.quiz.length) * 100);
@@ -867,14 +768,10 @@ function showResult() {
 
   if (!passed) {
     const fb = document.getElementById("quizFeedback");
-    fb.textContent = "You did not get 80%. Please complete the quiz again.";
+    fb.textContent = "You did not reach " + CONFIG.passMark + "%. Please complete the quiz again.";
     fb.className = "quiz-feedback show fail";
     document.getElementById("quizNextBtn").style.display = "none";
-    setTimeout(() => {
-      answers = [];
-      loadQuestion(0);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }, 2500);
+    setTimeout(() => { answers = []; loadQuestion(0); window.scrollTo({ top: 0, behavior: "smooth" }); }, 2500);
     return;
   }
 
@@ -899,94 +796,73 @@ function showResult() {
     <strong>Planned Date(s)</strong>${contractor.dates || "—"}
     <strong>High Risk Tasks</strong>${contractor.tasks || "—"}
     <strong>Licences / Tickets</strong>${contractor.licences || "—"}
-    <strong>Documents Declared</strong>${contractor.docs || "—"}
     <strong>Document Notes</strong>${contractor.docNotes || "—"}
     <strong>Date Inducted</strong>${dateStr} at ${timeStr}
     <strong>Result</strong>✅ PASSED (${pct}%)
     <strong>Site</strong>${CONFIG.siteName}
   `;
-  const docsReminder = contractor.docs && contractor.docs !== "None declared"
-    ? " Please bring the following documents when you attend site: " + contractor.docs + "."
-    : "";
-  const datesReminder = contractor.dates
-    ? " Your planned date(s) on site: " + contractor.dates + "."
-    : "";
-  document.getElementById("resultMsg").textContent =
-    "Induction complete. Please confirm sign-in with site personnel before commencing work." + datesReminder + docsReminder;
-  const retryBtn = document.getElementById("retryBtn");
-  if (retryBtn) retryBtn.style.display = "none";
-  sendToFlow({ name: contractor.name, company: contractor.company, trade: contractor.trade, company_contact_name: contractor.companyContactName, company_contact_mobile: contractor.companyContactMobile, company_contact_email: contractor.companyContactEmail, phone: contractor.phone, emergency_name: contractor.emergencyName, emergency_relationship: contractor.emergencyRelationship, emergency_phone: contractor.emergencyPhone, dates: contractor.dates, tasks: contractor.tasks, licences: contractor.licences, docs: contractor.docs, doc_notes: contractor.docNotes, date: dateStr, time: timeStr, score: pct, result: "PASSED", site: CONFIG.siteName });
-}
-
-
-function retryQuiz() { answers = []; goTo(7); loadQuestion(0); }
-
-// ── Helper: read a File as base64 ────────────────────────────────────────────
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload  = () => resolve(reader.result.split(",")[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-// ── Collect all uploaded licence files ───────────────────────────────────────
-async function collectLicenceFiles() {
-  const files = [];
-  const licenceTypes = ["Forklift","EWP","Front End Loader","Working at Heights","Confined Space","Other","Other"];
-  for (let i = 0; i < licenceTypes.length; i++) {
-    const input = document.getElementById("licFile" + i);
-    if (input && input.files && input.files.length > 0) {
-      const file = input.files[0];
-      try {
-        const base64 = await fileToBase64(file);
-        files.push({
-          name: licenceTypes[i].replace(/\s+/g, "_") + "_" + file.name,
-          contentBase64: base64,
-          mimeType: file.type || "application/octet-stream"
-        });
-      } catch(e) {
-        console.warn("Could not read file for " + licenceTypes[i], e);
-      }
-      const cameraInput = document.getElementById("licCamera" + i);
-      if (cameraInput && cameraInput.files && cameraInput.files.length > 0) {
-        const file = cameraInput.files[0];
-        try {
-          const base64 = await fileToBase64(file);
-          files.push({
-            name: licenceTypes[i].replace(/\s+/g, "_") + "_camera_" + file.name,
-            contentBase64: base64,
-            mimeType: file.type || "image/jpeg"
-          });
-        } catch(e) { console.warn("Could not read camera file for " + licenceTypes[i], e); }
-      }
-    }
-  }
-  // Also collect any SWMS / additional doc uploads
-  const swmsInput = document.getElementById("swmsUpload");
-  if (swmsInput && swmsInput.files && swmsInput.files.length > 0) {
-    for (const file of swmsInput.files) {
-      try {
-        const base64 = await fileToBase64(file);
-        files.push({ name: "SWMS_" + file.name, contentBase64: base64, mimeType: file.type || "application/octet-stream" });
-      } catch(e) { console.warn("Could not read SWMS file", e); }
-    }
-  }
-  return files;
+  document.getElementById("resultMsg").textContent = "Induction complete. Please confirm sign-in with site personnel before commencing work.";
+  sendToFlow({ name: contractor.name, company: contractor.company, trade: contractor.trade, company_contact_name: contractor.companyContactName, company_contact_mobile: contractor.companyContactMobile, company_contact_email: contractor.companyContactEmail, phone: contractor.phone, emergency_name: contractor.emergencyName, emergency_relationship: contractor.emergencyRelationship, emergency_phone: contractor.emergencyPhone, dates: contractor.dates, tasks: contractor.tasks, licences: contractor.licences, doc_notes: contractor.docNotes, date: dateStr, time: timeStr, score: pct, result: "PASSED", site: CONFIG.siteName });
 }
 
 async function sendToFlow(data) {
   const el = document.getElementById("sheetStatus");
   el.textContent = "Submitting induction record…";
 
-  // Collect uploaded files as base64
-  const attachments = await collectLicenceFiles();
+  const personId = (data.phone || "").replace(/\D/g, "");
 
-  const payload = {
+  // ── Build upload documents array for the document upload flow ──
+  const uploadDocuments = [];
+
+  // Licence table rows
+  for (let i = 0; i < LICENCE_TYPES.length; i++) {
+    const expiry      = document.getElementById("licExpiry" + i)?.value.trim() || "";
+    const fileInput   = document.getElementById("licFile" + i);
+    const cameraInput = document.getElementById("licCamera" + i);
+    const activeInput = (fileInput && fileInput.files && fileInput.files.length) ? fileInput
+                      : (cameraInput && cameraInput.files && cameraInput.files.length) ? cameraInput
+                      : null;
+    if (!activeInput) continue;
+    const file = activeInput.files[0];
+    try {
+      const base64 = await fileToBase64(file);
+      uploadDocuments.push({
+        document_type: LICENCE_TYPES[i],
+        expiry_date:   expiry,
+        attachments:   [{ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 }]
+      });
+    } catch(e) { console.warn("Could not read licence file", e); }
+  }
+
+  // Extra doc rows (insurance, SWMS etc.)
+  const extraRows = document.getElementById("extraDocRows").querySelectorAll("[id$='_row']");
+  for (const row of extraRows) {
+    const rowId   = row.id.replace("_row","");
+    const docType = document.getElementById(rowId + "_type").value.trim();
+    const expiry  = document.getElementById(rowId + "_expiry").value;
+    const fInput  = document.getElementById(rowId + "_file");
+    const cInput  = document.getElementById(rowId + "_cam");
+    const files   = (fInput && fInput.files && fInput.files.length) ? [...fInput.files]
+                  : (cInput && cInput.files && cInput.files.length) ? [...cInput.files]
+                  : [];
+    if (!docType || !files.length) continue;
+    const attachments = [];
+    for (const file of files) {
+      try {
+        const base64 = await fileToBase64(file);
+        attachments.push({ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 });
+      } catch(e) { console.warn("Could not read file", e); }
+    }
+    if (attachments.length) {
+      uploadDocuments.push({ document_type: docType, expiry_date: expiry, attachments });
+    }
+  }
+
+  // ── Fire induction webhook ──
+  const inductionPayload = {
     induction_type:           "Contractor General",
     document_no:              "ID-002-2025-v3.0",
-    person_id:                (data.phone || "").replace(/\D/g, ""),
+    person_id:                personId,
     name:                     data.name,
     company:                  data.company,
     trade:                    data.trade || "",
@@ -1000,7 +876,6 @@ async function sendToFlow(data) {
     planned_dates:            data.dates || "",
     high_risk_tasks:          data.tasks || "",
     licences:                 data.licences || "",
-    documents_declared:       data.docs || "",
     document_notes:           data.doc_notes || "",
     date_inducted:            data.date,
     time_inducted:            data.time,
@@ -1008,7 +883,6 @@ async function sendToFlow(data) {
     result:                   data.result,
     site:                     data.site,
     sharepoint_folder:        CONFIG.sharePointFolder,
-    attachments:              attachments,   // array of {name, contentBase64, mimeType}
     submitted_at:             new Date().toISOString(),
   };
 
@@ -1016,17 +890,40 @@ async function sendToFlow(data) {
     const resp = await fetch(CONFIG.webhookURL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(inductionPayload),
     });
-    if (resp.ok || resp.status === 202) {
-      el.textContent = "✓ Your induction record has been submitted successfully.";
-    } else {
-      el.textContent = "⚠ Submission failed. Please advise site management manually.";
-      console.error("Flow error:", resp.status);
-    }
+    el.textContent = (resp.ok || resp.status === 202)
+      ? "✓ Your induction record has been submitted successfully."
+      : "⚠ Submission failed. Please advise site management manually.";
   } catch(e) {
     el.textContent = "⚠ Could not submit record — check internet connection. Please advise site management manually.";
-    console.error("Flow error:", e);
+    console.error("Induction webhook error:", e);
+  }
+
+  // ── Fire document upload flow (separate) ──
+  if (uploadDocuments.length && CONFIG.docUploadURL) {
+    const uploadPayload = {
+      type:          "document_upload",
+      record_id:     personId,
+      person_id:     personId,
+      mobile_number: data.phone,
+      full_name:     data.name,
+      company:       data.company,
+      notes:         "Uploaded during contractor induction — ID-002-2025-v3.0",
+      uploaded_at:   new Date().toISOString(),
+      documents:     uploadDocuments
+    };
+    try {
+      const res = await fetch(CONFIG.docUploadURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(uploadPayload)
+      });
+      if (!res.ok) el.textContent += " Document upload failed — please bring originals to the site office.";
+    } catch(e) {
+      console.warn("Document upload flow failed:", e);
+      el.textContent += " Document upload failed — please bring originals to the site office.";
+    }
   }
 }
 </script>
