@@ -179,8 +179,20 @@ const CONFIG = {
   ],
   passMark: 80,
   webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
+  docUploadURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ea796d14f9dd4e28b18fb1aff4549436/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FeqbZvLGedzM-MoMUiaD4XEsurylA62HYCJmLFeDpg",
   sharePointFolder: "Contractor Documents",
 };
+
+// Maps licence/ticket types to SharePoint subfolders
+function getFolderForDocType(docType) {
+  const t = docType.toLowerCase();
+  if (t === "swms") return "SWMS";
+  if (t.includes("insurance")) return "Insurance";
+  if (t === "c" || t === "lr" || t === "mr" || t === "hr" || t === "hc" || t === "mc") return "Licences";
+  if (t.includes("forklift") || t.includes("ewp") || t.includes("front end loader") ||
+      t.includes("working at heights") || t.includes("first aid") || t.includes("crane")) return "Tickets";
+  return "Other";
+}
 </script>
 <header class="site-header">
   <img src="https://i.ibb.co/1GR1Hq5P/Albioma-Logo.jpg" alt="Albioma" onerror="this.style.display='none'">
@@ -193,7 +205,7 @@ const CONFIG = {
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div class="progress-label" id="progressLabel">Registration</div>
 </div>
- 
+
 <div class="container">
   <div class="screen active" id="screen-0">
     <div class="hero-img">
@@ -223,8 +235,8 @@ const CONFIG = {
           <input type="text" id="driverRego" placeholder="e.g. 123 ABC">
         </div>
         <div class="form-group">
-          <label>Driver Phone Number</label>
-          <input type="text" id="phone" placeholder="Mobile number">
+          <label>Driver Mobile Number</label>
+          <input type="text" id="phone" placeholder="Mobile number" inputmode="tel">
         </div>
       </div>
       <div class="section-tag" style="margin-top:8px">Company Contact</div>
@@ -253,13 +265,13 @@ const CONFIG = {
       </div>
     </div>
   </div>
- 
+
   <!-- SCREEN 1: LICENCE & TICKET VERIFICATION -->
   <div class="screen" id="screen-1">
     <div class="card">
       <div class="section-tag">Licence & Ticket Verification</div>
       <h2>Record Your Licences</h2>
-      <p>List all relevant truck licences and tickets below.</p>
+      <p>List all relevant truck licences and tickets below. Files uploaded here will be saved to the contractor documents folder in SharePoint.</p>
       <table class="table-style licence-table">
         <thead><tr><th>Licence / Ticket Type</th><th>Expiry Date</th><th>Photo / File</th></tr></thead>
         <tbody id="licenceRows"></tbody>
@@ -267,16 +279,14 @@ const CONFIG = {
     </div>
     <div class="card">
       <div class="section-tag">Supporting Documents</div>
-      <h2>Insurance (optional)</h2>
-      <div class="form-group">
-        <label>Upload Insurance or other documents</label>
-        <input type="file" id="docUpload" accept="image/*,.pdf,.doc,.docx" multiple
-          style="width:100%;padding:10px 14px;border:1.5px dashed var(--border);border-radius:8px;background:var(--bg);font-size:14px;cursor:pointer;">
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">PDF or image files accepted.</div>
-      </div>
+      <h2>Insurance &amp; Other Documents</h2>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Upload insurance certificates, SWMS or any other supporting documents. Each file will be saved to the appropriate folder in SharePoint.</p>
+      <div id="extraDocRows"></div>
+      <button class="btn btn-secondary" style="margin-top:8px" onclick="addExtraDocRow()">+ Add Document</button>
       <div class="btn-row"><button class="btn btn-secondary" data-back>Back</button><button class="btn btn-primary" data-next>Next</button></div>
     </div>
   </div>
+
   <div class="screen" id="screen-2">
     <div class="card">
       <div class="section-tag">Key Personnel</div><h2>Site Contacts</h2>
@@ -317,8 +327,35 @@ const CONFIG = {
     <div class="card"><div class="section-tag">Knowledge Check</div><p>Answer all <span id="quizTotalNote"></span> questions. You must score <span id="quizPassNote"></span>% or higher to pass and complete this induction.</p></div>
     <div class="card" id="quizCard"><div class="quiz-counter" id="quizCounter"></div><div class="quiz-question" id="quizQuestion"></div><div class="options" id="quizOptions"></div><div class="quiz-feedback" id="quizFeedback"></div><div class="btn-row"><button class="btn btn-secondary" id="quizBackBtn">Back</button><button class="btn btn-primary" id="quizNextBtn" style="display:none">Next Question</button><button class="btn btn-primary" id="quizSubmitBtn" style="display:none">Submit Quiz</button></div></div>
   </div>
-  <div class="screen" id="screen-10"> <div class="card result-screen"> <div class="result-badge pass">✓</div> <h2>Induction Complete</h2> <p> Thank you for completing the Tuan Biomass Site Induction. </p> <p> Before unsupervised access to site is granted, you must report to the Site Office where the following will be completed: </p> <ul style="text-align:left; max-width:700px; margin:15px auto;"> <li>Verification of induction completion.</li> <li>Site tour conducted by an authorised Tuan Biomass representative.</li> <li>Collection and verification of any required licences, tickets and competencies.</li> <li>Issue of a site access FOB (if required).</li> <li>Confirmation of any site-specific requirements or restrictions.</li> </ul> <div class="record-box" id="completeRecordBox"> <h3 style="font-family:'Barlow Condensed',sans-serif; color:var(--green-dark); margin-bottom:12px;">Induction Record</h3> <div><strong>Name</strong><span id="recordName"></span></div> <div><strong>Company</strong><span id="recordCompany"></span></div> <div><strong>Company Contact</strong><span id="recordCompanyContact"></span></div> <div><strong>Company Contact Mobile</strong><span id="recordCompanyContactMobile"></span></div> <div><strong>Company Contact Email</strong><span id="recordCompanyContactEmail"></span></div> <div><strong>Score</strong><span id="recordScore"></span>%</div> <div><strong>Documents Submitted</strong><span id="recordDocs"></span></div> <div><strong>Date Completed</strong><span id="recordDate"></span></div> </div> </div> </div>
+  <div class="screen" id="screen-10">
+    <div class="card result-screen">
+      <div class="result-badge pass">✓</div>
+      <h2>Induction Complete</h2>
+      <p>Thank you for completing the Tuan Biomass Feedstock Truck Driver Induction.</p>
+      <p>Before unsupervised access to site is granted, you must report to the Site Office where the following will be completed:</p>
+      <ul style="text-align:left; max-width:700px; margin:15px auto;">
+        <li>Verification of induction completion.</li>
+        <li>Site tour conducted by an authorised Tuan Biomass representative.</li>
+        <li>Collection and verification of any required licences, tickets and competencies.</li>
+        <li>Issue of a site access FOB (if required).</li>
+        <li>Confirmation of any site-specific requirements or restrictions.</li>
+      </ul>
+      <div class="record-box" id="completeRecordBox">
+        <h3 style="font-family:'Barlow Condensed',sans-serif; color:var(--green-dark); margin-bottom:12px;">Induction Record</h3>
+        <div><strong>Name</strong><span id="recordName"></span></div>
+        <div><strong>Company</strong><span id="recordCompany"></span></div>
+        <div><strong>Company Contact</strong><span id="recordCompanyContact"></span></div>
+        <div><strong>Company Contact Mobile</strong><span id="recordCompanyContactMobile"></span></div>
+        <div><strong>Company Contact Email</strong><span id="recordCompanyContactEmail"></span></div>
+        <div><strong>Score</strong><span id="recordScore"></span>%</div>
+        <div><strong>Documents Submitted</strong><span id="recordDocs"></span></div>
+        <div><strong>Date Completed</strong><span id="recordDate"></span></div>
+      </div>
+      <div class="status-msg" id="uploadStatusMsg"></div>
+    </div>
+  </div>
 </div>
+
 <script>
 document.getElementById("headerTitle").textContent = CONFIG.siteName + " — Feedstock Truck Driver Induction";
 document.getElementById("headerSub").textContent = CONFIG.siteAddress;
@@ -326,14 +363,17 @@ document.getElementById("quizPassNote").textContent = CONFIG.passMark;
 document.getElementById("quizTotalNote").textContent = CONFIG.quiz.length;
 if(document.getElementById("passMarkHero")) document.getElementById("passMarkHero").textContent = CONFIG.passMark;
 if(document.getElementById("driverDate")) document.getElementById("driverDate").value = new Date().toISOString().slice(0,10);
+
 const contacts = document.getElementById("contactGrid");
 CONFIG.contacts.forEach(c => contacts.insertAdjacentHTML("beforeend", `<div class="contact-card"><div class="role">${c.role}</div><div class="name">${c.name}</div><div class="detail">${c.phone}</div></div>`));
+
 function showLicFileName(i, type) {
   const input = document.getElementById(type === 'camera' ? "licCamera" + i : "licFile" + i);
   const span  = document.getElementById("licFileName" + i);
   if (input && input.files.length && span) span.textContent = input.files[0].name;
 }
-const licenceTypes = ["C", "LR", "MR", "HR", "HC", "MC", "Forklift", "EWP", "Front End Loader", "Working at Heights", "First Aid", "Other"];
+
+const licenceTypes = ["C", "LR", "MR", "HR", "HC", "MC", "Forklift", "EWP", "Front End Loader", "Working at Heights", "First Aid", "Crane", "Other"];
 const licenceRows = document.getElementById("licenceRows");
 licenceTypes.forEach((t,i)=> licenceRows.insertAdjacentHTML("beforeend", `<tr>
   <td>${t}</td>
@@ -350,37 +390,62 @@ licenceTypes.forEach((t,i)=> licenceRows.insertAdjacentHTML("beforeend", `<tr>
     </div>
   </td>
 </tr>`));
+
+// Extra doc rows (insurance, SWMS etc.)
+let extraDocCount = 0;
+function addExtraDocRow() {
+  const id = "extraDoc" + extraDocCount++;
+  const container = document.getElementById("extraDocRows");
+  const div = document.createElement("div");
+  div.id = id + "_row";
+  div.style.cssText = "display:grid;grid-template-columns:1fr 160px auto;gap:10px;align-items:center;margin-bottom:10px;";
+  div.innerHTML = `
+    <div>
+      <select id="${id}_type" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
+        <option value="">Select type...</option>
+        <option>Insurance / public liability</option>
+        <option>SWMS</option>
+        <option>Other document / competency</option>
+      </select>
+    </div>
+    <div>
+      <input type="date" id="${id}_expiry" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
+        📁 File<input type="file" id="${id}_file" accept="image/*,.pdf,.doc,.docx" multiple style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?Array.from(this.files).map(f=>f.name).join(', '):''" >
+      </label>
+      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
+        📷 Camera<input type="file" id="${id}_cam" accept="image/*" capture="environment" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''">
+      </label>
+      <span id="${id}_fname" style="font-size:11px;color:#6b7280;"></span>
+      <button type="button" onclick="document.getElementById('${id}_row').remove()" style="background:none;border:none;color:var(--warn);cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;">✕</button>
+    </div>`;
+  container.appendChild(div);
+}
+// Start with one extra doc row
+addExtraDocRow();
+
 const rules = document.getElementById("siteRulesList");
 CONFIG.siteRules.forEach((r,i)=> rules.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`));
 const hazards = document.getElementById("hazardRows");
 CONFIG.hazards.forEach(h=> hazards.insertAdjacentHTML("beforeend", `<tr><td>${h.hazard}</td><td>${h.controls}</td></tr>`));
+
 const screens = [...document.querySelectorAll(".screen")];
 const labels = ["Registration","Licences","Contacts","CoR","PPE","Traffic","Emergency","Hazards","Acknowledgement","Quiz","Complete"];
 let current = 0, currentQ = 0, quizAnswers = [], lastScore = 0, lastCorrect = 0, lastPassed = false;
+
 function showScreen(n){ current = Math.max(0, Math.min(n, screens.length-1)); screens.forEach((s,i)=>s.classList.toggle("active", i===current)); document.getElementById("progressFill").style.width = ((current+1)/screens.length*100) + "%"; document.getElementById("progressLabel").textContent = labels[current] || "Induction"; window.scrollTo({top:0,behavior:"smooth"}); }
-function registrationComplete(){ return ["driverName","driverCompany","driverRego"].every(id=>document.getElementById(id).value.trim()); }
-function driverRecordHTML(includeScore=false){
-  const parts = [
-    `<strong>Name</strong>${document.getElementById("driverName").value.trim()}`,
-    `<strong>Company</strong>${document.getElementById("driverCompany").value.trim()}`,
-    `<strong>Truck Rego</strong>${document.getElementById("driverRego").value.trim().toUpperCase()}`,
-    `<strong>Phone</strong>${document.getElementById("phone").value.trim() || "Not provided"}`,
-    `<strong>Company Contact</strong>${document.getElementById("companyContact").value.trim() || "Not provided"}`,
-    `<strong>Company Contact Mobile</strong>${document.getElementById("companyContactMobile").value.trim() || "Not provided"}`,
-    `<strong>Company Contact Email</strong>${document.getElementById("companyContactEmail").value.trim() || "Not provided"}`,
-    `<strong>Date</strong>${document.getElementById("driverDate").value}`,
-    `<strong>Documents Submitted</strong>${CONFIG.documentNo}`
-  ];
-  if(includeScore) parts.splice(5,0,`<strong>Quiz Score</strong>${lastScore}% (${lastCorrect} of ${CONFIG.quiz.length} correct)`);
-  return parts.join("<br>");
-}
+function registrationComplete(){ return ["driverName","driverCompany","driverRego","phone"].every(id=>document.getElementById(id).value.trim()); }
+
 document.getElementById("startBtn").onclick = () => {
-  if(!registrationComplete()){ alert("Please complete your name, company and truck registration before starting."); return; }
+  if(!registrationComplete()){ alert("Please complete your name, company, truck registration and mobile number before starting."); return; }
   showScreen(1);
 };
 document.querySelectorAll("[data-next]").forEach(b=>b.onclick=()=>showScreen(current+1));
 document.querySelectorAll("[data-back]").forEach(b=>b.onclick=()=>showScreen(current-1));
 document.getElementById("beginQuizBtn").onclick = startQuiz;
+
 function startQuiz(){ currentQ = 0; quizAnswers = new Array(CONFIG.quiz.length).fill(null); showScreen(9); renderQuiz(); }
 function renderQuiz(){ const q = CONFIG.quiz[currentQ]; document.getElementById("quizCounter").textContent = `Question ${currentQ+1} of ${CONFIG.quiz.length}`; document.getElementById("quizQuestion").textContent = q.question; const opts=document.getElementById("quizOptions"); opts.innerHTML=""; q.options.forEach((opt,i)=>{ const div=document.createElement("div"); div.className="option"; div.textContent=opt; div.onclick=()=>selectAnswer(i,div); opts.appendChild(div); }); const fb=document.getElementById("quizFeedback"); fb.className="quiz-feedback"; fb.textContent=""; document.getElementById("quizNextBtn").style.display="none"; document.getElementById("quizSubmitBtn").style.display="none"; }
 function selectAnswer(i,el){ if(quizAnswers[currentQ] !== null) return; const q=CONFIG.quiz[currentQ]; const correct=i===q.correct; quizAnswers[currentQ]=correct; [...document.querySelectorAll(".option")].forEach((o,idx)=>{ if(idx===q.correct) o.classList.add("show-correct"); if(idx===i) o.classList.add(correct ? "correct" : "wrong"); }); const fb=document.getElementById("quizFeedback"); fb.className = "quiz-feedback show " + (correct ? "pass" : "fail"); fb.textContent = (correct ? "Correct. " : "Not correct. ") + q.feedback; if(currentQ===CONFIG.quiz.length-1) document.getElementById("quizSubmitBtn").style.display="inline-flex"; else document.getElementById("quizNextBtn").style.display="inline-flex"; }
@@ -401,56 +466,92 @@ document.getElementById("quizSubmitBtn").onclick = () => {
   showScreen(8);
 };
 document.getElementById("ackBackBtn").onclick = () => showScreen(9);
+
+function fileToBase64(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result.split(",")[1]); r.onerror=rej; r.readAsDataURL(file); }); }
+
 document.getElementById("completeInductionBtn").onclick = async () => {
   const all = [...document.querySelectorAll("#ackList input")].every(cb=>cb.checked);
   document.getElementById("ackError").style.display = all ? "none" : "block";
   if(!all) return;
- 
-  const name    = document.getElementById("driverName").value.trim();
-  const company = document.getElementById("driverCompany").value.trim();
-  const rego    = document.getElementById("driverRego").value.trim().toUpperCase();
-  const phone   = document.getElementById("phone").value.trim();
-  const company_contact = document.getElementById("companyContact").value.trim();
+
+  const name                   = document.getElementById("driverName").value.trim();
+  const company                = document.getElementById("driverCompany").value.trim();
+  const rego                   = document.getElementById("driverRego").value.trim().toUpperCase();
+  const phone                  = document.getElementById("phone").value.trim();
+  const personId               = phone.replace(/\D/g,"");
+  const company_contact        = document.getElementById("companyContact").value.trim();
   const company_contact_mobile = document.getElementById("companyContactMobile").value.trim();
-  const company_contact_email = document.getElementById("companyContactEmail").value.trim();
-  const date    = document.getElementById("driverDate").value;
- 
-  const attachments = [];
-  const docInput = document.getElementById("docUpload");
-  if (docInput && docInput.files && docInput.files.length > 0) {
-    for (const file of docInput.files) {
+  const company_contact_email  = document.getElementById("companyContactEmail").value.trim();
+  const date                   = document.getElementById("driverDate").value;
+
+  // ── Build document list for induction webhook ──
+  const licTypes = ["C","LR","MR","HR","HC","MC","Forklift","EWP","Front End Loader","Working at Heights","First Aid","Crane","Other"];
+  const docList = [];
+
+  // ── Build documents array for document upload flow ──
+  const uploadDocuments = [];
+
+  // Licence table rows
+  for (let i = 0; i < licTypes.length; i++) {
+    const expiry = document.getElementById("licExp" + i).value;
+    const fileInput = document.getElementById("licFile" + i);
+    const camInput  = document.getElementById("licCamera" + i);
+    const activeInput = (fileInput && fileInput.files && fileInput.files.length) ? fileInput
+                      : (camInput && camInput.files && camInput.files.length) ? camInput
+                      : null;
+    if (!activeInput) continue;
+    const file = activeInput.files[0];
+    docList.push(licTypes[i] + " (" + file.name + ")");
+    try {
+      const base64 = await fileToBase64(file);
+      uploadDocuments.push({
+        document_type: licTypes[i],
+        expiry_date: expiry,
+        attachments: [{ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 }]
+      });
+    } catch(e) { console.warn("Could not read licence file", file.name, e); }
+  }
+
+  // Extra doc rows (insurance, SWMS etc.)
+  const extraRows = document.getElementById("extraDocRows").querySelectorAll("[id$='_row']");
+  for (const row of extraRows) {
+    const rowId = row.id.replace("_row","");
+    const docType = document.getElementById(rowId + "_type").value.trim();
+    const expiry  = document.getElementById(rowId + "_expiry").value;
+    const fInput  = document.getElementById(rowId + "_file");
+    const cInput  = document.getElementById(rowId + "_cam");
+    const files   = (fInput && fInput.files && fInput.files.length) ? [...fInput.files]
+                  : (cInput && cInput.files && cInput.files.length) ? [...cInput.files]
+                  : [];
+    if (!docType || !files.length) continue;
+    const attachments = [];
+    for (const file of files) {
+      docList.push(docType + " (" + file.name + ")");
       try {
-        const base64 = await new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result.split(",")[1]); r.onerror = rej; r.readAsDataURL(file); });
-        attachments.push({ name: file.name, contentBase64: base64, mimeType: file.type || "application/octet-stream" });
+        const base64 = await fileToBase64(file);
+        attachments.push({ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 });
       } catch(e) { console.warn("Could not read file", file.name, e); }
     }
+    if (attachments.length) {
+      uploadDocuments.push({ document_type: docType, expiry_date: expiry, attachments });
+    }
   }
- 
-  const docList = [];
-  const licTypes = ["C","LR","MR","HR","HC","MC","Forklift","EWP","Front End Loader","Working at Heights","First Aid","Other"];
-  licTypes.forEach((t, i) => {
-    const f = document.getElementById("licFile" + i);
-    const c = document.getElementById("licCamera" + i);
-    if (f && f.files && f.files.length) docList.push(t + " licence (" + f.files[0].name + ")");
-    else if (c && c.files && c.files.length) docList.push(t + " licence (" + c.files[0].name + ")");
-  });
-  if (docInput && docInput.files && docInput.files.length) {
-    for (const file of docInput.files) docList.push(file.name);
-  }
- 
-  document.getElementById("recordName").textContent  = name || "Not recorded";
-  document.getElementById("recordCompany").textContent = company || "Not recorded";
-  document.getElementById("recordCompanyContact").textContent = company_contact || "Not recorded";
+
+  // Update completion screen
+  document.getElementById("recordName").textContent             = name || "Not recorded";
+  document.getElementById("recordCompany").textContent          = company || "Not recorded";
+  document.getElementById("recordCompanyContact").textContent   = company_contact || "Not recorded";
   document.getElementById("recordCompanyContactMobile").textContent = company_contact_mobile || "Not recorded";
-  document.getElementById("recordCompanyContactEmail").textContent = company_contact_email || "Not recorded";
-  document.getElementById("recordScore").textContent = lastScore;
-  document.getElementById("recordDocs").textContent  = docList.length ? docList.join(", ") : "None submitted";
-  document.getElementById("recordDate").textContent  = new Date().toLocaleString("en-AU");
- 
-  const payload = {
+  document.getElementById("recordCompanyContactEmail").textContent  = company_contact_email || "Not recorded";
+  document.getElementById("recordScore").textContent            = lastScore;
+  document.getElementById("recordDocs").textContent             = docList.length ? docList.join(", ") : "None submitted";
+  document.getElementById("recordDate").textContent             = new Date().toLocaleString("en-AU");
+
+  // ── Fire induction webhook ──
+  const inductionPayload = {
     induction_type:           "Feedstock Truck Driver",
     document_no:              CONFIG.documentNo,
-    person_id:                phone.replace(/\D/g, ""),
+    person_id:                personId,
     name:                     name,
     company:                  company,
     phone:                    phone,
@@ -467,21 +568,44 @@ document.getElementById("completeInductionBtn").onclick = async () => {
     total:                    CONFIG.quiz.length,
     acknowledged:             true,
     sharepoint_folder:        CONFIG.sharePointFolder,
-    attachments:              attachments,
     submitted_at:             new Date().toISOString(),
   };
- 
+
+  showScreen(10);
+
   if (CONFIG.webhookURL && CONFIG.webhookURL !== "PASTE_POWER_AUTOMATE_WEBHOOK_URL_HERE") {
     try {
-      await fetch(CONFIG.webhookURL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+      await fetch(CONFIG.webhookURL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(inductionPayload) });
+    } catch(e) { console.warn("Induction webhook failed:", e); }
+  }
+
+  // ── Fire document upload flow (separate, same as site register) ──
+  if (uploadDocuments.length && CONFIG.docUploadURL) {
+    const uploadPayload = {
+      type:         "document_upload",
+      record_id:    personId,
+      person_id:    personId,
+      mobile_number: phone,
+      full_name:    name,
+      company:      company,
+      notes:        "Uploaded during induction — " + CONFIG.documentNo,
+      uploaded_at:  new Date().toISOString(),
+      documents:    uploadDocuments
+    };
+    try {
+      document.getElementById("uploadStatusMsg").textContent = "Uploading documents...";
+      const res = await fetch(CONFIG.docUploadURL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(uploadPayload) });
+      document.getElementById("uploadStatusMsg").textContent = res.ok
+        ? "Documents uploaded successfully."
+        : "Document upload failed — please bring originals to the site office.";
     } catch(e) {
-      console.warn("Submission failed:", e);
+      console.warn("Document upload flow failed:", e);
+      document.getElementById("uploadStatusMsg").textContent = "Document upload failed — please bring originals to the site office.";
     }
   }
-  showScreen(10);
 };
+
 showScreen(0);
 </script>
 </body>
 </html>
- 
