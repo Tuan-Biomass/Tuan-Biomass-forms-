@@ -811,7 +811,7 @@ async function sendToFlow(data) {
 
   const personId = (data.phone || "").replace(/\D/g, "");
 
-  // ── Build upload documents array for the document upload flow ──
+  // ── Build upload documents array ──
   const uploadDocuments = [];
 
   // Licence table rows
@@ -858,7 +858,7 @@ async function sendToFlow(data) {
     }
   }
 
-  // ── Fire induction webhook ──
+  // ── Build payloads ──
   const inductionPayload = {
     induction_type:           "Contractor General",
     document_no:              "ID-002-2025-v3.0",
@@ -886,44 +886,58 @@ async function sendToFlow(data) {
     submitted_at:             new Date().toISOString(),
   };
 
-  try {
-    const resp = await fetch(CONFIG.webhookURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(inductionPayload),
-    });
-    el.textContent = (resp.ok || resp.status === 202)
-      ? "✓ Your induction record has been submitted successfully."
-      : "⚠ Submission failed. Please advise site management manually.";
-  } catch(e) {
-    el.textContent = "⚠ Could not submit record — check internet connection. Please advise site management manually.";
-    console.error("Induction webhook error:", e);
+  const uploadPayload = uploadDocuments.length ? {
+    type:          "document_upload",
+    record_id:     personId,
+    person_id:     personId,
+    mobile_number: data.phone,
+    full_name:     data.name,
+    company:       data.company,
+    notes:         "Uploaded during contractor induction — ID-002-2025-v3.0",
+    uploaded_at:   new Date().toISOString(),
+    documents:     uploadDocuments
+  } : null;
+
+  // ── Fire both flows in parallel ──
+  const inductionFetch = fetch(CONFIG.webhookURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(inductionPayload),
+  });
+
+  const uploadFetch = uploadPayload ? fetch(CONFIG.docUploadURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(uploadPayload),
+  }) : Promise.resolve(null);
+
+  const [inductionResult, uploadResult] = await Promise.allSettled([inductionFetch, uploadFetch]);
+
+  // ── Induction result ──
+  let inductionOk = false;
+  if (inductionResult.status === "fulfilled") {
+    const resp = inductionResult.value;
+    inductionOk = resp.ok || resp.status === 202;
   }
 
-  // ── Fire document upload flow (separate) ──
-  if (uploadDocuments.length && CONFIG.docUploadURL) {
-    const uploadPayload = {
-      type:          "document_upload",
-      record_id:     personId,
-      person_id:     personId,
-      mobile_number: data.phone,
-      full_name:     data.name,
-      company:       data.company,
-      notes:         "Uploaded during contractor induction — ID-002-2025-v3.0",
-      uploaded_at:   new Date().toISOString(),
-      documents:     uploadDocuments
-    };
-    try {
-      const res = await fetch(CONFIG.docUploadURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(uploadPayload)
-      });
-      if (!res.ok) el.textContent += " Document upload failed — please bring originals to the site office.";
-    } catch(e) {
-      console.warn("Document upload flow failed:", e);
-      el.textContent += " Document upload failed — please bring originals to the site office.";
-    }
+  // ── Upload result ──
+  let uploadOk = !uploadPayload; // true if no files to upload
+  if (uploadResult.status === "fulfilled" && uploadResult.value) {
+    const res = uploadResult.value;
+    uploadOk = res.ok || res.status === 202;
+  }
+
+  // ── Status message ──
+  if (inductionOk && uploadOk) {
+    el.textContent = uploadPayload
+      ? "✓ Induction record and documents submitted successfully."
+      : "✓ Your induction record has been submitted successfully.";
+  } else if (inductionOk && !uploadOk) {
+    el.textContent = "✓ Induction record submitted. ⚠ Document upload failed — please bring originals to the site office.";
+    console.warn("Upload result:", uploadResult);
+  } else if (!inductionOk) {
+    el.textContent = "⚠ Submission failed. Please advise site management manually.";
+    console.warn("Induction result:", inductionResult);
   }
 }
 </script>
