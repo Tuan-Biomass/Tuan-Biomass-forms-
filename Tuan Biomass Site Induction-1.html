@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuan Biomass — Safety Induction</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- ============================================================
+  ✏️  EDITABLE CONFIG — update all site-specific content here
+  ============================================================
+
+  LOGOS
+  logo_dark  = Albioma logo on dark/green backgrounds
+  logo_light = Albioma logo on light backgrounds
+
+  PHOTOS — replace any URL to swap a photo site-wide
+  img_cover        = Cover slide background
+  img_welcome      = Welcome slide photo
+  img_site_tour    = Site tour section header
+  img_pellet_mills = Pellet mills photo (hazard / production slide)
+  img_forklift     = Forklift / mobile plant photo
+  img_loader       = Wheel loader photo
+  img_hot_work     = Hot work photo
+  img_heights      = Working at heights photo
+  img_ladder_cage  = Ladder / cage photo (heights hazard)
+  img_golden_rules = Golden Rules poster image
+  img_golden_rules_explained = Golden Rules explained poster
+  img_ppe_map_1    = PPE zone map panel 1
+  img_ppe_map_2    = PPE zone map panel 2
+  img_ppe_map_3    = PPE zone map panel 3
+  img_ppe_map_4    = PPE zone map panel 4
+
+  CONTACTS — also update in the HTML slides below (Ctrl+F the name)
+  Plant Manager:    David Knight   | 0439 013 224 | david.knight@albioma.com
+  Safety Manager:   Chris Foster   | 0478 774 434 | christopher.foster@albioma.com
+  Director Biomass: David Valentine| 0400 331 197 | david.valentine@albioma.com
+
+  DOCUMENT REF — update ID-003-2025-v1.0 if version changes
+
+============================================================ -->
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gd:#1B4D2E;--gm:#2E7D3E;--gl:#6AB04C;--red:#C0392B;--amb:#D4860A;
+  --gold:#F0C040;--ch:#1C1C1C;--ow:#F4F6F4;--lg:#E8EDE8;--dg:#4A4A4A;
+  --qbg:#0D2B1A;--sw:260px;
+}
+/* ── Photo & Logo config ─────────────────────────────── */
+:root{
+  --logo-dark:   url('https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg');
+  --logo-light:  url('https://i.ibb.co/5gZZwWpx/albioma-logo-jpg.png');
+  --img-cover:        url('https://i.ibb.co/CKxsMP4K/tuan-site-jpg.jpg');
+  --img-welcome:      url('https://i.ibb.co/twLv5w6b/pellet-mills-jpg.jpg');
+  --img-site-tour:    url('https://i.ibb.co/hFMVmjRd/site-tour-png.png');
+  --img-pellet-mills: url('https://i.ibb.co/twLv5w6b/pellet-mills-jpg.jpg');
+  --img-forklift:     url('https://i.ibb.co/s9nx0TFr/forklift-jpg.jpg');
+  --img-loader:       url('https://i.ibb.co/QvphMGHV/loader-jpg.jpg');
+  --img-hot-work:     url('https://i.ibb.co/zkmWy0g/hot-work-jpg.jpg');
+  --img-heights:      url('https://i.ibb.co/YF40wNB0/wah-sun-set-jpg.jpg');
+  --img-ladder-cage:  url('https://i.ibb.co/c5VcbsW/ladder-cage-jpg.jpg');
+  --img-golden-rules: url('https://i.ibb.co/r2TVjpBL/golden-rules-png.png');
+  --img-golden-explained: url('https://i.ibb.co/VKzxZXP/golden-rules-explained-png.png');
+  --img-ppe-map-1:    url('https://i.ibb.co/fzLMb693/ppe-map-1-png.png');
+  --img-ppe-map-2:    url('https://i.ibb.co/HLhK4y10/ppe-map-2-png.png');
+  --img-ppe-map-3:    url('https://i.ibb.co/qYKB0N6B/ppe-map-3-png.png');
+  --img-ppe-map-4:    url('https://i.ibb.co/RpbHRFXP/ppe-map-4-png.png');
+}
+/* ─────────────────────────────────────────────────────── */
+
+/* Real logo replaces all leaf+text combos */
+.albioma-logo{display:inline-block;height:32px;width:auto;vertical-align:middle;object-fit:contain}
+.albioma-logo-sm{display:inline-block;height:22px;width:auto;vertical-align:middle;object-fit:contain}
+.albioma-logo-xs{display:inline-block;height:16px;width:auto;vertical-align:middle;object-fit:contain}
+
+/* Slide photo panels */
+.photo-panel{width:100%;border-radius:6px;overflow:hidden;position:relative;background:#111}
+.photo-panel img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-half{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:6px;overflow:hidden}
+.photo-inset{border-radius:6px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.photo-inset img{width:100%;display:block;object-fit:cover}
+.slide-photo-row{display:grid;gap:10px;margin-bottom:14px}
+.slide-photo-row.cols-2{grid-template-columns:1fr 1fr}
+.slide-photo-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+.slide-photo-row.cols-4{grid-template-columns:repeat(4,1fr)}
+.photo-caption{font-size:9px;color:#888;text-align:center;margin-top:3px;font-style:italic}
+
+/* Cover bg photo overlay */
+.sc-photo{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;opacity:.22}
+.sc > *:not(.sc-photo){position:relative;z-index:1}
+
+/* Section header photo strip */
+.ss-photo{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;opacity:.18}
+.ss > *:not(.ss-photo){position:relative;z-index:1}
+
+/* Sign-off page photo header */
+.signoff-header{height:140px;background-size:cover;background-position:center;border-radius:6px 6px 0 0;position:relative;overflow:hidden;margin-bottom:16px}
+.signoff-header::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(27,77,46,.6),rgba(27,77,46,.9))}
+.signoff-header-text{position:absolute;bottom:16px;left:22px;z-index:2;color:#fff}
+.signoff-header-text h3{font-size:22px;font-weight:700;margin-bottom:2px}
+.signoff-header-text p{font-size:11px;color:#BBDDAA}
+
+/* PPE map grid */
+.ppe-map-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.ppe-map-panel{border-radius:5px;overflow:hidden;border:1px solid var(--gm)}
+.ppe-map-panel img{width:100%;display:block}
+.ppe-map-label{font-size:10px;font-weight:700;color:var(--gd);padding:5px 8px;background:var(--lg);text-align:center}
+
+html,body{height:100%;overflow:hidden;background:#111;font-family:'Calibri','Segoe UI',sans-serif}
+#app{display:flex;height:100vh}
+/* Fixed: click-through mode, no side menu */
+#sb{display:none!important}
+#main{width:100%;}
+
+/* SIDEBAR */
+#sb{width:var(--sw);min-width:var(--sw);background:#0a1a0f;border-right:1px solid #1a3a22;display:flex;flex-direction:column;overflow:hidden;transition:width .3s,min-width .3s;z-index:10}
+#sb.col{width:44px;min-width:44px}
+#sbt{background:none;border:none;cursor:pointer;padding:12px;display:flex;align-items:center;justify-content:center;color:var(--gl);font-size:18px;border-bottom:1px solid #1a3a22;flex-shrink:0}
+#sbi{overflow-y:auto;flex:1;padding:8px 0}
+#sb.col #sbi{display:none}
+.sbsec{padding:6px 14px 3px;font-size:9px;letter-spacing:2px;color:#3a6a3a;text-transform:uppercase;font-weight:700}
+.sbi{display:flex;align-items:center;gap:9px;padding:7px 14px;cursor:pointer;font-size:11px;color:#88aa88;transition:background .15s,color .15s;border-left:3px solid transparent;line-height:1.3}
+.sbi:hover{background:#122012;color:#cceebb}
+.sbi.act{background:#122012;color:var(--gl);border-left-color:var(--gl)}
+.sbi.done .si::after{content:' ✓';color:var(--gl);font-size:9px}
+.si{font-size:12px;min-width:16px;text-align:center}
+.sbadge{margin-left:auto;font-size:9px;background:var(--gd);border-radius:10px;padding:1px 6px;color:#88aa88;white-space:nowrap}
+
+/* MAIN */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#1a1a1a}
+#pb{height:4px;background:#0a0a0a;flex-shrink:0}
+#pbi{height:4px;background:var(--gl);width:0%;transition:width .4s}
+#sa{flex:1;overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:20px 24px 0}
+
+/* SLIDES */
+.sl{display:none;width:100%;max-width:860px;border-radius:8px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.6);animation:fi .3s ease}
+.sl.act{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* NAV */
+#nf{flex-shrink:0;background:#0a0a0a;border-top:1px solid #222;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+#slbl{font-size:11px;color:#555;flex:1}
+#sct{font-size:11px;color:#444}
+.nb{background:var(--gd);color:#fff;border:none;cursor:pointer;padding:9px 22px;border-radius:5px;font-size:13px;font-weight:700;transition:background .15s}
+.nb:hover{background:var(--gm)}
+.nb:disabled{opacity:.3;cursor:default}
+.nb.pri{background:var(--gl);color:var(--gd)}
+.nb.pri:hover{background:#7ecc60}
+
+/* LEAF LOGO */
+.lf{width:24px;height:24px;background:var(--gl);border-radius:50% 0 50% 0;transform:rotate(-20deg);display:inline-block;flex-shrink:0}
+.lt{font-size:16px;font-weight:900;color:#fff;letter-spacing:1px}
+
+/* COVER */
+.sc{background:var(--gd);min-height:480px;display:flex;flex-direction:column;justify-content:center;padding:56px 64px;position:relative;overflow:hidden}
+.sc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--gl)}
+.sc::after{content:'';position:absolute;right:-120px;bottom:-120px;width:480px;height:480px;border-radius:50%;background:rgba(106,176,76,.07)}
+.sc .ey{font-size:11px;letter-spacing:5px;color:var(--gl);margin-bottom:16px;text-transform:uppercase}
+.sc h1{font-size:52px;font-weight:700;color:#fff;line-height:1.05;margin-bottom:10px}
+.sc .sub{font-size:22px;color:var(--gold);margin-bottom:22px}
+.sc hr{border:none;border-top:3px solid var(--gl);width:280px;margin:0 0 20px}
+.sc .meta{font-size:13px;color:#BBDDAA;line-height:2}
+.sc .meta strong{color:#fff}
+.sc .logo{position:absolute;bottom:28px;right:36px;display:flex;align-items:center;gap:8px}
+
+/* SECTION */
+.ss{background:var(--gd);min-height:320px;display:flex;flex-direction:column;justify-content:center;padding:56px 64px;position:relative;overflow:hidden}
+.ss::after{content:'';position:absolute;right:-100px;bottom:-100px;width:400px;height:400px;border-radius:50%;background:var(--gm);opacity:.22}
+.ss .ey{font-size:10px;letter-spacing:4px;color:#88CC88;text-transform:uppercase;margin-bottom:16px}
+.ss h2{font-size:44px;font-weight:700;color:#fff;line-height:1.1;margin-bottom:12px;position:relative;z-index:1}
+.ss .sl2{font-size:16px;color:var(--gold);position:relative;z-index:1}
+.ss .logo{position:absolute;bottom:28px;right:36px;display:flex;align-items:center;gap:8px;z-index:2}
+
+/* PAUSE */
+.sp{background:var(--gd);min-height:220px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:48px 64px;position:relative;overflow:hidden}
+.sp::after{content:'';position:absolute;right:-60px;bottom:-60px;width:300px;height:300px;border-radius:50%;background:var(--gm);opacity:.2}
+.sp p{font-size:20px;font-weight:700;color:#fff;max-width:560px;line-height:1.4;position:relative;z-index:1}
+.sp .logo{position:absolute;bottom:20px;right:28px;display:flex;align-items:center;gap:6px;z-index:2}
+
+/* CONTENT */
+.cnt{background:var(--ow);display:flex;flex-direction:column}
+.sh{background:var(--gd);padding:14px 24px;display:flex;align-items:center;border-left:6px solid var(--gl)}
+.sh h3{font-size:18px;font-weight:700;color:#fff}
+.sb2{padding:22px 26px;flex:1}
+.sf{background:var(--gd);padding:7px 20px;display:flex;justify-content:space-between;align-items:center;font-size:9px;color:#6a9a6a}
+.sf .fl{display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:#fff}
+
+/* QUIZ */
+.qsl{background:var(--qbg);display:flex;flex-direction:column}
+.qh{background:var(--gl);padding:14px 24px;font-size:16px;font-weight:700;color:var(--gd)}
+.qq{font-size:17px;font-weight:700;color:#fff;padding:22px 28px 14px;line-height:1.45}
+.qo2{padding:0 28px;display:flex;flex-direction:column;gap:9px}
+.qopt{padding:13px 16px;border-radius:5px;font-size:13.5px;cursor:pointer;border:1.5px solid #2E6082;background:#1C3A52;color:#AAC;display:flex;align-items:center;gap:12px;transition:background .15s,border-color .15s,color .15s;user-select:none}
+.qopt:hover{background:#243E5A;border-color:#4a90c0;color:#cce}
+.qopt.sel{background:#1C3A6A;border-color:#6ab0f0;color:#ddeeff}
+.qopt.cor{background:#1A6B3C;border-color:var(--gl);color:var(--gl);font-weight:700;cursor:default}
+.qopt.wrg{background:#5A1A1A;border-color:var(--red);color:#ffaaaa;cursor:default}
+.olk{font-weight:700;min-width:22px;font-size:14px}
+.otk{margin-left:auto;font-size:16px}
+.qfb{margin:14px 28px 8px;border-radius:5px;padding:11px 15px;font-size:12px;line-height:1.5;display:none}
+.qfb.show{display:flex;gap:10px}
+.qfb.good{background:#0D3320;border:1px solid var(--gl);color:#88EE88}
+.qfb.bad{background:#3A0D0D;border:1px solid var(--red);color:#ffaaaa}
+.qsw{padding:14px 28px 22px;display:flex;align-items:center;gap:14px}
+.qsub{background:var(--gl);color:var(--gd);border:none;border-radius:5px;padding:10px 26px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s}
+.qsub:hover{background:#7ecc60}
+.qsub:disabled{opacity:.35;cursor:default}
+.qatt{font-size:11px;color:#556}
+
+
+
+/* SIGN OFF */
+.signwrap{background:var(--ow);display:flex;flex-direction:column}
+.signbox{background:#fff;border:1.5px solid var(--gd);border-radius:6px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.signbox h4{font-size:17px;color:var(--gd);margin-bottom:8px}
+.signbox p{font-size:12px;color:var(--dg);line-height:1.5;margin-bottom:12px}
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.fld label{display:block;font-size:10px;font-weight:700;color:var(--gd);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.fld input{width:100%;border:1px solid #b8c7b8;border-radius:4px;padding:9px 10px;font-size:13px;background:#fff}
+.declare{display:flex;gap:10px;align-items:flex-start;margin-top:12px;padding:12px;background:#EDF7ED;border:1px solid var(--gm);border-radius:5px;font-size:12px;color:var(--ch);line-height:1.45}
+.declare input{margin-top:2px;transform:scale(1.15)}
+.sigstatus{font-size:11px;color:var(--red);margin-top:10px;font-weight:700}
+.sigstatus.ok{color:var(--gd)}
+
+/* COMPLETE */
+.sco{background:var(--gd);min-height:440px;display:flex;flex-direction:column;justify-content:center;padding:52px 64px;position:relative;overflow:hidden}
+.sco::before{content:'';position:absolute;left:0;top:0;bottom:0;width:10px;background:var(--gl)}
+.sco h2{font-size:40px;font-weight:700;color:#fff;margin-bottom:10px}
+.sco .cs{font-size:20px;color:var(--gold);margin-bottom:18px}
+.sco hr{border:none;border-top:3px solid var(--gl);width:300px;margin:0 0 16px}
+.sco ul{list-style:none;margin-bottom:20px}
+.sco ul li{font-size:13px;color:#EEFFEE;margin-bottom:10px;padding-left:26px;position:relative}
+.sco ul li::before{content:'✓';position:absolute;left:0;color:var(--gl);font-weight:700;font-size:14px}
+.sco .cc{font-size:11.5px;color:#AADDAA;line-height:2}
+.sco .logo{position:absolute;bottom:24px;right:32px;display:flex;align-items:center;gap:8px}
+
+/* COMPONENTS */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.three{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.four{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.six{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.five{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+
+.al{border-radius:5px;padding:11px 15px;font-size:13px;font-weight:700;margin-bottom:13px}
+.al.red{background:#FFF0F0;color:var(--red);border:1px solid var(--red)}
+.al.grn{background:#EDF7ED;color:var(--gd);border:1px solid var(--gm)}
+.al.amb{background:#FFF8E1;color:#7A4A00;border:1px solid var(--amb)}
+
+.card2{border-radius:5px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.ch2{padding:9px 13px;font-size:10.5px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.5px}
+.cb2{padding:12px 14px;font-size:11px;line-height:1.6}
+.cb2 ul{padding-left:14px}.cb2 li{margin-bottom:4px}.cb2 strong{color:var(--gd)}
+
+.mst{background:var(--red);border-radius:5px;padding:14px 18px;margin-bottom:14px}
+.mst .mt{font-size:17px;font-weight:700;color:#fff;margin-bottom:3px}
+.mst .ms{font-size:11px;color:#FFCCCC}
+
+.eg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ei{background:#fff;border:1px solid var(--gm);border-left:5px solid var(--gl);border-radius:0 5px 5px 0;padding:10px 14px}
+.ei .et{font-size:12px;font-weight:700;color:var(--gd)}.ei .ed{font-size:10.5px;color:var(--dg);margin-top:2px}
+
+.ctb{background:var(--gd);border-radius:5px;padding:9px 15px;font-size:10px;color:#AADDAA;font-weight:700;margin-top:11px}
+
+.ppe{border-radius:5px;overflow:hidden}
+.pp{padding:11px 15px;font-size:13px;font-weight:700;color:#fff}
+.pa{padding:4px 15px 2px;font-size:10px;font-style:italic;color:rgba(255,255,255,.7)}
+.ppe ul{list-style:none;padding:10px 15px 14px}
+.ppe ul li{font-size:11px;color:#fff;margin-bottom:5px;padding-left:14px;position:relative}
+.ppe ul li::before{content:'✓';position:absolute;left:0;color:rgba(255,255,255,.6);font-size:10px}
+
+.pgr{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ps{background:var(--gd);border-radius:5px;padding:14px 10px;text-align:center}
+.ps.m{background:var(--gm)}.ps.l{background:#3E7A2A}
+.pn{font-size:24px;font-weight:700;color:rgba(255,255,255,.22);margin-bottom:4px;line-height:1}
+.pt{font-size:11px;font-weight:700;color:#fff;margin-bottom:4px}.pb{font-size:9.5px;color:#CCEECC;line-height:1.4}
+
+.pc{background:#fff;border:1.5px solid var(--gd);border-radius:5px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.ph{background:var(--gd);padding:9px 13px;font-size:10.5px;font-weight:700;color:#fff}
+.pav{width:52px;height:52px;background:var(--lg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:var(--gd);margin:14px auto 6px;border:2px solid var(--gm)}
+.pn2{text-align:center;font-size:13px;font-weight:700;color:var(--ch);padding:0 10px}
+.pc2{text-align:center;font-size:10px;color:var(--dg);padding:5px 10px 14px;line-height:1.7}
+
+.hgr{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ht2{border-radius:5px;padding:14px 10px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hn{font-size:22px;font-weight:700;color:rgba(255,255,255,.22);margin-bottom:4px}.hti{font-size:11px;font-weight:700;color:#fff;line-height:1.3}
+
+.ls{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.l1{background:var(--gd);border-radius:4px;padding:10px 6px;text-align:center}
+.l1.a{background:var(--gm)}
+.ln{font-size:19px;font-weight:700;color:var(--gold);margin-bottom:3px}.ltt{font-size:9.5px;font-weight:700;color:#fff;margin-bottom:3px}.lr{font-size:8px;color:#CCEECC;line-height:1.3}
+
+.ov{display:grid;grid-template-columns:repeat(5,1fr);gap:11px}
+.ovc{border-radius:5px;padding:17px 10px;text-align:center}
+.on{font-size:32px;font-weight:700;color:rgba(255,255,255,.28);margin-bottom:8px;line-height:1}
+.ot{font-size:11px;font-weight:600;color:#fff;line-height:1.4}
+
+.lsr{display:flex;align-items:flex-start;gap:14px;padding:9px 0;border-bottom:1px solid var(--lg)}
+.lsr:last-child{border:none}
+.lb{background:var(--gd);color:#fff;font-size:9.5px;font-weight:700;padding:5px 10px;border-radius:3px;white-space:nowrap;min-width:106px;text-align:center}
+.ld{font-size:11.5px;color:var(--ch);padding-top:4px}
+
+.lr2{display:flex;align-items:center;gap:13px;padding:9px 14px;font-size:11.5px;color:var(--ch);border-bottom:1px solid var(--lg)}
+.lr2:nth-child(even){background:var(--lg)}.lr2:last-child{border:none}
+.ri{font-size:15px;min-width:24px;text-align:center}
+
+.rr{display:flex;align-items:stretch;margin-bottom:9px;border-radius:5px;overflow:hidden}
+.rr .rt{min-width:100px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:10px;font-weight:700;color:#fff;padding:9px 7px}
+.rr .rd{flex:1;background:#fff;padding:9px 13px;font-size:10.5px;color:var(--ch);border-right:1px solid var(--lg)}
+.rr .ra{flex:1.2;background:#fff;padding:9px 13px;font-size:10.5px;color:var(--ch)}
+
+.fc{border-radius:5px;overflow:hidden}
+.fh{padding:9px 13px;font-size:14px;font-weight:700;color:#fff}
+.fc ul{background:#fff;border:1.5px solid;border-top:none;border-radius:0 0 5px 5px;padding:12px 16px}
+.fc ul li{font-size:10.5px;color:var(--ch);margin-bottom:6px;list-style:none;padding-left:13px;position:relative}
+.fc ul li::before{content:'•';position:absolute;left:0}
+
+.rb{border-radius:5px;overflow:hidden;border:1.5px solid}
+.rbh{padding:9px 13px;font-size:13px;font-weight:700;color:#fff}
+.rbb{padding:12px 15px}
+.rbb li{font-size:11.5px;color:var(--ch);margin-bottom:6px}
+
+.mhc{border-radius:5px;overflow:hidden;border:1.5px solid}
+.mhh{padding:9px 13px;font-size:13px;font-weight:700;color:#fff}
+.mhc ul{background:#fff;padding:12px 16px}
+.mhc ul li{font-size:11px;color:var(--ch);margin-bottom:6px;list-style:none;padding-left:17px;position:relative}
+.mhc.cor ul li::before{content:'✓';position:absolute;left:0;color:var(--gd)}
+.mhc.wrg ul li::before{content:'✗';position:absolute;left:0;color:var(--red)}
+
+.mri{background:#fff;border-left:5px solid var(--gm);border-radius:0 5px 5px 0;padding:10px 14px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.mrt{font-size:12px;font-weight:700;color:var(--gd);margin-bottom:3px}
+.mrb{font-size:10.5px;color:var(--dg);line-height:1.45}
+
+
+/* HARD FIX — click-through only */
+#sb{display:none !important;width:0 !important;min-width:0 !important;}
+#main{width:100vw !important;flex:1 1 auto !important;}
+.sl{display:none !important;}
+.sl.act{display:block !important;}
+body.show-one-slide .sl:not(.act){display:none !important;}
+#nf{position:sticky;bottom:0;z-index:50;}
+
+
+/* EDIT — larger PPE requirement cards for readability */
+.ppe.big-ppe .pp{font-size:18px;padding:14px 18px;}
+.ppe.big-ppe .pa{font-size:13px;padding:7px 18px 4px;}
+.ppe.big-ppe ul{padding:14px 18px 18px;}
+.ppe.big-ppe ul li{font-size:14px;line-height:1.35;margin-bottom:8px;}
+.plant-key-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:16px;align-items:stretch;}
+.plant-key-photo{border-radius:7px;overflow:hidden;border:1.5px solid var(--gm);background:#fff;}
+.plant-key-photo img{width:100%;height:390px;object-fit:contain;display:block;background:#fff;}
+.key-area-list{display:flex;flex-direction:column;gap:8px;}
+.key-area-item{background:#fff;border-left:5px solid var(--gm);border-radius:0 5px 5px 0;padding:9px 12px;font-size:12px;line-height:1.35;color:var(--ch);box-shadow:0 1px 4px rgba(0,0,0,.08);}
+.key-area-item strong{color:var(--gd);}
+
+/* LARGE READABLE IMAGE SLIDES */
+.full-image-slide .sb2{padding:10px 12px 12px;background:#fff;}
+.full-image-wrap{height:calc(100vh - 150px);min-height:520px;display:flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--gm);border-radius:6px;overflow:hidden;}
+.full-image-wrap img{width:100%;height:100%;object-fit:contain;display:block;background:#fff;}
+.full-image-note{font-size:10px;color:var(--dg);font-style:italic;margin-top:6px;text-align:center;}
+.ppe-map-grid.compact{grid-template-columns:repeat(4,1fr);gap:8px;}
+.ppe-map-grid.compact .ppe-map-panel img{height:95px;object-fit:contain;background:#fff;}
+.ppe-map-grid.compact .ppe-map-label{font-size:8.5px;padding:4px;}
+.hot-work-photo-small{max-width:520px;margin-left:auto;margin-right:auto;}
+.hot-work-photo-small img{height:130px !important;object-fit:contain !important;background:#fff;}
+.hot-work-photo-small .photo-caption{font-size:9px;margin-top:3px;}
+
+
+/* MOBILE FRIENDLY OVERRIDES */
+@media (max-width: 760px){
+  html,body{height:100%;overflow:hidden;}
+  #main{width:100vw !important;}
+  #sa{padding:8px 8px 0;align-items:flex-start;}
+  .sl{max-width:100%;border-radius:0;box-shadow:none;}
+  .sc,.ss,.sp,.sco{min-height:calc(100vh - 78px);padding:28px 20px;}
+  .sc h1{font-size:36px;line-height:1.05;}
+  .sc .sub{font-size:18px;}
+  .sc .meta{font-size:12px;line-height:1.65;}
+  .ss h2{font-size:34px;}
+  .ss .sl2{font-size:15px;}
+  .sh{padding:11px 14px;}
+  .sh h3{font-size:16px;line-height:1.25;}
+  .sb2{padding:14px 14px;}
+  .sf{padding:6px 10px;font-size:8px;}
+  #nf{padding:8px 10px;gap:8px;}
+  .nb{padding:9px 12px;font-size:12px;}
+  #slbl{font-size:10px;}
+  #sct{display:none;}
+  .two,.three,.four,.five,.six,.eg,.pgr,.hgr,.ls,.ov,.ppe-map-grid,.ppe-map-grid.compact,.slide-photo-row.cols-2,.slide-photo-row.cols-3,.slide-photo-row.cols-4{grid-template-columns:1fr !important;}
+  .pgr,.hgr,.ls,.ov{gap:8px;}
+  .ps,.ht2,.l1,.ovc{padding:11px 8px;}
+  .ppe.big-ppe .pp{font-size:16px;}
+  .ppe.big-ppe .pa{font-size:12px;}
+  .ppe.big-ppe ul li{font-size:13px;}
+  .ppe-map-grid.compact .ppe-map-panel img{height:auto;max-height:240px;object-fit:contain;background:#fff;}
+  .plant-full img{height:calc(100vh - 130px) !important;object-fit:contain !important;}
+  .full-image-wrap{height:calc(100vh - 135px);min-height:0;}
+  .qq{font-size:16px;padding:18px 18px 12px;}
+  .qo2{padding:0 18px;}
+  .qopt{font-size:13px;padding:12px 12px;}
+  .qsw{padding:12px 18px 18px;}
+  .qfb{margin:12px 18px 6px;}
+  .formgrid{grid-template-columns:1fr;}
+  .hot-work-photo-small{max-width:100%;}
+  .hot-work-photo-small img{height:115px !important;object-fit:contain !important;background:#fff;}
+}
+
+@media (max-width: 420px){
+  .sc h1{font-size:31px;}
+  .ss h2{font-size:30px;}
+  .sb2{padding:12px 10px;}
+  .cb2{font-size:10.5px;line-height:1.5;}
+  .al{font-size:12px;}
+}
+
+
+
+/* FINAL MOBILE-FIRST FIX — keeps Next/Back visible on phones */
+html,body{
+  height:auto !important;
+  min-height:100% !important;
+  overflow:auto !important;
+  -webkit-text-size-adjust:100%;
+}
+#app{
+  height:auto !important;
+  min-height:100dvh !important;
+  display:block !important;
+  padding-bottom:74px !important;
+}
+#main{
+  width:100% !important;
+  min-height:100dvh !important;
+  overflow:visible !important;
+  display:block !important;
+}
+#sa{
+  overflow:visible !important;
+  display:flex !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  padding:12px 14px 88px !important;
+}
+#nf{
+  position:fixed !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  z-index:9999 !important;
+  min-height:62px !important;
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom)) !important;
+  background:#0a0a0a !important;
+  border-top:1px solid #222 !important;
+  display:grid !important;
+  grid-template-columns:auto 1fr auto auto !important;
+  align-items:center !important;
+  gap:10px !important;
+}
+#slbl{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+#sct{color:#a8a8a8 !important;font-size:12px !important;white-space:nowrap !important;}
+.nb{min-height:40px !important;}
+
+/* Site Tour section header — green only, no photo */
+#s9 .ss-photo{display:none !important;}
+#s9{background:linear-gradient(135deg,var(--gd),#123820) !important;}
+
+/* Hot work image — fit whole image instead of cropped zoom */
+.hot-work-photo-small{
+  max-width:620px !important;
+  width:100% !important;
+  margin:0 auto 10px !important;
+}
+.hot-work-photo-small img{
+  width:100% !important;
+  height:190px !important;
+  object-fit:contain !important;
+  background:#fff !important;
+}
+
+@media (max-width:760px){
+  html,body{overflow:auto !important;height:auto !important;}
+  #app{padding-bottom:76px !important;}
+  #sa{padding:8px 8px 90px !important;display:block !important;}
+  .sl{width:100% !important;max-width:100% !important;border-radius:0 !important;box-shadow:none !important;}
+  .sc,.ss,.sp,.sco{min-height:calc(100dvh - 96px) !important;padding:28px 18px 34px !important;}
+  .cnt,.qsl,.signwrap{min-height:auto !important;}
+  .sc h1{font-size:34px !important;}
+  .sc .sub{font-size:18px !important;}
+  .sc .ey{font-size:10px !important;letter-spacing:8px !important;}
+  .sc hr{width:75% !important;}
+  .sc .meta{font-size:12px !important;line-height:1.65 !important;}
+  .sc .logo{right:18px !important;bottom:18px !important;}
+  .albioma-logo{height:28px !important;}
+  #nf{grid-template-columns:auto 1fr auto !important;gap:8px !important;}
+  #slbl{display:none !important;}
+  #sct{display:block !important;text-align:center !important;}
+  .nb{padding:9px 14px !important;font-size:13px !important;border-radius:6px !important;}
+  .two,.three,.four,.five,.six,.eg,.pgr,.hgr,.ls,.ov,.ppe-map-grid,.ppe-map-grid.compact,.slide-photo-row.cols-2,.slide-photo-row.cols-3,.slide-photo-row.cols-4{grid-template-columns:1fr !important;}
+  .photo-inset img{height:auto !important;max-height:240px !important;object-fit:contain !important;background:#fff !important;}
+  .ppe-map-grid.compact .ppe-map-panel img{height:auto !important;max-height:none !important;object-fit:contain !important;background:#fff !important;}
+  .full-image-wrap{height:auto !important;min-height:0 !important;}
+  .full-image-wrap img{height:auto !important;max-height:calc(100dvh - 160px) !important;}
+  .plant-full img{height:auto !important;max-height:calc(100dvh - 135px) !important;}
+  .qq{font-size:16px !important;padding:18px 16px 12px !important;}
+  .qo2{padding:0 16px !important;}
+  .qopt{font-size:13px !important;line-height:1.3 !important;align-items:flex-start !important;}
+  .qsw{padding:12px 16px 18px !important;flex-wrap:wrap !important;}
+  .qfb{margin:12px 16px 6px !important;}
+  .hot-work-photo-small img{height:auto !important;max-height:170px !important;object-fit:contain !important;}
+  .sf{display:none !important;}
+}
+
+@media (max-width:420px){
+  #sa{padding-left:6px !important;padding-right:6px !important;}
+  .sc,.ss,.sp,.sco{padding-left:16px !important;padding-right:16px !important;}
+  .sc h1{font-size:31px !important;}
+  .ss h2{font-size:30px !important;}
+  .sb2{padding:12px 10px !important;}
+  .sh{padding:10px 12px !important;}
+  .sh h3{font-size:15px !important;}
+  .nb{padding:9px 12px !important;}
+}
+
+</style>
+</head>
+<body>
+<div id="app">
+<div id="sb">
+  <button id="sbt" title="Toggle menu">☰</button>
+  <div id="sbi">
+    <div class="sbsec">Overview</div>
+    <div class="sbi" data-s="0"><span class="si">🏠</span>Cover</div>
+    <div class="sbi" data-s="1"><span class="si">📋</span>How This Works</div>
+    <div class="sbsec">Section 01 — Introduction</div>
+    <div class="sbi" data-s="2"><span class="si">🌿</span>Welcome</div>
+    <div class="sbi" data-s="3"><span class="si">⚙️</span>Production Process</div>
+    <div class="sbi" data-s="4"><span class="si">👥</span>Key Personnel</div>
+    <div class="sbi" data-s="5"><span class="si">🚨</span>Muster &amp; Locations</div>
+    <div class="sbi" data-s="6"><span class="si">❓</span>Quiz — Stop Work<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="7"><span class="si">❓</span>Quiz — Production<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="8"><span class="si">❓</span>Quiz — Muster Point<span class="sbadge">Quiz</span></div>
+    <div class="sbsec">Section 03 — Site Tour</div>
+    <div class="sbi" data-s="9"><span class="si">🗺️</span>Site Tour Intro</div>
+    <div class="sbi" data-s="10"><span class="si">🦺</span>PPE Zones</div>
+    <div class="sbi" data-s="11"><span class="si">❓</span>Quiz — PPE<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="13"><span class="si">❓</span>Quiz — Fibre Arrival<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="14"><span class="si">❓</span>Quiz — Unsure PPE<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="15"><span class="si">⏸️</span>Site Tour Pause</div>
+    <div class="sbsec">Section 04 — Hazards</div>
+    <div class="sbi" data-s="16"><span class="si">⚠️</span>8 Major Hazards</div>
+    <div class="sbi" data-s="17"><span class="si">💥</span>Dust &amp; Fire</div>
+    <div class="sbi" data-s="18"><span class="si">⚡</span>Stored Energy &amp; Traffic</div>
+    <div class="sbi" data-s="19"><span class="si">🏔️</span>Heights &amp; Confined Spaces</div>
+    <div class="sbi" data-s="20"><span class="si">🌊</span>Engulfment &amp; Hot Work</div>
+    <div class="sbi" data-s="21"><span class="si">📜</span>Critical Safety Rules</div>
+    <div class="sbi" data-s="22"><span class="si">🥇</span>Lifesaving Eleven</div>
+    <div class="sbi" data-s="23"><span class="si">🏅</span>Golden Rules</div>
+    <div class="sbi" data-s="24"><span class="si">❓</span>Quiz — LOTO<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="25"><span class="si">❓</span>Quiz — Conveyor Fire<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="26"><span class="si">❓</span>Quiz — Confined Space<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="27"><span class="si">❓</span>Quiz — Hot Work<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="28"><span class="si">❓</span>Quiz — Cleaning<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="29"><span class="si">❓</span>Quiz — Machine Guard<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="30"><span class="si">❓</span>Quiz — Golden Rules<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="31"><span class="si">❓</span>Quiz — Unsure Task<span class="sbadge">Quiz</span></div>
+    <div class="sbsec">Section 05 — Training</div>
+    <div class="sbi" data-s="32"><span class="si">🔧</span>Training Intro</div>
+    <div class="sbi" data-s="33"><span class="si">🔒</span>LOTO Module</div>
+    <div class="sbi" data-s="34"><span class="si">🔒</span>LOTO Critical Rules</div>
+    <div class="sbi" data-s="35"><span class="si">❓</span>Quiz — LOTO Lock<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="36"><span class="si">❓</span>Quiz — Remove Lock<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="37"><span class="si">💪</span>Manual Handling</div>
+    <div class="sbi" data-s="38"><span class="si">💪</span>MH Controls</div>
+    <div class="sbi" data-s="39"><span class="si">❓</span>Quiz — Heavy Lift<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="40"><span class="si">⏸️</span>Training Pause</div>
+    <div class="sbsec">Reporting &amp; Wrap-Up</div>
+    <div class="sbi" data-s="41"><span class="si">📣</span>Reporting Section</div>
+    <div class="sbi" data-s="42"><span class="si">📣</span>Reporting Types</div>
+    <div class="sbi" data-s="43"><span class="si">🚫</span>Fit for Work</div>
+    <div class="sbi" data-s="44"><span class="si">⚖️</span>Rights &amp; Compliance</div>
+    <div class="sbi" data-s="45"><span class="si">❓</span>Quiz — PPE Colleague<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="46"><span class="si">❓</span>Quiz — Fatigue<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="47"><span class="si">❓</span>Quiz — Impairment<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="48"><span class="si">❓</span>Quiz — Hazard Report<span class="sbadge">Quiz</span></div>
+    <div class="sbi" data-s="49"><span class="si">✅</span>Induction Complete</div>
+  </div>
+</div>
+
+<div id="main">
+  <div id="pb"><div id="pbi"></div></div>
+  <div id="sa">
+
+<!-- 0: COVER -->
+<div class="sl sc act" id="s0">
+  <div class="sc-photo" style="background-image:url('https://i.ibb.co/CKxsMP4K/tuan-site-jpg.jpg')"></div>
+  <div class="ey">S A F E T Y &nbsp; I N D U C T I O N</div>
+  <h1>Tuan Biomass</h1>
+  <div class="sub">New Worker Induction</div>
+  <hr>
+  <div class="meta"><strong>Document:</strong> ID-003-2025-v1.0<br><strong>Site:</strong> Lot 88 Mill Rd, Tuan QLD<br><strong>Plant Manager:</strong> David Knight &nbsp;|&nbsp; 0439 013 224<br><strong>Safety Manager:</strong> Chris Foster &nbsp;|&nbsp; 0478 774 434</div>
+  <div class="logo"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo" alt="Albioma"></div>
+</div>
+
+<!-- 1: HOW IT WORKS -->
+<div class="sl cnt" id="s1">
+  <div class="sh"><h3>How This Induction Works</h3></div>
+  <div class="sb2">
+    <div class="al grn">Before you start work at Tuan Biomass, you must complete this induction in full.</div>
+    <div class="ov">
+      <div class="ovc" style="background:var(--gd)"><div class="on">01</div><div class="ot">Introduction &amp; Site Process</div></div>
+      <div class="ovc" style="background:var(--gm)"><div class="on">02</div><div class="ot">Site Layout &amp; Key Locations</div></div>
+      <div class="ovc" style="background:#2C6E3E"><div class="on">03</div><div class="ot">Site Tour</div></div>
+      <div class="ovc" style="background:var(--red)"><div class="on">04</div><div class="ot">Major Hazards on Site</div></div>
+      <div class="ovc" style="background:var(--amb)"><div class="on">05</div><div class="ot">Safety Training Modules</div></div>
+    </div>
+    <p style="margin-top:16px;font-size:12px;font-style:italic;color:var(--dg)">Quizzes appear throughout. You must select the correct answer before moving on. You can use the sidebar to go back and review any slide.</p>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 2: WELCOME -->
+<div class="sl cnt" id="s2">
+  <div class="sh"><h3>Welcome to Tuan Biomass</h3></div>
+  <div class="sb2">
+    <div class="slide-photo-row cols-2" style="margin-bottom:14px">
+      <div class="photo-inset"><img src="https://i.ibb.co/CKxsMP4K/tuan-site-jpg.jpg" style="height:160px" alt="Tuan Biomass site"></div>
+      <div class="photo-inset"><img src="https://i.ibb.co/twLv5w6b/pellet-mills-jpg.jpg" style="height:160px" alt="Pellet mills"></div>
+    </div>
+    <p style="font-size:13px;margin-bottom:12px">Tuan Biomass processes wood waste into fuel pellets for power stations. The site operates <strong>24 hours a day, 7 days a week.</strong></p>
+    <p style="font-size:13px;margin-bottom:12px">Wood fibre arrives either by conveyor from the Hyne sawmill or by truck through the front gate. The fibre is stored in silos, dried in the dehydration line, reduced in hammer mills, pressed into pellets, cooled, and then transferred into storage hoppers and bulk silos for truck loading and transport.</p>
+    <div class="al red">⚠ Safety is our core value. No production target, deadline or job urgency justifies unsafe work.</div>
+    <div class="al grn" style="margin-bottom:0">Every person on site — worker, contractor, or visitor — has the <strong>right and responsibility to stop work</strong> when conditions are unsafe.</div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 3: PRODUCTION -->
+<div class="sl cnt" id="s3">
+  <div class="sh"><h3>How the Site Works — The Production Process</h3></div>
+  <div class="sb2">
+    <div class="pgr">
+      <div class="ps"><div class="pn">1</div><div class="pt">Fibre In</div><div class="pb">Wood waste arrives by conveyor from Hyne Sawmill or by truck through the front gate.</div></div>
+      <div class="ps"><div class="pn">2</div><div class="pt">Fibre Silos</div><div class="pb">Raw fibre is stored in silos before drying.</div></div>
+      <div class="ps m"><div class="pn">3</div><div class="pt">Dehydration Line</div><div class="pb">Wet fibre passes through the dryer drum at high heat to reduce moisture.</div></div>
+      <div class="ps m"><div class="pn">4</div><div class="pt">Hammer Mills</div><div class="pb">Dried fibre is ground down into fine particles.</div></div>
+      <div class="ps m"><div class="pn">5</div><div class="pt">Pellet Presses</div><div class="pb">Fine fibre is pressed under high pressure into dense fuel pellets.</div></div>
+      <div class="ps l"><div class="pn">6</div><div class="pt">Cooler &amp; Storage</div><div class="pb">Hot pellets are cooled, then transferred to hoppers and bulk silos.</div></div>
+      <div class="ps l"><div class="pn">7</div><div class="pt">Truck Loading</div><div class="pb">Pellets are loaded from silos into trucks for transport to the port of Bundaberg.</div></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 4: KEY PERSONNEL -->
+<div class="sl cnt" id="s4">
+  <div class="sh"><h3>Key Personnel &amp; Contacts</h3></div>
+  <div class="sb2">
+    <div class="three" style="margin-bottom:14px">
+      <div class="pc"><div class="ph">Director of Biomass Australia</div><div class="pav">DV</div><div class="pn2">David Valentine</div><div class="pc2">0400 331 197<br>david.valentine@albioma.com</div></div>
+      <div class="pc"><div class="ph">Plant Manager</div><div class="pav">DK</div><div class="pn2">David Knight</div><div class="pc2">0439 013 224<br>david.knight@albioma.com</div></div>
+      <div class="pc"><div class="ph">Safety &amp; Compliance Manager</div><div class="pav">CF</div><div class="pn2">Chris Foster</div><div class="pc2">0478 774 434<br>christopher.foster@albioma.com</div></div>
+    </div>
+    <div class="al amb">⚠ Any safety concern must be reported immediately to Chris Foster or David Knight.</div>
+    <p style="font-size:11.5px;color:var(--dg)">Please save David Knight and Chris Foster's phone numbers. Contact us if you are running late, calling in sick, or if you have an issue on site.</p>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 5: MUSTER & EMERGENCY -->
+<div class="sl cnt" id="s5">
+  <div class="sh"><h3>Emergency Muster Point &amp; Key Locations</h3></div>
+  <div class="sb2">
+    <div class="mst"><div class="mt">🚨 MUSTER POINT — Car park at the FRONT GATE</div><div class="ms">If directed to stop work → warn others → exit via marked routes → assemble at car park → report to Fire Warden</div></div>
+    <div class="eg">
+      <div class="ei"><div class="et">First Aid Kit</div><div class="ed">Smoko room &amp; control room</div></div>
+      <div class="ei"><div class="et">Fire Extinguishers</div><div class="ed">Along wall of main shed</div></div>
+      <div class="ei"><div class="et">Eye Wash Stations</div><div class="ed">Outside of workshop</div></div>
+      <div class="ei"><div class="et">Spill Kits</div><div class="ed">Both ends of main shed</div></div>
+      <div class="ei"><div class="et">UHF Radios</div><div class="ed">Channel 34</div></div>
+    </div>
+    <div class="ctb">Emergency: 000 &nbsp;|&nbsp; WHSQ: 1300 362 128 &nbsp;|&nbsp; Hyne Security: 41 211 331 (Ch 30) &nbsp;|&nbsp; Plant Manager: 0439 013 224</div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- QUIZZES 6-8 -->
+<div class="sl qsl" id="s6" data-c="1" data-t="Every worker has the right and responsibility to stop work immediately if conditions are unsafe. This is supported by the WHS Act 2011."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">I have the right to stop work if I believe the conditions are unsafe.</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>False</div><div class="qopt" data-i="1"><span class="olk">B.</span>True</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s7" data-c="1" data-t="Fibre arrives from Hyne Sawmill by conveyor or by truck. It is stored in silos before drying begins."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What is the first step in the Tuan Biomass production process?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Pellets are pressed under high pressure</div><div class="qopt" data-i="1"><span class="olk">B.</span>Fibre arrives by conveyor or truck and is stored in silos</div><div class="qopt" data-i="2"><span class="olk">C.</span>Dried fibre is ground in hammer mills</div><div class="qopt" data-i="3"><span class="olk">D.</span>Pellets are cooled and transferred to storage</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s8" data-c="2" data-t="The assembly area is the car park at the front gate. All workers and contractors must proceed there when the alarm sounds."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">Where is the emergency muster point at Tuan Biomass?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>At the main shed entrance</div><div class="qopt" data-i="1"><span class="olk">B.</span>At the maintenance workshop</div><div class="qopt" data-i="2"><span class="olk">C.</span>Car park at the front gate</div><div class="qopt" data-i="3"><span class="olk">D.</span>Adjacent to the pellet silos</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<!-- 9: SITE TOUR SECTION -->
+<div class="sl ss site-tour-green" id="s9"><div class="ey">S A F E T Y &nbsp; I N D U C T I O N</div><h2>Site Tour</h2><div class="sl2">Section 03</div><div class="logo"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-sm" alt="Albioma"></div></div>
+
+<!-- 9A: PLANT OVERVIEW AND KEY AREAS -->
+<div class="sl cnt" id="s9a">
+  <div class="sh"><h3>Plant overview &amp; Key Areas</h3></div>
+  <div class="sb2">
+    <div class="plant-full"><img src="https://i.ibb.co/hFMVmjRd/site-tour-png.png" style="width:100%;height:520px;object-fit:contain;background:#fff;border-radius:6px;border:1px solid #2E7D3E"></div></div><div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 10: PPE ZONES -->
+<div class="sl cnt" id="s10">
+  <div class="sh"><h3>PPE Zones — Know Before You Enter</h3></div>
+  <div class="sb2">
+    <div class="three" style="margin-bottom:11px">
+      <div class="ppe big-ppe" style="background:var(--red)"><div class="pp">🔴 RED ZONE</div><div class="pa">Office / Car Park / Admin Building</div><ul><li>Appropriate office dress</li><li>Enclosed footwear</li><li>Workers starting/finishing shift may enter in casual clothes</li></ul></div>
+      <div class="ppe big-ppe" style="background:#1A6B3C"><div class="pp">🟢 GREEN / BLUE ZONE</div><div class="pa">Main Shed — General Plant Floor &amp; Outdoor Grounds</div><ul><li>Long hi-vis clothing</li><li>Steel cap boots</li><li>Hearing protection</li></ul></div>
+      <div class="ppe big-ppe" style="background:#9A6A00"><div class="pp">🟡 YELLOW ZONE</div><div class="pa">Pellet Mills, Elevated Structures, Process Equipment</div><ul><li>Long hi-vis clothing</li><li>Steel cap boots</li><li>Hearing protection</li><li>Hard hat</li></ul></div>
+    </div>
+    <div class="ppe-map-grid compact">
+      <div class="ppe-map-panel"><img src="https://i.ibb.co/fzLMb693/ppe-map-1-png.png" alt="PPE Zone Map 1"><div class="ppe-map-label">Site Zone Map — Overview</div></div>
+      <div class="ppe-map-panel"><img src="https://i.ibb.co/HLhK4y10/ppe-map-2-png.png" alt="PPE Zone Map 2"><div class="ppe-map-label">Site Zone Map — Main Shed</div></div>
+      <div class="ppe-map-panel"><img src="https://i.ibb.co/qYKB0N6B/ppe-map-3-png.png" alt="PPE Zone Map 3"><div class="ppe-map-label">Site Zone Map — Process Area</div></div>
+      <div class="ppe-map-panel"><img src="https://i.ibb.co/RpbHRFXP/ppe-map-4-png.png" alt="PPE Zone Map 4"><div class="ppe-map-label">Site Zone Map — Silo Area</div></div>
+    </div>
+    <p style="font-size:10px;color:var(--dg);font-style:italic;margin-top:8px">PPE is stored at the main office — sign items out in the PPE Register (PR-003-2025-v2.0)</p>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+
+
+<!-- PPE MAPS — LARGE READABLE SLIDES -->
+<div class="sl cnt full-image-slide" id="ppe-map-overview">
+  <div class="sh"><h3>PPE Zone Map — Site Overview</h3></div>
+  <div class="sb2"><div class="full-image-wrap"><img src="https://i.ibb.co/fzLMb693/ppe-map-1-png.png" alt="PPE Zone Map — Overview"></div><div class="full-image-note">Use this slide to explain the main PPE zones before entering the plant.</div></div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<div class="sl cnt full-image-slide" id="ppe-map-main-shed">
+  <div class="sh"><h3>PPE Zone Map — Main Shed</h3></div>
+  <div class="sb2"><div class="full-image-wrap"><img src="https://i.ibb.co/HLhK4y10/ppe-map-2-png.png" alt="PPE Zone Map — Main Shed"></div><div class="full-image-note">Point out the general plant floor, traffic areas and process equipment zones.</div></div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<div class="sl cnt full-image-slide" id="ppe-map-process-area">
+  <div class="sh"><h3>PPE Zone Map — Process Area</h3></div>
+  <div class="sb2"><div class="full-image-wrap"><img src="https://i.ibb.co/qYKB0N6B/ppe-map-3-png.png" alt="PPE Zone Map — Process Area"></div><div class="full-image-note">Use this slide to explain where hard hats and other PPE controls apply.</div></div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<div class="sl cnt full-image-slide" id="ppe-map-silo-area">
+  <div class="sh"><h3>PPE Zone Map — Silo Area</h3></div>
+  <div class="sb2"><div class="full-image-wrap"><img src="https://i.ibb.co/RpbHRFXP/ppe-map-4-png.png" alt="PPE Zone Map — Silo Area"></div><div class="full-image-note">Use this slide to explain silo, hopper and restricted access areas.</div></div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- QUIZZES 11, 13, 14 — muster point quiz (s12) REMOVED (duplicate of s8) -->
+<div class="sl qsl" id="s11" data-c="1" data-t="The pellet mill is a Yellow Zone — the highest indoor risk level. Hard hat is required in addition to the standard Green Zone PPE."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">A worker is about to enter the pellet mill area. What is the MINIMUM PPE required?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Hi-vis vest and safety glasses only</div><div class="qopt" data-i="1"><span class="olk">B.</span>Long hi-vis clothing, steel cap boots, hearing protection and hard hat</div><div class="qopt" data-i="2"><span class="olk">C.</span>Long hi-vis clothing and steel cap boots only</div><div class="qopt" data-i="3"><span class="olk">D.</span>No PPE required in that area</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<!-- s12 REMOVED — duplicate muster point question (same as s8) -->
+
+
+<div class="sl qsl" id="s13" data-c="2" data-t="Fibre arrives by conveyor from the Hyne sawmill or by truck through the front gate before entering the processing system."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">Where does fibre arrive at the Tuan Biomass site from?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Only trucks</div><div class="qopt" data-i="1"><span class="olk">B.</span>Only the conveyors</div><div class="qopt" data-i="2"><span class="olk">C.</span>Conveyor from Hyne sawmill or trucks</div><div class="qopt" data-i="3"><span class="olk">D.</span>Ships</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s14" data-c="2" data-t="If you are unsure, stop and ask your supervisor or site contact before continuing work. Never guess when it comes to safety."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What should you do if you are unsure about PPE requirements or hazards in an area?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Continue working</div><div class="qopt" data-i="1"><span class="olk">B.</span>Ignore it</div><div class="qopt" data-i="2"><span class="olk">C.</span>Ask your supervisor or safety manager</div><div class="qopt" data-i="3"><span class="olk">D.</span>Leave site</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<!-- 15: PAUSE -->
+<div class="sl sp" id="s15"><p>We will now pause the induction and complete a guided tour of the site with the inductor.</p><div class="logo"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-sm" alt="Albioma"></div></div>
+
+<!-- 16: HAZARD OVERVIEW -->
+<div class="sl cnt" id="s16">
+  <div class="sh"><h3>The Eight Major Hazards at Tuan Biomass</h3></div>
+  <div class="sb2">
+    <div class="al red" style="margin-bottom:13px">These hazards can cause serious injury, fatality, fire or explosion if not controlled.</div>
+    <div class="hgr">
+      <div class="ht2" style="background:var(--red)"><div class="hn">01</div><div class="hti">Combustible Dust &amp; Explosion</div></div>
+      <div class="ht2" style="background:#A93226"><div class="hn">02</div><div class="hti">Fire &amp; Spontaneous Combustion</div></div>
+      <div class="ht2" style="background:var(--amb)"><div class="hn">03</div><div class="hti">Stored Energy</div></div>
+      <div class="ht2" style="background:#9A7A00"><div class="hn">04</div><div class="hti">Mobile Plant &amp; Traffic</div></div>
+      <div class="ht2" style="background:#1A6B3C"><div class="hn">05</div><div class="hti">Working at Heights</div></div>
+      <div class="ht2" style="background:var(--gm)"><div class="hn">06</div><div class="hti">Confined Spaces</div></div>
+      <div class="ht2" style="background:var(--gd)"><div class="hn">07</div><div class="hti">Engulfment &amp; Material Collapse</div></div>
+      <div class="ht2" style="background:#6C3483"><div class="hn">08</div><div class="hti">Hot Work</div></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 17: DUST & FIRE -->
+<div class="sl cnt" id="s17">
+  <div class="sh"><h3>Hazard 01 &amp; 02 — Combustible Dust, Fire &amp; Spontaneous Combustion</h3></div>
+  <div class="sb2">
+    <div class="two">
+      <div class="card2" style="border:1.5px solid var(--red)"><div class="ch2" style="background:var(--red)">01 — COMBUSTIBLE DUST &amp; EXPLOSION</div><div class="cb2" style="background:#FFF0F0"><strong>Wood dust suspended in air can EXPLODE when ignited.</strong><br><br><strong>High-risk areas:</strong><ul><li>Hammer mills</li><li>Pellet presses</li><li>Conveyors &amp; cyclones</li><li>Storage silos</li></ul><br><strong>Controls:</strong><ul><li>Dust extraction systems</li><li>No ignition sources (no open flames, no unapproved electrical equipment)</li><li>Strict housekeeping — report any dust build-up immediately</li></ul></div></div>
+      <div class="card2" style="border:1.5px solid #E74C3C"><div class="ch2" style="background:#A93226">02 — FIRE &amp; SPONTANEOUS COMBUSTION</div><div class="cb2" style="background:#FFF5F0"><strong>Biomass fibre and pellets can self-heat and ignite.</strong><br><br><strong>High-risk areas:</strong><ul><li>Dehydration line &amp; dryer drum</li><li>Fibre silos &amp; pellet coolers</li><li>Conveyors</li></ul><br><strong>Causes:</strong><ul><li>Hot bearings, friction heat, dryer faults</li><li>Loss of control of process</li><li>Electrical failure, self-heating fibre</li></ul><br><strong>Controls:</strong><ul><li>Grecon fire detection &amp; suppression system</li><li>Temperature monitoring</li><li>Immediate reporting of unusual heat, smoke or odour</li></ul></div></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 18: STORED ENERGY & TRAFFIC -->
+<div class="sl cnt" id="s18">
+  <div class="sh"><h3>Hazard 03 &amp; 04 — Stored Energy &amp; Mobile Plant</h3></div>
+  <div class="sb2">
+    <div class="slide-photo-row cols-2" style="margin-bottom:12px">
+      <div class="photo-inset"><img src="https://i.ibb.co/s9nx0TFr/forklift-jpg.jpg" style="height:130px" alt="Forklift on site"><div class="photo-caption">Forklift — 6m exclusion zone applies</div></div>
+      <div class="photo-inset"><img src="https://i.ibb.co/QvphMGHV/loader-jpg.jpg" style="height:130px" alt="Wheel loader on site"><div class="photo-caption">Wheel loader — mobile plant has right of way</div></div>
+    </div>
+    <div class="two">
+      <div class="card2" style="border:1.5px solid var(--gm)"><div class="ch2" style="background:var(--gd)">03 — STORED ENERGY (LOTO REQUIRED)</div><div class="cb2" style="background:#F0FAF0"><strong>Uncontrolled release of stored energy causes serious injury or death.</strong><br><br><strong>Energy types on site:</strong><ul><li>Electrical</li><li>Hydraulic pressure</li><li>Pneumatic pressure</li><li>Mechanical / spring-loaded</li><li>Thermal heat</li></ul><br><div class="al red" style="font-size:11px;padding:8px;margin-bottom:0">RULE: Equipment MUST be fully isolated, locked, tagged and tested DEAD before any maintenance. <strong>Never work on running equipment.</strong></div></div></div>
+      <div class="card2" style="border:1.5px solid var(--amb)"><div class="ch2" style="background:#8A5A00">04 — MOBILE PLANT &amp; TRAFFIC</div><div class="cb2" style="background:#FFFBF0"><strong>Collisions with mobile equipment are fatal.</strong><br><br><strong>Equipment operating on site:</strong><ul><li>Front wheel loaders</li><li>Forklifts</li><li>Telehandlers</li><li>Trucks &amp; delivery vehicles</li></ul><br><strong>Rules:</strong><ul><li>Pedestrians stay on marked walkways</li><li>Radio on UHF Ch 34 before crossing ring road</li><li>Never walk behind reversing plant</li><li>Exclusion zone of 6m around mobile plant</li><li>Mobile plant has right of way</li></ul></div></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 19: HEIGHTS & CONFINED -->
+<div class="sl cnt" id="s19">
+  <div class="sh"><h3>Hazard 05 &amp; 06 — Working at Heights &amp; Confined Spaces</h3></div>
+  <div class="sb2">
+    <div class="slide-photo-row cols-2" style="margin-bottom:12px">
+      <div class="photo-inset"><img src="https://i.ibb.co/YF40wNB0/wah-sun-set-jpg.jpg" style="height:130px" alt="Working at heights on site"><div class="photo-caption">Heights work on site — harness &amp; permit required</div></div>
+      <div class="photo-inset"><img src="https://i.ibb.co/c5VcbsW/ladder-cage-jpg.jpg" style="height:130px" alt="Ladder cage access"><div class="photo-caption">Caged ladder access — trained personnel only</div></div>
+    </div>
+    <div class="two">
+      <div class="card2" style="border:1.5px solid #6C3483"><div class="ch2" style="background:#5B2C6F">05 — WORKING AT HEIGHTS</div><div class="cb2" style="background:#F9F0FF"><strong>Falls from height are a leading cause of workplace fatalities.</strong><br><br><strong>Height work occurs during:</strong><ul><li>Silo &amp; conveyor maintenance</li><li>Roof work</li><li>Elevated structure access</li></ul><br><strong>Rules:</strong><ul><li>Collective protection first (guardrails, platforms)</li><li>Harness required when risk assessment confirms PPE needed</li><li>Complete Harness Inspection Checklist (HIC-001-2025-v1.0) before use</li><li>Exclusion zone below all overhead work</li><li>Only trained personnel</li></ul></div></div>
+      <div class="card2" style="border:1.5px solid #B7770D"><div class="ch2" style="background:#8A5A00">06 — CONFINED SPACES</div><div class="cb2" style="background:#FFFDF0"><strong>Confined spaces can cause death by engulfment, oxygen deficiency or toxic atmosphere.</strong><br><br><strong>Confined spaces include:</strong><ul><li>Fibre &amp; pellet silos</li><li>Cyclones &amp; ducting</li><li>Process vessels</li></ul><br><strong>Rules:</strong><ul><li>NEVER enter a confined space without a valid permit (CSP-001-2024-v1.0)</li><li>Atmosphere must be tested before entry</li><li>A trained attendant must remain outside at all times</li><li>Written emergency rescue plan required</li><li>Only trained personnel</li></ul></div></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 20: ENGULFMENT & HOT WORK -->
+<div class="sl cnt" id="s20">
+  <div class="sh"><h3>Hazard 07 &amp; 08 — Engulfment &amp; Hot Work</h3></div>
+  <div class="sb2">
+    <div class="slide-photo-row hot-work-photo-small" style="margin-bottom:8px">
+      <div class="photo-inset"><img src="https://i.ibb.co/zkmWy0g/hot-work-jpg.jpg" style="height:130px;object-fit:contain;background:#fff" alt="Hot work on site"><div class="photo-caption">Hot work — permit required, 2hr fire watch after completion</div></div>
+    </div>
+    <div class="two">
+      <div class="card2" style="border:1.5px solid var(--gd)"><div class="ch2" style="background:var(--gd)">07 — ENGULFMENT &amp; MATERIAL COLLAPSE</div><div class="cb2" style="background:#F0FAF4"><strong>Fibre and pellets in silos and hoppers can collapse without warning.</strong><br><br><strong>Risks:</strong><ul><li>Bridging — fibre forms a crust over a void</li><li>Wall collapse when material shifts</li><li>Rapid engulfment — you can sink in seconds</li></ul><br><strong>Rules:</strong><ul><li>NEVER enter a silo or hopper without confined space controls</li><li>Stay 25m clear of working stacks</li><li>Stay 5m clear of formed stacks</li><li>No walking on stored material surfaces</li></ul></div></div>
+      <div class="card2" style="border:1.5px solid #8E44AD"><div class="ch2" style="background:#6C3483">08 — HOT WORK</div><div class="cb2" style="background:#FCF0FF"><strong>Grinding, welding &amp; cutting create sparks and ignition sources in a combustible dust environment.</strong><br><br><strong>Requirements before starting:</strong><ul><li>Hot Work Permit (HWP-001-2024-v1.0)</li><li>5D area inspection (above, below, front, behind, inside)</li><li>Remove or shield combustible material</li><li>Fire extinguisher immediately available</li></ul><br><strong>During work:</strong><ul><li>Monitor sparks &amp; impact points</li><li>Fire watch: minimum 2 hours after work is complete</li><li>Fire detection systems only disabled by authorised person</li></ul></div></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 21: CRITICAL SAFETY SECTION -->
+<div class="sl ss" id="s21"><div class="ey">S A F E T Y &nbsp; I N D U C T I O N</div><h2>Critical Safety Rules</h2><div class="sl2">Section 05</div><div class="logo"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-sm" alt="Albioma"></div></div>
+
+<!-- 22: LIFESAVING ELEVEN -->
+<div class="sl cnt" id="s22">
+  <div class="sh"><h3>The Lifesaving Eleven — Non-Negotiable Rules</h3></div>
+  <div class="sb2">
+    <div class="al red" style="margin-bottom:12px">These 11 rules protect you from the highest-consequence hazards on site.</div>
+    <div class="ls">
+      <div class="l1"><div class="ln">1</div><div class="ltt">Electrocution</div><div class="lr">Do not work on live components</div></div>
+      <div class="l1 a"><div class="ln">2</div><div class="ltt">Mobile Plant</div><div class="lr">Mobile equipment has right of way</div></div>
+      <div class="l1"><div class="ln">3</div><div class="ltt">Engulfment</div><div class="lr">25m clear of working stacks, 5m of formed stacks</div></div>
+      <div class="l1 a"><div class="ln">4</div><div class="ltt">Chemicals</div><div class="lr">Read the label and the SDS</div></div>
+      <div class="l1"><div class="ln">5</div><div class="ltt">Fall from Heights</div><div class="lr">Never work unprotected at heights</div></div>
+      <div class="l1 a"><div class="ln">6</div><div class="ltt">Confined Space</div><div class="lr">Do not enter without a permit</div></div>
+      <div class="l1"><div class="ln">7</div><div class="ltt">Stored Energy</div><div class="lr">Isolate and release energy before work</div></div>
+      <div class="l1 a"><div class="ln">8</div><div class="ltt">Entanglement</div><div class="lr">Never work on running equipment</div></div>
+      <div class="l1"><div class="ln">9</div><div class="ltt">Falling Objects</div><div class="lr">Always barricade and sign drop zones</div></div>
+      <div class="l1 a"><div class="ln">10</div><div class="ltt">Manual Handling</div><div class="lr">Use correct manual handling technique</div></div>
+      <div class="l1"><div class="ln">11</div><div class="ltt">Change Management</div><div class="lr">Any change to procedures requires authorisation</div></div>
+    </div>
+    <p style="font-size:10px;color:var(--dg);font-style:italic;margin-top:9px">The Lifesaving Eleven pocket guide is issued to all workers during induction. Carry it at all times.</p>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 23: GOLDEN RULES -->
+<div class="sl cnt full-image-slide" id="s23">
+  <div class="sh"><h3>Albioma Safety Golden Rules</h3></div>
+  <div class="sb2">
+    <div class="full-image-wrap"><img src="https://i.ibb.co/r2TVjpBL/golden-rules-png.png" alt="Albioma Golden Rules poster"></div>
+    <div class="full-image-note">The Albioma Safety Golden Rules apply to employees, contractors and visitors.</div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<div class="sl cnt full-image-slide" id="golden-rules-explained-large">
+  <div class="sh"><h3>Golden Rules — Explained</h3></div>
+  <div class="sb2">
+    <div class="full-image-wrap"><img src="https://i.ibb.co/VKzxZXP/golden-rules-explained-png.png" alt="Albioma Golden Rules explained"></div>
+    <div class="full-image-note">If something does not look safe — stop and ask before continuing.</div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- QUIZZES 24-31 -->
+<div class="sl qsl" id="s24" data-c="2" data-t="Lockout Tagout isolates energy sources and prevents equipment from starting while maintenance is being done. This protects workers from moving machinery or stored energy."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What must be done before working on machinery that could start unexpectedly?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Tell another worker</div><div class="qopt" data-i="1"><span class="olk">B.</span>Turn the machine off</div><div class="qopt" data-i="2"><span class="olk">C.</span>Apply Lockout Tagout isolation</div><div class="qopt" data-i="3"><span class="olk">D.</span>Work quickly</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s25" data-c="2" data-t="Any sign of heat, smoke or unusual odour near conveyors or bearings is a fire risk. Stop work and report immediately. Never work on running equipment."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">You see sparks and smoke coming from a conveyor bearing but production is running. What do you do?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Wait to see if it gets worse before reporting</div><div class="qopt" data-i="1"><span class="olk">B.</span>Ignore it — smoke is normal around dryers</div><div class="qopt" data-i="2"><span class="olk">C.</span>Stop work, report immediately to the supervisor, and follow emergency procedures</div><div class="qopt" data-i="3"><span class="olk">D.</span>Try to fix it yourself while the equipment is running</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s26" data-c="1" data-t="No exceptions — a confined space permit (CSP-001-2024-v1.0), atmosphere testing, and an outside attendant are all mandatory. Lives depend on it."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What must happen BEFORE anyone enters a silo or confined space?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Just let your supervisor know verbally</div><div class="qopt" data-i="1"><span class="olk">B.</span>A valid Confined Space Entry Permit, risk assessment, atmosphere test, and rescue plan must be in place</div><div class="qopt" data-i="2"><span class="olk">C.</span>Wear a dust mask and proceed</div><div class="qopt" data-i="3"><span class="olk">D.</span>No special requirements if you are experienced</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s27" data-c="3" data-t="Hot work produces sparks and heat that can ignite dust or nearby materials. A permit confirms the area has been inspected and controls such as fire watches are in place."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What must be done before starting hot work such as welding or grinding?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Start immediately</div><div class="qopt" data-i="1"><span class="olk">B.</span>Open the door</div><div class="qopt" data-i="2"><span class="olk">C.</span>Turn the lights on</div><div class="qopt" data-i="3"><span class="olk">D.</span>Obtain a Hot Work Permit</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s28" data-c="1" data-t="Accumulated dust can ignite and create explosive atmospheres. Regular cleaning reduces fuel for fires and explosions."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">Why is regular cleaning important in a pellet plant?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>It keeps the site tidy</div><div class="qopt" data-i="1"><span class="olk">B.</span>It prevents dust explosion hazards</div><div class="qopt" data-i="2"><span class="olk">C.</span>It improves the smell</div><div class="qopt" data-i="3"><span class="olk">D.</span>It saves electricity</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s29" data-c="2" data-t="Guards protect workers from moving parts. If they must be removed for maintenance, the machine must first be isolated to prevent movement."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What should you do before removing a machine guard?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Remove it quickly</div><div class="qopt" data-i="1"><span class="olk">B.</span>Ask a friend</div><div class="qopt" data-i="2"><span class="olk">C.</span>Isolate and make the machine safe</div><div class="qopt" data-i="3"><span class="olk">D.</span>Try to fix it while the equipment is running</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s30" data-c="1" data-t="Golden Rules focus on high-risk activities that cause serious accidents across the industry. Following them protects workers and reduces major incidents."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">Why are Albioma Golden Rules important?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>They look good on posters</div><div class="qopt" data-i="1"><span class="olk">B.</span>They prevent serious incidents and fatalities</div><div class="qopt" data-i="2"><span class="olk">C.</span>They replace training</div><div class="qopt" data-i="3"><span class="olk">D.</span>They are optional guidelines</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s31" data-c="3" data-t="If you are unsure, stop and ask. Getting clarification prevents mistakes and reduces the risk of injury."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What should you do if you are unsure how to perform a task safely?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Guess</div><div class="qopt" data-i="1"><span class="olk">B.</span>Skip the task</div><div class="qopt" data-i="2"><span class="olk">C.</span>Do it faster</div><div class="qopt" data-i="3"><span class="olk">D.</span>Ask a supervisor or experienced worker</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<!-- 32: TRAINING SECTION -->
+<div class="sl ss" id="s32"><div class="ey">S A F E T Y &nbsp; I N D U C T I O N</div><h2>Safety Training<br>Modules</h2><div class="sl2">Section 05</div><div class="logo"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-sm" alt="Albioma"></div></div>
+
+<!-- 33: LOTO MODULE -->
+<div class="sl cnt" id="s33">
+  <div class="sh"><h3>Training Module A — Isolation &amp; Lockout / Tagout (LOTO)</h3></div>
+  <div class="sb2">
+    <div class="al red" style="margin-bottom:14px">WHY LOTO MATTERS: Uncontrolled stored energy kills. Equipment that appears off can still be energised. LOTO ensures no one can start equipment while another worker is exposed.</div>
+    <div class="lsr"><div class="lb">STEP 1 — PREPARE</div><div class="ld">Identify the job and all energy sources.</div></div>
+    <div class="lsr"><div class="lb">STEP 2 — ISOLATE</div><div class="ld">Isolate all energy sources: electrical, hydraulic, pneumatic, thermal and mechanical.</div></div>
+    <div class="lsr"><div class="lb">STEP 3 — RELEASE</div><div class="ld">Release, vent or bleed stored/residual energy. Block or secure anything that could move.</div></div>
+    <div class="lsr"><div class="lb">STEP 4 — LOCK &amp; TAG</div><div class="ld">Apply your personal lockout device to the isolation point. Attach a tag with your name.</div></div>
+    <div class="lsr"><div class="lb">STEP 5 — VERIFY</div><div class="ld">Test that the equipment is DEAD before starting work.</div></div>
+    <div class="lsr"><div class="lb">STEP 6 — COMPLETE</div><div class="ld">Tags stay on until ALL work is done. Only the person who applied the lock may remove it.</div></div>
+    <p style="font-size:11px;color:var(--dg);font-style:italic;margin-top:9px">More complex isolations require a Lockout Officer and the completion of an Isolation Request Form.</p>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 34: LOTO CRITICAL RULES -->
+<div class="sl cnt" id="s34">
+  <div class="sh"><h3>LOTO — Critical Rules You Must Know</h3></div>
+  <div class="sb2">
+    <div class="lr2"><span class="ri">🔴</span>Only lock out tags must be worn on your person at all times.</div>
+    <div class="lr2"><span class="ri">🔒</span>Every worker involved in the job must apply their own personal lockout device — one lock per person.</div>
+    <div class="lr2"><span class="ri">🏷️</span>Lockout tags must show the worker's name and remain in place until ALL work is complete.</div>
+    <div class="lr2"><span class="ri">⚡</span>Absence of energy must be verified by testing — assume it is live until proven dead.</div>
+    <div class="lr2"><span class="ri">🚫</span>Never remove another person's lock. If you find a damaged or unexplained lock, stop and contact the Safety Manager.</div>
+    <div class="lr2"><span class="ri">📋</span>The LOTO form (LOP-001-2024-v1.0) must be completed and approved before complex isolation begins.</div>
+    <div class="lr2"><span class="ri">📚</span>Required training: TM-001 (Site Isolation), SWI-003 (Lockout Officers), SWI-004 (LOTO)</div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- QUIZZES 35-36 -->
+<div class="sl qsl" id="s35" data-c="3" data-t="Workers must have their personal lock and tag available at all times while on shift. This allows equipment to be isolated immediately before maintenance or when a hazard is identified."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">Where should workers keep their personal Lockout Tagout lock and tag?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>In the workshop toolbox</div><div class="qopt" data-i="1"><span class="olk">B.</span>In their locker</div><div class="qopt" data-i="2"><span class="olk">C.</span>In the control room</div><div class="qopt" data-i="3"><span class="olk">D.</span>On their person while on shift</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s36" data-c="2" data-t="A personal lock can only be removed by the worker who placed it. This confirms the worker is clear of the equipment and the job is complete."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">Who is allowed to remove a personal Lockout Tagout lock?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Any supervisor</div><div class="qopt" data-i="1"><span class="olk">B.</span>Another worker</div><div class="qopt" data-i="2"><span class="olk">C.</span>The person who installed the lock</div><div class="qopt" data-i="3"><span class="olk">D.</span>The control room operator</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<!-- 37: MANUAL HANDLING -->
+<div class="sl cnt" id="s37">
+  <div class="sh"><h3>Training Module B — Manual Handling</h3></div>
+  <div class="sb2">
+    <p style="font-size:13px;margin-bottom:14px">Manual handling injuries are one of the most common workplace injuries. Poor technique causes long-term damage to backs, shoulders, and knees.</p>
+    <div class="two">
+      <div class="mhc cor" style="border-color:var(--gm)"><div class="mhh" style="background:var(--gd)">✅ CORRECT TECHNIQUE</div><ul><li>Plan the lift — clear your path first</li><li>Stand close to the load</li><li>Feet shoulder-width apart for stability</li><li>Bend at the knees — keep back straight</li><li>Grip firmly before lifting</li><li>Lift with leg muscles, not your back</li><li>Keep load close to your body</li><li>Turn by moving your feet, never twist</li><li>Lower with control — bend knees again</li></ul></div>
+      <div class="mhc wrg" style="border-color:var(--red)"><div class="mhh" style="background:var(--red)">❌ AVOID THESE ACTIONS</div><ul><li>Twisting at the waist while lifting</li><li>Bending your back instead of your knees</li><li>Reaching too far from your body</li><li>Lifting above shoulder height alone</li><li>Carrying a load that blocks your view</li><li>Rushing — plan the lift first</li><li>Ignoring pain — report any discomfort immediately</li></ul></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 38: MH CONTROLS -->
+<div class="sl cnt" id="s38">
+  <div class="sh"><h3>Manual Handling — Risk Controls &amp; Requirements</h3></div>
+  <div class="sb2">
+    <div class="two">
+      <div class="mri"><div class="mrt">🔍 Assess before lifting</div><div class="mrb">Use a Take 5 or JSA for any manual task involving awkward postures, heavy loads, or repetition. Plan the lift before you start.</div></div>
+      <div class="mri"><div class="mrt">🤝 Team lifts</div><div class="mrb">Loads over 25 kg should be lifted by two or more people. Never attempt a heavy lift alone if team assistance is available.</div></div>
+      <div class="mri"><div class="mrt">🦾 Use mechanical aids</div><div class="mrb">Forklifts, trolleys, pallet jacks and hoists must be used wherever practical to eliminate manual lifting.</div></div>
+      <div class="mri"><div class="mrt">📋 Training required</div><div class="mrb">All workers must complete TM-002 (Manual Handling) and TLID0020 (Shift Materials Safely) before performing manual handling tasks.</div></div>
+      <div class="mri"><div class="mrt">🏥 Report injuries immediately</div><div class="mrb">Report any pain, strain or discomfort immediately to the supervisor. Early reporting leads to faster recovery and prevents worsening.</div></div>
+      <div class="mri"><div class="mrt">⚠️ Ergonomic hazards</div><div class="mrb">Tuan Biomass specific risks include handling die segments, silo access equipment, conveyor parts, and bag goods. All assessed in TM-002.</div></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- QUIZ 39 -->
+<div class="sl qsl" id="s39" data-c="1" data-t="Always plan before lifting. Assess the load weight, clear your path, use mechanical aids where possible, and get help for heavy or awkward loads."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">You need to move a heavy piece of equipment. The correct first step is to:</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Lift it quickly using your back to avoid fatigue</div><div class="qopt" data-i="1"><span class="olk">B.</span>Assess the load, plan the lift, and use mechanical aids or a team lift if needed</div><div class="qopt" data-i="2"><span class="olk">C.</span>Ask someone else to do it so you don't risk injury</div><div class="qopt" data-i="3"><span class="olk">D.</span>Drag it along the floor to avoid lifting</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<!-- 40: TRAINING PAUSE -->
+<div class="sl sp" id="s40"><p>We will now pause the induction and complete TM-001-2024-v2.0 Site Isolation &amp; TM-002-2024-v2.0 Manual Handling Training.</p><div class="logo"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-sm" alt="Albioma"></div></div>
+
+<!-- 41: REPORTING SECTION -->
+<div class="sl ss" id="s41"><div class="ey">S A F E T Y &nbsp; I N D U C T I O N</div><h2>Reporting &amp;<br>Your Responsibilities</h2><div class="sl2">Section 05 continued</div><div class="logo"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-sm" alt="Albioma"></div></div>
+
+<!-- 42: REPORTING TYPES -->
+<div class="sl cnt" id="s42">
+  <div class="sh"><h3>Reporting Hazards, Near Misses &amp; Incidents</h3></div>
+  <div class="sb2">
+    <div class="al grn" style="margin-bottom:13px">If you see it — report it. Early reporting prevents incidents from becoming fatalities.</div>
+    <div class="rr"><div class="rt" style="background:var(--amb)">HAZARD</div><div class="rd">Any condition or situation with the potential to cause harm, damage or loss.</div><div class="ra">→ Report to Plant Manager or Safety Manager immediately. Photograph if safe. Apply immediate controls where possible.</div></div>
+    <div class="rr"><div class="rt" style="background:#C05A00">NEAR MISS</div><div class="rd">An unplanned event that did not result in injury but had the potential to.</div><div class="ra">→ Report immediately to supervisor. Lessons must be communicated to the team as soon as possible.</div></div>
+    <div class="rr"><div class="rt" style="background:var(--red)">INJURY</div><div class="rd">Any work-related event resulting in physical harm or requiring first aid or medical treatment.</div><div class="ra">→ Report to Plant Manager or Safety Manager. First aid treatment and recording in the First Aid Treatment Record Book is mandatory.</div></div>
+    <div class="rr"><div class="rt" style="background:#7B0000">HIPO EVENT</div><div class="rd">Any event that COULD HAVE caused serious injury, fatality or major plant damage.</div><div class="ra">→ Immediate notification to Plant Manager &amp; Safety Manager. Secure the area. Formal investigation commences as priority.</div></div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 43: FIT FOR WORK -->
+<div class="sl cnt" id="s43">
+  <div class="sh"><h3>Fit for Work — Drug, Alcohol &amp; Fatigue Policy</h3></div>
+  <div class="sb2">
+    <div class="al red" style="font-size:14px;margin-bottom:13px">Zero BAC at all times while on site or on duty. No exceptions.</div>
+    <div class="three">
+      <div class="fc" style="border-color:var(--red)"><div class="fh" style="background:var(--red)">Alcohol</div><ul style="border-color:var(--red)"><li>Zero Blood Alcohol Concentration (BAC) at all times on site</li><li>No alcohol in the 8 hours prior to a shift</li><li>Random testing may be conducted</li><li>Testing may be required after an incident</li></ul></div>
+      <div class="fc" style="border-color:var(--amb)"><div class="fh" style="background:var(--amb)">Drugs</div><ul style="border-color:var(--amb)"><li>No recreational drugs during the roster period that may impair work</li><li>Prescription medication that affects alertness must be reported to the Plant Manager — confidential</li><li>Random testing applies</li></ul></div>
+      <div class="fc" style="border-color:var(--gm)"><div class="fh" style="background:var(--gm)">Fatigue</div><ul style="border-color:var(--gm)"><li>Minimum 10 hours rest between shifts</li><li>Standard roster: 7 days on / 7 days off</li><li>Warning signs: micro-sleeping, poor coordination, aggression, ignoring alarms</li><li>Do not perform LOTO, confined space, hot work or heights when fatigued</li><li>Report fatigue to supervisor immediately</li></ul></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 44: RIGHTS & COMPLIANCE -->
+<div class="sl cnt" id="s44">
+  <div class="sh"><h3>Non-Compliance — Consequences &amp; Your Rights</h3></div>
+  <div class="sb2">
+    <div class="two">
+      <div class="rb" style="border-color:var(--red)"><div class="rbh" style="background:var(--red)">Consequences of Non-Compliance</div><div class="rbb"><ul><li>Immediate work stoppage</li><li>Requirement to provide corrective actions before work resumes</li><li>Serious non-compliance: root cause analysis + improvement plan required</li><li>Removal from site for serious or repeated violations</li></ul></div></div>
+      <div class="rb" style="border-color:var(--gd)"><div class="rbh" style="background:var(--gd)">Your Rights as a Worker</div><div class="rbb"><ul><li>Right to stop unsafe work at any time — no repercussions</li><li>Right to be consulted on safety decisions that affect your work</li><li>Right to report hazards and incidents without fear</li><li>Right to refuse work that is unsafe and unclear</li><li>Right to access PPE, procedures and safety documents</li><li>Right to rehabilitation and support if injured at work</li></ul></div></div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- QUIZZES 45-48 -->
+<div class="sl qsl" id="s45" data-c="2" data-t="Under the WHS Act, every person on site has a responsibility for their own safety AND the safety of others."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">You notice a colleague working without the required PPE in a Yellow Zone area. What is the correct action?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Ignore it — it's not your responsibility to police others</div><div class="qopt" data-i="1"><span class="olk">B.</span>Report it to management at the end of the day</div><div class="qopt" data-i="2"><span class="olk">C.</span>Immediately remind your colleague of the requirement</div><div class="qopt" data-i="3"><span class="olk">D.</span>Take a photo and keep it as evidence</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s46" data-c="2" data-t="Fatigue can affect concentration, reaction time, and decision making. Workers must report fatigue so the risk can be managed safely."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What should you do if you feel fatigued and it may affect your work?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Ignore it and continue working</div><div class="qopt" data-i="1"><span class="olk">B.</span>Have another coffee and keep going</div><div class="qopt" data-i="2"><span class="olk">C.</span>Report it to your supervisor</div><div class="qopt" data-i="3"><span class="olk">D.</span>Leave site without telling anyone</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s47" data-c="1" data-t="Impairment creates a serious safety risk. Reporting concerns allows supervisors to address the situation and protect everyone on site."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What should you do if you believe a co-worker may be affected by drugs, alcohol, or fatigue?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Ignore it</div><div class="qopt" data-i="1"><span class="olk">B.</span>Report the concern to a supervisor</div><div class="qopt" data-i="2"><span class="olk">C.</span>Argue with them</div><div class="qopt" data-i="3"><span class="olk">D.</span>Wait until the end of the shift</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<div class="sl qsl" id="s48" data-c="2" data-t="Hazards should be reported as soon as they are identified. Early reporting allows the issue to be fixed before someone is injured."><div class="qh">✓ &nbsp; KNOWLEDGE CHECK</div><div class="qq">What should you do if you see a hazard on site?</div><div class="qo2"><div class="qopt" data-i="0"><span class="olk">A.</span>Ignore it if it is small</div><div class="qopt" data-i="1"><span class="olk">B.</span>Wait until the next safety meeting</div><div class="qopt" data-i="2"><span class="olk">C.</span>Report it and make the area safe if possible</div><div class="qopt" data-i="3"><span class="olk">D.</span>Tell a friend at break</div></div><div class="qfb"></div><div class="qsw"><button class="qsub" disabled>Submit Answer</button><span class="qatt"></span></div></div>
+
+<!-- 49: SIGN OFF -->
+<div class="sl signwrap" id="s49" data-sign="true">
+  <div class="sh" style="background:var(--gd);display:flex;align-items:center;justify-content:space-between">
+    <h3 style="color:#fff">✅ &nbsp; Induction Complete — Worker Declaration</h3>
+    <img src="https://i.ibb.co/5gZZwWpx/albioma-logo-jpg.png" style="height:28px;object-fit:contain" alt="Albioma">
+  </div>
+  <div class="sb2" style="background:#f4f6f4">
+    <!-- Photo header strip -->
+    <div style="border-radius:7px;overflow:hidden;margin-bottom:16px;display:grid;grid-template-columns:1fr 1fr 1fr;height:100px;gap:2px">
+      <img src="https://i.ibb.co/CKxsMP4K/tuan-site-jpg.jpg" style="width:100%;height:100%;object-fit:cover" alt="">
+      <img src="https://i.ibb.co/twLv5w6b/pellet-mills-jpg.jpg" style="width:100%;height:100%;object-fit:cover" alt="">
+      <img src="https://i.ibb.co/s9nx0TFr/forklift-jpg.jpg" style="width:100%;height:100%;object-fit:cover" alt="">
+    </div>
+
+    <div class="signbox">
+      <div style="background:#EAF4EA;border:1.5px solid var(--gd);border-radius:5px;padding:11px 15px;font-size:12px;font-weight:700;color:var(--gd);margin-bottom:14px">
+        You have completed the Tuan Biomass Safety Induction. Before you commence work, please read each statement below and tick the box to confirm your understanding and agreement.
+      </div>
+
+      <!-- Declaration checkboxes -->
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+        <label class="declare" style="border-color:#b8d4b8"><input type="checkbox" class="decl-item"><span>I have read, watched, and understood all sections of the Tuan Biomass Safety Induction.</span></label>
+        <label class="declare" style="border-color:#b8d4b8"><input type="checkbox" class="decl-item"><span>I understand the site hazards including combustible dust, fire, stored energy, mobile plant, working at heights, confined spaces, engulfment, and hot work.</span></label>
+        <label class="declare" style="border-color:#b8d4b8"><input type="checkbox" class="decl-item"><span>I understand and will comply with all PPE zone requirements and will not enter any area without the correct PPE.</span></label>
+        <label class="declare" style="border-color:#b8d4b8"><input type="checkbox" class="decl-item"><span>I understand the Lockout/Tagout (LOTO) requirements and will never work on equipment that has not been fully isolated, locked, tagged and tested dead.</span></label>
+        <label class="declare" style="border-color:#b8d4b8"><input type="checkbox" class="decl-item"><span>I understand Albioma's Lifesaving Eleven and Golden Rules and agree to comply with them at all times.</span></label>
+        <label class="declare" style="border-color:#b8d4b8"><input type="checkbox" class="decl-item"><span>I will report all hazards, near misses, incidents, and injuries to the Plant Manager or Safety Manager as soon as they occur.</span></label>
+        <label class="declare" style="border-color:#b8d4b8"><input type="checkbox" class="decl-item"><span>I confirm I am fit for work today — I am not affected by alcohol, drugs, or fatigue that would impair my ability to work safely.</span></label>
+        <label class="declare" style="border-color:#b8d4b8"><input type="checkbox" class="decl-item"><span>I understand I have the right and responsibility to stop any work I believe is unsafe, without fear of repercussions.</span></label>
+        <label class="declare" style="border-color:#b8d4b8"><input type="checkbox" class="decl-item"><span>I understand that non-compliance with site rules and safety requirements may result in removal from the site.</span></label>
+      </div>
+
+      <!-- Name + Date + Submit -->
+      <div class="formgrid" style="margin-top:6px">
+        <div class="fld"><label for="workerName">Full Name *</label><input id="workerName" type="text" autocomplete="name" placeholder="Enter your full name"></div>
+        <div class="fld"><label for="signDate">Date</label><input id="signDate" type="date" style="background:#f0f0f0;color:#444"></div>
+      </div>
+
+      <label class="declare" style="margin-top:10px;background:#DFF0DF;border-color:var(--gd)"><input id="declareBox" type="checkbox"><span style="font-weight:700">I confirm I have completed this induction, answered all knowledge checks, understand the major hazards and site rules, and will follow all Tuan Biomass, Albioma and permit requirements.</span></label>
+
+      <div style="margin-top:14px">
+        <button onclick="submitDeclaration()" style="background:var(--gd);color:#fff;border:none;padding:11px 28px;border-radius:5px;font-size:14px;font-weight:700;cursor:pointer">Submit Declaration</button>
+      </div>
+
+      <div class="sigstatus" id="sigstatus" style="margin-top:10px">Complete all fields and tick the declaration to continue.</div>
+    </div>
+  </div>
+  <div class="sf"><span>Albioma Tuan Biomass &nbsp;|&nbsp; ID-003-2025-v1.0</span><span class="fl"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo-xs" alt="Albioma"></span></div>
+</div>
+
+<!-- 50: COMPLETE -->
+<div class="sl sco" id="s50">
+  <div class="sc-photo" style="background-image:url('https://i.ibb.co/CKxsMP4K/tuan-site-jpg.jpg');opacity:.15"></div>
+  <div style="position:absolute;top:24px;right:32px;z-index:2"><img src="https://i.ibb.co/1t4jBwp7/albioma-logo-white-jpg.jpg" class="albioma-logo" alt="Albioma"></div>
+  <h2>Induction Complete</h2>
+  <div class="cs" id="completeMsg">The worker has completed the Tuan Biomass Safety Induction.</div>
+  <hr>
+  <ul>
+    <li>Golden Rules and Lifesaving Eleven reviewed</li>
+    <li>Major site hazards reviewed</li>
+    <li>Quiz questions completed</li>
+    <li>Worker declaration signed</li>
+  </ul>
+ 
+  <div class="cc">Plant Manager: David Knight &nbsp;|&nbsp; david.knight@albioma.com &nbsp;|&nbsp; 0439 013 224<br>Safety Manager: Chris Foster &nbsp;|&nbsp; christopher.foster@albioma.com &nbsp;|&nbsp; 0478 774 434</div>
+</div>
+
+  </div><!-- /sa -->
+
+  <div id="nf">
+    <div id="slbl">Tuan Biomass Safety Induction</div>
+    <button class="nb" id="bp">← Back</button>
+    <span id="sct">1 / 51</span>
+    <button class="nb pri" id="bn">Next →</button>
+  </div>
+</div>
+</div>
+
+<script>
+const slides=[...document.querySelectorAll('.sl')];
+const N=slides.length;
+let cur=0;
+const qs={};
+
+// INIT QUIZZES
+document.querySelectorAll('.qsl').forEach(qz=>{
+  const idx=parseInt(qz.id.replace('s',''));
+  const correct=parseInt(qz.dataset.c);
+  const tip=qz.dataset.t;
+  const opts=qz.querySelectorAll('.qopt');
+  const fb=qz.querySelector('.qfb');
+  const btn=qz.querySelector('.qsub');
+  const att=qz.querySelector('.qatt');
+  let chosen=null,attempts=0,passed=false;
+
+  opts.forEach(o=>{
+    o.addEventListener('click',()=>{
+      if(passed)return;
+      opts.forEach(x=>x.classList.remove('sel'));
+      o.classList.add('sel');
+      chosen=parseInt(o.dataset.i);
+      btn.disabled=false;
+    });
+  });
+
+  btn.addEventListener('click',()=>{
+    if(chosen===null||passed)return;
+    attempts++;
+    if(chosen===correct){
+      passed=true;qs[idx]=true;
+      opts.forEach(o=>{
+        if(parseInt(o.dataset.i)===correct){
+          o.classList.remove('sel');o.classList.add('cor');
+          o.innerHTML+=`<span class="otk">✓</span>`;
+        }else{
+          o.classList.remove('sel');
+          o.style.opacity='.4';o.style.cursor='default';
+        }
+      });
+      fb.className='qfb show good';
+      fb.innerHTML='✓ &nbsp; Correct! &nbsp; '+tip;
+      btn.textContent='Continue →';
+      btn.disabled=false;
+      btn.onclick=()=>go(cur+1);
+      att.textContent='';
+      updateSB();
+    }else{
+      const el=qz.querySelector(`.qopt[data-i="${chosen}"]`);
+      el.classList.remove('sel');el.classList.add('wrg');
+      el.innerHTML+=`<span class="otk">✗</span>`;
+      setTimeout(()=>{
+        el.classList.remove('wrg');
+        el.innerHTML=el.innerHTML.replace('<span class="otk">✗</span>','');
+      },1100);
+      fb.className='qfb show bad';
+      fb.innerHTML='✗ &nbsp; Not quite — try again.';
+      btn.disabled=true;chosen=null;
+      att.textContent=attempts>1?`Attempt ${attempts}`:'';
+    }
+  });
+});
+
+function slideIdNum(n){const id=(slides[n]?.id||'').replace('s',''); const num=parseInt(id); return Number.isNaN(num)?n:num}
+function isQ(n){return slides[n]?.classList.contains('qsl')}
+function isSign(n){return slides[n]?.dataset.sign==='true'}
+function signPass(){
+  const ids=['workerName','signDate'];
+  const filled=ids.every(id=>document.getElementById(id)?.value.trim());
+  const ticked=document.getElementById('declareBox')?.checked;
+  const declItems=[...document.querySelectorAll('.decl-item')];
+  const allDecl=declItems.length===0||declItems.every(cb=>cb.checked);
+  return !!(filled&&ticked&&allDecl);
+}
+function downloadPDFAgain(){
+  const name=document.getElementById('workerName').value.trim()||'Worker';
+  const date=document.getElementById('signDate').value;
+  const now=new Date();
+  const timeStr=now.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:true});
+  const dateFormatted=date?new Date(date+'T00:00:00').toLocaleDateString('en-AU',{day:'2-digit',month:'long',year:'numeric'}):now.toLocaleDateString('en-AU',{day:'2-digit',month:'long',year:'numeric'});
+  generateInductionPDF(name, dateFormatted, timeStr);
+}
+
+function sendInductionEmail(){
+  try{
+    emailjs.init('nxPZjTfa1Pb-libH1');
+    const name=document.getElementById('workerName').value.trim();
+    const date=document.getElementById('signDate').value;
+    const now=new Date();
+    const timeStr=now.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:true});
+    const dateFormatted=date?new Date(date+'T00:00:00').toLocaleDateString('en-AU',{day:'2-digit',month:'long',year:'numeric'}):now.toLocaleDateString('en-AU',{day:'2-digit',month:'long',year:'numeric'});
+    emailjs.send('service_pepvbtq','template_yjcwbij',{
+      worker_name: name,
+      sign_date: dateFormatted,
+      sign_time: timeStr,
+      site: 'Tuan Biomass',
+      result: 'Pass',
+      to_email: 'christopher.foster@albioma.com'
+    }).then(()=>{
+      console.log('Induction notification sent for: '+name);
+    }).catch(err=>{
+      console.error('EmailJS error:',err);
+    });
+  }catch(e){
+    console.error('Email init error:',e);
+  }
+}
+function generateInductionPDF(name, dateFormatted, timeStr){
+  try{
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const green=[27,77,46];
+    const lgreen=[234,244,234];
+    const white=[255,255,255];
+    const grey=[74,74,74];
+    const W=210, M=20;
+
+    // Header
+    doc.setFillColor(...green);
+    doc.rect(0,0,W,40,'F');
+    doc.setFillColor(106,176,76);
+    doc.rect(0,0,6,40,'F');
+    doc.setTextColor(...white);
+    doc.setFontSize(9);
+    doc.setFont('helvetica','normal');
+    doc.text('ALBIOMA GROUP',M,12);
+    doc.setFontSize(20);
+    doc.setFont('helvetica','bold');
+    doc.text('Site Induction Record',M,25);
+    doc.setFontSize(10);
+    doc.setFont('helvetica','normal');
+    doc.text('Tuan Biomass - Safety Induction',M,34);
+    doc.setFontSize(8);
+    doc.text('ID-003-2025-v1.0',W-M,34,{align:'right'});
+
+    // Pass badge
+    doc.setFillColor(...lgreen);
+    doc.rect(M,48,W-(M*2),18,'F');
+    doc.setDrawColor(...green);
+    doc.setLineWidth(0.5);
+    doc.rect(M,48,W-(M*2),18,'S');
+    doc.setTextColor(...green);
+    doc.setFontSize(13);
+    doc.setFont('helvetica','bold');
+    doc.text('INDUCTION PASSED',W/2,60,{align:'center'});
+
+    // Details box
+    doc.setFillColor(248,251,248);
+    doc.rect(M,74,W-(M*2),72,'F');
+    doc.setDrawColor(200,220,200);
+    doc.rect(M,74,W-(M*2),72,'S');
+
+    const fields=[
+      ['Worker Name', name],
+      ['Date Completed', dateFormatted],
+      ['Time Completed', timeStr],
+      ['Site', 'Tuan Biomass'],
+      ['Induction Type', 'Site Safety Induction'],
+      ['Result', 'Pass - All knowledge checks completed'],
+    ];
+    doc.setFontSize(9);
+    fields.forEach(([label,val],i)=>{
+      const y=86+(i*10);
+      if(i%2===0){doc.setFillColor(240,247,240);doc.rect(M+1,y-6,W-(M*2)-2,10,'F');}
+      doc.setFont('helvetica','bold');doc.setTextColor(...green);
+      doc.text(label+':',M+6,y);
+      doc.setFont('helvetica','normal');doc.setTextColor(...grey);
+      doc.text(String(val),M+58,y);
+    });
+
+    // Declaration box
+    doc.setFillColor(...lgreen);
+    doc.rect(M,154,W-(M*2),38,'F');
+    doc.setDrawColor(...green);
+    doc.rect(M,154,W-(M*2),38,'S');
+    doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...green);
+    doc.text('DECLARATION CONFIRMED',M+6,164);
+    doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(...grey);
+    const decl='The worker named above has read, understood and agreed to all sections of the Tuan Biomass Safety Induction, including all site hazards, PPE requirements, Lockout/Tagout procedures, Albioma Golden Rules and Lifesaving Eleven.';
+    doc.text(doc.splitTextToSize(decl,W-(M*2)-12),M+6,173);
+
+    // Checklist
+    doc.setFillColor(248,251,248);
+    doc.rect(M,200,W-(M*2),64,'F');
+    doc.setDrawColor(200,220,200);
+    doc.rect(M,200,W-(M*2),64,'S');
+    doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(...green);
+    doc.text('INDUCTION CHECKLIST',M+6,210);
+    const checks=[
+      'Golden Rules and Lifesaving Eleven reviewed',
+      'Major site hazards reviewed (dust, fire, mobile plant, heights, confined spaces)',
+      'PPE zone requirements reviewed',
+      'Lockout/Tagout (LOTO) procedures reviewed',
+      'Incident and hazard reporting requirements reviewed',
+      'All knowledge check questions answered correctly',
+      'Worker declaration signed',
+    ];
+    doc.setFont('helvetica','normal');doc.setFontSize(8);
+    checks.forEach((c,i)=>{
+      const y=220+(i*7);
+      doc.setFillColor(...green);
+      doc.rect(M+6,y-3.5,3.5,3.5,'F');
+      doc.setTextColor(...grey);
+      doc.text(c,M+13,y);
+    });
+
+    // Footer
+    doc.setFillColor(...green);
+    doc.rect(0,275,W,22,'F');
+    doc.setFillColor(106,176,76);
+    doc.rect(0,275,6,22,'F');
+    doc.setTextColor(...white);doc.setFontSize(8);doc.setFont('helvetica','normal');
+    doc.text('Safety Manager: Chris Foster  |  christopher.foster@albioma.com  |  0478 774 434',M,283);
+    doc.text('Plant Manager: David Knight  |  david.knight@albioma.com  |  0439 013 224',M,290);
+    doc.setFontSize(7);doc.setTextColor(180,210,180);
+    doc.text('Generated: '+dateFormatted+' '+timeStr,W-M,290,{align:'right'});
+
+    const safeName=name.replace(/[^a-zA-Z0-9]/g,'_');
+    const safeDate=dateFormatted.replace(/\s+/g,'').replace(/\//g,'-');
+    doc.save('Induction_'+safeName+'_'+safeDate+'.pdf');
+  }catch(e){
+    alert('PDF error: '+e.message);
+    console.error('PDF generation error:',e);
+  }
+}
+
+function submitDeclaration(){
+  if(signPass()){
+    const name=document.getElementById('workerName').value.trim();
+    const date=document.getElementById('signDate').value;
+    const now=new Date();
+    const timeStr=now.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit',hour12:true});
+    const dateFormatted=date?new Date(date+'T00:00:00').toLocaleDateString('en-AU',{day:'2-digit',month:'long',year:'numeric'}):now.toLocaleDateString('en-AU',{day:'2-digit',month:'long',year:'numeric'});
+    sendInductionEmail();
+    generateInductionPDF(name, dateFormatted, timeStr);
+    go(cur+1);
+  }else{updateSignStatus();}
+}
+function qPass(n){return !isQ(n) || qs[slideIdNum(n)]===true}
+function canLeaveForward(n){return qPass(n)&&(!isSign(n)||signPass())}
+function updateSignStatus(){
+  const st=document.getElementById('sigstatus');
+  if(!st)return;
+  if(signPass()){
+    st.textContent='Sign-off complete. Click Next to finish.';
+    st.classList.add('ok');
+  }else{
+    st.textContent='Complete all fields and tick the declaration to continue.';
+    st.classList.remove('ok');
+  }
+}
+
+function showOnly(n){
+  slides.forEach((sl,i)=>{
+    sl.classList.toggle('act', i===n);
+    sl.style.display = i===n ? 'block' : 'none';
+  });
+}
+
+function go(n){
+  if(n<0||n>=N)return;
+  if(n>cur&&!canLeaveForward(cur))return;
+  cur=n;
+  showOnly(cur);
+  document.getElementById('sa').scrollTop=0;
+  // Populate worker name on completion slide
+  const completeMsg=document.getElementById('completeMsg');
+  if(completeMsg){
+    const name=document.getElementById('workerName')?.value.trim();
+    if(name) completeMsg.textContent=name+' has completed the Tuan Biomass Safety Induction.';
+  }
+  updateUI();
+}
+
+function updateUI(){
+  document.getElementById('pbi').style.width=((cur/(N-1))*100)+'%';
+  document.getElementById('sct').textContent=`${cur+1} / ${N}`;
+  const nb=document.getElementById('bn');
+  const blocked=!canLeaveForward(cur);
+  nb.disabled=cur===N-1||blocked;
+  nb.textContent=cur===N-1?'Finished':(isSign(cur)?'Finish →':'Next →');
+  nb.title=blocked?(isSign(cur)?'Complete the sign-off to continue':'Answer the quiz correctly to continue'):'';
+  updateSignStatus();
+  document.getElementById('bp').disabled=cur===0;
+  updateSB();
+}
+
+function updateSB(){
+  document.querySelectorAll('.sbi').forEach(el=>{
+    const n=parseInt(el.dataset.s);
+    el.classList.toggle('act',n===cur);
+    if(qs[n])el.classList.add('done');
+  });
+}
+
+document.getElementById('bn').addEventListener('click',()=>go(cur+1));
+document.getElementById('bp').addEventListener('click',()=>go(cur-1));
+document.querySelectorAll('.sbi').forEach(el=>{
+  el.addEventListener('click',()=>go(parseInt(el.dataset.s)));
+});
+const menuBtn=document.getElementById('sbt');
+if(menuBtn){menuBtn.addEventListener('click',()=>{
+  const sb=document.getElementById('sb');
+  if(sb)sb.classList.toggle('col');
+});}
+['workerName','signDate','declareBox'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.addEventListener('input',updateUI);
+  if(el)el.addEventListener('change',updateUI);
+});
+document.querySelectorAll('.decl-item').forEach(cb=>{
+  cb.addEventListener('change',updateUI);
+});
+const dateEl=document.getElementById('signDate');
+if(dateEl&&!dateEl.value)dateEl.value=new Date().toISOString().slice(0,10);
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')go(cur+1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(cur-1);
+});
+
+document.body.classList.add('show-one-slide');
+showOnly(cur);
+updateUI();
+</script>
+</body>
+</html>
