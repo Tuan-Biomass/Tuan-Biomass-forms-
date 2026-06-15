@@ -165,6 +165,25 @@
   .table-style td ul { list-style: disc; padding-left: 16px; line-height: 1.8; }
   .licence-table th, .licence-table td { font-weight: 400; font-family:"Barlow",sans-serif; }
   .licence-table input { width:100%; padding:9px 10px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); font-size:14px; }
+  .doc-row {
+    display: grid; grid-template-columns: 1fr 160px auto; gap: 10px; align-items: center; margin-bottom: 10px;
+  }
+  @media (max-width: 600px) { .doc-row { grid-template-columns: 1fr; } }
+  .doc-row select, .doc-row input[type=text] {
+    width: 100%; padding: 9px 10px; border: 1.5px solid var(--border);
+    border-radius: 8px; background: var(--bg); font-size: 14px;
+  }
+  .doc-row .file-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .file-btn {
+    cursor: pointer; background: var(--green); color: white; padding: 4px 8px;
+    border-radius: 4px; font-size: 12px; font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600; white-space: nowrap;
+  }
+  .remove-row-btn {
+    background: none; border: none; color: var(--warn); cursor: pointer;
+    font-size: 18px; line-height: 1; padding: 2px 4px;
+  }
+  .doc-section-note { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
   @media print {
     .site-header, .btn-row, .progress-wrap { display: none; }
     body { background: white; }
@@ -233,7 +252,7 @@ const CONFIG = {
     { question: "What must drivers check for before raising the tipper at the storage facility?", options: ["That the loader operator is watching","That the tailgate is closed","For overhead obstructions and that the truck is clear of building structures","That the radio is on"], correct: 2, feedback: "Always check for overhead obstructions and ensure the truck is clear of building structures before raising the tipper." },
     { question: "What PPE must be worn at all times on Tuan Biomass sites?", options: ["Hi-vis vest and hard hat","Steel-cap boots and high-visibility clothing","Safety glasses and gloves","Reflective vest only"], correct: 1, feedback: "Steel-cap boots and high-visibility clothing must be worn at all times. Night shift requires hi-vis with reflective tape." },
     { question: "Where is the emergency assembly point at the Tuan Biomass Storage Facility?", options: ["Near the weighbridge","Inside the storage building","At the front gate","Southwest corner of the facility"], correct: 3, feedback: "The emergency assembly point is located at the southwest corner of the facility." },
-    { question: "What is the policy on drugs and alcohol on site?", options: ["Allowed in small amounts after hours","Only applies to machinery operators","Zero tolerance — no drugs or alcohol permitted on site at any time","A breathalyser test is required each morning"], correct: 2, feedback: "Zero tolerance. The use of drugs and alcohol is strictly prohibited at all times." },
+    { question: "What is the policy on drugs and alcohol on site?", options: ["Allowed in small amounts after hours","Only applies to machinery operators","Zero tolerance — no drugs or alcohol permitted on site at any time","A breathalyser test is required each morning"], correct: 2, feedback: "Zero tolerance. The use of drugs and alcohol is strictly prohibited at all times. Random drug and alcohol testing is conducted on site." },
   ],
   passMark: 80,
   webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
@@ -309,21 +328,19 @@ function fileToBase64(file) {
     </div>
   </div>
 
-  <!-- SCREEN 1: LICENCE & TICKET VERIFICATION -->
+  <!-- SCREEN 1: LICENCE & DOCUMENT VERIFICATION -->
   <div class="screen" id="screen-1">
     <div class="card">
-      <div class="section-tag">Licence & Ticket Verification</div>
+      <div class="section-tag">Licence Verification</div>
       <h2>Record Your Licences</h2>
-      <p>List all relevant truck licences and tickets below. Files uploaded here will be saved to the contractor documents folder in SharePoint.</p>
-      <table class="table-style licence-table">
-        <thead><tr><th>Licence / Ticket Type</th><th>Expiry Date</th><th>Photo / File</th></tr></thead>
-        <tbody id="licenceRows"></tbody>
-      </table>
+      <p class="doc-section-note">Add a row for each licence or ticket you hold. Select the type, enter the expiry date, and upload a photo or file. Files uploaded here will be saved to the contractor documents folder in SharePoint.</p>
+      <div id="licenceRows"></div>
+      <button class="btn btn-secondary" style="margin-top:8px" onclick="addLicenceRow()">+ Add Licence</button>
     </div>
     <div class="card">
       <div class="section-tag">Supporting Documents</div>
       <h2>Insurance &amp; Other Documents</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Upload insurance certificates, SWMS or any other supporting documents. Each file will be saved to the appropriate folder in SharePoint.</p>
+      <p class="doc-section-note">Upload insurance certificates, SWMS or any other supporting documents. Each file will be saved to the appropriate folder in SharePoint.</p>
       <div id="extraDocRows"></div>
       <button class="btn btn-secondary" style="margin-top:8px" onclick="addExtraDocRow()">+ Add Document</button>
       <div class="btn-row">
@@ -346,6 +363,28 @@ function fileToBase64(file) {
     <div class="btn-row">
       <button class="btn btn-secondary" id="s1Back">Back</button>
       <button class="btn btn-primary"   id="s1Next">Next</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2B: DIRECTIONS -->
+  <div class="screen" id="screen-2b">
+    <div class="card">
+      <div class="section-tag">Getting Here</div>
+      <h2>Directions to Site</h2>
+      <p>Tuan Biomass — Albioma (formally Altus Renewables) is located on Mill Rd, Tuan, adjacent to Hyne Mill in Tuan Forest.</p>
+      <ul class="rule-list">
+        <li><span class="rule-num green">1</span>Proceed down Boonaroo Rd for 8 km.</li>
+        <li><span class="rule-num green">2</span>Turn right onto Maryborough Tuan Forest Rd at Silverwater Earthworks (large shed).</li>
+        <li><span class="rule-num green">3</span>Continue along Maryborough Tuan Forest Rd for 5 km.</li>
+        <li><span class="rule-num green">4</span>Take the first bitumen left turn before reaching Hyne Mill.</li>
+        <li><span class="rule-num green">5</span>Proceed to the gates.</li>
+      </ul>
+      <img src="https://i.ibb.co/BVg7T8R4/Tuan-Biomass-Directions.png" alt="Directions to Tuan Biomass" class="img-full">
+      <p class="img-caption">Route to Tuan Biomass site entrance</p>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="s1bBack">Back</button>
+      <button class="btn btn-primary"   id="s1bNext">Next</button>
     </div>
   </div>
 
@@ -396,6 +435,7 @@ function fileToBase64(file) {
       <h2>Zero Tolerance</h2>
       <p>The use of drugs and alcohol is <strong>strictly prohibited</strong> while on site.</p>
       <div class="alert-box"><strong>Warning:</strong> Any worker suspected of being under the influence may be removed from site.</div>
+      <div class="info-box"><strong>Random Testing:</strong> Random drug and alcohol testing is conducted on site.</div>
     </div>
     <div class="btn-row">
       <button class="btn btn-secondary" id="s3Back">Back</button>
@@ -511,6 +551,7 @@ function fileToBase64(file) {
         <li><input type="checkbox" class="decl-check">I will immediately report any hazards, near misses, or incidents to the plant manager or safety officer.</li>
         <li><input type="checkbox" class="decl-check">I am familiar with the emergency evacuation procedures and assembly points.</li>
         <li><input type="checkbox" class="decl-check">I acknowledge that high-visibility clothing and steel-cap boots must be worn at all times.</li>
+        <li><input type="checkbox" class="decl-check">I am aware that random drug and alcohol testing is conducted on site.</li>
         <li><input type="checkbox" class="decl-check">I understand that non-compliance may result in disciplinary action, removal from site, or reporting to my company's management.</li>
       </ul>
       <div class="btn-row"><button class="btn btn-primary" id="submitDeclBtn">Submit Induction</button></div>
@@ -565,57 +606,62 @@ CONFIG.contacts.forEach(c => {
   cg.appendChild(d);
 });
 
-function showLicFileName(i, type) {
-  const input = document.getElementById(type === 'camera' ? "licCamera" + i : "licFile" + i);
-  const span  = document.getElementById("licFileName" + i);
-  if (input && input.files.length && span) span.textContent = input.files[0].name;
+const licenceTypes = ["C","LR","MR","HR","HC","MC","Forklift","EWP","Front End Loader","Working at Heights","First Aid","Crane","Other"];
+
+// ── Licence rows (dynamic, like extra docs) ──
+let licenceCount = 0;
+function addLicenceRow() {
+  const id = "lic" + licenceCount++;
+  const container = document.getElementById("licenceRows");
+  const div = document.createElement("div");
+  div.className = "doc-row";
+  div.id = id + "_row";
+  div.innerHTML = `
+    <select id="${id}_type">
+      <option value="">Select type...</option>
+      ${licenceTypes.map(t => `<option>${t}</option>`).join("")}
+    </select>
+    <input type="text" id="${id}_expiry" placeholder="DD/MM/YYYY" inputmode="numeric" maxlength="10" oninput="formatDateInput(this)">
+    <div class="file-actions">
+      <label class="file-btn">📁 File<input type="file" id="${id}_file" accept="image/*,.pdf" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''"></label>
+      <label class="file-btn">📷 Camera<input type="file" id="${id}_cam" accept="image/*" capture="environment" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''"></label>
+      <span id="${id}_fname" style="font-size:11px;color:#6b7280;"></span>
+      <button type="button" class="remove-row-btn" onclick="document.getElementById('${id}_row').remove()">✕</button>
+    </div>`;
+  container.appendChild(div);
+}
+addLicenceRow(); // start with one row
+
+// ── Auto-format date text inputs as DD/MM/YYYY ──
+function formatDateInput(input) {
+  let digits = input.value.replace(/\D/g, "").slice(0, 8);
+  let out = digits;
+  if (digits.length > 4) out = digits.slice(0,2) + "/" + digits.slice(2,4) + "/" + digits.slice(4);
+  else if (digits.length > 2) out = digits.slice(0,2) + "/" + digits.slice(2);
+  input.value = out;
 }
 
-const licenceTypes = ["C","LR","MR","HR","HC","MC","Forklift","EWP","Front End Loader","Working at Heights","First Aid","Crane","Other"];
-const licenceRows = document.getElementById("licenceRows");
-licenceTypes.forEach((t, i) => {
-  licenceRows.insertAdjacentHTML("beforeend", `<tr>
-    <td>${t}</td>
-    <td><input id="licExp${i}" placeholder="DD/MM/YYYY"></td>
-    <td>
-      <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-        <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
-          📁 File<input type="file" id="licFile${i}" accept="image/*,.pdf" style="display:none" onchange="showLicFileName(${i},'file')">
-        </label>
-        <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
-          📷 Camera<input type="file" id="licCamera${i}" accept="image/*" capture="environment" style="display:none" onchange="showLicFileName(${i},'camera')">
-        </label>
-        <span id="licFileName${i}" style="font-size:11px;color:#6b7280;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-      </div>
-    </td>
-  </tr>`);
-});
-
-// Extra doc rows
+// ── Extra doc rows (insurance / other) ──
 let extraDocCount = 0;
 function addExtraDocRow() {
   const id = "extraDoc" + extraDocCount++;
   const container = document.getElementById("extraDocRows");
   const div = document.createElement("div");
+  div.className = "doc-row";
   div.id = id + "_row";
-  div.style.cssText = "display:grid;grid-template-columns:1fr 160px auto;gap:10px;align-items:center;margin-bottom:10px;";
   div.innerHTML = `
-    <select id="${id}_type" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
+    <select id="${id}_type">
       <option value="">Select type...</option>
       <option>Insurance / public liability</option>
       <option>SWMS</option>
       <option>Other document / competency</option>
     </select>
-    <input type="date" id="${id}_expiry" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
-    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
-        📁 File<input type="file" id="${id}_file" accept="image/*,.pdf,.doc,.docx" multiple style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?Array.from(this.files).map(f=>f.name).join(', '):''">
-      </label>
-      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
-        📷 Camera<input type="file" id="${id}_cam" accept="image/*" capture="environment" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''">
-      </label>
+    <input type="text" id="${id}_expiry" placeholder="DD/MM/YYYY" inputmode="numeric" maxlength="10" oninput="formatDateInput(this)">
+    <div class="file-actions">
+      <label class="file-btn">📁 File<input type="file" id="${id}_file" accept="image/*,.pdf,.doc,.docx" multiple style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?Array.from(this.files).map(f=>f.name).join(', '):''"></label>
+      <label class="file-btn">📷 Camera<input type="file" id="${id}_cam" accept="image/*" capture="environment" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''"></label>
       <span id="${id}_fname" style="font-size:11px;color:#6b7280;"></span>
-      <button type="button" onclick="document.getElementById('${id}_row').remove()" style="background:none;border:none;color:var(--warn);cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;">✕</button>
+      <button type="button" class="remove-row-btn" onclick="document.getElementById('${id}_row').remove()">✕</button>
     </div>`;
   container.appendChild(div);
 }
@@ -632,19 +678,20 @@ CONFIG.hazards.forEach(h => {
   ht.insertAdjacentHTML("beforeend", `<tr><td style="font-weight:600;color:var(--warn);">${h.hazard}</td><td><ul>${h.controls.map(c=>`<li>${c}</li>`).join("")}</ul></td></tr>`);
 });
 
-const SCREENS = [
-  { label: "Registration",         pct: 0   },
-  { label: "Licences",             pct: 10  },
-  { label: "Contacts",             pct: 20  },
-  { label: "CoR & Fatigue",        pct: 30  },
-  { label: "PPE & Drug/Alcohol",   pct: 40  },
-  { label: "Tuan Loading Rules",   pct: 50  },
-  { label: "Port Unloading Rules", pct: 60  },
-  { label: "Hazards & Emergency",  pct: 72  },
-  { label: "Quiz",                 pct: 82  },
-  { label: "Declaration",          pct: 92  },
-  { label: "Complete",             pct: 100 },
-];
+const SCREENS = {
+  "0":   { label: "Registration",         pct: 0  },
+  "1":   { label: "Licences",             pct: 8  },
+  "2":   { label: "Contacts",             pct: 16 },
+  "2b":  { label: "Directions",           pct: 24 },
+  "3":   { label: "CoR & Fatigue",        pct: 33 },
+  "4":   { label: "PPE & Drug/Alcohol",   pct: 42 },
+  "5":   { label: "Tuan Loading Rules",   pct: 51 },
+  "6":   { label: "Port Unloading Rules", pct: 60 },
+  "7":   { label: "Hazards & Emergency",  pct: 72 },
+  "8":   { label: "Quiz",                 pct: 82 },
+  "9":   { label: "Declaration",          pct: 92 },
+  "10":  { label: "Complete",             pct: 100 },
+};
 
 function goTo(n) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
@@ -665,24 +712,26 @@ document.getElementById("startBtn").addEventListener("click", function() {
     alert("Please fill in your name, company, truck registration, company contact, company contact mobile and date before beginning.");
     return;
   }
-  goTo(1);
+  goTo("1");
 });
 
-document.getElementById("licBack").addEventListener("click", () => goTo(0));
-document.getElementById("licNext").addEventListener("click", () => goTo(2));
-document.getElementById("s1Back").addEventListener("click", () => goTo(1));
-document.getElementById("s1Next").addEventListener("click", () => goTo(3));
-document.getElementById("s2Back").addEventListener("click", () => goTo(2));
-document.getElementById("s2Next").addEventListener("click", () => goTo(4));
-document.getElementById("s3Back").addEventListener("click", () => goTo(3));
-document.getElementById("s3Next").addEventListener("click", () => goTo(5));
-document.getElementById("s4Back").addEventListener("click", () => goTo(4));
-document.getElementById("s4Next").addEventListener("click", () => goTo(6));
-document.getElementById("s5Back").addEventListener("click", () => goTo(5));
-document.getElementById("s5Next").addEventListener("click", () => goTo(7));
-document.getElementById("s6Back").addEventListener("click", () => goTo(6));
-document.getElementById("s6Next").addEventListener("click", () => { resetQuiz(); goTo(8); });
-document.getElementById("s7Back").addEventListener("click", () => goTo(7));
+document.getElementById("licBack").addEventListener("click", () => goTo("0"));
+document.getElementById("licNext").addEventListener("click", () => goTo("2"));
+document.getElementById("s1Back").addEventListener("click", () => goTo("1"));
+document.getElementById("s1Next").addEventListener("click", () => goTo("2b"));
+document.getElementById("s1bBack").addEventListener("click", () => goTo("2"));
+document.getElementById("s1bNext").addEventListener("click", () => goTo("3"));
+document.getElementById("s2Back").addEventListener("click", () => goTo("2b"));
+document.getElementById("s2Next").addEventListener("click", () => goTo("4"));
+document.getElementById("s3Back").addEventListener("click", () => goTo("3"));
+document.getElementById("s3Next").addEventListener("click", () => goTo("5"));
+document.getElementById("s4Back").addEventListener("click", () => goTo("4"));
+document.getElementById("s4Next").addEventListener("click", () => goTo("6"));
+document.getElementById("s5Back").addEventListener("click", () => goTo("5"));
+document.getElementById("s5Next").addEventListener("click", () => goTo("7"));
+document.getElementById("s6Back").addEventListener("click", () => goTo("6"));
+document.getElementById("s6Next").addEventListener("click", () => { resetQuiz(); goTo("8"); });
+document.getElementById("s7Back").addEventListener("click", () => goTo("7"));
 
 let quizAnswers = [];
 let currentQ    = 0;
@@ -737,8 +786,8 @@ document.getElementById("quizNextBtn").addEventListener("click", function() { cu
 document.getElementById("quizSubmitBtn").addEventListener("click", function() {
   const correct = quizAnswers.filter(Boolean).length;
   const score   = Math.round((correct / CONFIG.quiz.length) * 100);
-  if (score >= CONFIG.passMark) { goTo(9); }
-  else { alert("Quiz not passed. You scored " + score + "%. A score of " + CONFIG.passMark + "% or higher is required."); resetQuiz(); goTo(8); }
+  if (score >= CONFIG.passMark) { goTo("9"); }
+  else { alert("Quiz not passed. You scored " + score + "%. A score of " + CONFIG.passMark + "% or higher is required."); resetQuiz(); goTo("8"); }
 });
 
 document.getElementById("submitDeclBtn").addEventListener("click", async function() {
@@ -774,21 +823,24 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
   const uploadDocuments = [];
   const docList = [];
 
-  // Licence table rows
-  for (let i = 0; i < licenceTypes.length; i++) {
-    const expiry      = document.getElementById("licExp" + i)?.value.trim() || "";
-    const fileInput   = document.getElementById("licFile" + i);
-    const cameraInput = document.getElementById("licCamera" + i);
-    const activeInput = (fileInput && fileInput.files && fileInput.files.length) ? fileInput
-                      : (cameraInput && cameraInput.files && cameraInput.files.length) ? cameraInput
+  // Licence rows
+  const licRows = document.getElementById("licenceRows").querySelectorAll("[id$='_row']");
+  for (const row of licRows) {
+    const rowId   = row.id.replace("_row","");
+    const docType = document.getElementById(rowId + "_type").value.trim();
+    const expiry  = document.getElementById(rowId + "_expiry").value.trim();
+    const fInput  = document.getElementById(rowId + "_file");
+    const cInput  = document.getElementById(rowId + "_cam");
+    const activeInput = (fInput && fInput.files && fInput.files.length) ? fInput
+                      : (cInput && cInput.files && cInput.files.length) ? cInput
                       : null;
-    if (!activeInput) continue;
+    if (!docType || !activeInput) continue;
     const file = activeInput.files[0];
-    docList.push(licenceTypes[i] + " (" + file.name + ")");
+    docList.push(docType + " (" + file.name + ")");
     try {
       const base64 = await fileToBase64(file);
       uploadDocuments.push({
-        document_type: licenceTypes[i],
+        document_type: docType,
         expiry_date:   expiry,
         attachments:   [{ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 }]
       });
@@ -855,7 +907,7 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
     documents:     uploadDocuments
   } : null;
 
-  goTo(10);
+  goTo("10");
 
   // ── Fire both flows in parallel ──
   const inductionFetch = fetch(CONFIG.webhookURL, {
