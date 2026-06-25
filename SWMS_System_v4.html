@@ -752,6 +752,20 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:15px 0}
 <!-- Hidden render target used by renderHazardReview -->
 <div id="hazardReviewContent" style="display:none;"></div>
 
+<!-- PDF Viewer Modal -->
+<div id="pdfViewerOverlay" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.75);flex-direction:column;">
+  <div style="background:var(--green-dark);display:flex;align-items:center;gap:10px;padding:10px 14px;flex-shrink:0;">
+    <div style="flex:1;min-width:0;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:rgba(255,255,255,.6);text-transform:uppercase;" id="pdfViewerSwmsId"></div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="pdfViewerTitle"></div>
+    </div>
+    <a id="pdfNewTabBtn" href="#" target="_blank" class="btn btn-secondary btn-sm" style="flex-shrink:0;">&#10138; Open in Tab</a>
+    <a id="pdfDownloadBtn" href="#" download class="btn btn-secondary btn-sm" style="flex-shrink:0;">&#8595; Download</a>
+    <button onclick="closePdfViewer()" class="btn btn-sm" style="background:var(--danger);color:#fff;flex-shrink:0;">&#10005; Close</button>
+  </div>
+  <iframe id="pdfViewerFrame" src="" style="flex:1;width:100%;border:none;background:#525659;"></iframe>
+</div>
+
 <div class="footer">SWMS-SYS-001 · Tuan Biomass · Albioma Group</div>
 <div id="toast-wrap"></div>
 
@@ -2089,17 +2103,30 @@ async function loadLiveData(){
 let currentPdfUrl = '';
 
 function openPdfViewer(url, title, id){
-  if(!url){ toast('No PDF linked for this SWMS'); return; }
+  if(!url){ toast('No PDF linked for this SWMS','var(--danger)'); return; }
   currentPdfUrl = url;
-  window.open(url, '_blank');
+  document.getElementById('pdfViewerTitle').textContent = title || '';
+  document.getElementById('pdfViewerSwmsId').textContent = id || '';
+  document.getElementById('pdfViewerFrame').src = url;
+  document.getElementById('pdfNewTabBtn').href = url;
+  document.getElementById('pdfDownloadBtn').href = url;
+  document.getElementById('pdfDownloadBtn').download = (id || 'SWMS') + '.pdf';
+  const overlay = document.getElementById('pdfViewerOverlay');
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closePdfViewer(){
+  document.getElementById('pdfViewerOverlay').style.display = 'none';
+  document.getElementById('pdfViewerFrame').src = '';
+  document.body.style.overflow = '';
+  currentPdfUrl = '';
 }
 
 function printPdf(){
   if(!currentPdfUrl) return;
   window.open(currentPdfUrl, '_blank');
 }
-
-function closePdfViewer(){ currentPdfUrl = ''; }
 function initSig(canvasId, wrapId){
   const canvas=document.getElementById(canvasId);
   const wrap=document.getElementById(wrapId);
