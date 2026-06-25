@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tuan Biomass — SWMS System</title>
+<title>Tuan Biomass — SWMS System v5</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--green:#2D6A4F;--green-dark:#1B4332;--accent:#D4A017;--danger:#DC2626;--bg:#F6F7F8;--card:#fff;--border:#D1D5DB;--muted:#6B7280;--text:#111827;--amber:#D97706;--blue:#1D4ED8}
@@ -294,8 +294,9 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:15px 0}
       <div class="sub" id="s3SwmsMeta"></div>
       <hr class="divider">
       <div id="s3VersionWarn" class="hidden" style="margin-bottom:12px;"></div>
-      <div class="notice notice-warn" style="margin-top:0;">Review the SWMS document before signing. Open the PDF link below if available.</div>
+      <div class="notice notice-warn" style="margin-top:0;">You must open and review the SWMS document below before you can sign.</div>
       <div id="s3PdfLink" class="mb-4"></div>
+      <div id="s3PdfWarn" class="notice notice-danger" style="display:none;margin-top:-8px;margin-bottom:12px;">⚠️ Open the SWMS document above before signing.</div>
       <div class="section-label">Declaration</div>
       <div class="check-list">
         <div class="check-item" id="chk-read-item">
@@ -478,7 +479,11 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:15px 0}
 <div id="page-dashboard" class="hidden">
   <div class="top-row">
     <div><div class="title">Compliance Dashboard</div><div class="sub">Sign-off status against current SWMS review versions</div></div>
-    <button class="btn btn-secondary btn-sm" onclick="renderDashboard()">Refresh</button>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <span id="liveIndicator" style="font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);"></span>
+      <button class="btn btn-secondary btn-sm" onclick="syncNow()">⟳ Sync Now</button>
+      <button class="btn btn-secondary btn-sm" onclick="renderDashboard()">Refresh</button>
+    </div>
   </div>
   <div class="stat-grid" id="dashStats"></div>
   <div class="card">
@@ -608,7 +613,7 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:15px 0}
     <div class="section-label mb-4">Power Automate — Flow URLs</div>
     <div class="sub mb-4">Paste your PA HTTP trigger URLs here. Leave blank to store data locally only.</div>
     <div class="field">
-      <label for="cfgGetUrl">Flow 1 — Load Live Data (GET)</label>
+      <label for="cfgGetUrl">Flow 1 — Load Live Sign-Offs (GET)</label>
       <input type="text" id="cfgGetUrl" placeholder="https://prod-xx.logic.azure.com/...">
     </div>
     <div class="field">
@@ -618,6 +623,10 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:15px 0}
     <div class="field">
       <label for="cfgPtUrl">Flow 3 — Submit Pre-Task (POST)</label>
       <input type="text" id="cfgPtUrl" placeholder="https://prod-xx.logic.azure.com/...">
+    </div>
+    <div class="field">
+      <label for="cfgPtGetUrl">Flow 4 — Load Live Pre-Tasks (GET)</label>
+      <input type="text" id="cfgPtGetUrl" placeholder="https://prod-xx.logic.azure.com/...">
     </div>
     <div class="field">
       <label for="cfgPdfBase">SWMS PDF Base URL (GitHub Pages folder)</label>
@@ -785,35 +794,62 @@ const KEYS = {
 // ═══════════════════════════════════════
 // SWMS LIBRARY — from spreadsheet
 // ═══════════════════════════════════════
+// ─── SWMS LIBRARY — sourced from SWMS_Master_Register.xlsx ───────────────────
+// PDF links resolve against cfg.pdfBase (SharePoint) or SWMS_PDF_LINKS below.
+// linkedCore: IDs of Core SWMS a worker must also have signed before pre-task.
+// Hazard assignments are in SWMS_HAZARD_LINKS below.
+const SWMS_PDF_LINKS = {
+  'SWMS-001':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_001.pdf',
+  'SWMS-002':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_002.pdf',
+  'SWMS-003':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_003.pdf',
+  'SWMS-004':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_004.pdf',
+  'SWMS-005':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_005.pdf',
+  'SWMS-006':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_006.pdf',
+  'SWMS-007':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_007.pdf',
+  'SWMS-009':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_009.pdf',
+  'SWMS-011':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_011.pdf',
+  'SWMS-016':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_016.pdf',
+  'SWMS-017':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_017.pdf',
+  'SWMS-018':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_018.pdf',
+  'SWMS-019':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_019.pdf',
+  'SWMS-020':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_020.pdf',
+  'SWMS-021':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_021.pdf',
+  'SWMS-023':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_023.pdf',
+  'SWMS-024':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_024.pdf',
+  'SWMS-025':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_025.pdf',
+  'SWMS-026':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_026.pdf',
+  'SWMS-027':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_027.pdf',
+  'SWMS-028':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_028.pdf',
+};
+
 const SWMS_LIB_DEFAULT = [
-  {id:'SWMS-001',title:'Baghouse and Ducting Installation',version:1,type:'Non-Routine Task SWMS',authDate:'2025-01-06',reviewDate:null,active:false},
-  {id:'SWMS-002',title:'Burner Clean',version:1,type:'Routine Task SWMS',authDate:'2026-04-07',reviewDate:'2027-04-07',active:true},
-  {id:'SWMS-003',title:'Dust Blower Bag Change',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-15',reviewDate:'2026-12-15',active:true},
-  {id:'SWMS-004',title:'Dryer Stack Clean',version:1,type:'Non-Routine Task SWMS',authDate:'2025-05-12',reviewDate:null,active:false},
-  {id:'SWMS-005',title:'Hot Work',version:1,type:'Core SWMS',authDate:'2026-05-15',reviewDate:'2027-05-15',active:true},
-  {id:'SWMS-006',title:'ID Fan',version:1,type:'Routine Task SWMS',authDate:'2026-06-26',reviewDate:'2027-06-26',active:true},
-  {id:'SWMS-007',title:'Outlet Pipe',version:2,type:'Routine Task SWMS',authDate:'2026-06-24',reviewDate:'2027-06-24',active:true},
-  {id:'SWMS-008',title:'Roof Clean',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
-  {id:'SWMS-009',title:'Shavings Bucket Elevator',version:1,type:'Non-Routine Task SWMS',authDate:'2024-11-26',reviewDate:null,active:false},
-  {id:'SWMS-010',title:'Shavings Silo Entry',version:1,type:'Non-Routine Task SWMS',authDate:'2025-01-22',reviewDate:null,active:false},
-  {id:'SWMS-011',title:'Shredder Air Assist',version:1,type:'Non-Routine Task SWMS',authDate:'2024-11-26',reviewDate:null,active:false},
-  {id:'SWMS-012',title:'Surge Bin',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
-  {id:'SWMS-013',title:'Tail End Breakdown',version:1,type:'Non-Routine Task SWMS',authDate:'2026-05-03',reviewDate:'2027-05-03',active:true},
-  {id:'SWMS-014',title:'Truck Silos Cleaning',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
-  {id:'SWMS-015',title:'Grecon Filters Outlet Pipe',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
-  {id:'SWMS-016',title:'Replace Drag Chain Silo Top (Crane Lift)',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-15',reviewDate:null,active:false},
-  {id:'SWMS-017',title:'3P Discharge',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-16',reviewDate:null,active:false},
-  {id:'SWMS-018',title:'Airlock Repair',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-16',reviewDate:null,active:false},
-  {id:'SWMS-019',title:'Burner Fan Shroud',version:1,type:'Non-Routine Task SWMS',authDate:'2025-06-18',reviewDate:null,active:false},
-  {id:'SWMS-020',title:'Conveyor Belt Maintenance',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
-  {id:'SWMS-021',title:'Pellet Mill Maintenance',version:1,type:'Routine Task SWMS',authDate:'2026-01-10',reviewDate:'2027-01-10',active:true},
-  {id:'SWMS-022',title:'Working at Heights — Roof Access',version:1,type:'Core SWMS',authDate:'2026-03-01',reviewDate:'2027-03-01',active:true},
-  {id:'SWMS-023',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
-  {id:'SWMS-024',title:'Confined Space Entry',version:1,type:'Core SWMS',authDate:'2026-06-24',reviewDate:'2027-07-24',active:true,linkedCore:[]},
-  {id:'SWMS-025',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
-  {id:'SWMS-026',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
-  {id:'SWMS-027',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
-  {id:'SWMS-028',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
+  {id:'SWMS-001',title:'Baghouse and Ducting Installation',version:1,type:'Non-Routine Task SWMS',authDate:'2025-01-06',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-002',title:'Burner Clean',version:1,type:'Routine Task SWMS',authDate:'2026-04-07',reviewDate:'2027-04-07',active:true,linkedCore:['SWMS-024','SWMS-026']},
+  {id:'SWMS-003',title:'Dust Blower Bag Change',version:1,type:'Routine Task SWMS',authDate:'2025-12-15',reviewDate:'2026-12-15',active:true,linkedCore:['SWMS-024','SWMS-025','SWMS-026']},
+  {id:'SWMS-004',title:'Dryer Stack Clean',version:1,type:'Non-Routine Task SWMS',authDate:'2025-05-12',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-005',title:'Hot Work',version:1,type:'Core SWMS',authDate:'2026-05-15',reviewDate:'2027-05-15',active:true,linkedCore:[]},
+  {id:'SWMS-006',title:'ID Fan',version:1,type:'Routine Task SWMS',authDate:'2026-06-26',reviewDate:'2027-06-26',active:true,linkedCore:['SWMS-024','SWMS-026']},
+  {id:'SWMS-007',title:'Outlet Pipe',version:2,type:'Routine Task SWMS',authDate:'2026-06-24',reviewDate:'2027-06-24',active:true,linkedCore:['SWMS-024','SWMS-026']},
+  {id:'SWMS-008',title:'Roof Clean',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true,linkedCore:['SWMS-025']},
+  {id:'SWMS-009',title:'Shavings Bucket Elevator',version:1,type:'Non-Routine Task SWMS',authDate:'2024-11-26',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-011',title:'Shredder Air Assist',version:1,type:'Non-Routine Task SWMS',authDate:'2024-11-26',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-012',title:'Replace Filters in New York Blower Baghouse',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true,linkedCore:['SWMS-024','SWMS-025','SWMS-026']},
+  {id:'SWMS-013',title:'Tail End Breakdown',version:1,type:'Routine Task SWMS',authDate:'2026-05-03',reviewDate:'2027-05-03',active:true,linkedCore:['SWMS-026','SWMS-028']},
+  {id:'SWMS-014',title:'Truck Silos Cleaning',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true,linkedCore:['SWMS-025']},
+  {id:'SWMS-015',title:'Grecon Filters Outlet Pipe',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true,linkedCore:['SWMS-025']},
+  {id:'SWMS-016',title:'Replace Drag Chain Silo Top (Crane Lift)',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-15',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-017',title:'3P Discharge',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-16',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-018',title:'Airlock Repair',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-16',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-019',title:'Burner Fan Shroud',version:1,type:'Non-Routine Task SWMS',authDate:'2025-06-18',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-020',title:'Hot Pellet Conveyor',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-16',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-021',title:'Incline Screw',version:1,type:'Non-Routine Task SWMS',authDate:'2026-01-10',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-022',title:'Conveyor Belt Maintenance',version:1,type:'Routine Task SWMS',authDate:'2026-03-01',reviewDate:'2027-03-01',active:true,linkedCore:['SWMS-026','SWMS-028']},
+  {id:'SWMS-023',title:'Confined Space Weld Repair Dryer Drum',version:1,type:'Non-Routine Task SWMS',authDate:'2026-03-02',reviewDate:null,active:false,linkedCore:[]},
+  {id:'SWMS-024',title:'Confined Space Entry',version:1,type:'Core SWMS',authDate:'2026-05-01',reviewDate:'2027-05-01',active:true,linkedCore:[]},
+  {id:'SWMS-025',title:'Working at Heights',version:1,type:'Core SWMS',authDate:'2026-06-11',reviewDate:'2027-06-11',active:true,linkedCore:[]},
+  {id:'SWMS-026',title:'Isolation (LOTO)',version:1,type:'Core SWMS',authDate:'2026-06-24',reviewDate:'2027-06-24',active:true,linkedCore:[]},
+  {id:'SWMS-027',title:'Working Around Crane and Lifting Operations',version:1,type:'Core SWMS',authDate:'2026-06-24',reviewDate:'2027-06-24',active:true,linkedCore:[]},
+  {id:'SWMS-028',title:'Working on Energised or Unguarded Machinery',version:1,type:'Core SWMS',authDate:'2026-06-25',reviewDate:'2027-06-25',active:true,linkedCore:[]},
 ];
 
 // Live library — localStorage overrides the hardcoded default when present
@@ -843,9 +879,10 @@ let cfg = loadObj(KEYS.config);
 // Bake in defaults if config not yet saved on this device
 if(!cfg.settingsCode){
   cfg = {
-    getUrl:      '',  // PA Flow 1 — Load Live Data (GET) — paste URL here
+    getUrl:      '',  // PA Flow 1 — Load Live Sign-Offs (GET) — paste URL here
     signUrl:     '',  // PA Flow 2 — Submit Sign-Off (POST) — paste URL here
     ptUrl:       '',  // PA Flow 3 — Submit Pre-Task (POST) — paste URL here
+    ptGetUrl:    '',  // PA Flow 4 — Load Live Pre-Tasks (GET) — paste URL here
     pdfBase:     'https://tuan-biomass.github.io/Tuan-Biomass-forms-/',
     settingsCode: 'TB2026',
   };
@@ -924,6 +961,7 @@ function crewAllSigned(crew, swmsId){
 }
 
 function pdfUrl(swmsId){
+  if(SWMS_PDF_LINKS[swmsId]) return SWMS_PDF_LINKS[swmsId];
   const freshCfg = loadObj(KEYS.config);
   const base = freshCfg.pdfBase || '';
   if(!base) return null;
@@ -972,7 +1010,7 @@ function renderRegister(){
       <div class="tag-row">
         ${typeBadge(s.type)}
         ${s.reviewDate?`<span class="badge ${od?'badge-red':'badge-blue'}">Review: ${fmtDate(s.reviewDate)}</span>`:'<span class="badge badge-grey">No Review Date</span>'}
-        ${HAZARD_DATA[s.id]?`<a onclick="event.stopPropagation();openHazardModal('${s.id}','${esc(s.title)}')" class="badge badge-orange" style="cursor:pointer;background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;">View Hazards</a>`:''}
+        ${SWMS_HAZARD_LINKS[s.id]?`<a onclick="event.stopPropagation();openHazardModal('${s.id}','${esc(s.title)}')" class="badge badge-orange" style="cursor:pointer;background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;">View Hazards</a>`:''}
         ${pdfUrl(s.id)?`<a onclick="event.stopPropagation();openPdfViewer('${pdfUrl(s.id)}','${esc(s.title)}','${s.id}')" class="badge badge-green" style="cursor:pointer;">View PDF</a>`:''}
       </div>
     </div>`;
@@ -998,7 +1036,7 @@ function openModal(id){
       <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:var(--green-dark);">${sigs.length} <span style="font-size:14px;font-weight:400;color:var(--muted);">workers signed</span></div>
     </div>
     ${pdf?`<button onclick="closeModal();openPdfViewer('${pdf}','${esc(s.title)}','${s.id}')" class="btn btn-secondary btn-full" style="margin-top:4px;">View PDF Document</button>`:'<div class="notice notice-info" style="margin-top:4px;">No PDF linked. Add the base URL in Settings once PDFs are uploaded to GitHub.</div>'}
-    ${HAZARD_DATA[s.id]?`<button onclick="closeModal();openHazardModal('${s.id}','${esc(s.title)}')" class="btn btn-primary btn-full" style="margin-top:8px;">View Hazard Summary</button>`:''}
+    ${SWMS_HAZARD_LINKS[s.id]?`<button onclick="closeModal();openHazardModal('${s.id}','${esc(s.title)}')" class="btn btn-primary btn-full" style="margin-top:8px;">View Hazard Summary</button>`:''}
   `;
   document.getElementById('swmsModal').classList.add('open');
 }
@@ -1070,215 +1108,58 @@ function getSelectedCrew(){
 // ═══════════════════════════════════════
 // HAZARD DATA
 // ═══════════════════════════════════════
-const HAZARD_DATA = {
-  'SWMS-024': {
-    scope: 'Confined Space Entry — Dryer Drums, Silos, Vessels and other enclosed spaces at Tuan Biomass',
-    hazards: [
-      {
-        num: 1, risk: 'E',
-        title: 'Entering a Confined Space',
-        risks: [
-          'Heat exhaustion, engulfment, limited access/egress',
-          'Asphyxiation — low O₂ or contaminants',
-          'Explosive atmosphere, combustible dusts',
-        ],
-        permits: ['Confined Space Entry Permit','Hot Work Permit (if applicable)'],
-        controls: [
-          'Atmospheric testing before and during entry',
-          'Continuous forced ventilation throughout task',
-          'Standby person stationed at entry point at all times',
-          'Emergency rescue plan in place before entry',
-        ]
-      },
-      {
-        num: 2, risk: 'E',
-        title: 'Contaminated or Flammable Atmosphere',
-        risks: [
-          'Fire / explosion from ignition source',
-          'Asphyxiation or poisoning from contaminated atmosphere',
-        ],
-        permits: ['Confined Space Entry Permit','Hot Work Permit'],
-        controls: [
-          'Gas test for O₂, LEL and toxic gases before entry',
-          'No ignition sources within the space or entry zone',
-          'Continuous atmospheric monitoring during work',
-          'Entrant to withdraw immediately if alarm sounds',
-        ]
-      },
-      {
-        num: 3, risk: 'E',
-        title: 'Falling from Height ≥2m or Working on Roof',
-        risks: [
-          'Falling worker or object — ≥2m requires SWMS',
-        ],
-        permits: [],
-        controls: [
-          'Fall arrest harness required for work ≥2m',
-          'Anchor points inspected before use',
-          'Exclusion zone below work area',
-        ]
-      },
-      {
-        num: 4, risk: 'E',
-        title: 'Hot Work — Oxy Cutting, Welding, Soldering, Grinding',
-        risks: [
-          'Fire or explosion from ignition source',
-          'Injury from hot surface or grinding wheel ejection',
-          'Fire inside Expanded Polystyrene (EPS) panels',
-        ],
-        permits: ['Hot Work Permit'],
-        controls: [
-          'Hot Work Permit issued and briefed to all crew',
-          'Fire extinguisher within 1m of hot work at all times',
-          'Fire watch for minimum 30 minutes after work ceases',
-          'All combustibles removed or shielded from work area',
-        ]
-      },
-      {
-        num: 5, risk: 'E',
-        title: 'Hand Dig / Ground Penetration / Excavation',
-        risks: [
-          'Contact with utilities — electrical, water, gas, comms',
-          'Trench collapse',
-        ],
-        permits: ['Excavation Permit'],
-        controls: [
-          'Dial Before You Dig check completed',
-          'Hand excavation within 500mm of known services',
-          'Shoring or battering for excavations >1.5m deep',
-        ]
-      },
-      {
-        num: 6, risk: 'E',
-        title: 'Non-Routine Electrical / High Voltage / Live Work',
-        risks: [
-          'High voltage >33kV',
-          'Electrocution during live electrical work',
-          'Electrical cabinets or MCC identified as Red',
-        ],
-        permits: [],
-        controls: [
-          'Management approval required before commencing',
-          'Only qualified electricians to perform live work',
-          'Appropriate PPE — insulated gloves, arc flash rating',
-          'LOTO isolation confirmed before any access',
-        ]
-      },
-      {
-        num: 7, risk: 'E',
-        title: 'Non-Routine Mechanical Lifting / Lowering / Pulling',
-        risks: [
-          'High mechanical force — damage or injury',
-          'High risk work licence required for cranes, mobile plant, scaffold',
-        ],
-        permits: [],
-        controls: [
-          'Lift plan completed for all crane lifts',
-          'Certified rigger and dogman on site',
-          'Exclusion zone established under load',
-          'SWL of all lifting equipment verified',
-        ]
-      },
-      {
-        num: 8, risk: 'E',
-        title: 'High Risk Power Tools — High Speed / Pressure / Weight',
-        risks: [
-          'Injury from high risk powered or hand tools',
-          'Electrocution, burn or electric shock',
-          'Manual task injury from repetition or poor posture',
-        ],
-        permits: [],
-        controls: [
-          'Pre-use inspection of all tools',
-          'Appropriate guarding in place',
-          'Correct PPE — gloves, eye protection, hearing protection',
-          'Take 5 completed before task',
-        ]
-      },
-      {
-        num: 9, risk: 'E',
-        title: 'Demolish / Alter Load Bearing Structures / Use Explosives',
-        risks: [
-          'Being struck or crushed by structural collapse',
-          'Exposure to hazardous chemicals, asbestos, lead',
-        ],
-        permits: [],
-        controls: [
-          'Demolition licence required',
-          'Asbestos removal licence if ACM identified',
-          'Safe Work Plan required before commencement',
-          'Engineer sign-off for structural alterations',
-        ]
-      },
-      {
-        num: 10, risk: 'V',
-        title: 'Work Near Moving / Rotating Machinery',
-        risks: [
-          'Serious bodily injury from contact with moving parts or materials',
-          'Machinery starting unexpectedly — electrocution, burn or electric shock',
-        ],
-        permits: [],
-        controls: [
-          'LOTO isolation confirmed and tested before approach',
-          'Guards reinstated before restarting',
-          'No loose clothing or jewellery near rotating parts',
-        ]
-      },
-      {
-        num: 11, risk: 'V',
-        title: 'Potential / Stored Energy — Electrical, Hydraulic, Pneumatic, Kinetic',
-        risks: [
-          'Machinery entanglement or injury from unexpected energy release',
-        ],
-        permits: [],
-        controls: [
-          'Full LOTO process — isolate, lock, tag, test',
-          'Stored energy (springs, pressure, gravity) identified and released',
-          'Isolation register updated',
-        ]
-      },
-      {
-        num: 12, risk: 'V',
-        title: 'Work on Pressurised / Closed Circuit Systems',
-        risks: [
-          'Fracturing the mains or piping — spills, leaks, emissions',
-          'Contact with extreme temperature fluids',
-        ],
-        permits: [],
-        controls: [
-          'System fully depressurised and vented before opening',
-          'Pressure gauge confirmed at zero',
-          'PPE — chemical resistant gloves, face shield for hot systems',
-        ]
-      },
-      {
-        num: 13, risk: 'V',
-        title: 'Extreme Weather Conditions',
-        risks: [
-          'Electrocution from lightning or power tools in wet conditions',
-          'Heat stroke, heat exhaustion, fatigue, frost bite, hypothermia',
-          'Slip / trip / fall hazards',
-        ],
-        permits: [],
-        controls: [
-          'Work suspended during electrical storms',
-          'Heat illness prevention plan in place for hot weather',
-          'Additional hydration and rest breaks as required',
-          'Appropriate wet weather or cold weather PPE',
-        ]
-      },
-    ]
-  }
+// ─── HAZARD LIBRARY — sourced from SWMS_Master_Register.xlsx Hazard_Library sheet ──
+// Full 22-hazard library baked in. Assignments per SWMS via SWMS_HAZARD_LINKS below.
+const HAZ_LIB = {
+  'HAZ-001':{risk:'E',title:'Entering a Confined Space',risks:['Heat exhaustion, engulfment, limited access/egress','Asphyxiation — low O₂ or contaminants','Explosive atmosphere, combustible dusts'],permits:['Confined Space Entry Permit','Hot Work Permit (if applicable)'],controls:['Atmospheric testing before and during entry','Continuous forced ventilation throughout task','Standby person stationed at entry point at all times','Emergency rescue plan in place before entry']},
+  'HAZ-002':{risk:'E',title:'Contaminated or Flammable Atmosphere',risks:['Fire / explosion from ignition source','Asphyxiation or poisoning from contaminated atmosphere'],permits:['Confined Space Entry Permit','Hot Work Permit'],controls:['Gas test for O₂, LEL and toxic gases before entry','No ignition sources within space or entry zone','Continuous atmospheric monitoring during work','Entrant to withdraw immediately if alarm sounds']},
+  'HAZ-003':{risk:'E',title:'Falling from Height ≥2m or Working on Roof',risks:['Falling worker or object — ≥2m requires SWMS'],permits:[],controls:['Fall arrest harness required for work ≥2m above ground','Anchor points inspected before use','Exclusion zone below work area']},
+  'HAZ-004':{risk:'E',title:'Hot Work — Oxy Cutting, Welding, Soldering, Grinding',risks:['Fire or explosion from ignition source','Injury from hot surface or grinding wheel ejection','Fire inside Expanded Polystyrene (EPS) panels'],permits:['Hot Work Permit'],controls:['Hot Work Permit issued and briefed to all crew','Fire extinguisher within 1m of hot work at all times','Fire watch minimum 30 minutes after work ceases','All combustibles removed or shielded']},
+  'HAZ-005':{risk:'E',title:'Hand Dig / Ground Penetration / Excavation',risks:['Contact with utilities — electrical, water, gas, communications','Trench collapse'],permits:['Excavation Permit'],controls:['Dial Before You Dig check completed','Hand excavation within 500mm of known services','Shoring or battering for excavations deeper than 1.5m']},
+  'HAZ-006':{risk:'E',title:'Non-Routine Electrical / High Voltage / Live Work',risks:['High voltage greater than 33kV','Electrocution during live electrical work','Electrical cabinets or MCC identified as Red'],permits:[],controls:['Management approval required before commencing','Only qualified electricians to perform live work','Appropriate PPE — insulated gloves, arc flash rating','LOTO isolation confirmed before any access']},
+  'HAZ-007':{risk:'E',title:'Non-Routine Mechanical Lifting / Lowering / Pulling',risks:['High mechanical force — damage or injury','High risk work licence required for cranes, mobile plant, scaffold, dogging'],permits:[],controls:['Lift plan completed for all crane lifts','Certified rigger and dogman on site','Exclusion zone established under load','SWL of all lifting equipment verified']},
+  'HAZ-008':{risk:'E',title:'High Risk Power Tools — High Speed / Pressure / Weight',risks:['Injury from high risk powered or hand tools','Electrocution, burn or electric shock','Manual task injury from repetition or poor posture'],permits:[],controls:['Pre-use inspection of all tools','Appropriate guarding in place','Correct PPE — gloves, eye protection, hearing protection','Take 5 completed before task']},
+  'HAZ-009':{risk:'E',title:'Demolish / Alter Load Bearing Structures / Use Explosives',risks:['Being struck or crushed by structural collapse','Exposure to hazardous chemicals, asbestos, lead'],permits:[],controls:['Demolition licence required','Asbestos removal licence if ACM identified','Safe Work Plan required before commencement','Engineer sign-off for structural alterations']},
+  'HAZ-010':{risk:'V',title:'Work Near Moving / Rotating Machinery',risks:['Serious bodily injury from contact with moving parts or materials','Machinery starting unexpectedly — electrocution, burn or electric shock'],permits:[],controls:['LOTO isolation confirmed and tested before approach','Guards reinstated before restarting','No loose clothing or jewellery near rotating parts']},
+  'HAZ-011':{risk:'V',title:'Potential / Stored Energy — Electrical, Hydraulic, Pneumatic, Kinetic',risks:['Machinery entanglement or injury from unexpected energy release'],permits:[],controls:['Full LOTO process — isolate, lock, tag, test','Stored energy (springs, pressure, gravity) identified and released','Isolation register updated']},
+  'HAZ-012':{risk:'V',title:'Work on Pressurised / Closed Circuit Systems',risks:['Fracturing mains or piping from contact — spills, leaks, emissions','Contact with extreme temperature fluids'],permits:[],controls:['System fully depressurised and vented before opening','Pressure gauge confirmed at zero','PPE — chemical resistant gloves, face shield for hot systems']},
+  'HAZ-013':{risk:'V',title:'Extreme Weather Conditions',risks:['Electrocution from lightning or power tools in wet conditions','Heat stroke, heat exhaustion, fatigue, frost bite, hypothermia','Slip / trip / fall hazards'],permits:[],controls:['Work suspended during electrical storms','Heat illness prevention plan in place for hot weather','Additional hydration and rest breaks as required','Appropriate wet weather or cold weather PPE']},
+  'HAZ-014':{risk:'H',title:'Noise and Vibration',risks:['Hearing loss from excessive noise exposure','Hand-arm or whole-body vibration injury'],permits:[],controls:['Hearing protection required in designated areas','Limit exposure time for high vibration tools','Regular tool maintenance to minimise vibration']},
+  'HAZ-015':{risk:'H',title:'Manual Handling — Lifting, Carrying, Pushing, Pulling',risks:['Musculoskeletal injury from manual handling','Crush injury from dropped loads'],permits:[],controls:['Assess load before lifting — use mechanical aids where possible','Team lift for loads over 16kg','Maintain neutral spine','Clear path before moving loads']},
+  'HAZ-016':{risk:'H',title:'Dust Exposure — Wood Dust, Biomass, Silica',risks:['Respiratory disease from inhalation of fine dust particles','Fire or explosion from combustible dust accumulation'],permits:[],controls:['P2 respirator required in dusty areas','Wet suppression or local exhaust ventilation where practicable','Housekeeping — regular dust removal','No ignition sources in dusty environments']},
+  'HAZ-017':{risk:'H',title:'Working in Confined or Restricted Spaces — Non-Classified',risks:['Ergonomic injury from awkward posture','Difficulty evacuating in emergency'],permits:[],controls:['Plan task to minimise time in restricted position','Rest breaks for sustained awkward work','Ensure emergency egress route is clear at all times']},
+  'HAZ-018':{risk:'H',title:'Fire and Combustion Risk — Biomass and Pellet Material',risks:['Spontaneous combustion of biomass material','Rapid fire spread in pellet storage areas'],permits:[],controls:['No ignition sources near biomass storage','Thermal monitoring of storage areas','Fire suppression system operational','Emergency evacuation plan briefed']},
+  'HAZ-019':{risk:'M',title:'Slips, Trips and Falls — Same Level',risks:['Injury from slipping on wet, dusty or uneven surfaces','Tripping on hoses, cables or debris'],permits:[],controls:['Housekeeping maintained throughout task','Wet areas signed and barricaded','Cables and hoses routed to avoid walkways']},
+  'HAZ-020':{risk:'M',title:'Working at Heights — Below 2m',risks:['Injury from falling less than 2m','Falling objects striking workers below'],permits:[],controls:['Step ladder or platform used instead of improvised steps','Barricade below work area','Tools secured or tethered']},
+  'HAZ-021':{risk:'M',title:'Chemical Handling — Lubricants, Fuels, Cleaning Agents',risks:['Skin or eye irritation from chemical contact','Environmental contamination from spills'],permits:[],controls:['Refer to SDS before use','PPE as per SDS — gloves, eye protection','Spill kit available','Waste disposed of correctly']},
+  'HAZ-022':{risk:'M',title:'Working Alone or in Isolation',risks:['No assistance available in emergency','Delayed response to injury or illness'],permits:[],controls:['Check-in procedure established','Supervisor contact confirmed','Lone worker duration limited']},
 };
+
+// Hazard assignments per SWMS — sourced from SWMS_Hazard_Links sheet
+const SWMS_HAZARD_LINKS = {
+  'SWMS-001':['HAZ-001','HAZ-002','HAZ-003','HAZ-004','HAZ-007','HAZ-008','HAZ-009','HAZ-013','HAZ-014','HAZ-015','HAZ-017','HAZ-018','HAZ-019','HAZ-020'],
+  'SWMS-002':['HAZ-001','HAZ-003','HAZ-013','HAZ-014','HAZ-015','HAZ-016','HAZ-017','HAZ-019'],
+  'SWMS-003':['HAZ-001','HAZ-002','HAZ-003','HAZ-007','HAZ-011','HAZ-013','HAZ-014','HAZ-015','HAZ-016','HAZ-017','HAZ-018','HAZ-019','HAZ-020'],
+  'SWMS-007':['HAZ-001','HAZ-002','HAZ-010','HAZ-013','HAZ-014','HAZ-015','HAZ-016','HAZ-017','HAZ-018','HAZ-019','HAZ-022'],
+  'SWMS-008':['HAZ-003','HAZ-013','HAZ-014','HAZ-015','HAZ-016','HAZ-018','HAZ-019','HAZ-020'],
+  'SWMS-012':['HAZ-001','HAZ-002','HAZ-003','HAZ-004','HAZ-007','HAZ-008','HAZ-009','HAZ-013','HAZ-014','HAZ-015','HAZ-017','HAZ-018','HAZ-019','HAZ-020'],
+  'SWMS-013':['HAZ-003','HAZ-010','HAZ-011','HAZ-013','HAZ-014','HAZ-015','HAZ-016','HAZ-018','HAZ-019','HAZ-020','HAZ-022'],
+  'SWMS-014':['HAZ-003','HAZ-006','HAZ-013','HAZ-015','HAZ-016','HAZ-019'],
+  'SWMS-022':['HAZ-003','HAZ-010','HAZ-011','HAZ-013','HAZ-014','HAZ-015','HAZ-016','HAZ-018','HAZ-019','HAZ-020','HAZ-022'],
+  'SWMS-024':['HAZ-001','HAZ-002','HAZ-003','HAZ-004','HAZ-007','HAZ-008','HAZ-010','HAZ-011','HAZ-012','HAZ-013','HAZ-014','HAZ-015','HAZ-016','HAZ-017','HAZ-018','HAZ-019','HAZ-020','HAZ-021','HAZ-022'],
+  'SWMS-025':['HAZ-003','HAZ-004','HAZ-006','HAZ-007','HAZ-008','HAZ-009','HAZ-010','HAZ-011','HAZ-012','HAZ-013','HAZ-014','HAZ-015','HAZ-016','HAZ-017','HAZ-018','HAZ-019','HAZ-020','HAZ-021','HAZ-022'],
+  'SWMS-026':['HAZ-001','HAZ-002','HAZ-003','HAZ-004','HAZ-005','HAZ-006','HAZ-007','HAZ-008','HAZ-009','HAZ-010','HAZ-011','HAZ-012','HAZ-013','HAZ-014','HAZ-015','HAZ-016','HAZ-017','HAZ-018','HAZ-019','HAZ-020','HAZ-021','HAZ-022'],
+};
+
 
 // ═══════════════════════════════════════
 // HAZARD REVIEW RENDERER
 // ═══════════════════════════════════════
 function renderHazardReview(swmsId, swmsTitle){
-  const data = HAZARD_DATA[swmsId];
+  const hazIds = SWMS_HAZARD_LINKS[swmsId] || [];
   const container = document.getElementById('hazardReviewContent');
 
-  if(!data || !data.hazards || !data.hazards.length){
+  if(!hazIds.length){
     container.innerHTML = `
       <div class="card">
         <div class="swms-id">${esc(swmsId)}</div>
@@ -1289,18 +1170,18 @@ function renderHazardReview(swmsId, swmsTitle){
   }
 
   const riskLabel = {E:'Extreme',V:'Very High',H:'High',M:'Moderate',L:'Low'};
+  const hazards = hazIds.map((id,i)=>({num:i+1,id,...HAZ_LIB[id]})).filter(h=>h.title);
 
   container.innerHTML = `
     <div class="card" style="margin-bottom:10px;">
       <div class="swms-id">${esc(swmsId)}</div>
       <div class="title" style="margin-bottom:4px;">${esc(swmsTitle)}</div>
-      <div class="sub" style="margin-bottom:12px;">${esc(data.scope||'')}</div>
       <div class="risk-legend">
         ${Object.entries(riskLabel).map(([k,v])=>`<div class="risk-legend-item"><div class="risk-badge risk-${k}" style="width:20px;height:20px;font-size:11px;">${k}</div>${v}</div>`).join('')}
       </div>
       <div class="section-label">Review all hazards before signing</div>
     </div>
-    ${data.hazards.map(h=>`
+    ${hazards.map(h=>`
       <div class="hazard-card">
         <div class="hazard-header">
           <div class="hazard-num">${h.num}.</div>
@@ -1311,8 +1192,8 @@ function renderHazardReview(swmsId, swmsTitle){
           <ul class="hazard-risks">
             ${h.risks.map(r=>`<li>${esc(r)}</li>`).join('')}
           </ul>
-          ${h.permits.length?`<div style="margin-bottom:6px;">${h.permits.map(p=>`<span class="permit-tag">${esc(p)}</span>`).join('')}</div>`:''}
-          ${h.controls.length?`
+          ${h.permits&&h.permits.length?`<div style="margin-bottom:6px;">${h.permits.map(p=>`<span class="permit-tag">${esc(p)}</span>`).join('')}</div>`:''}
+          ${h.controls&&h.controls.length?`
           <div class="hazard-controls">
             <div class="hazard-controls-title">Controls</div>
             ${h.controls.map(c=>`<div class="control-item">${esc(c)}</div>`).join('')}
@@ -1382,9 +1263,8 @@ function goStep3(){
   document.getElementById('s3SwmsMeta').textContent = `v${signSwms.version} \u00b7 Authorised ${fmtDate(signSwms.authDate)}`;
   document.getElementById('s3VersionWarn').classList.add('hidden');
   const pdf = pdfUrl(signSwms.id);
-  document.getElementById('s3PdfLink').innerHTML = pdf
-    ? `<button onclick="openPdfViewer('${pdf}','${esc(signSwms.title)}','${signSwms.id}')" class="btn btn-secondary btn-full">View PDF Document</button>`
-    : '<div class="notice notice-info">No PDF linked. Review a printed copy before signing.</div>';
+  signPdfOpened = !pdf; // if no PDF, treat as already opened
+  renderSignPdfState(pdf);
   ['chk-read','chk-follow','chk-stop'].forEach(id=>{
     const cb = document.getElementById(id);
     cb.checked = false;
@@ -1394,7 +1274,28 @@ function goStep3(){
   document.getElementById('signDate').value = todayISO();
 }
 
+function renderSignPdfState(pdf){
+  const pdfDiv = document.getElementById('s3PdfLink');
+  const warnDiv = document.getElementById('s3PdfWarn');
+  if(!pdf){
+    pdfDiv.innerHTML = '<div class="notice notice-info">No PDF linked. Review a printed copy before signing.</div>';
+    if(warnDiv) warnDiv.style.display='none';
+    return;
+  }
+  pdfDiv.innerHTML = signPdfOpened
+    ? `<button onclick="signOpenPdf('${pdf}','${esc(signSwms.title)}','${signSwms.id}')" class="btn btn-secondary btn-full">✓ PDF Opened — View Again</button>`
+    : `<button onclick="signOpenPdf('${pdf}','${esc(signSwms.title)}','${signSwms.id}')" class="btn btn-primary btn-full">Open SWMS Document to Continue</button>`;
+  if(warnDiv) warnDiv.style.display = signPdfOpened ? 'none' : 'block';
+}
+
+function signOpenPdf(url, title, id){
+  openPdfViewer(url, title, id);
+  signPdfOpened = true;
+  renderSignPdfState(url);
+}
+
 function submitSignOff(){
+  if(!signPdfOpened){ toast('Open the SWMS document before signing','var(--danger)'); return; }
   const allChecked = ['chk-read','chk-follow','chk-stop'].every(id=>document.getElementById(id).checked);
   if(!allChecked){ toast('Tick all declarations before signing','var(--danger)'); return; }
   const canvas = document.getElementById('sigCanvas1');
@@ -1409,7 +1310,18 @@ function submitSignOff(){
   };
   signoffs.push(rec);
   save(KEYS.signoffs, signoffs);
-  postFlow(cfg.signUrl, rec);
+  // POST to SharePoint via PA — includes base64 signature PNG
+  postFlow(cfg.signUrl, {
+    Signoff_ID:    rec.id,
+    Timestamp:     rec.ts,
+    Worker_Name:   rec.worker,
+    SWMS_ID:       rec.swmsId,
+    SWMS_Title:    rec.swmsTitle,
+    SWMS_Version:  String(rec.swmsVersion),
+    Date_Signed:   rec.dateSigned,
+    Signature_PNG: rec.sig,
+    Source:        'SWMS-System-v5',
+  });
   document.getElementById('signConfirmText').textContent = `${signWorker} \u2014 ${signSwms.title} v${signSwms.version} \u2014 signed on ${fmtDate(rec.dateSigned)}. Record saved.`;
   setSignStep(4);
   toast('Sign-off recorded');
@@ -1506,12 +1418,13 @@ function goToSignOffFromPT(){
 }
 
 let ptPdfOpened = false;
+let signPdfOpened = false;
 
 function ptGoStep3(){
   const crew=getSelectedCrew();
   if(!crew.length){ toast('Select at least one crew member','var(--danger)'); return; }
   const content=document.getElementById('ptHazardContent');
-  if(HAZARD_DATA[ptSwmsSelected.id]){
+  if(SWMS_HAZARD_LINKS[ptSwmsSelected.id]){
     renderHazardReview(ptSwmsSelected.id,ptSwmsSelected.title);
     content.innerHTML=document.getElementById('hazardReviewContent').innerHTML;
   } else {
@@ -1615,8 +1528,22 @@ function submitPreTask(){
     ts:new Date().toISOString(),
   };
   pretasks.push(rec);
-  save(KEYS.pretasks,pretasks);
-  postFlow(cfg.ptUrl,rec);
+  save(KEYS.pretasks,rec);
+  // POST to SharePoint via PA
+  postFlow(cfg.ptUrl,{
+    Task_ID:            rec.id,
+    Timestamp:          rec.ts,
+    Date:               rec.date,
+    Time:               rec.time,
+    SWMS_ID:            rec.swmsId,
+    SWMS_Title:         rec.swmsTitle,
+    SWMS_Version:       String(rec.swmsVersion),
+    Location:           rec.location,
+    Crew:               rec.crew,
+    Conditions_Changed: rec.changes ? 'Yes' : 'No',
+    Change_Detail:      rec.changeDetail || '',
+    Source:             'SWMS-System-v5',
+  });
   toast('Work authorised — pre-task record saved');
   ptSwmsSelected=null;
   ptPdfOpened=false;
@@ -2003,9 +1930,10 @@ function renderSettingsContent(){
     ? workers.map(n=>`<div class="worker-list-item"><span class="name">${esc(n)}</span><button class="btn btn-danger btn-sm" onclick="removeWorker('${esc(n)}')">Remove</button></div>`).join('')
     : '<div class="muted" style="padding:8px 0;">No workers added yet.</div>';
 
-  document.getElementById('cfgGetUrl').value  = cfg.getUrl||'';
-  document.getElementById('cfgSignUrl').value = cfg.signUrl||'';
-  document.getElementById('cfgPtUrl').value   = cfg.ptUrl||'';
+  document.getElementById('cfgGetUrl').value   = cfg.getUrl||'';
+  document.getElementById('cfgSignUrl').value  = cfg.signUrl||'';
+  document.getElementById('cfgPtUrl').value    = cfg.ptUrl||'';
+  document.getElementById('cfgPtGetUrl').value = cfg.ptGetUrl||'';
   document.getElementById('cfgPdfBase').value = cfg.pdfBase||'';
   document.getElementById('cfgNewCode').value = '';
   document.getElementById('cfgNewCodeConfirm').value = '';
@@ -2057,10 +1985,12 @@ function saveConfig(){
     getUrl:       document.getElementById('cfgGetUrl').value.trim(),
     signUrl:      document.getElementById('cfgSignUrl').value.trim(),
     ptUrl:        document.getElementById('cfgPtUrl').value.trim(),
+    ptGetUrl:     document.getElementById('cfgPtGetUrl').value.trim(),
     pdfBase:      document.getElementById('cfgPdfBase').value.trim(),
     settingsCode,
   };
   save(KEYS.config, cfg);
+  startLiveRefresh();
   document.getElementById('settingsSaved').classList.remove('hidden');
   setTimeout(()=>document.getElementById('settingsSaved').classList.add('hidden'),2500);
   document.getElementById('cfgNewCode').value='';
@@ -2077,8 +2007,24 @@ function clearData(){
 }
 
 // ═══════════════════════════════════════
-// POWER AUTOMATE
+// POWER AUTOMATE — 4 flows
+// Flow 1 GET  : fetch sign-off register from SharePoint → merge into signoffs[]
+// Flow 2 POST : submit new sign-off record (includes sig PNG) → Worker_SWMS_Register table
+// Flow 3 POST : submit new pre-task record → Task_Register table
+// Flow 4 GET  : fetch pre-task register from SharePoint → merge into pretasks[]
+//
+// PA FLOW SETUP (create once in Power Automate):
+// Flow 1 — HTTP GET trigger → "List rows present in a table" (Worker_SWMS_Register) → Return as JSON
+//   Response body: { "signOffRegister": [array of row objects] }
+// Flow 2 — HTTP POST trigger → "Add a row into a table" (Worker_SWMS_Register)
+//   Body fields: Signoff_ID, Timestamp, Worker_Name, SWMS_ID, SWMS_Title, SWMS_Version, Date_Signed, Signature_PNG, Source
+// Flow 3 — HTTP POST trigger → "Add a row into a table" (Task_Register)
+//   Body fields: Task_ID, Timestamp, Date, Time, SWMS_ID, SWMS_Title, SWMS_Version, Location, Crew, Conditions_Changed, Change_Detail, Source
+// Flow 4 — HTTP GET trigger → "List rows present in a table" (Task_Register) → Return as JSON
+//   Response body: { "taskRegister": [array of row objects] }
 // ═══════════════════════════════════════
+let _liveRefreshTimer = null;
+
 async function postFlow(url, payload){
   if(!url) return;
   try{
@@ -2087,14 +2033,72 @@ async function postFlow(url, payload){
 }
 
 async function loadLiveData(){
-  const url = cfg.getUrl;
-  if(!url) return;
-  try{
-    const res = await fetch(url);
-    const data = await res.json();
-    if(data.signOffRegister) signoffs = data.signOffRegister;
-    console.log('Live data loaded from SharePoint');
-  }catch(e){ console.warn('Live data load failed — using local cache'); }
+  cfg = loadObj(KEYS.config);
+  let updated = false;
+
+  // Flow 1 — sign-off register
+  if(cfg.getUrl){
+    try{
+      const res = await fetch(cfg.getUrl);
+      const data = await res.json();
+      if(Array.isArray(data.signOffRegister) && data.signOffRegister.length){
+        // Merge: add any records from SharePoint not already in local cache (by id)
+        const localIds = new Set(signoffs.map(r=>r.id));
+        const incoming = data.signOffRegister.filter(r=>r.id && !localIds.has(r.id));
+        if(incoming.length){ signoffs = [...signoffs, ...incoming]; save(KEYS.signoffs, signoffs); updated = true; }
+        // Also replace with full SharePoint set if it's larger (other devices have added records)
+        if(data.signOffRegister.length > signoffs.length){ signoffs = data.signOffRegister; save(KEYS.signoffs, signoffs); updated = true; }
+      }
+    }catch(e){ console.warn('Sign-off live load failed — using cache'); }
+  }
+
+  // Flow 4 — pre-task register
+  if(cfg.ptGetUrl){
+    try{
+      const res = await fetch(cfg.ptGetUrl);
+      const data = await res.json();
+      if(Array.isArray(data.taskRegister) && data.taskRegister.length){
+        const localIds = new Set(pretasks.map(r=>r.id));
+        const incoming = data.taskRegister.filter(r=>r.id && !localIds.has(r.id));
+        if(incoming.length){ pretasks = [...pretasks, ...incoming]; save(KEYS.pretasks, pretasks); updated = true; }
+        if(data.taskRegister.length > pretasks.length){ pretasks = data.taskRegister; save(KEYS.pretasks, pretasks); updated = true; }
+      }
+    }catch(e){ console.warn('Pre-task live load failed — using cache'); }
+  }
+
+  if(updated){
+    renderDashboard();
+    renderSignOffRegister();
+    renderTaskRegister();
+  }
+}
+
+function startLiveRefresh(){
+  // Poll every 60 seconds when a GET URL is configured
+  if(_liveRefreshTimer) clearInterval(_liveRefreshTimer);
+  cfg = loadObj(KEYS.config);
+  if(cfg.getUrl || cfg.ptGetUrl){
+    _liveRefreshTimer = setInterval(loadLiveData, 60000);
+    setLiveIndicator(true);
+  } else {
+    setLiveIndicator(false);
+  }
+}
+
+function setLiveIndicator(on){
+  const el = document.getElementById('liveIndicator');
+  if(!el) return;
+  el.textContent = on ? '● Live' : '○ Local only';
+  el.style.color = on ? 'var(--green)' : 'var(--muted)';
+}
+
+async function syncNow(){
+  const el = document.getElementById('liveIndicator');
+  if(el){ el.textContent = '↻ Syncing...'; el.style.color = 'var(--amber)'; }
+  await loadLiveData();
+  cfg = loadObj(KEYS.config);
+  setLiveIndicator(!!(cfg.getUrl || cfg.ptGetUrl));
+  toast('Synced with SharePoint');
 }
 
 // ═══════════════════════════════════════
@@ -2186,6 +2190,7 @@ window.addEventListener('load',()=>{
   cfg = loadObj(KEYS.config);
   refreshSwmsLib();
   loadLiveData();
+  startLiveRefresh();
   document.getElementById('ptDate').value = todayISO();
   document.getElementById('ptTime').value = new Date().toTimeString().slice(0,5);
   refreshDropdowns();
