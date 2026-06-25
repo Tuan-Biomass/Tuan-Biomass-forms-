@@ -41,18 +41,23 @@
 </section>
 <section class="card hidden" id="pageSignin">
   <div class="top-row"><div><div class="title">Sign In to Site</div><p class="sub">Complete all fields before going to site.</p></div><button class="btn btn-secondary" onclick="showPage('home')">← Back</button></div>
-  <div class="mobile-row">
-    <div class="field">
-      <label for="mobileNumber">Mobile Number *</label>
-      <input type="text" id="mobileNumber" placeholder="e.g. 0412 345 678" inputmode="tel" autocomplete="tel" onblur="autoFillFromMobile()">
-    </div>
-    <button class="btn btn-secondary" onclick="autoFillFromMobile()">Look Up</button>
-  </div>
-  <div id="autofillHint"></div>
-  <div class="form-grid"><div class="field"><label for="fullName">Full Name *</label><input type="text" id="fullName" placeholder="e.g. John Smith" autocomplete="off"></div><div class="field"><label for="company">Company *</label><input type="text" id="company" placeholder="e.g. Smith Electrical"></div></div>
-  <div class="form-grid"><div class="field"><label for="signinDate">Date *</label><input type="date" id="signinDate"></div><div class="field"><label for="timeIn">Time In *</label><input type="time" id="timeIn"></div></div>
+
+  <!-- Access type FIRST so mobile field label/requirement updates immediately -->
   <div class="field"><label>Site Access Type *</label><div class="radio-group"><label class="radio-opt" id="opt-yes" onclick="selectRadio('inducted','yes')"><input type="radio" name="inducted" value="yes"> Inducted contractor / visitor</label><label class="radio-opt" id="opt-no" onclick="selectRadio('inducted','escorted')"><input type="radio" name="inducted" value="escorted"> Visitor — not inducted, escorted only</label></div></div>
   <div class="field hidden" id="escortContactField"><label for="escortContact">Site Contact Responsible for Visitor *</label><input type="text" id="escortContact" placeholder="Enter site contact responsible for visitor"></div>
+
+  <div class="mobile-row">
+    <div class="field" style="flex:1">
+      <label for="mobileNumber" id="mobileLabel">Mobile Number *</label>
+      <input type="text" id="mobileNumber" placeholder="e.g. 0412 345 678" inputmode="tel" autocomplete="tel" onblur="autoFillFromMobile()">
+      <div id="mobileHint" class="autofill-hint hidden">Optional for escorted visitors — leave blank if not available</div>
+    </div>
+    <button class="btn btn-secondary" id="lookupBtn" onclick="autoFillFromMobile()" style="margin-bottom:18px;">Look Up</button>
+  </div>
+  <div id="autofillHint"></div>
+
+  <div class="form-grid"><div class="field"><label for="fullName">Full Name *</label><input type="text" id="fullName" placeholder="e.g. John Smith" autocomplete="off"></div><div class="field"><label for="company">Company *</label><input type="text" id="company" placeholder="e.g. Smith Electrical"></div></div>
+  <div class="form-grid"><div class="field"><label for="signinDate">Date *</label><input type="date" id="signinDate"></div><div class="field"><label for="timeIn">Time In *</label><input type="time" id="timeIn"></div></div>
   <div class="field"><label for="rego">Vehicle Rego</label><input type="text" id="rego" placeholder="e.g. ABC 123" style="text-transform:uppercase"></div>
   <div id="signinMessage"></div>
   <div class="actions"><button class="btn btn-secondary" onclick="showPage('home')">Cancel</button><button class="btn btn-primary" onclick="submitSignIn()">Sign In</button></div>
@@ -102,10 +107,11 @@ function todayISO(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${
 function timeNow(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${p(n.getHours())}:${p(n.getMinutes())}`}
 function loadRecords(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}}
 function saveRecords(r){localStorage.setItem(STORE_KEY,JSON.stringify(r))}
+function genId(){return crypto.randomUUID?crypto.randomUUID():'vis_'+Date.now().toString(36)+Math.random().toString(36).slice(2)}
+
 function showPage(page){
   ["pageHome","pageSignin","pageTickets","pageSignout"].forEach(id=>document.getElementById(id).classList.add("hidden"));
   document.getElementById("page"+page.charAt(0).toUpperCase()+page.slice(1)).classList.remove("hidden");
-  // Reset upload notice to default state when showing tickets page normally
   if(page==="tickets"){
     const notice=document.getElementById("uploadNotice");
     notice.innerHTML="Add each document as its own row so expiry dates stay matched to the right document.";
@@ -116,7 +122,27 @@ function showPage(page){
   window.scrollTo(0,0);
 }
 function setDefaultDateTime(){document.getElementById("signinDate").value=todayISO();document.getElementById("timeIn").value=timeNow()}
-function selectRadio(group,val){state[group]=val;if(group==="inducted"){document.getElementById("opt-yes").classList.toggle("selected",val==="yes");document.getElementById("opt-no").classList.toggle("selected",val==="escorted");document.getElementById("escortContactField").classList.toggle("hidden",val!=="escorted");if(val!=="escorted")document.getElementById("escortContact").value=""}if(group==="outIssue"){document.getElementById("out-no").classList.toggle("selected",val==="no");document.getElementById("out-yes").classList.toggle("selected",val==="yes");document.getElementById("issueFields").classList.toggle("hidden",val!=="yes")}}
+
+function selectRadio(group,val){
+  state[group]=val;
+  if(group==="inducted"){
+    document.getElementById("opt-yes").classList.toggle("selected",val==="yes");
+    document.getElementById("opt-no").classList.toggle("selected",val==="escorted");
+    document.getElementById("escortContactField").classList.toggle("hidden",val!=="escorted");
+    if(val!=="escorted")document.getElementById("escortContact").value="";
+    // Update mobile field label and hint based on access type
+    const isEscorted = val==="escorted";
+    document.getElementById("mobileLabel").textContent = isEscorted ? "Mobile Number (optional for escorted visitors)" : "Mobile Number *";
+    document.getElementById("mobileHint").classList.toggle("hidden", !isEscorted);
+    document.getElementById("lookupBtn").classList.toggle("hidden", isEscorted);
+  }
+  if(group==="outIssue"){
+    document.getElementById("out-no").classList.toggle("selected",val==="no");
+    document.getElementById("out-yes").classList.toggle("selected",val==="yes");
+    document.getElementById("issueFields").classList.toggle("hidden",val!=="yes");
+  }
+}
+
 function msg(id,type,text){document.getElementById(id).innerHTML=text?`<div class="notice notice-${type}">${text}</div>`:""}
 
 async function autoFillFromMobile(){
@@ -139,14 +165,28 @@ async function autoFillFromMobile(){
   }catch(e){hint.innerHTML="";console.warn("Autofill lookup failed:",e)}
 }
 
-function validateSignIn(){for(const [id,m] of [["fullName","Please enter the person's full name."],["company","Please enter the company name."],["mobileNumber","Please enter the mobile number. This is the system ID."],["signinDate","Please select the date."],["timeIn","Please enter the time in."]]){if(!document.getElementById(id).value.trim()){msg("signinMessage","danger",m);return false}}if(!state.inducted){msg("signinMessage","danger","Please select the site access type.");return false}if(state.inducted==="escorted"&&!document.getElementById("escortContact").value.trim()){msg("signinMessage","danger","Please enter the site contact responsible for the visitor.");return false}return true}
+function validateSignIn(){
+  const isEscorted = state.inducted==="escorted";
+  for(const [id,m] of [["fullName","Please enter the person's full name."],["company","Please enter the company name."],["signinDate","Please select the date."],["timeIn","Please enter the time in."]]){
+    if(!document.getElementById(id).value.trim()){msg("signinMessage","danger",m);return false}
+  }
+  // Mobile only required for inducted contractors/visitors
+  if(!isEscorted && !document.getElementById("mobileNumber").value.trim()){
+    msg("signinMessage","danger","Please enter the mobile number. This is the system ID for inducted contractors.");return false
+  }
+  if(!state.inducted){msg("signinMessage","danger","Please select the site access type.");return false}
+  if(isEscorted&&!document.getElementById("escortContact").value.trim()){msg("signinMessage","danger","Please enter the site contact responsible for the visitor.");return false}
+  return true
+}
 
 async function submitSignIn(){
   if(!validateSignIn())return;
   const fullName=document.getElementById("fullName").value.trim();
   const company=document.getElementById("company").value.trim();
   const mobileNumber=document.getElementById("mobileNumber").value.trim();
-  const personId=normaliseMobile(mobileNumber);
+  const isEscorted = state.inducted==="escorted";
+  // For escorted visitors with no mobile, generate a unique ID
+  const personId = mobileNumber ? normaliseMobile(mobileNumber) : genId();
   const rego=document.getElementById("rego").value.trim().toUpperCase();
   const date=document.getElementById("signinDate").value;
   const arrivalTime=document.getElementById("timeIn").value;
@@ -166,8 +206,8 @@ async function submitSignIn(){
     }
   }
   const record={
-    id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),
-    entry_id:"",type:"sign_in",person_id:personId,mobile_number:mobileNumber,status:"on_site",induction_valid:"Y",date:date,full_name:fullName,company:company,arrival_time:arrivalTime,departure_time:"",hours_on_site:"",inducted_previously:state.inducted==="yes"?"yes":"no",visitor:state.inducted==="escorted"?"Y":"N",access_type:state.inducted,escorted_only:state.inducted==="escorted",site_contact_responsible:state.inducted==="escorted"?document.getElementById("escortContact").value.trim():"",vehicle_rego:rego,tickets_uploaded:[],safety_issue:"",issue_details:"",notes:"",signed_in_at:new Date().toISOString(),signed_out_at:""
+    id:genId(),
+    entry_id:"",type:"sign_in",person_id:personId,mobile_number:mobileNumber,status:"on_site",induction_valid:"Y",date:date,full_name:fullName,company:company,arrival_time:arrivalTime,departure_time:"",hours_on_site:"",inducted_previously:state.inducted==="yes"?"yes":"no",visitor:isEscorted?"Y":"N",access_type:state.inducted,escorted_only:isEscorted,site_contact_responsible:isEscorted?document.getElementById("escortContact").value.trim():"",vehicle_rego:rego,tickets_uploaded:[],safety_issue:"",issue_details:"",notes:"",signed_in_at:new Date().toISOString(),signed_out_at:""
   };
   msg("signinMessage","warn","Signing in...");
   try{
@@ -178,8 +218,8 @@ async function submitSignIn(){
     }
   }catch(e){console.warn("Sign-in webhook error:",e)}
   const records=loadRecords();records.push(record);saveRecords(records);
-  // Background doc check
-  if(CONFIG.docCheckURL&&state.inducted==="yes"){
+  // Background doc check — only for inducted contractors with a mobile number
+  if(CONFIG.docCheckURL&&state.inducted==="yes"&&mobileNumber){
     try{
       const docRes=await fetch(CONFIG.docCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,person_id:personId,mobile_number:mobileNumber,date:date,arrival_time:arrivalTime})});
       if(docRes.ok){
@@ -187,14 +227,12 @@ async function submitSignIn(){
         if(docData.docs_expired==="true"){
           clearSignInForm();
           showPage("home");
-          // Show upload docs page for this record with specific expired doc names
           const newRec=records[records.length-1];
           state.ticketId=newRec.id;
           document.getElementById("ticketPerson").innerHTML=`<strong>${escapeHTML(newRec.full_name)}</strong> — ${escapeHTML(newRec.company)}`;
           document.getElementById("ticketNotes").value="";
           document.getElementById("documentRows").innerHTML="";
           addDocumentRow();
-          // Build the specific expired docs message
           const expiredList=docData.expired_docs&&Array.isArray(docData.expired_docs)&&docData.expired_docs.length
             ? docData.expired_docs.join(", ")
             : "one or more documents";
@@ -203,7 +241,6 @@ async function submitSignIn(){
           notice.className="notice notice-danger";
           msg("ticketMessage","","");
           showPage("tickets");
-          // Override the notice reset that showPage triggers — reapply after a tick
           setTimeout(()=>{
             notice.innerHTML=`⚠️ <strong>Your documents need updating before you can proceed to site.</strong><br>The following are expired or missing: <strong>${escapeHTML(expiredList)}</strong>.<br>Upload current copies below — one row per document.`;
             notice.className="notice notice-danger";
@@ -231,6 +268,9 @@ function redirectToInduction(fullName,company,rego,mobileNumber){
 function clearSignInForm(){
   ["fullName","company","mobileNumber","rego","escortContact"].forEach(id=>document.getElementById(id).value="");
   document.getElementById("escortContactField").classList.add("hidden");
+  document.getElementById("mobileHint").classList.add("hidden");
+  document.getElementById("lookupBtn").classList.remove("hidden");
+  document.getElementById("mobileLabel").textContent="Mobile Number *";
   document.getElementById("autofillHint").innerHTML="";
   document.querySelectorAll("input[type=radio]").forEach(r=>r.checked=false);
   document.querySelectorAll(".radio-opt").forEach(o=>o.classList.remove("selected"));
@@ -275,7 +315,7 @@ async function completeSignOut(){
   state.signoutId=null;state.outIssue=null;showPage("home");
 }
 
-function renderHome(){const active=loadRecords().filter(r=>r.date===todayISO()&&r.status==="on_site");document.getElementById("statOnSite").textContent=active.length;const c=document.getElementById("activeList");if(!active.length){c.innerHTML=`<div class="empty">No visitors or contractors are currently signed in.</div>`;return}const rows=active.map(r=>`<tr><td>${escapeHTML(r.date)}</td><td><strong>${escapeHTML(r.full_name)}</strong></td><td>${escapeHTML(r.company)}</td><td>${escapeHTML(r.mobile_number||r.person_id||"-")}</td><td>${escapeHTML(r.arrival_time)}</td><td>${r.vehicle_rego?escapeHTML(r.vehicle_rego):"-"}</td><td>${r.site_contact_responsible?escapeHTML(r.site_contact_responsible):"-"}</td><td class="action-cell"><div class="small-actions"><button class="btn btn-warning" onclick="startTicketUpload('${r.id}')">Upload Documents</button><button class="btn btn-danger" onclick="startSignOut('${r.id}')">Sign Out</button></div></td></tr>`).join("");c.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Date</th><th>Name</th><th>Company</th><th>Mobile / ID</th><th>Time In</th><th>Rego</th><th>Responsible Person</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`}
+function renderHome(){const active=loadRecords().filter(r=>r.date===todayISO()&&r.status==="on_site");document.getElementById("statOnSite").textContent=active.length;const c=document.getElementById("activeList");if(!active.length){c.innerHTML=`<div class="empty">No visitors or contractors are currently signed in.</div>`;return}const rows=active.map(r=>`<tr><td>${escapeHTML(r.date)}</td><td><strong>${escapeHTML(r.full_name)}</strong></td><td>${escapeHTML(r.company)}</td><td>${escapeHTML(r.mobile_number||"-")}</td><td>${escapeHTML(r.arrival_time)}</td><td>${r.vehicle_rego?escapeHTML(r.vehicle_rego):"-"}</td><td>${r.site_contact_responsible?escapeHTML(r.site_contact_responsible):"-"}</td><td class="action-cell"><div class="small-actions"><button class="btn btn-warning" onclick="startTicketUpload('${r.id}')">Upload Documents</button><button class="btn btn-danger" onclick="startSignOut('${r.id}')">Sign Out</button></div></td></tr>`).join("");c.innerHTML=`<div class="table-wrap"><table><thead><tr><th>Date</th><th>Name</th><th>Company</th><th>Mobile / ID</th><th>Time In</th><th>Rego</th><th>Responsible Person</th><th>Action</th></tr></thead><tbody>${rows}</tbody></table></div>`}
 function documentTypeOptions(){return `<option value="">Select...</option><option>SWMS</option><option>Insurance / public liability</option><option>Driver licence</option><option>Forklift ticket</option><option>Loader ticket</option><option>Working at heights</option><option>Confined space</option><option>First aid</option><option>EWP ticket</option><option>Crane ticket</option><option>Other document / competency</option>`}
 function startTicketUpload(id){const rec=loadRecords().find(r=>r.id===id);if(!rec)return;state.ticketId=id;document.getElementById("ticketPerson").innerHTML=`<strong>${escapeHTML(rec.full_name)}</strong> — ${escapeHTML(rec.company)} — mobile ID: ${escapeHTML(rec.mobile_number||rec.person_id||"-")}`;document.getElementById("ticketNotes").value="";document.getElementById("documentRows").innerHTML="";addDocumentRow();msg("ticketMessage","","");showPage("tickets")}
 function addDocumentRow(){const tbody=document.getElementById("documentRows");const rowId=`doc_${Date.now()}_${Math.floor(Math.random()*10000)}`;const tr=document.createElement("tr");tr.dataset.rowId=rowId;tr.innerHTML=`<td><select class="doc-type">${documentTypeOptions()}</select></td><td><input type="date" class="doc-expiry"></td><td><input class="file-input doc-files" type="file" multiple accept="image/*,.pdf,.doc,.docx" onchange="showSelectedFiles('${rowId}')"><div class="file-list" id="files_${rowId}">No documents selected.</div></td><td><button class="btn btn-secondary doc-remove" onclick="removeDocumentRow('${rowId}')">Remove</button></td>`;tbody.appendChild(tr)}
