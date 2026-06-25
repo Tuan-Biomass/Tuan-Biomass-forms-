@@ -795,31 +795,37 @@ const KEYS = {
 // SWMS LIBRARY — from spreadsheet
 // ═══════════════════════════════════════
 // ─── SWMS LIBRARY — sourced from SWMS_Master_Register.xlsx ───────────────────
-// PDF links resolve against cfg.pdfBase (SharePoint) or SWMS_PDF_LINKS below.
-// linkedCore: IDs of Core SWMS a worker must also have signed before pre-task.
-// Hazard assignments are in SWMS_HAZARD_LINKS below.
+// PDF links — all hosted on GitHub Pages (tuan-biomass.github.io/Tuan-Biomass-forms-/)
+// Every SWMS PDF uploaded to GitHub is listed here.
+// For new SWMS not yet on GitHub, pdfUrl() falls back to the pdfBase setting.
 const SWMS_PDF_LINKS = {
-  'SWMS-001':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_001.pdf',
-  'SWMS-002':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_002.pdf',
-  'SWMS-003':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_003.pdf',
-  'SWMS-004':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_004.pdf',
-  'SWMS-005':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_005.pdf',
-  'SWMS-006':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_006.pdf',
-  'SWMS-007':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_007.pdf',
-  'SWMS-009':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_009.pdf',
-  'SWMS-011':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_011.pdf',
-  'SWMS-016':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_016.pdf',
-  'SWMS-017':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_017.pdf',
-  'SWMS-018':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_018.pdf',
-  'SWMS-019':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_019.pdf',
-  'SWMS-020':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_020.pdf',
-  'SWMS-021':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_021.pdf',
-  'SWMS-023':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_023.pdf',
-  'SWMS-024':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_024.pdf',
-  'SWMS-025':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_025.pdf',
-  'SWMS-026':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_026.pdf',
-  'SWMS-027':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_027.pdf',
-  'SWMS-028':'https://albioma.sharepoint.com/sites/Tuan/Shared%20Documents/ATB.SS.%20%20Safety%20Management%20System/08_Risk%20Assessments/04.%20SWMS/SWMS%20PDFs/SWMS_028.pdf',
+  'SWMS-001':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_001.pdf',
+  'SWMS-002':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_002.pdf',
+  'SWMS-003':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_003.pdf',
+  'SWMS-004':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_004.pdf',
+  'SWMS-005':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_005.pdf',
+  'SWMS-006':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_006.pdf',
+  'SWMS-007':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_007.pdf',
+  'SWMS-008':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_008.pdf',
+  'SWMS-009':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_009.pdf',
+  'SWMS-011':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_011.pdf',
+  'SWMS-012':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_012.pdf',
+  'SWMS-013':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_013.pdf',
+  'SWMS-014':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_014.pdf',
+  'SWMS-015':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_015.pdf',
+  'SWMS-016':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_016.pdf',
+  'SWMS-017':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_017.pdf',
+  'SWMS-018':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_018.pdf',
+  'SWMS-019':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_019.pdf',
+  'SWMS-020':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_020.pdf',
+  'SWMS-021':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_021.pdf',
+  'SWMS-022':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_022.pdf',
+  'SWMS-023':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_023.pdf',
+  'SWMS-024':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_024.pdf',
+  'SWMS-025':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_025.pdf',
+  'SWMS-026':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_026.pdf',
+  'SWMS-027':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_027.pdf',
+  'SWMS-028':'https://tuan-biomass.github.io/Tuan-Biomass-forms-/SWMS_028.pdf',
 };
 
 const SWMS_LIB_DEFAULT = [
@@ -961,11 +967,14 @@ function crewAllSigned(crew, swmsId){
 }
 
 function pdfUrl(swmsId){
+  // Primary: GitHub Pages — all PDFs live at tuan-biomass.github.io/Tuan-Biomass-forms-/
   if(SWMS_PDF_LINKS[swmsId]) return SWMS_PDF_LINKS[swmsId];
+  // Fallback: pdfBase setting for new SWMS not yet in the baked-in list
   const freshCfg = loadObj(KEYS.config);
   const base = freshCfg.pdfBase || '';
   if(!base) return null;
-  return base.replace(/\/$/, '') + '/' + swmsId.replace(/-/g,'_') + '.pdf';
+  const num = swmsId.replace('SWMS-','').padStart(3,'0');
+  return base.replace(/\/$/, '') + '/SWMS_' + num + '.pdf';
 }
 
 function toast(msg, color){
