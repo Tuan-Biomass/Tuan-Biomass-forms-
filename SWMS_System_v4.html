@@ -1,0 +1,2170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuan Biomass — SWMS System</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--green:#2D6A4F;--green-dark:#1B4332;--accent:#D4A017;--danger:#DC2626;--bg:#F6F7F8;--card:#fff;--border:#D1D5DB;--muted:#6B7280;--text:#111827;--amber:#D97706;--blue:#1D4ED8}
+*{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100%}body{font-family:"Barlow",sans-serif;background:var(--bg);color:var(--text);font-size:15px;}
+.site-header{background:#fff;color:var(--green-dark);padding:14px 22px;display:flex;align-items:center;gap:14px;border-bottom:3px solid var(--green);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.site-header h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:16px;color:var(--green-dark)}.site-header p{font-size:13px;color:var(--muted);margin-top:2px}
+
+/* NAV */
+.app-nav{background:#fff;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 14px;gap:2px}
+.app-nav::-webkit-scrollbar{display:none}
+.nav-btn{background:none;border:none;border-bottom:3px solid transparent;color:var(--muted);padding:11px 12px;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:13px;letter-spacing:.4px;cursor:pointer;white-space:nowrap;transition:.15s;text-transform:uppercase}
+.nav-btn:hover{color:var(--green-dark)}.nav-btn.active{color:var(--green-dark);border-bottom-color:var(--green)}
+
+.wrap{width:100%;max-width:1200px;margin:14px auto;padding:0 12px 50px}
+.card{background:var(--card);border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:18px;margin-bottom:14px}
+.top-row{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:20px;color:var(--green-dark);line-height:1}
+.sub{font-size:13px;color:var(--muted);margin-top:4px}
+.section-label{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--green-dark);margin-bottom:8px}
+
+/* BUTTONS */
+.btn{border-radius:8px;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:14px;letter-spacing:.4px;cursor:pointer;border:none;transition:.15s;padding:8px 16px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap;min-height:38px}
+.btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:var(--green-dark)}
+.btn-secondary{background:#EEF2F7;color:var(--green-dark);border:1px solid var(--border)}.btn-secondary:hover{border-color:var(--green)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-full{width:100%;justify-content:center}
+.btn-lg{font-size:16px;min-height:46px;border-radius:10px}
+.btn-sm{font-size:12px;padding:5px 10px;min-height:30px}
+
+/* FORMS */
+.field{margin-bottom:14px}
+label,
+.field-label{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:12px;letter-spacing:.8px;text-transform:uppercase;color:var(--green-dark);margin-bottom:5px}
+input[type=text],input[type=date],input[type=time],select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:"Barlow",sans-serif;font-size:14px;color:var(--text);background:#fff;min-height:40px}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--green)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+
+/* CHECKLIST */
+.check-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.check-item{display:flex;align-items:flex-start;gap:12px;background:#F9FAFB;border:1.5px solid var(--border);border-radius:8px;padding:11px 14px;transition:.15s;user-select:none}
+.check-item:hover{border-color:var(--green)}
+.check-item.checked{border-color:var(--green);background:#F0FDF4}
+.check-item input[type=checkbox]{width:20px;height:20px;cursor:pointer;accent-color:var(--green);flex-shrink:0;margin-top:1px}
+.check-item label{cursor:pointer;font-size:14px;line-height:1.4;font-family:"Barlow",sans-serif}
+
+/* NOTICE */
+.notice{border-radius:8px;padding:10px 13px;margin:10px 0;font-size:13px;line-height:1.5}
+.notice-warn{background:#FFFBEB;border:1px solid #FACC15;color:#713F12}
+.notice-danger{background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B}
+.notice-success{background:#F0FDF4;border:1px solid #86EFAC;color:#166534}
+.notice-info{background:#EFF6FF;border:1px solid #BFDBFE;color:#1E40AF}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:11px;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
+.badge-green{background:#DCFCE7;color:#166534}.badge-amber{background:#FEF3C7;color:#92400E}.badge-red{background:#FEE2E2;color:#991B1B}.badge-blue{background:#DBEAFE;color:#1E40AF}.badge-grey{background:#F3F4F6;color:#374151}
+.badge-core{background:#FEE2E2;color:#991B1B}.badge-routine{background:#DBEAFE;color:#1E40AF}.badge-nonroutine{background:#FEF3C7;color:#92400E}
+
+/* TABLE */
+.table-wrap{overflow:auto;border:1px solid var(--border);border-radius:10px;background:#fff}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid #E5E7EB;font-size:13px;vertical-align:middle}
+th{position:sticky;top:0;z-index:1;font-family:"Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.5px;color:var(--green-dark);font-size:12px;background:#F9FAFB}
+tr:last-child td{border-bottom:none}tr:hover td{background:#FAFAFA}
+.empty-state{padding:36px;text-align:center;color:var(--muted);font-size:13px}
+
+/* SIGNATURE */
+.sig-wrap{background:#fff;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;position:relative}
+.sig-wrap.active{border-color:var(--green)}
+canvas{display:block;width:100%;height:130px;touch-action:none;cursor:crosshair}
+.sig-clear{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.1);border:none;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:#333;padding:3px 8px;border-radius:4px;cursor:pointer}
+.sig-hint{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* STEP INDICATOR */
+.steps{display:flex;align-items:center;margin-bottom:18px;position:relative}
+.steps::before{content:'';position:absolute;top:14px;left:14px;right:14px;height:2px;background:var(--border);z-index:0}
+.step{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1}
+.step-dot{width:28px;height:28px;border-radius:50%;background:#fff;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:13px;color:var(--muted)}
+.step.done .step-dot{background:var(--green);border-color:var(--green);color:#fff}
+.step.current .step-dot{border-color:var(--green);color:var(--green)}
+.step-label{font-family:"Barlow Condensed",sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);text-align:center}
+.step.done .step-label,.step.current .step-label{color:var(--green-dark)}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:14px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:13px 12px;text-align:center}
+.stat-val{font-family:"Barlow Condensed",sans-serif;font-size:28px;font-weight:800;line-height:1;margin-bottom:3px}
+.stat-lbl{font-size:11px;color:var(--muted);font-family:"Barlow Condensed",sans-serif;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
+.stat-green{color:var(--green)}.stat-amber{color:var(--amber)}.stat-red{color:var(--danger)}.stat-blue{color:var(--blue)}
+
+/* PROGRESS */
+.progress-bar{background:#E5E7EB;border-radius:4px;height:7px;overflow:hidden;margin-top:4px}
+.progress-fill{height:100%;border-radius:4px;transition:width .5s}
+
+/* TRAFFIC DOT */
+.tl{display:inline-block;width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-right:5px}
+.tl-green{background:var(--green)}.tl-amber{background:var(--amber)}.tl-red{background:var(--danger)}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.filter-bar input,.filter-bar select{min-width:150px;flex:1;padding:9px 11px;font-size:13px}
+
+/* SWMS CARD */
+.swms-card{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:13px 15px;margin-bottom:8px;cursor:pointer;transition:.15s}
+.swms-card:hover{border-color:var(--green);box-shadow:0 2px 8px rgba(45,106,79,.1)}
+.swms-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+.swms-id{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:11px;letter-spacing:1px;color:var(--green);text-transform:uppercase;margin-bottom:2px}
+.swms-title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:15px;color:var(--green-dark)}
+.swms-meta{font-size:12px;color:var(--muted);margin-top:2px}
+.tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:12px;width:100%;max-width:580px;margin:auto;padding:22px 20px;position:relative;box-shadow:0 8px 40px rgba(0,0,0,.18)}
+.modal-close{position:absolute;top:14px;right:14px;background:#EEF2F7;border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+.modal-close:hover{color:var(--text)}
+.modal-title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:18px;color:var(--green-dark);margin-bottom:3px}
+.modal-sub{font-size:12px;color:var(--muted);margin-bottom:16px}
+hr.divider{border:none;border-top:1px solid var(--border);margin:15px 0}
+
+/* TOAST */
+#toast-wrap{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:7px;pointer-events:none}
+.toast{background:#fff;border:1px solid var(--border);border-left:4px solid var(--green);padding:9px 18px;border-radius:8px;font-family:"Barlow Condensed",sans-serif;font-size:14px;font-weight:700;letter-spacing:.3px;opacity:0;transition:opacity .3s;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.12)}
+.toast.show{opacity:1}
+
+/* MULTI SELECT */
+.multi-select-wrap{border:1.5px solid var(--border);border-radius:8px;overflow:hidden}
+.multi-select-wrap:focus-within{border-color:var(--green)}
+.multi-option{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid #F3F4F6;transition:.12s}
+.multi-option:last-child{border-bottom:none}
+.multi-option:hover{background:#F9FAFB}
+.multi-option.selected{background:#F0FDF4}
+.multi-option input[type=checkbox]{width:17px;height:17px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
+.multi-option label{cursor:pointer;font-size:14px;font-family:"Barlow",sans-serif}
+
+/* SETTINGS */
+.worker-list-item{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border:1px solid var(--border);border-radius:8px;margin-bottom:7px;background:#fff}
+.worker-list-item .name{font-weight:600;font-size:14px}
+
+.hidden{display:none!important}
+.mt-2{margin-top:8px}.mt-4{margin-top:16px}.mb-4{margin-bottom:16px}
+.text-center{text-align:center}.muted{color:var(--muted)}.bold{font-weight:700}
+.footer{text-align:center;font-size:12px;color:var(--muted);margin-top:22px}
+
+/* HAZARD CARDS */
+.hazard-card{background:#fff;border:1.5px solid var(--border);border-radius:10px;margin-bottom:10px;overflow:hidden}
+.hazard-header{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border-bottom:1px solid #F3F4F6}
+.hazard-num{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:13px;color:var(--muted);flex-shrink:0;margin-top:2px}
+.hazard-title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:15px;color:var(--green-dark);flex:1;line-height:1.3}
+.risk-badge{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:6px;font-family:"Barlow Condensed",sans-serif;font-weight:900;font-size:13px;flex-shrink:0;color:#fff}
+.risk-E{background:#DC2626}.risk-V{background:#7C3AED}.risk-H{background:#D97706}.risk-M{background:#2563EB}.risk-L{background:#16A34A}
+.hazard-body{padding:10px 14px}
+.hazard-risks{list-style:none;padding:0;margin:0 0 8px}
+.hazard-risks li{font-size:13px;line-height:1.5;padding:3px 0 3px 14px;position:relative;color:var(--text)}
+.hazard-risks li::before{content:"•";position:absolute;left:0;color:var(--green)}
+.permit-tag{display:inline-flex;align-items:center;padding:2px 8px;background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;border-radius:4px;font-size:11px;font-weight:700;font-family:"Barlow Condensed",sans-serif;letter-spacing:.3px;margin:2px 3px 2px 0}
+.hazard-controls{margin-top:8px;padding-top:8px;border-top:1px solid #F3F4F6}
+.hazard-controls-title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.control-item{font-size:13px;line-height:1.4;padding:3px 0 3px 18px;position:relative;color:var(--text)}
+.control-item::before{content:"→";position:absolute;left:0;color:var(--green);font-size:11px;top:4px}
+.no-hazards{text-align:center;padding:28px;color:var(--muted);font-size:14px;background:#F9FAFB;border-radius:10px;border:1.5px dashed var(--border)}
+.risk-legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;padding:10px 12px;background:#F9FAFB;border-radius:8px;border:1px solid var(--border)}
+.risk-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted);font-family:"Barlow Condensed",sans-serif;font-weight:700}
+
+@media(max-width:768px){
+  .form-grid{grid-template-columns:1fr}
+  .actions{flex-direction:column}.actions .btn{width:100%}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .wrap{padding:0 8px}
+  .card{padding:14px}
+  th,td{font-size:13px;padding:9px 10px}
+}
+@media(max-width:480px){
+  .site-header{padding:10px 12px}
+  .site-header h1{font-size:15px}
+  .stat-grid{grid-template-columns:1fr 1fr}
+  canvas{height:130px}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <img src="https://i.ibb.co/1GR1Hq5P/Albioma-Logo.jpg" alt="Albioma" style="height:38px;width:auto;" onerror="this.style.display='none'">
+  <div>
+    <h1>Tuan Biomass</h1>
+    <p>Safe Work Method Statement — Digital Management System</p>
+  </div>
+</header>
+
+<nav class="app-nav">
+  <button class="nav-btn active" onclick="showPage('register')" id="nav-register">SWMS Register</button>
+  <button class="nav-btn" onclick="showPage('signoff')" id="nav-signoff">Sign-Off</button>
+  <button class="nav-btn" onclick="showPage('pretask')" id="nav-pretask">Pre-Task Check</button>
+  <button class="nav-btn" onclick="showPage('dashboard')" id="nav-dashboard">Dashboard</button>
+  <button class="nav-btn" onclick="showPage('audit')" id="nav-audit">Sign-Off Register</button>
+  <button class="nav-btn" onclick="showPage('taskreg')" id="nav-taskreg">Task Register</button>
+  <button class="nav-btn" onclick="showPage('settings')" id="nav-settings">Settings</button>
+</nav>
+
+<main class="wrap">
+
+<!-- ════════════════════════════════════════ -->
+<!-- REGISTER -->
+<!-- ════════════════════════════════════════ -->
+<div id="page-register">
+  <div class="top-row">
+    <div><div class="title">SWMS Register</div><div class="sub">Current approved Safe Work Method Statements</div></div>
+  </div>
+  <div class="filter-bar">
+    <input type="text" placeholder="Search title or number..." id="searchInput" oninput="renderRegister()">
+    <select id="typeFilter" onchange="renderRegister()">
+      <option value="">All Types</option>
+      <option value="Core SWMS">Core SWMS</option>
+      <option value="Routine Task SWMS">Routine</option>
+      <option value="Non-Routine Task SWMS">Non-Routine</option>
+    </select>
+    <select id="statusFilter" onchange="renderRegister()">
+      <option value="active" selected>Active</option>
+      <option value="inactive">Not Active</option>
+      <option value="">All</option>
+    </select>
+  </div>
+  <div id="swmsCards"></div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- SIGN-OFF -->
+<!-- ════════════════════════════════════════ -->
+<div id="page-signoff" class="hidden">
+  <div class="top-row">
+    <div><div class="title">Worker Sign-Off</div><div class="sub">Record acknowledgement of current approved SWMS</div></div>
+  </div>
+
+  <div class="steps">
+    <div class="step current" id="step1"><div class="step-dot">1</div><div class="step-label">Select</div></div>
+    <div class="step" id="step2"><div class="step-dot">2</div><div class="step-label">Hazards</div></div>
+    <div class="step" id="step3"><div class="step-dot">3</div><div class="step-label">Sign</div></div>
+    <div class="step" id="step4"><div class="step-dot">4</div><div class="step-label">Done</div></div>
+  </div>
+
+  <!-- Step 1: Select SWMS + Worker -->
+  <div id="signStep1">
+    <div class="card">
+      <div class="field">
+        <label for="signSwmsSelect">Select SWMS</label>
+        <select id="signSwmsSelect" onchange="onSignSwmsChange()">
+          <option value="">— Choose a SWMS —</option>
+        </select>
+      </div>
+      <div id="signSwmsInfo" class="hidden"></div>
+      <div class="field">
+        <label for="signCheckName">Worker Name</label>
+        <select id="signCheckName">
+          <option value="">— Select worker —</option>
+        </select>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="goStep2()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: Hazard Review -->
+  <div id="signStep2" class="hidden">
+    <div id="signAlreadySignedCard" class="hidden">
+      <div class="card">
+        <div id="signStatusNotice"></div>
+      </div>
+    </div>
+    <div id="signHazardCard">
+      <div id="signVersionNotice" class="hidden"></div>
+      <div id="hazardReviewContent"></div>
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="setSignStep(1)">Back</button>
+        <button class="btn btn-primary" onclick="goStep3()">I Have Reviewed the Hazards</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 3: Declaration + Signature -->
+  <div id="signStep3" class="hidden">
+    <div class="card">
+      <div class="swms-id" id="s3SwmsId"></div>
+      <div class="title" id="s3SwmsTitle" style="margin-bottom:4px;"></div>
+      <div class="sub" id="s3SwmsMeta"></div>
+      <hr class="divider">
+      <div id="s3VersionWarn" class="hidden" style="margin-bottom:12px;"></div>
+      <div class="notice notice-warn" style="margin-top:0;">Review the SWMS document before signing. Open the PDF link below if available.</div>
+      <div id="s3PdfLink" class="mb-4"></div>
+      <div class="section-label">Declaration</div>
+      <div class="check-list">
+        <div class="check-item" id="chk-read-item">
+          <input type="checkbox" id="chk-read" onchange="syncCheck('chk-read','chk-read-item')">
+          <label for="chk-read">I have read and understood this Safe Work Method Statement in full.</label>
+        </div>
+        <div class="check-item" id="chk-follow-item">
+          <input type="checkbox" id="chk-follow" onchange="syncCheck('chk-follow','chk-follow-item')">
+          <label for="chk-follow">I agree to follow all controls, PPE requirements and procedures in this SWMS.</label>
+        </div>
+        <div class="check-item" id="chk-stop-item">
+          <input type="checkbox" id="chk-stop" onchange="syncCheck('chk-stop','chk-stop-item')">
+          <label for="chk-stop">I understand I must stop work and notify my supervisor if conditions change.</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Signature</label>
+        <div class="sig-wrap" id="sigWrap1">
+          <canvas id="sigCanvas1"></canvas>
+          <button class="sig-clear" onclick="clearSig('sigCanvas1','sigWrap1')">Clear</button>
+        </div>
+        <div class="sig-hint">Sign using finger or stylus</div>
+      </div>
+      <div class="field">
+        <label for="signDate">Date</label>
+        <input type="date" id="signDate">
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="setSignStep(2)">Back</button>
+        <button class="btn btn-primary" onclick="submitSignOff()">Submit Sign-Off</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 4: Confirmed -->
+  <div id="signStep4" class="hidden">
+    <div class="card text-center">
+      <div style="font-size:52px;margin-bottom:12px;">&#10003;</div>
+      <div class="title" style="margin-bottom:8px;">Sign-Off Recorded</div>
+      <div class="muted" id="signConfirmText"></div>
+      <hr class="divider">
+      <button class="btn btn-primary btn-full btn-lg" onclick="resetSignOff()">Sign Another SWMS</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- PRE-TASK CHECK -->
+<!-- ════════════════════════════════════════ -->
+<div id="page-pretask" class="hidden">
+  <div class="top-row">
+    <div><div class="title">Pre-Task Verification</div><div class="sub">Complete before commencing SWMS-controlled work</div></div>
+  </div>
+
+  <div class="steps">
+    <div class="step current" id="ptstep1"><div class="step-dot">1</div><div class="step-label">SWMS</div></div>
+    <div class="step" id="ptstep2"><div class="step-dot">2</div><div class="step-label">Crew</div></div>
+    <div class="step" id="ptstep3"><div class="step-dot">3</div><div class="step-label">Hazards</div></div>
+    <div class="step" id="ptstep4"><div class="step-dot">4</div><div class="step-label">Checklist</div></div>
+    <div class="step" id="ptstep5"><div class="step-dot">5</div><div class="step-label">Authorise</div></div>
+  </div>
+
+  <!-- PT Step 1: Select SWMS -->
+  <div id="ptStep1">
+    <div class="card">
+      <div class="section-label mb-4">Select SWMS</div>
+      <div class="field">
+        <label for="ptSwms">SWMS</label>
+        <select id="ptSwms">
+          <option value="">— Select SWMS —</option>
+        </select>
+      </div>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="ptGoStep2()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PT Step 2: Select Crew -->
+  <div id="ptStep2" class="hidden">
+    <div class="card">
+      <div class="section-label mb-4">Select Work Crew</div>
+      <div class="sub mb-4">Select all workers who will be involved in this task.</div>
+      <div class="multi-select-wrap" id="ptCrewList"></div>
+      <div id="ptCrewCompliance" class="hidden" style="margin-top:12px;"></div>
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="setPtStep(1)">Back</button>
+        <button class="btn btn-primary" id="ptStep2Continue" onclick="ptGoStep3()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PT Step 3: Pre-Start Meeting + Hazards + SWMS -->
+  <div id="ptStep3" class="hidden">
+    <div class="card" style="background:#F0FDF4;border:2px solid #86EFAC;">
+      <div class="section-label" style="color:#166534;margin-bottom:6px;">Pre-Start Meeting</div>
+      <div style="font-size:14px;color:#166534;line-height:1.6;">Gather the crew now. Go through the following together before proceeding.</div>
+    </div>
+
+    <div class="card">
+      <div class="section-label mb-4">Step 1 — Review Hazards Together</div>
+      <div id="ptHazardContent"></div>
+    </div>
+
+    <div class="card">
+      <div class="section-label mb-4">Step 2 — Open and Read the SWMS</div>
+      <div class="sub mb-4">Every crew member must read the full SWMS document before work commences.</div>
+      <div id="ptPdfBtn"></div>
+      <div id="ptPdfNotOpened" class="notice notice-warn" style="margin-top:10px;display:none;">The SWMS document must be opened before proceeding.</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="setPtStep(2)">Back</button>
+      <button class="btn btn-primary" id="ptStep3Continue" onclick="ptStep3Proceed()" disabled style="opacity:.5;cursor:not-allowed;">Pre-Start Meeting Complete</button>
+    </div>
+  </div>
+
+  <!-- PT Step 4: Checklist -->
+  <div id="ptStep4" class="hidden">
+    <div class="card">
+      <div class="section-label mb-4">Pre-Task Checklist</div>
+      <div class="check-list">
+        <div class="check-item" id="ptc1-item"><input type="checkbox" id="ptc1" onchange="syncCheck('ptc1','ptc1-item')"><label for="ptc1">SWMS has been reviewed and is the current approved version</label></div>
+        <div class="check-item" id="ptc2-item"><input type="checkbox" id="ptc2" onchange="syncCheck('ptc2','ptc2-item')"><label for="ptc2">All hazard controls are understood by the entire crew</label></div>
+        <div class="check-item" id="ptc3-item"><input type="checkbox" id="ptc3" onchange="syncCheck('ptc3','ptc3-item')"><label for="ptc3">All critical controls are in place and verified before work commences</label></div>
+        <div class="check-item" id="ptc4-item"><input type="checkbox" id="ptc4" onchange="syncCheck('ptc4','ptc4-item')"><label for="ptc4">Required PPE is available and in serviceable condition</label></div>
+        <div class="check-item" id="ptc5-item"><input type="checkbox" id="ptc5" onchange="syncCheck('ptc5','ptc5-item')"><label for="ptc5">Tools and equipment have been inspected prior to use</label></div>
+        <div class="check-item" id="ptc6-item"><input type="checkbox" id="ptc6" onchange="syncCheck('ptc6','ptc6-item')"><label for="ptc6">Required permits have been obtained (Hot Work, Confined Space, etc.)</label></div>
+        <div class="check-item" id="ptc7-item"><input type="checkbox" id="ptc7" onchange="syncCheck('ptc7','ptc7-item')"><label for="ptc7">Required isolations and lockouts have been completed (LOTO)</label></div>
+        <div class="check-item" id="ptc8-item"><input type="checkbox" id="ptc8" onchange="syncCheck('ptc8','ptc8-item')"><label for="ptc8">Emergency procedures are understood and emergency equipment is accessible</label></div>
+      </div>
+      <div class="field">
+        <label for="ptChanges">Have conditions changed since this SWMS was written?</label>
+        <select id="ptChanges" onchange="togglePtChanges()">
+          <option value="no">No — conditions match the SWMS</option>
+          <option value="yes">Yes — conditions have changed</option>
+        </select>
+      </div>
+      <div id="ptChangesDetail" class="field hidden">
+        <label for="ptChangesText">Describe changes and additional controls implemented</label>
+        <textarea id="ptChangesText" placeholder="Describe what has changed and what additional controls are in place..."></textarea>
+      </div>
+      <div class="actions">
+        <button class="btn btn-secondary" onclick="setPtStep(3)">Back</button>
+        <button class="btn btn-primary" onclick="ptGoStep5()">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PT Step 5: Work Details + Authorise -->
+  <div id="ptStep5" class="hidden">
+    <div class="card">
+      <div class="section-label mb-4">Work Details</div>
+      <div class="form-grid">
+        <div class="field">
+          <label for="ptLocation">Work Location</label>
+          <input type="text" id="ptLocation" placeholder="e.g. Dehydration Line — Dryer 1">
+        </div>
+        <div class="field">
+          <label for="ptDate">Date</label>
+          <input type="date" id="ptDate">
+        </div>
+        <div class="field">
+          <label for="ptTime">Start Time</label>
+          <input type="time" id="ptTime">
+        </div>
+      </div>
+      <div id="ptSignCompliance" class="hidden" style="margin-bottom:14px;"></div>
+      <button class="btn btn-primary btn-full btn-lg" onclick="submitPreTask()">Authorise — Work May Commence</button>
+      <div class="actions" style="margin-top:8px;">
+        <button class="btn btn-secondary btn-full" onclick="setPtStep(4)">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- DASHBOARD -->
+<!-- ════════════════════════════════════════ -->
+<div id="page-dashboard" class="hidden">
+  <div class="top-row">
+    <div><div class="title">Compliance Dashboard</div><div class="sub">Sign-off status against current SWMS review versions</div></div>
+    <button class="btn btn-secondary btn-sm" onclick="renderDashboard()">Refresh</button>
+  </div>
+  <div class="stat-grid" id="dashStats"></div>
+  <div class="card">
+    <div class="section-label mb-4">SWMS Sign-Off Compliance</div>
+    <div class="table-wrap">
+      <table><thead><tr><th>SWMS</th><th>Title</th><th>Rev</th><th>Signed</th><th>Compliance</th><th>Review Due</th></tr></thead>
+      <tbody id="dashSwmsBody"></tbody></table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-label mb-4">Worker Compliance</div>
+    <div class="table-wrap">
+      <table><thead><tr><th>Worker</th><th>Signed Current</th><th>Outstanding</th><th>Last Signed</th></tr></thead>
+      <tbody id="dashWorkerBody"></tbody></table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- WORKER SIGN-OFF REGISTER -->
+<!-- ════════════════════════════════════════ -->
+<div id="page-audit" class="hidden">
+  <div class="top-row">
+    <div><div class="title">Worker Sign-Off Register</div><div class="sub">Individual SWMS acknowledgement records</div></div>
+    <button class="btn btn-secondary btn-sm" onclick="exportSignOffCSV()">Export CSV</button>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="signoffSearch" placeholder="Search worker, SWMS..." oninput="renderSignOffRegister()">
+    <select id="signoffSwmsFilter" onchange="renderSignOffRegister()" style="max-width:220px;">
+      <option value="">All SWMS</option>
+    </select>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Date</th><th>Worker</th><th>SWMS</th><th>Title</th><th>Version</th></tr></thead>
+      <tbody id="signoffRegisterBody"></tbody>
+    </table>
+  </div>
+  <div id="signoffRegisterEmpty" class="empty-state hidden">No sign-off records found.</div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- TASK REGISTER -->
+<!-- ════════════════════════════════════════ -->
+<div id="page-taskreg" class="hidden">
+  <div class="top-row">
+    <div><div class="title">Task Register</div><div class="sub">Pre-task verification records</div></div>
+    <button class="btn btn-secondary btn-sm" onclick="exportTaskCSV()">Export CSV</button>
+  </div>
+  <div class="filter-bar">
+    <input type="text" id="taskSearch" placeholder="Search SWMS, location, crew..." oninput="renderTaskRegister()">
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Date</th><th>Time</th><th>SWMS</th><th>Title</th><th>Location</th><th>Crew</th><th>Conditions Changed</th></tr></thead>
+      <tbody id="taskRegisterBody"></tbody>
+    </table>
+  </div>
+  <div id="taskRegisterEmpty" class="empty-state hidden">No task records found.</div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- SETTINGS -->
+<!-- ════════════════════════════════════════ -->
+<div id="page-settings" class="hidden">
+  <div class="top-row">
+    <div><div class="title">Settings</div><div class="sub">Manage workers and system configuration</div></div>
+  </div>
+
+  <!-- ACCESS CODE GATE -->
+  <div id="settingsLocked" class="card text-center">
+    <div class="section-label mb-4">Settings Access</div>
+    <div class="sub mb-4">Enter the settings code to continue.</div>
+    <div style="max-width:280px;margin:0 auto;">
+      <div class="field">
+        <input type="password" id="settingsCodeInput" placeholder="Enter code..." style="text-align:center;font-size:20px;letter-spacing:4px;">
+      </div>
+      <button class="btn btn-primary btn-full" onclick="unlockSettings()">Unlock</button>
+      <div id="settingsCodeError" class="notice notice-danger hidden" style="margin-top:12px;">Incorrect code.</div>
+    </div>
+  </div>
+
+  <div id="settingsUnlocked" class="hidden">
+
+  <div class="card">
+    <div class="top-row" style="margin-bottom:12px;">
+      <div>
+        <div class="section-label" style="margin-bottom:2px;">SWMS Register</div>
+        <div class="sub">Add, edit or update SWMS entries. Changes apply immediately in the app. Use Generate Code to update the HTML file for GitHub.</div>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="openSwmsEditor(null)">+ Add SWMS</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Rev</th><th>Auth Date</th><th>Review Date</th><th>Status</th><th></th></tr></thead>
+        <tbody id="swmsEditorTable"></tbody>
+      </table>
+    </div>
+    <hr class="divider">
+    <div class="section-label mb-4">Export Code for GitHub</div>
+    <div class="sub mb-4">After making changes, click Generate Code, then copy and paste the output into the <code style="background:#F3F4F6;padding:2px 6px;border-radius:4px;font-size:13px;">SWMS_LIB</code> array in the HTML file before uploading to GitHub.</div>
+    <button class="btn btn-secondary" onclick="generateSwmsCode()">Generate Code</button>
+    <div id="swmsCodeOutput" class="hidden" style="margin-top:14px;">
+      <textarea id="swmsCodeText" style="font-family:monospace;font-size:12px;min-height:220px;background:#F9FAFB;border-color:var(--border);" readonly></textarea>
+      <button class="btn btn-primary btn-sm" style="margin-top:8px;" onclick="copySwmsCode()">Copy to Clipboard</button>
+      <div id="swmsCodeCopied" class="hidden notice notice-success" style="margin-top:8px;">Copied.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label mb-4">Worker List</div>
+    <div class="sub mb-4">Workers appear in both the sign-off dropdown and the pre-task crew selector. Add a worker here when they join the system.</div>
+    <div id="workerListDisplay"></div>
+    <hr class="divider">
+    <div class="form-grid">
+      <div class="field">
+        <label for="newWorkerName">Add Worker</label>
+        <input type="text" id="newWorkerName" placeholder="Full name">
+      </div>
+    </div>
+    <div class="actions" style="justify-content:flex-start;">
+      <button class="btn btn-primary" onclick="addWorker()">Add Worker</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-label mb-4">Power Automate — Flow URLs</div>
+    <div class="sub mb-4">Paste your PA HTTP trigger URLs here. Leave blank to store data locally only.</div>
+    <div class="field">
+      <label for="cfgGetUrl">Flow 1 — Load Live Data (GET)</label>
+      <input type="text" id="cfgGetUrl" placeholder="https://prod-xx.logic.azure.com/...">
+    </div>
+    <div class="field">
+      <label for="cfgSignUrl">Flow 2 — Submit Sign-Off (POST)</label>
+      <input type="text" id="cfgSignUrl" placeholder="https://prod-xx.logic.azure.com/...">
+    </div>
+    <div class="field">
+      <label for="cfgPtUrl">Flow 3 — Submit Pre-Task (POST)</label>
+      <input type="text" id="cfgPtUrl" placeholder="https://prod-xx.logic.azure.com/...">
+    </div>
+    <div class="field">
+      <label for="cfgPdfBase">SWMS PDF Base URL (GitHub Pages folder)</label>
+      <input type="text" id="cfgPdfBase" placeholder="https://tuanbiomass.github.io/Tuan-Biomass-forms-/swms/">
+    </div>
+    <hr class="divider">
+    <div class="section-label mb-4">Access Code</div>
+    <div class="sub mb-4">Change the code required to access Settings. Current code must be entered above to save changes.</div>
+    <div class="form-grid">
+      <div class="field">
+        <label for="cfgNewCode">New Settings Code</label>
+        <input type="text" id="cfgNewCode" placeholder="Enter new code...">
+      </div>
+      <div class="field">
+        <label for="cfgNewCodeConfirm">Confirm New Code</label>
+        <input type="text" id="cfgNewCodeConfirm" placeholder="Confirm new code...">
+      </div>
+    </div>
+    <div class="actions" style="justify-content:flex-start;">
+      <button class="btn btn-primary" onclick="saveConfig()">Save All Settings</button>
+    </div>
+    <div id="settingsSaved" class="hidden notice notice-success mt-2">Settings saved.</div>
+    <div id="settingsCodeMismatch" class="hidden notice notice-danger mt-2">New codes do not match — code not changed.</div>
+  </div>
+
+  <div class="card">
+    <div class="section-label mb-4">Data</div>
+    <div class="sub mb-4">Clear locally stored sign-off and pre-task records. This cannot be undone.</div>
+    <button class="btn btn-danger btn-sm" onclick="clearData()">Clear All Local Records</button>
+  </div>
+
+  </div><!-- end settingsUnlocked -->
+</div>
+
+<!-- SWMS Editor Modal -->
+<div class="modal-overlay" id="swmsEditorModal">
+  <div class="modal" style="max-width:680px;">
+    <button class="modal-close" onclick="closeSwmsEditor()">x</button>
+    <div class="modal-title" id="swmsEditorTitle">Add SWMS</div>
+    <div class="modal-sub">Changes are saved to the app immediately.</div>
+    <input type="hidden" id="edSwmsOrigId">
+    <div class="form-grid">
+      <div class="field">
+        <label for="edId">SWMS ID</label>
+        <input type="text" id="edId" placeholder="e.g. SWMS-024">
+      </div>
+      <div class="field">
+        <label for="edVersion">Revision Number</label>
+        <input type="text" id="edVersion" placeholder="e.g. 1">
+      </div>
+    </div>
+    <div class="field">
+      <label for="edTitle">Title</label>
+      <input type="text" id="edTitle" placeholder="e.g. Conveyor Belt Maintenance">
+    </div>
+    <div class="field">
+      <label for="edType">Type</label>
+      <select id="edType">
+        <option value="Core SWMS">Core SWMS</option>
+        <option value="Routine Task SWMS">Routine Task SWMS</option>
+        <option value="Non-Routine Task SWMS">Non-Routine Task SWMS</option>
+      </select>
+    </div>
+    <div class="form-grid">
+      <div class="field">
+        <label for="edAuthDate">Authorised Date</label>
+        <input type="date" id="edAuthDate">
+      </div>
+      <div class="field">
+        <label for="edReviewDate">Next Review Date</label>
+        <input type="date" id="edReviewDate">
+      </div>
+    </div>
+    <div class="field">
+      <label>Status</label>
+      <div style="display:flex;gap:12px;">
+        <label style="display:flex;align-items:center;gap:8px;font-size:15px;text-transform:none;letter-spacing:0;cursor:pointer;">
+          <input type="radio" name="edActive" id="edActiveYes" value="true" style="width:18px;height:18px;accent-color:var(--green);"> Active
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:15px;text-transform:none;letter-spacing:0;cursor:pointer;">
+          <input type="radio" name="edActive" id="edActiveNo" value="false" style="width:18px;height:18px;accent-color:var(--green);"> Not Active
+        </label>
+      </div>
+    </div>
+    <div class="field" id="edLinkedCoreField">
+      <label>Required Core SWMS</label>
+      <div class="sub" style="margin-bottom:8px;text-transform:none;letter-spacing:0;font-size:12px;color:var(--muted);">Workers must have signed these Core SWMS before this job can proceed. Leave blank if none apply.</div>
+      <div class="multi-select-wrap" id="edLinkedCoreList"></div>
+    </div>
+    <div id="swmsEditorError" class="notice notice-danger hidden" style="margin-top:4px;"></div>
+    <hr class="divider">
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="closeSwmsEditor()">Cancel</button>
+      <button class="btn btn-danger btn-sm" id="swmsDeleteBtn" onclick="deleteSwmsEntry()" style="margin-right:auto;">Delete</button>
+      <button class="btn btn-primary" onclick="saveSwmsEntry()">Save SWMS</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- SWMS Detail Modal -->
+<div class="modal-overlay" id="swmsModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">x</button>
+    <div class="swms-id" id="mId"></div>
+    <div class="modal-title" id="mTitle"></div>
+    <div class="modal-sub" id="mSub"></div>
+    <div id="mBody"></div>
+    <hr class="divider">
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
+      <button class="btn btn-primary" onclick="goSignFromModal()">Sign This SWMS</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hazard Summary Modal (from register) -->
+<div class="modal-overlay" id="hazardModal">
+  <div class="modal" style="max-width:700px;max-height:88vh;overflow-y:auto;padding-bottom:16px;">
+    <button class="modal-close" onclick="closeHazardModal()">x</button>
+    <div class="swms-id" id="hazardModalId"></div>
+    <div class="modal-title" id="hazardModalTitle"></div>
+    <div class="modal-sub">Hazard &amp; Risk Summary</div>
+    <div id="hazardModalBody"></div>
+    <div class="actions" style="margin-top:16px;">
+      <button class="btn btn-secondary btn-full" onclick="closeHazardModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden render target used by renderHazardReview -->
+<div id="hazardReviewContent" style="display:none;"></div>
+
+<div class="footer">SWMS-SYS-001 · Tuan Biomass · Albioma Group</div>
+<div id="toast-wrap"></div>
+
+<script>
+// ═══════════════════════════════════════
+// CONFIG & STORAGE KEYS
+// ═══════════════════════════════════════
+const KEYS = {
+  signoffs:       'tb_swms_signoffs_v2',
+  pretasks:       'tb_swms_pretasks_v2',
+  workers:        'tb_swms_workers_v2',
+  pretaskWorkers: 'tb_swms_ptworkers_v1',
+  config:         'tb_swms_config_v2',
+  swmslib:        'tb_swms_library_v2',
+};
+
+// ═══════════════════════════════════════
+// SWMS LIBRARY — from spreadsheet
+// ═══════════════════════════════════════
+const SWMS_LIB_DEFAULT = [
+  {id:'SWMS-001',title:'Baghouse and Ducting Installation',version:1,type:'Non-Routine Task SWMS',authDate:'2025-01-06',reviewDate:null,active:false},
+  {id:'SWMS-002',title:'Burner Clean',version:1,type:'Routine Task SWMS',authDate:'2026-04-07',reviewDate:'2027-04-07',active:true},
+  {id:'SWMS-003',title:'Dust Blower Bag Change',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-15',reviewDate:'2026-12-15',active:true},
+  {id:'SWMS-004',title:'Dryer Stack Clean',version:1,type:'Non-Routine Task SWMS',authDate:'2025-05-12',reviewDate:null,active:false},
+  {id:'SWMS-005',title:'Hot Work',version:1,type:'Core SWMS',authDate:'2026-05-15',reviewDate:'2027-05-15',active:true},
+  {id:'SWMS-006',title:'ID Fan',version:1,type:'Routine Task SWMS',authDate:'2026-06-26',reviewDate:'2027-06-26',active:true},
+  {id:'SWMS-007',title:'Outlet Pipe',version:2,type:'Routine Task SWMS',authDate:'2026-06-24',reviewDate:'2027-06-24',active:true},
+  {id:'SWMS-008',title:'Roof Clean',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
+  {id:'SWMS-009',title:'Shavings Bucket Elevator',version:1,type:'Non-Routine Task SWMS',authDate:'2024-11-26',reviewDate:null,active:false},
+  {id:'SWMS-010',title:'Shavings Silo Entry',version:1,type:'Non-Routine Task SWMS',authDate:'2025-01-22',reviewDate:null,active:false},
+  {id:'SWMS-011',title:'Shredder Air Assist',version:1,type:'Non-Routine Task SWMS',authDate:'2024-11-26',reviewDate:null,active:false},
+  {id:'SWMS-012',title:'Surge Bin',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
+  {id:'SWMS-013',title:'Tail End Breakdown',version:1,type:'Non-Routine Task SWMS',authDate:'2026-05-03',reviewDate:'2027-05-03',active:true},
+  {id:'SWMS-014',title:'Truck Silos Cleaning',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
+  {id:'SWMS-015',title:'Grecon Filters Outlet Pipe',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
+  {id:'SWMS-016',title:'Replace Drag Chain Silo Top (Crane Lift)',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-15',reviewDate:null,active:false},
+  {id:'SWMS-017',title:'3P Discharge',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-16',reviewDate:null,active:false},
+  {id:'SWMS-018',title:'Airlock Repair',version:1,type:'Non-Routine Task SWMS',authDate:'2025-12-16',reviewDate:null,active:false},
+  {id:'SWMS-019',title:'Burner Fan Shroud',version:1,type:'Non-Routine Task SWMS',authDate:'2025-06-18',reviewDate:null,active:false},
+  {id:'SWMS-020',title:'Conveyor Belt Maintenance',version:1,type:'Routine Task SWMS',authDate:'2025-12-16',reviewDate:'2026-12-16',active:true},
+  {id:'SWMS-021',title:'Pellet Mill Maintenance',version:1,type:'Routine Task SWMS',authDate:'2026-01-10',reviewDate:'2027-01-10',active:true},
+  {id:'SWMS-022',title:'Working at Heights — Roof Access',version:1,type:'Core SWMS',authDate:'2026-03-01',reviewDate:'2027-03-01',active:true},
+  {id:'SWMS-023',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
+  {id:'SWMS-024',title:'Confined Space Entry',version:1,type:'Core SWMS',authDate:'2026-06-24',reviewDate:'2027-07-24',active:true,linkedCore:[]},
+  {id:'SWMS-025',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
+  {id:'SWMS-026',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
+  {id:'SWMS-027',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
+  {id:'SWMS-028',title:'[Title — update in Settings]',version:1,type:'Non-Routine Task SWMS',authDate:'2026-06-25',reviewDate:null,active:false},
+];
+
+// Live library — localStorage overrides the hardcoded default when present
+function getSwmsLib(){
+  try{
+    const stored = JSON.parse(localStorage.getItem(KEYS.swmslib));
+    return (stored && stored.length) ? stored : SWMS_LIB_DEFAULT;
+  }catch(e){ return SWMS_LIB_DEFAULT; }
+}
+// Single reference used everywhere — refreshed after any edit
+let SWMS_LIB = getSwmsLib();
+let CORE_SWMS = SWMS_LIB.filter(s=>s.type==='Core SWMS'&&s.active).map(s=>s.id);
+
+// ═══════════════════════════════════════
+// DATA LAYER
+// ═══════════════════════════════════════
+function load(key){ try{ return JSON.parse(localStorage.getItem(key))||[] }catch(e){ return [] } }
+function loadObj(key){ try{ return JSON.parse(localStorage.getItem(key))||{} }catch(e){ return {} } }
+function save(key,val){ localStorage.setItem(key, JSON.stringify(val)) }
+function genId(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6) }
+
+let signoffs = load(KEYS.signoffs);
+let pretasks = load(KEYS.pretasks);
+let workers  = load(KEYS.workers);
+let cfg = loadObj(KEYS.config);
+
+// Bake in defaults if config not yet saved on this device
+if(!cfg.settingsCode){
+  cfg = {
+    getUrl:      '',  // PA Flow 1 — Load Live Data (GET) — paste URL here
+    signUrl:     '',  // PA Flow 2 — Submit Sign-Off (POST) — paste URL here
+    ptUrl:       '',  // PA Flow 3 — Submit Pre-Task (POST) — paste URL here
+    pdfBase:     'https://tuan-biomass.github.io/Tuan-Biomass-forms-/',
+    settingsCode: 'TB2026',
+  };
+  save(KEYS.config, cfg);
+}
+
+// Sign-off worker list — employees who have used the new system
+if(!workers.length){
+  workers = ['Amber Seehars','Anthony South','Ben Alexander','Chris Foster','David Knight','Dylan Hall','Glenn Croft','Kendal Brown','Kyle Belton','Lincoln Knight','Luke Seno','Rob Presser','Tate Petersen','Tim Ronher'];
+  save(KEYS.workers, workers);
+}
+
+// Pre-task crew list — all site employees
+let ptWorkers = load(KEYS.pretaskWorkers);
+if(!ptWorkers.length){
+  ptWorkers = ['Anthony South','Chris Foster','David Knight','Kendal Brown','Kyle Belton'];
+  save(KEYS.pretaskWorkers, ptWorkers);
+}
+
+// Seed demo sign-offs
+if(!signoffs.length){
+  signoffs = [
+    {id:genId(),swmsId:'SWMS-024',swmsTitle:'Confined Space Entry',swmsVersion:1,worker:'Chris Foster',dateSigned:'2026-06-24',sig:'demo',ts:'2026-06-24T08:00:00',type:'signoff'},
+  ];
+  save(KEYS.signoffs, signoffs);
+}
+
+// ═══════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════
+function showPage(name){
+  ['register','signoff','pretask','dashboard','audit','taskreg','settings'].forEach(p=>{
+    document.getElementById('page-'+p).classList.add('hidden');
+    const nb = document.getElementById('nav-'+p);
+    if(nb) nb.classList.remove('active');
+  });
+  document.getElementById('page-'+name).classList.remove('hidden');
+  const nb = document.getElementById('nav-'+name);
+  if(nb) nb.classList.add('active');
+  if(name==='register') renderRegister();
+  if(name==='dashboard') renderDashboard();
+  if(name==='audit') renderSignOffRegister();
+  if(name==='taskreg') renderTaskRegister();
+  if(name==='settings') renderSettings();
+  if(name==='signoff'||name==='pretask') refreshDropdowns();
+  window.scrollTo(0,0);
+}
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+function fmtDate(d){ if(!d) return '—'; return new Date(d).toLocaleDateString('en-AU',{day:'2-digit',month:'short',year:'numeric'}); }
+function isOverdue(d){ return d && new Date(d)<new Date(); }
+function esc(s){ return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+function typeBadge(t){
+  if(t.includes('Core')) return '<span class="badge badge-core">Core</span>';
+  if(t.includes('Routine')&&!t.includes('Non')) return '<span class="badge badge-routine">Routine</span>';
+  return '<span class="badge badge-nonroutine">Non-Routine</span>';
+}
+
+function workerSignedCurrent(worker, swmsId){
+  const s = SWMS_LIB.find(x=>x.id===swmsId);
+  if(!s) return false;
+  return signoffs.some(r=>r.swmsId===swmsId && r.swmsVersion===s.version && r.worker===worker);
+}
+
+function workerSignedAllRequired(worker, swmsId){
+  // Must have signed the selected SWMS + all active Core SWMS
+  const required = [swmsId, ...CORE_SWMS.filter(c=>c!==swmsId)];
+  return required.every(id => workerSignedCurrent(worker, id));
+}
+
+function crewAllSigned(crew, swmsId){
+  return crew.every(w => workerSignedAllRequired(w, swmsId));
+}
+
+function pdfUrl(swmsId){
+  const freshCfg = loadObj(KEYS.config);
+  const base = freshCfg.pdfBase || '';
+  if(!base) return null;
+  return base.replace(/\/$/, '') + '/' + swmsId.replace(/-/g,'_') + '.pdf';
+}
+
+function toast(msg, color){
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  if(color) el.style.borderLeftColor = color;
+  document.getElementById('toast-wrap').appendChild(el);
+  requestAnimationFrame(()=>el.classList.add('show'));
+  setTimeout(()=>{ el.classList.remove('show'); setTimeout(()=>el.remove(),400); }, 3000);
+}
+
+// ═══════════════════════════════════════
+// REGISTER PAGE
+// ═══════════════════════════════════════
+let modalSwmsId = null;
+
+function renderRegister(){
+  const search  = (document.getElementById('searchInput').value||'').toLowerCase();
+  const typeF   = document.getElementById('typeFilter').value;
+  const statusF = document.getElementById('statusFilter').value;
+  const filtered = SWMS_LIB.filter(s=>{
+    const ms = !search || s.title.toLowerCase().includes(search) || s.id.toLowerCase().includes(search);
+    const mt = !typeF || s.type===typeF;
+    const mst= !statusF || (statusF==='active'?s.active:!s.active);
+    return ms&&mt&&mst;
+  });
+  const container = document.getElementById('swmsCards');
+  if(!filtered.length){ container.innerHTML='<div class="empty-state" style="border:1px dashed var(--border);border-radius:12px;">No SWMS found.</div>'; return; }
+  container.innerHTML = filtered.map(s=>{
+    const od = isOverdue(s.reviewDate);
+    const border = !s.active?'':'border-color:'+(od?'var(--danger)':'var(--border)');
+    return `<div class="swms-card" style="${border}" onclick="openModal('${s.id}')">
+      <div class="swms-card-header">
+        <div>
+          <div class="swms-id">${s.id}</div>
+          <div class="swms-title">${esc(s.title)}</div>
+          <div class="swms-meta">v${s.version} &middot; Authorised ${fmtDate(s.authDate)}</div>
+        </div>
+        <div>${s.active?'<span class="badge badge-green">Active</span>':'<span class="badge badge-grey">Not Active</span>'}</div>
+      </div>
+      <div class="tag-row">
+        ${typeBadge(s.type)}
+        ${s.reviewDate?`<span class="badge ${od?'badge-red':'badge-blue'}">Review: ${fmtDate(s.reviewDate)}</span>`:'<span class="badge badge-grey">No Review Date</span>'}
+        ${HAZARD_DATA[s.id]?`<a onclick="event.stopPropagation();openHazardModal('${s.id}','${esc(s.title)}')" class="badge badge-orange" style="cursor:pointer;background:#FEF3C7;color:#92400E;border:1px solid #FCD34D;">View Hazards</a>`:''}
+        ${pdfUrl(s.id)?`<a onclick="event.stopPropagation();openPdfViewer('${pdfUrl(s.id)}','${esc(s.title)}','${s.id}')" class="badge badge-green" style="cursor:pointer;">View PDF</a>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openModal(id){
+  modalSwmsId = id;
+  const s = SWMS_LIB.find(x=>x.id===id);
+  document.getElementById('mId').textContent = s.id;
+  document.getElementById('mTitle').textContent = s.title;
+  document.getElementById('mSub').textContent = `${s.type} \u00b7 v${s.version} \u00b7 ${s.active?'Active':'Not Active'}`;
+  const sigs = signoffs.filter(r=>r.swmsId===id&&r.swmsVersion===s.version);
+  const revs = []; // revision history entries could go here
+  const pdf = pdfUrl(id);
+  document.getElementById('mBody').innerHTML = `
+    <div class="form-grid" style="margin-bottom:14px;">
+      <div class="card" style="margin:0;padding:14px;"><div class="section-label" style="margin-bottom:4px;">Authorised</div><div class="bold">${fmtDate(s.authDate)}</div></div>
+      <div class="card" style="margin:0;padding:14px;"><div class="section-label" style="margin-bottom:4px;">Next Review</div><div class="bold ${isOverdue(s.reviewDate)?'stat-red':''}">${fmtDate(s.reviewDate)}</div></div>
+    </div>
+    <div class="card" style="margin:0 0 12px;padding:14px;">
+      <div class="section-label" style="margin-bottom:4px;">Sign-Offs — v${s.version}</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;color:var(--green-dark);">${sigs.length} <span style="font-size:14px;font-weight:400;color:var(--muted);">workers signed</span></div>
+    </div>
+    ${pdf?`<button onclick="closeModal();openPdfViewer('${pdf}','${esc(s.title)}','${s.id}')" class="btn btn-secondary btn-full" style="margin-top:4px;">View PDF Document</button>`:'<div class="notice notice-info" style="margin-top:4px;">No PDF linked. Add the base URL in Settings once PDFs are uploaded to GitHub.</div>'}
+    ${HAZARD_DATA[s.id]?`<button onclick="closeModal();openHazardModal('${s.id}','${esc(s.title)}')" class="btn btn-primary btn-full" style="margin-top:8px;">View Hazard Summary</button>`:''}
+  `;
+  document.getElementById('swmsModal').classList.add('open');
+}
+
+function closeModal(){ document.getElementById('swmsModal').classList.remove('open'); }
+
+// Hazard overlay modal
+function openHazardModal(id, title){
+  const overlay = document.getElementById('hazardModal');
+  document.getElementById('hazardModalTitle').textContent = title;
+  document.getElementById('hazardModalId').textContent = id;
+  renderHazardReview(id, title);
+  // Move hazard content into the modal
+  const content = document.getElementById('hazardReviewContent').innerHTML;
+  document.getElementById('hazardModalBody').innerHTML = content;
+  overlay.classList.add('open');
+}
+
+function closeHazardModal(){
+  document.getElementById('hazardModal').classList.remove('open');
+}
+
+function goSignFromModal(){
+  const id = modalSwmsId;
+  closeModal();
+  showPage('signoff');
+  setTimeout(()=>{
+    document.getElementById('signSwmsSelect').value = id;
+    onSignSwmsChange();
+  },50);
+}
+
+// ═══════════════════════════════════════
+// DROPDOWNS — populate from workers list
+// ═══════════════════════════════════════
+function refreshDropdowns(){
+  const w = load(KEYS.workers);
+  const opts = w.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  const blank = '<option value="">— Select worker —</option>';
+  document.getElementById('signCheckName').innerHTML = blank + opts;
+
+  // Active SWMS selects
+  const aOpts = SWMS_LIB.filter(s=>s.active).map(s=>`<option value="${s.id}">${s.id} — ${esc(s.title)} (v${s.version})</option>`).join('');
+  const sBlank = '<option value="">— Choose a SWMS —</option>';
+  document.getElementById('signSwmsSelect').innerHTML = sBlank + aOpts;
+  document.getElementById('ptSwms').innerHTML = '<option value="">— Select SWMS —</option>' + aOpts;
+
+  // Crew multi-select
+  renderCrewList([]);
+}
+
+function renderCrewList(selected){
+  const w = load(KEYS.workers);
+  document.getElementById('ptCrewList').innerHTML = w.map((n,i)=>{
+    const sel = selected.includes(n);
+    return `<div class="multi-option ${sel?'selected':''}" id="crew-opt-${i}">
+      <input type="checkbox" ${sel?'checked':''} id="crew-cb-${i}" data-name="${esc(n)}" onchange="syncCrew(${i})">
+      <label for="crew-cb-${i}">${esc(n)}</label>
+    </div>`;
+  }).join('') || '<div style="padding:12px 14px;color:var(--muted);font-size:14px;">No workers configured. Add workers in Settings.</div>';
+}
+
+
+function getSelectedCrew(){
+  const items = document.querySelectorAll('#ptCrewList input[type=checkbox]');
+  return Array.from(items).filter(cb=>cb.checked).map(cb=>cb.getAttribute('data-name'));
+}
+
+// ═══════════════════════════════════════
+// HAZARD DATA
+// ═══════════════════════════════════════
+const HAZARD_DATA = {
+  'SWMS-024': {
+    scope: 'Confined Space Entry — Dryer Drums, Silos, Vessels and other enclosed spaces at Tuan Biomass',
+    hazards: [
+      {
+        num: 1, risk: 'E',
+        title: 'Entering a Confined Space',
+        risks: [
+          'Heat exhaustion, engulfment, limited access/egress',
+          'Asphyxiation — low O₂ or contaminants',
+          'Explosive atmosphere, combustible dusts',
+        ],
+        permits: ['Confined Space Entry Permit','Hot Work Permit (if applicable)'],
+        controls: [
+          'Atmospheric testing before and during entry',
+          'Continuous forced ventilation throughout task',
+          'Standby person stationed at entry point at all times',
+          'Emergency rescue plan in place before entry',
+        ]
+      },
+      {
+        num: 2, risk: 'E',
+        title: 'Contaminated or Flammable Atmosphere',
+        risks: [
+          'Fire / explosion from ignition source',
+          'Asphyxiation or poisoning from contaminated atmosphere',
+        ],
+        permits: ['Confined Space Entry Permit','Hot Work Permit'],
+        controls: [
+          'Gas test for O₂, LEL and toxic gases before entry',
+          'No ignition sources within the space or entry zone',
+          'Continuous atmospheric monitoring during work',
+          'Entrant to withdraw immediately if alarm sounds',
+        ]
+      },
+      {
+        num: 3, risk: 'E',
+        title: 'Falling from Height ≥2m or Working on Roof',
+        risks: [
+          'Falling worker or object — ≥2m requires SWMS',
+        ],
+        permits: [],
+        controls: [
+          'Fall arrest harness required for work ≥2m',
+          'Anchor points inspected before use',
+          'Exclusion zone below work area',
+        ]
+      },
+      {
+        num: 4, risk: 'E',
+        title: 'Hot Work — Oxy Cutting, Welding, Soldering, Grinding',
+        risks: [
+          'Fire or explosion from ignition source',
+          'Injury from hot surface or grinding wheel ejection',
+          'Fire inside Expanded Polystyrene (EPS) panels',
+        ],
+        permits: ['Hot Work Permit'],
+        controls: [
+          'Hot Work Permit issued and briefed to all crew',
+          'Fire extinguisher within 1m of hot work at all times',
+          'Fire watch for minimum 30 minutes after work ceases',
+          'All combustibles removed or shielded from work area',
+        ]
+      },
+      {
+        num: 5, risk: 'E',
+        title: 'Hand Dig / Ground Penetration / Excavation',
+        risks: [
+          'Contact with utilities — electrical, water, gas, comms',
+          'Trench collapse',
+        ],
+        permits: ['Excavation Permit'],
+        controls: [
+          'Dial Before You Dig check completed',
+          'Hand excavation within 500mm of known services',
+          'Shoring or battering for excavations >1.5m deep',
+        ]
+      },
+      {
+        num: 6, risk: 'E',
+        title: 'Non-Routine Electrical / High Voltage / Live Work',
+        risks: [
+          'High voltage >33kV',
+          'Electrocution during live electrical work',
+          'Electrical cabinets or MCC identified as Red',
+        ],
+        permits: [],
+        controls: [
+          'Management approval required before commencing',
+          'Only qualified electricians to perform live work',
+          'Appropriate PPE — insulated gloves, arc flash rating',
+          'LOTO isolation confirmed before any access',
+        ]
+      },
+      {
+        num: 7, risk: 'E',
+        title: 'Non-Routine Mechanical Lifting / Lowering / Pulling',
+        risks: [
+          'High mechanical force — damage or injury',
+          'High risk work licence required for cranes, mobile plant, scaffold',
+        ],
+        permits: [],
+        controls: [
+          'Lift plan completed for all crane lifts',
+          'Certified rigger and dogman on site',
+          'Exclusion zone established under load',
+          'SWL of all lifting equipment verified',
+        ]
+      },
+      {
+        num: 8, risk: 'E',
+        title: 'High Risk Power Tools — High Speed / Pressure / Weight',
+        risks: [
+          'Injury from high risk powered or hand tools',
+          'Electrocution, burn or electric shock',
+          'Manual task injury from repetition or poor posture',
+        ],
+        permits: [],
+        controls: [
+          'Pre-use inspection of all tools',
+          'Appropriate guarding in place',
+          'Correct PPE — gloves, eye protection, hearing protection',
+          'Take 5 completed before task',
+        ]
+      },
+      {
+        num: 9, risk: 'E',
+        title: 'Demolish / Alter Load Bearing Structures / Use Explosives',
+        risks: [
+          'Being struck or crushed by structural collapse',
+          'Exposure to hazardous chemicals, asbestos, lead',
+        ],
+        permits: [],
+        controls: [
+          'Demolition licence required',
+          'Asbestos removal licence if ACM identified',
+          'Safe Work Plan required before commencement',
+          'Engineer sign-off for structural alterations',
+        ]
+      },
+      {
+        num: 10, risk: 'V',
+        title: 'Work Near Moving / Rotating Machinery',
+        risks: [
+          'Serious bodily injury from contact with moving parts or materials',
+          'Machinery starting unexpectedly — electrocution, burn or electric shock',
+        ],
+        permits: [],
+        controls: [
+          'LOTO isolation confirmed and tested before approach',
+          'Guards reinstated before restarting',
+          'No loose clothing or jewellery near rotating parts',
+        ]
+      },
+      {
+        num: 11, risk: 'V',
+        title: 'Potential / Stored Energy — Electrical, Hydraulic, Pneumatic, Kinetic',
+        risks: [
+          'Machinery entanglement or injury from unexpected energy release',
+        ],
+        permits: [],
+        controls: [
+          'Full LOTO process — isolate, lock, tag, test',
+          'Stored energy (springs, pressure, gravity) identified and released',
+          'Isolation register updated',
+        ]
+      },
+      {
+        num: 12, risk: 'V',
+        title: 'Work on Pressurised / Closed Circuit Systems',
+        risks: [
+          'Fracturing the mains or piping — spills, leaks, emissions',
+          'Contact with extreme temperature fluids',
+        ],
+        permits: [],
+        controls: [
+          'System fully depressurised and vented before opening',
+          'Pressure gauge confirmed at zero',
+          'PPE — chemical resistant gloves, face shield for hot systems',
+        ]
+      },
+      {
+        num: 13, risk: 'V',
+        title: 'Extreme Weather Conditions',
+        risks: [
+          'Electrocution from lightning or power tools in wet conditions',
+          'Heat stroke, heat exhaustion, fatigue, frost bite, hypothermia',
+          'Slip / trip / fall hazards',
+        ],
+        permits: [],
+        controls: [
+          'Work suspended during electrical storms',
+          'Heat illness prevention plan in place for hot weather',
+          'Additional hydration and rest breaks as required',
+          'Appropriate wet weather or cold weather PPE',
+        ]
+      },
+    ]
+  }
+};
+
+// ═══════════════════════════════════════
+// HAZARD REVIEW RENDERER
+// ═══════════════════════════════════════
+function renderHazardReview(swmsId, swmsTitle){
+  const data = HAZARD_DATA[swmsId];
+  const container = document.getElementById('hazardReviewContent');
+
+  if(!data || !data.hazards || !data.hazards.length){
+    container.innerHTML = `
+      <div class="card">
+        <div class="swms-id">${esc(swmsId)}</div>
+        <div class="title" style="margin-bottom:6px;">${esc(swmsTitle)}</div>
+        <div class="no-hazards">No hazard data entered for this SWMS yet.<br>Review the printed document before signing.</div>
+      </div>`;
+    return;
+  }
+
+  const riskLabel = {E:'Extreme',V:'Very High',H:'High',M:'Moderate',L:'Low'};
+
+  container.innerHTML = `
+    <div class="card" style="margin-bottom:10px;">
+      <div class="swms-id">${esc(swmsId)}</div>
+      <div class="title" style="margin-bottom:4px;">${esc(swmsTitle)}</div>
+      <div class="sub" style="margin-bottom:12px;">${esc(data.scope||'')}</div>
+      <div class="risk-legend">
+        ${Object.entries(riskLabel).map(([k,v])=>`<div class="risk-legend-item"><div class="risk-badge risk-${k}" style="width:20px;height:20px;font-size:11px;">${k}</div>${v}</div>`).join('')}
+      </div>
+      <div class="section-label">Review all hazards before signing</div>
+    </div>
+    ${data.hazards.map(h=>`
+      <div class="hazard-card">
+        <div class="hazard-header">
+          <div class="hazard-num">${h.num}.</div>
+          <div class="hazard-title">${esc(h.title)}</div>
+          <div class="risk-badge risk-${h.risk}" title="${riskLabel[h.risk]||h.risk}">${h.risk}</div>
+        </div>
+        <div class="hazard-body">
+          <ul class="hazard-risks">
+            ${h.risks.map(r=>`<li>${esc(r)}</li>`).join('')}
+          </ul>
+          ${h.permits.length?`<div style="margin-bottom:6px;">${h.permits.map(p=>`<span class="permit-tag">${esc(p)}</span>`).join('')}</div>`:''}
+          ${h.controls.length?`
+          <div class="hazard-controls">
+            <div class="hazard-controls-title">Controls</div>
+            ${h.controls.map(c=>`<div class="control-item">${esc(c)}</div>`).join('')}
+          </div>`:''}
+        </div>
+      </div>`).join('')}`;
+}
+let signSwms = null;
+let signWorker = null;
+
+function onSignSwmsChange(){
+  const id = document.getElementById('signSwmsSelect').value;
+  const info = document.getElementById('signSwmsInfo');
+  if(!id){ info.classList.add('hidden'); return; }
+  signSwms = SWMS_LIB.find(x=>x.id===id);
+  info.className = 'notice notice-info';
+  info.innerHTML = `${esc(signSwms.title)} &mdash; v${signSwms.version} &middot; Authorised ${fmtDate(signSwms.authDate)}`;
+  info.classList.remove('hidden');
+}
+
+function goStep2(){
+  const id = document.getElementById('signSwmsSelect').value;
+  const name = document.getElementById('signCheckName').value;
+  if(!id){ toast('Select a SWMS','var(--danger)'); return; }
+  if(!name){ toast('Select a worker','var(--danger)'); return; }
+  signSwms = SWMS_LIB.find(x=>x.id===id);
+  signWorker = name;
+
+  const hasCurrent = workerSignedCurrent(signWorker, signSwms.id);
+
+  const alreadyCard = document.getElementById('signAlreadySignedCard');
+  const hazardCard  = document.getElementById('signHazardCard');
+
+  if(hasCurrent){
+    alreadyCard.classList.remove('hidden');
+    hazardCard.classList.add('hidden');
+    document.getElementById('signStatusNotice').innerHTML =
+      `<div class="notice notice-success">${esc(signWorker)} has already signed ${esc(signSwms.id)} — ${esc(signSwms.title)} (v${signSwms.version}). No further action required.</div>
+      <div class="actions" style="margin-top:8px;justify-content:flex-start;"><button class="btn btn-secondary" onclick="setSignStep(1)">Back</button></div>`;
+  } else {
+    alreadyCard.classList.add('hidden');
+    hazardCard.classList.remove('hidden');
+
+    // Version update notice
+    const prevSig = signoffs.find(r=>r.swmsId===signSwms.id && r.swmsVersion<signSwms.version && r.worker===signWorker);
+    const verDiv = document.getElementById('signVersionNotice');
+    if(prevSig){
+      verDiv.className='notice notice-warn';
+      verDiv.innerHTML=`${esc(signWorker)} previously signed v${prevSig.swmsVersion} of this SWMS (${fmtDate(prevSig.dateSigned)}). Updated to v${signSwms.version} — re-sign required.`;
+      verDiv.classList.remove('hidden');
+    } else {
+      verDiv.classList.add('hidden');
+    }
+
+    renderHazardReview(signSwms.id, signSwms.title);
+  }
+
+  setSignStep(2);
+}
+
+function goStep3(){
+  setSignStep(3);
+  const canvas = document.getElementById('sigCanvas1');
+  if(canvas._resize) canvas._resize();
+  document.getElementById('s3SwmsId').textContent = signSwms.id;
+  document.getElementById('s3SwmsTitle').textContent = signSwms.title;
+  document.getElementById('s3SwmsMeta').textContent = `v${signSwms.version} \u00b7 Authorised ${fmtDate(signSwms.authDate)}`;
+  document.getElementById('s3VersionWarn').classList.add('hidden');
+  const pdf = pdfUrl(signSwms.id);
+  document.getElementById('s3PdfLink').innerHTML = pdf
+    ? `<button onclick="openPdfViewer('${pdf}','${esc(signSwms.title)}','${signSwms.id}')" class="btn btn-secondary btn-full">View PDF Document</button>`
+    : '<div class="notice notice-info">No PDF linked. Review a printed copy before signing.</div>';
+  ['chk-read','chk-follow','chk-stop'].forEach(id=>{
+    const cb = document.getElementById(id);
+    cb.checked = false;
+    document.getElementById(id+'-item').classList.remove('checked');
+  });
+  clearSig('sigCanvas1','sigWrap1');
+  document.getElementById('signDate').value = todayISO();
+}
+
+function submitSignOff(){
+  const allChecked = ['chk-read','chk-follow','chk-stop'].every(id=>document.getElementById(id).checked);
+  if(!allChecked){ toast('Tick all declarations before signing','var(--danger)'); return; }
+  const canvas = document.getElementById('sigCanvas1');
+  if(isSigBlank(canvas)){ toast('Signature required','var(--danger)'); return; }
+  const rec = {
+    id:genId(), type:'signoff',
+    swmsId:signSwms.id, swmsTitle:signSwms.title, swmsVersion:signSwms.version,
+    worker:signWorker,
+    dateSigned:document.getElementById('signDate').value,
+    sig:canvas.toDataURL('image/png',0.4),
+    ts:new Date().toISOString(),
+  };
+  signoffs.push(rec);
+  save(KEYS.signoffs, signoffs);
+  postFlow(cfg.signUrl, rec);
+  document.getElementById('signConfirmText').textContent = `${signWorker} \u2014 ${signSwms.title} v${signSwms.version} \u2014 signed on ${fmtDate(rec.dateSigned)}. Record saved.`;
+  setSignStep(4);
+  toast('Sign-off recorded');
+}
+
+function resetSignOff(){
+  signSwms=null; signWorker=null;
+  document.getElementById('signSwmsSelect').value='';
+  document.getElementById('signCheckName').value='';
+  document.getElementById('signSwmsInfo').classList.add('hidden');
+  setSignStep(1);
+}
+
+function setSignStep(n){
+  [1,2,3,4].forEach(i=>{
+    document.getElementById('signStep'+i).classList.toggle('hidden',i!==n);
+    const dot = document.getElementById('step'+i);
+    dot.classList.remove('done','current');
+    if(i<n) dot.classList.add('done');
+    if(i===n) dot.classList.add('current');
+  });
+}
+
+// ═══════════════════════════════════════
+// PRE-TASK CHECK
+// ═══════════════════════════════════════
+// ═══════════════════════════════════════
+// PRE-TASK CHECK — STEPPED FLOW
+// ═══════════════════════════════════════
+let ptSwmsSelected = null;
+
+function setPtStep(n){
+  [1,2,3,4,5].forEach(i=>{
+    document.getElementById('ptStep'+i).classList.toggle('hidden',i!==n);
+    const dot=document.getElementById('ptstep'+i);
+    dot.classList.remove('done','current');
+    if(i<n) dot.classList.add('done');
+    if(i===n) dot.classList.add('current');
+  });
+}
+
+function ptGoStep2(){
+  const swmsId=document.getElementById('ptSwms').value;
+  if(!swmsId){ toast('Select a SWMS','var(--danger)'); return; }
+  ptSwmsSelected=SWMS_LIB.find(x=>x.id===swmsId);
+  renderCrewList([]);
+  setPtStep(2);
+  document.getElementById('ptCrewCompliance').classList.add('hidden');
+  document.getElementById('ptStep2Continue').disabled=false;
+}
+
+function syncCrew(i){
+  const cb=document.getElementById('crew-cb-'+i);
+  document.getElementById('crew-opt-'+i).classList.toggle('selected',cb.checked);
+  ptCheckCrewCompliance();
+}
+
+function ptCheckCrewCompliance(){
+  const swmsId=ptSwmsSelected?.id;
+  const crew=getSelectedCrew();
+  const div=document.getElementById('ptCrewCompliance');
+  const btn=document.getElementById('ptStep2Continue');
+  if(!crew.length){ div.classList.add('hidden'); btn.disabled=false; return; }
+  const required=[swmsId,...(ptSwmsSelected?.linkedCore||[])];
+  let missing=[];
+  crew.forEach(w=>{
+    const unsigned=required.filter(id=>!workerSignedCurrent(w,id));
+    if(unsigned.length){
+      const labels=unsigned.map(id=>{const s=SWMS_LIB.find(x=>x.id===id);return s?s.title:id;});
+      missing.push({worker:w,swms:labels});
+    }
+  });
+  div.classList.remove('hidden');
+  if(!missing.length){
+    div.className='notice notice-success';
+    div.innerHTML='All selected crew members have signed the current version of this SWMS and all required Core SWMS.';
+    btn.disabled=false;
+  } else {
+    div.className='notice notice-danger';
+    div.innerHTML=`<strong>Outstanding sign-offs — resolve before proceeding.</strong><br><br>`+
+      missing.map(m=>`<strong>${m.worker}</strong> — must sign: ${m.swms.join(', ')}`).join('<br>')+
+      `<br><br><button class="btn btn-primary btn-sm" onclick="goToSignOffFromPT()">Go to Sign-Off Page</button>`;
+    btn.disabled=true;
+  }
+}
+
+function goToSignOffFromPT(){
+  const id=ptSwmsSelected?.id;
+  showPage('signoff');
+  setTimeout(()=>{
+    document.getElementById('signSwmsSelect').value=id||'';
+    onSignSwmsChange();
+  },50);
+}
+
+let ptPdfOpened = false;
+
+function ptGoStep3(){
+  const crew=getSelectedCrew();
+  if(!crew.length){ toast('Select at least one crew member','var(--danger)'); return; }
+  const content=document.getElementById('ptHazardContent');
+  if(HAZARD_DATA[ptSwmsSelected.id]){
+    renderHazardReview(ptSwmsSelected.id,ptSwmsSelected.title);
+    content.innerHTML=document.getElementById('hazardReviewContent').innerHTML;
+  } else {
+    content.innerHTML=`<div class="notice notice-info">No hazard summary available for this SWMS. Review the printed document with the crew.</div>`;
+  }
+  const pdf=pdfUrl(ptSwmsSelected.id);
+
+  // Reset PDF opened flag each time step 3 is entered
+  ptPdfOpened = false;
+  const continueBtn = document.getElementById('ptStep3Continue');
+  const notOpenedDiv = document.getElementById('ptPdfNotOpened');
+  continueBtn.disabled = true;
+  continueBtn.style.opacity = '.5';
+  continueBtn.style.cursor = 'not-allowed';
+  notOpenedDiv.style.display = pdf ? 'block' : 'none';
+
+  document.getElementById('ptPdfBtn').innerHTML=pdf
+    ?`<button onclick="ptOpenPdf('${pdf}','${ptSwmsSelected.title}','${ptSwmsSelected.id}')" class="btn btn-secondary btn-full">Open SWMS Document</button>`
+    :'<div class="notice notice-warn">No PDF linked. Review the printed copy with the crew — then tap the button below to continue.</div>';
+
+  // If no PDF available, allow proceeding without opening
+  if(!pdf){
+    ptPdfOpened = true;
+    continueBtn.disabled = false;
+    continueBtn.style.opacity = '1';
+    continueBtn.style.cursor = 'pointer';
+  }
+
+  setPtStep(3);
+}
+
+function ptOpenPdf(url, title, id){
+  openPdfViewer(url, title, id);
+  ptMarkPdfOpened();
+}
+
+function ptMarkPdfOpened(){
+  ptPdfOpened = true;
+  const btn = document.getElementById('ptStep3Continue');
+  btn.disabled = false;
+  btn.style.opacity = '1';
+  btn.style.cursor = 'pointer';
+  document.getElementById('ptPdfNotOpened').style.display = 'none';
+}
+
+function ptStep3Proceed(){
+  if(!ptPdfOpened){ toast('Open the SWMS document first','var(--danger)'); return; }
+  setPtStep(4);
+}
+
+function ptGoStep5(){
+  const ptChecks=['ptc1','ptc2','ptc3','ptc4','ptc5','ptc6','ptc7','ptc8'];
+  if(!ptChecks.every(id=>document.getElementById(id).checked)){
+    toast('All checklist items must be ticked','var(--danger)'); return;
+  }
+  // Show compliance summary on step 5
+  const swmsId=ptSwmsSelected?.id;
+  const crew=getSelectedCrew();
+  const div=document.getElementById('ptSignCompliance');
+  const required=[swmsId,...(ptSwmsSelected?.linkedCore||[])];
+  let missing=[];
+  crew.forEach(w=>{
+    const u=required.filter(id=>!workerSignedCurrent(w,id));
+    if(u.length) missing.push(w);
+  });
+  if(!missing.length){
+    div.className='notice notice-success';
+    div.innerHTML='All crew sign-offs verified. Ready to authorise.';
+    div.classList.remove('hidden');
+  } else {
+    div.className='notice notice-danger';
+    div.innerHTML='<strong>Sign-off check failed:</strong> '+missing.join(', ')+' have outstanding sign-offs.';
+    div.classList.remove('hidden');
+  }
+  setPtStep(5);
+}
+
+function togglePtChanges(){
+  document.getElementById('ptChangesDetail').classList.toggle('hidden',document.getElementById('ptChanges').value==='no');
+}
+
+function checkPtCompliance(){ /* handled inline in stepped flow */ }
+function onPtSwmsChange(){ /* handled by step flow */ }
+
+function submitPreTask(){
+  const swmsId=ptSwmsSelected?.id;
+  const location=document.getElementById('ptLocation').value.trim();
+  const date=document.getElementById('ptDate').value;
+  const time=document.getElementById('ptTime').value;
+  const crew=getSelectedCrew();
+  if(!swmsId||!location||!date||!crew.length){ toast('Complete all required fields','var(--danger)'); return; }
+  const required=[swmsId,...(ptSwmsSelected?.linkedCore||[])];
+  const stillMissing=crew.filter(w=>required.some(id=>!workerSignedCurrent(w,id)));
+  if(stillMissing.length){ toast('Resolve outstanding sign-offs first','var(--danger)'); return; }
+  const changes=document.getElementById('ptChanges').value==='yes';
+  const rec={
+    id:genId(),type:'pretask',
+    swmsId,swmsTitle:ptSwmsSelected.title,swmsVersion:ptSwmsSelected.version,
+    location,date,time,crew:crew.join(', '),
+    changes,changeDetail:changes?document.getElementById('ptChangesText').value:'',
+    ts:new Date().toISOString(),
+  };
+  pretasks.push(rec);
+  save(KEYS.pretasks,pretasks);
+  postFlow(cfg.ptUrl,rec);
+  toast('Work authorised — pre-task record saved');
+  ptSwmsSelected=null;
+  ptPdfOpened=false;
+  document.getElementById('ptSwms').value='';
+  document.getElementById('ptLocation').value='';
+  document.getElementById('ptChanges').value='no';
+  document.getElementById('ptChangesDetail').classList.add('hidden');
+  document.getElementById('ptChangesText').value='';
+  document.getElementById('ptHazardContent').innerHTML='';
+  document.getElementById('ptSignCompliance').classList.add('hidden');
+  document.getElementById('ptCrewCompliance').classList.add('hidden');
+  const ptChecks=['ptc1','ptc2','ptc3','ptc4','ptc5','ptc6','ptc7','ptc8'];
+  ptChecks.forEach(id=>{ document.getElementById(id).checked=false; syncCheck(id,id+'-item'); });
+  document.getElementById('ptDate').value=todayISO();
+  document.getElementById('ptTime').value=new Date().toTimeString().slice(0,5);
+  renderCrewList([]);
+  setPtStep(1);
+}
+
+// ═══════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════
+function renderDashboard(){
+  const w = load(KEYS.workers);
+  const activeSwms = SWMS_LIB.filter(s=>s.active);
+  let totalReq=0, totalSigned=0;
+  activeSwms.forEach(s=>{
+    const signed=new Set(signoffs.filter(r=>r.swmsId===s.id&&r.swmsVersion===s.version).map(r=>r.worker)).size;
+    totalReq+=w.length; totalSigned+=Math.min(signed,w.length);
+  });
+  const pct = totalReq>0?Math.round(totalSigned/totalReq*100):0;
+  const od = activeSwms.filter(s=>isOverdue(s.reviewDate)).length;
+  document.getElementById('dashStats').innerHTML=`
+    <div class="stat-card"><div class="stat-val" style="color:var(--green-dark)">${activeSwms.length}</div><div class="stat-lbl">Active SWMS</div></div>
+    <div class="stat-card"><div class="stat-val stat-blue">${w.length}</div><div class="stat-lbl">Workers</div></div>
+    <div class="stat-card"><div class="stat-val ${pct===100?'stat-green':pct>=80?'stat-amber':'stat-red'}">${pct}%</div><div class="stat-lbl">Compliance</div></div>
+    <div class="stat-card"><div class="stat-val ${od?'stat-red':'stat-green'}">${od}</div><div class="stat-lbl">Overdue Reviews</div></div>
+    <div class="stat-card"><div class="stat-val stat-blue">${signoffs.length}</div><div class="stat-lbl">Sign-Offs</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:var(--green-dark)">${pretasks.length}</div><div class="stat-lbl">Pre-Task Checks</div></div>
+  `;
+  document.getElementById('dashSwmsBody').innerHTML=activeSwms.map(s=>{
+    const signed=new Set(signoffs.filter(r=>r.swmsId===s.id&&r.swmsVersion===s.version).map(r=>r.worker)).size;
+    const p=w.length>0?Math.round(signed/w.length*100):0;
+    const dotC=p===100?'tl-green':p>=80?'tl-amber':'tl-red';
+    const barC=p===100?'var(--green)':p>=80?'var(--amber)':'var(--danger)';
+    return `<tr>
+      <td><span class="swms-id">${s.id}</span></td>
+      <td class="bold">${esc(s.title)}</td>
+      <td>v${s.version}</td>
+      <td>${signed} / ${w.length}</td>
+      <td style="min-width:130px;"><span class="tl ${dotC}"></span>${p}%<div class="progress-bar" style="margin-top:4px;"><div class="progress-fill" style="width:${p}%;background:${barC}"></div></div></td>
+      <td>${isOverdue(s.reviewDate)?'<span class="badge badge-red">Overdue</span>':'<span class="badge badge-green">On Time</span>'}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('dashWorkerBody').innerHTML=w.map(worker=>{
+    const curr=signoffs.filter(r=>{const s=SWMS_LIB.find(x=>x.id===r.swmsId);return s&&r.swmsVersion===s.version&&r.worker===worker;});
+    const out=activeSwms.filter(s=>!curr.find(r=>r.swmsId===s.id));
+    const last=signoffs.filter(r=>r.worker===worker).sort((a,b)=>b.ts.localeCompare(a.ts))[0];
+    return `<tr>
+      <td class="bold">${esc(worker)}</td>
+      <td>${curr.length}</td>
+      <td>${out.length?`<span class="badge badge-red">${out.length} outstanding</span>`:'<span class="badge badge-green">All signed</span>'}</td>
+      <td>${last?fmtDate(last.dateSigned):'—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════
+// AUDIT TRAIL
+// ═══════════════════════════════════════
+// ═══════════════════════════════════════
+// WORKER SIGN-OFF REGISTER
+// ═══════════════════════════════════════
+function renderSignOffRegister(){
+  // Populate SWMS filter dropdown
+  const swmsFilter = document.getElementById('signoffSwmsFilter');
+  if(swmsFilter.options.length <= 1){
+    const ids = [...new Set(signoffs.map(r=>r.swmsId))].sort();
+    ids.forEach(id=>{
+      const s = SWMS_LIB.find(x=>x.id===id);
+      const opt = document.createElement('option');
+      opt.value = id;
+      opt.textContent = `${id} — ${s?s.title:id}`;
+      swmsFilter.appendChild(opt);
+    });
+  }
+
+  const search   = (document.getElementById('signoffSearch').value||'').toLowerCase();
+  const swmsF    = document.getElementById('signoffSwmsFilter').value;
+
+  let rows = [...signoffs].sort((a,b)=>b.ts.localeCompare(a.ts));
+  if(search) rows = rows.filter(r=>
+    (r.worker||'').toLowerCase().includes(search)||
+    (r.swmsId||'').toLowerCase().includes(search)||
+    (r.swmsTitle||'').toLowerCase().includes(search)
+  );
+  if(swmsF) rows = rows.filter(r=>r.swmsId===swmsF);
+
+  const body  = document.getElementById('signoffRegisterBody');
+  const empty = document.getElementById('signoffRegisterEmpty');
+
+  if(!rows.length){ body.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  body.innerHTML = rows.map(r=>`<tr>
+    <td style="white-space:nowrap;">${fmtDate(r.dateSigned)}</td>
+    <td class="bold">${esc(r.worker)}</td>
+    <td><span class="swms-id">${esc(r.swmsId)}</span></td>
+    <td>${esc(r.swmsTitle)}</td>
+    <td>v${r.swmsVersion}</td>
+  </tr>`).join('');
+}
+
+function exportSignOffCSV(){
+  if(!signoffs.length){ toast('No sign-off records to export'); return; }
+  const rows = [...signoffs].sort((a,b)=>b.ts.localeCompare(a.ts))
+    .map(r=>({ Timestamp:r.ts, Date_Signed:r.dateSigned, Worker:r.worker, SWMS_ID:r.swmsId, SWMS_Title:r.swmsTitle, Version:r.swmsVersion }));
+  const h = Object.keys(rows[0]);
+  const csv = [h.join(','),...rows.map(r=>h.map(k=>`"${String(r[k]||'').replace(/"/g,'""')}"`).join(','))].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = `SWMS_SignOff_Register_${todayISO()}.csv`;
+  a.click();
+  toast('Exported');
+}
+
+// ═══════════════════════════════════════
+// TASK REGISTER
+// ═══════════════════════════════════════
+function renderTaskRegister(){
+  const search = (document.getElementById('taskSearch').value||'').toLowerCase();
+  let rows = [...pretasks].sort((a,b)=>b.ts.localeCompare(a.ts));
+  if(search) rows = rows.filter(r=>
+    (r.swmsId||'').toLowerCase().includes(search)||
+    (r.swmsTitle||'').toLowerCase().includes(search)||
+    (r.location||'').toLowerCase().includes(search)||
+    (r.crew||'').toLowerCase().includes(search)
+  );
+
+  const body  = document.getElementById('taskRegisterBody');
+  const empty = document.getElementById('taskRegisterEmpty');
+
+  if(!rows.length){ body.innerHTML=''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  body.innerHTML = rows.map(r=>`<tr>
+    <td style="white-space:nowrap;">${fmtDate(r.date)}</td>
+    <td style="white-space:nowrap;">${r.time||'—'}</td>
+    <td><span class="swms-id">${esc(r.swmsId)}</span></td>
+    <td>${esc(r.swmsTitle)}</td>
+    <td>${esc(r.location)}</td>
+    <td style="font-size:13px;">${esc(r.crew)}</td>
+    <td>${r.changes?'<span class="badge badge-amber">Yes</span>':'<span class="badge badge-green">No</span>'}</td>
+  </tr>`).join('');
+}
+
+function exportTaskCSV(){
+  if(!pretasks.length){ toast('No task records to export'); return; }
+  const rows = [...pretasks].sort((a,b)=>b.ts.localeCompare(a.ts))
+    .map(r=>({ Timestamp:r.ts, Date:r.date, Time:r.time, SWMS_ID:r.swmsId, SWMS_Title:r.swmsTitle, Version:r.swmsVersion, Location:r.location, Crew:r.crew, Conditions_Changed:r.changes?'Yes':'No', Change_Detail:r.changeDetail||'' }));
+  const h = Object.keys(rows[0]);
+  const csv = [h.join(','),...rows.map(r=>h.map(k=>`"${String(r[k]||'').replace(/"/g,'""')}"`).join(','))].join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = `SWMS_Task_Register_${todayISO()}.csv`;
+  a.click();
+  toast('Exported');
+}
+
+// ═══════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════
+function refreshSwmsLib(){
+  SWMS_LIB = getSwmsLib();
+  CORE_SWMS = SWMS_LIB.filter(s=>s.type==='Core SWMS'&&s.active).map(s=>s.id);
+}
+
+// ═══════════════════════════════════════
+// SWMS REGISTER EDITOR
+// ═══════════════════════════════════════
+function renderSwmsEditorTable(){
+  const lib = getSwmsLib().sort((a,b)=>a.id.localeCompare(b.id));
+  document.getElementById('swmsEditorTable').innerHTML = lib.map(s=>`
+    <tr>
+      <td><span class="swms-id">${esc(s.id)}</span></td>
+      <td style="font-weight:600;">${esc(s.title)}</td>
+      <td>${typeBadge(s.type)}</td>
+      <td>v${s.version}</td>
+      <td style="font-size:13px;color:var(--muted);">${fmtDate(s.authDate)}</td>
+      <td style="font-size:13px;color:var(--muted);">${fmtDate(s.reviewDate)}</td>
+      <td>${s.active?'<span class="badge badge-green">Active</span>':'<span class="badge badge-grey">Not Active</span>'}</td>
+      <td><button class="btn btn-secondary btn-sm" onclick="openSwmsEditor('${esc(s.id)}')">Edit</button></td>
+    </tr>`).join('');
+}
+
+function openSwmsEditor(id){
+  const isNew = !id;
+  document.getElementById('swmsEditorTitle').textContent = isNew ? 'Add SWMS' : 'Edit SWMS';
+  document.getElementById('swmsDeleteBtn').classList.toggle('hidden', isNew);
+  document.getElementById('swmsEditorError').classList.add('hidden');
+
+  let currentLinked = [];
+
+  if(isNew){
+    const lib = getSwmsLib();
+    const nums = lib.map(s=>parseInt(s.id.replace('SWMS-',''))||0);
+    const next = (Math.max(0,...nums)+1).toString().padStart(3,'0');
+    document.getElementById('edSwmsOrigId').value = '';
+    document.getElementById('edId').value = 'SWMS-'+next;
+    document.getElementById('edTitle').value = '';
+    document.getElementById('edType').value = 'Routine Task SWMS';
+    document.getElementById('edVersion').value = '1';
+    document.getElementById('edAuthDate').value = todayISO();
+    document.getElementById('edReviewDate').value = '';
+    document.getElementById('edActiveYes').checked = true;
+  } else {
+    const s = getSwmsLib().find(x=>x.id===id);
+    if(!s) return;
+    document.getElementById('edSwmsOrigId').value = s.id;
+    document.getElementById('edId').value = s.id;
+    document.getElementById('edTitle').value = s.title;
+    document.getElementById('edType').value = s.type;
+    document.getElementById('edVersion').value = String(s.version);
+    document.getElementById('edAuthDate').value = s.authDate||'';
+    document.getElementById('edReviewDate').value = s.reviewDate||'';
+    document.getElementById('edActiveYes').checked = s.active;
+    document.getElementById('edActiveNo').checked = !s.active;
+    currentLinked = s.linkedCore || [];
+  }
+
+  // Render Core SWMS picker — only show if this SWMS is not itself a Core SWMS
+  renderLinkedCorePicker(currentLinked);
+
+  document.getElementById('swmsEditorModal').classList.add('open');
+}
+
+function renderLinkedCorePicker(selected){
+  const editingId = document.getElementById('edId').value;
+  const editingType = document.getElementById('edType').value;
+  const field = document.getElementById('edLinkedCoreField');
+  const coreItems = SWMS_LIB.filter(s=>s.type==='Core SWMS' && s.active && s.id !== editingId);
+
+  // Hide the field if this is itself a Core SWMS or there are no Core SWMS
+  if(editingType === 'Core SWMS' || !coreItems.length){
+    field.classList.add('hidden');
+    return;
+  }
+  field.classList.remove('hidden');
+
+  document.getElementById('edLinkedCoreList').innerHTML = coreItems.map((s,i)=>{
+    const checked = selected.includes(s.id);
+    return `<div class="multi-option ${checked?'selected':''}" id="lc-opt-${i}">
+      <input type="checkbox" id="lc-cb-${i}" data-id="${s.id}" ${checked?'checked':''} onchange="syncLinkedCore(${i})" style="width:17px;height:17px;accent-color:var(--green);cursor:pointer;flex-shrink:0;">
+      <label for="lc-cb-${i}" style="cursor:pointer;font-size:14px;">${esc(s.id)} — ${esc(s.title)}</label>
+    </div>`;
+  }).join('') || '<div style="padding:10px 12px;color:var(--muted);font-size:13px;">No active Core SWMS found.</div>';
+}
+
+function syncLinkedCore(i){
+  const cb = document.getElementById('lc-cb-'+i);
+  document.getElementById('lc-opt-'+i).classList.toggle('selected', cb.checked);
+}
+
+function closeSwmsEditor(){
+  document.getElementById('swmsEditorModal').classList.remove('open');
+}
+
+function saveSwmsEntry(){
+  const errDiv = document.getElementById('swmsEditorError');
+  errDiv.classList.add('hidden');
+
+  const origId  = document.getElementById('edSwmsOrigId').value;
+  const id      = document.getElementById('edId').value.trim().toUpperCase();
+  const title   = document.getElementById('edTitle').value.trim();
+  const type    = document.getElementById('edType').value;
+  const version = parseInt(document.getElementById('edVersion').value)||1;
+  const authDate= document.getElementById('edAuthDate').value||null;
+  const reviewDate= document.getElementById('edReviewDate').value||null;
+  const active  = document.getElementById('edActiveYes').checked;
+
+  // Read linked Core SWMS
+  const linkedCore = Array.from(document.querySelectorAll('#edLinkedCoreList input[type=checkbox]'))
+    .filter(cb=>cb.checked).map(cb=>cb.getAttribute('data-id'));
+
+  if(!id||!title){
+    errDiv.textContent='ID and Title are required.';
+    errDiv.classList.remove('hidden');
+    return;
+  }
+  if(!/^SWMS-\d+$/.test(id)){
+    errDiv.textContent='ID must be in format SWMS-001';
+    errDiv.classList.remove('hidden');
+    return;
+  }
+
+  let lib = getSwmsLib();
+
+  // Check for duplicate ID (only if new or ID changed)
+  if(id !== origId && lib.find(s=>s.id===id)){
+    errDiv.textContent=`ID ${id} already exists. Choose a different ID.`;
+    errDiv.classList.remove('hidden');
+    return;
+  }
+
+  const entry = {id, title, version, type, authDate, reviewDate, active, linkedCore};
+
+  if(origId){
+    // Edit existing
+    const idx = lib.findIndex(s=>s.id===origId);
+    if(idx>=0) lib[idx]=entry; else lib.push(entry);
+  } else {
+    lib.push(entry);
+  }
+
+  // Sort by ID
+  lib.sort((a,b)=>a.id.localeCompare(b.id));
+  localStorage.setItem(KEYS.swmslib, JSON.stringify(lib));
+  refreshSwmsLib();
+  closeSwmsEditor();
+  renderSwmsEditorTable();
+  renderRegister();
+  refreshDropdowns();
+  toast(origId ? 'SWMS updated' : 'SWMS added');
+}
+
+function deleteSwmsEntry(){
+  const id = document.getElementById('edSwmsOrigId').value;
+  if(!id) return;
+  let lib = getSwmsLib().filter(s=>s.id!==id);
+  localStorage.setItem(KEYS.swmslib, JSON.stringify(lib));
+  refreshSwmsLib();
+  closeSwmsEditor();
+  renderSwmsEditorTable();
+  renderRegister();
+  refreshDropdowns();
+  toast('SWMS deleted');
+}
+
+function generateSwmsCode(){
+  const lib = getSwmsLib();
+  const lines = lib.map(s=>{
+    const rd = s.reviewDate ? `'${s.reviewDate}'` : 'null';
+    const lc = (s.linkedCore&&s.linkedCore.length) ? JSON.stringify(s.linkedCore) : '[]';
+    return `  {id:'${s.id}',title:'${s.title.replace(/'/g,"\\'")}',version:${s.version},type:'${s.type}',authDate:'${s.authDate||''}',reviewDate:${rd},active:${s.active},linkedCore:${lc}}`;
+  }).join(',\n');
+  const code = `const SWMS_LIB_DEFAULT = [\n${lines},\n];`;
+  document.getElementById('swmsCodeText').value = code;
+  document.getElementById('swmsCodeOutput').classList.remove('hidden');
+  document.getElementById('swmsCodeCopied').classList.add('hidden');
+}
+
+function copySwmsCode(){
+  const ta = document.getElementById('swmsCodeText');
+  ta.select();
+  document.execCommand('copy');
+  document.getElementById('swmsCodeCopied').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('swmsCodeCopied').classList.add('hidden'),2500);
+}
+
+function renderSettings(){
+  // Reset lock state each time page is opened
+  document.getElementById('settingsLocked').classList.remove('hidden');
+  document.getElementById('settingsUnlocked').classList.add('hidden');
+  document.getElementById('settingsCodeInput').value='';
+  document.getElementById('settingsCodeError').classList.add('hidden');
+}
+
+function unlockSettings(){
+  cfg = loadObj(KEYS.config);
+  const code = cfg.settingsCode || 'TB2026';
+  const entered = document.getElementById('settingsCodeInput').value;
+  if(entered !== code){
+    document.getElementById('settingsCodeError').classList.remove('hidden');
+    return;
+  }
+  document.getElementById('settingsLocked').classList.add('hidden');
+  document.getElementById('settingsUnlocked').classList.remove('hidden');
+  renderSettingsContent();
+}
+
+function renderSettingsContent(){
+  workers = load(KEYS.workers);
+  cfg = loadObj(KEYS.config);
+
+  document.getElementById('workerListDisplay').innerHTML = workers.length
+    ? workers.map(n=>`<div class="worker-list-item"><span class="name">${esc(n)}</span><button class="btn btn-danger btn-sm" onclick="removeWorker('${esc(n)}')">Remove</button></div>`).join('')
+    : '<div class="muted" style="padding:8px 0;">No workers added yet.</div>';
+
+  document.getElementById('cfgGetUrl').value  = cfg.getUrl||'';
+  document.getElementById('cfgSignUrl').value = cfg.signUrl||'';
+  document.getElementById('cfgPtUrl').value   = cfg.ptUrl||'';
+  document.getElementById('cfgPdfBase').value = cfg.pdfBase||'';
+  document.getElementById('cfgNewCode').value = '';
+  document.getElementById('cfgNewCodeConfirm').value = '';
+  document.getElementById('swmsCodeOutput').classList.add('hidden');
+  renderSwmsEditorTable();
+}
+
+function addWorker(){
+  const name = document.getElementById('newWorkerName').value.trim();
+  if(!name){toast('Enter a name','var(--danger)');return;}
+  workers = load(KEYS.workers);
+  if(workers.includes(name)){toast('Already in list','var(--amber)');return;}
+  workers.push(name);
+  save(KEYS.workers, workers);
+  document.getElementById('newWorkerName').value='';
+  renderSettingsContent();
+  refreshDropdowns();
+  toast('Worker added');
+}
+
+function removeWorker(name){
+  workers = load(KEYS.workers);
+  workers = workers.filter(w => w !== name);
+  save(KEYS.workers, workers);
+  renderSettingsContent();
+  refreshDropdowns();
+  toast('Worker removed');
+}
+
+function saveConfig(){
+  const newCode    = document.getElementById('cfgNewCode').value.trim();
+  const newConfirm = document.getElementById('cfgNewCodeConfirm').value.trim();
+  const mismatchDiv = document.getElementById('settingsCodeMismatch');
+  mismatchDiv.classList.add('hidden');
+
+  cfg = loadObj(KEYS.config);
+  let settingsCode = cfg.settingsCode || 'TB2026';
+
+  if(newCode || newConfirm){
+    if(newCode !== newConfirm){
+      mismatchDiv.classList.remove('hidden');
+      setTimeout(()=>mismatchDiv.classList.add('hidden'),3000);
+    } else {
+      settingsCode = newCode;
+    }
+  }
+
+  cfg={
+    getUrl:       document.getElementById('cfgGetUrl').value.trim(),
+    signUrl:      document.getElementById('cfgSignUrl').value.trim(),
+    ptUrl:        document.getElementById('cfgPtUrl').value.trim(),
+    pdfBase:      document.getElementById('cfgPdfBase').value.trim(),
+    settingsCode,
+  };
+  save(KEYS.config, cfg);
+  document.getElementById('settingsSaved').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('settingsSaved').classList.add('hidden'),2500);
+  document.getElementById('cfgNewCode').value='';
+  document.getElementById('cfgNewCodeConfirm').value='';
+  renderRegister();
+  toast('Settings saved');
+}
+
+function clearData(){
+  if(!confirm('Clear all local sign-off and pre-task records? This cannot be undone.')) return;
+  signoffs=[]; pretasks=[];
+  save(KEYS.signoffs,signoffs); save(KEYS.pretasks,pretasks);
+  toast('Records cleared');
+}
+
+// ═══════════════════════════════════════
+// POWER AUTOMATE
+// ═══════════════════════════════════════
+async function postFlow(url, payload){
+  if(!url) return;
+  try{
+    await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+  }catch(e){ console.warn('PA post failed',e); }
+}
+
+async function loadLiveData(){
+  const url = cfg.getUrl;
+  if(!url) return;
+  try{
+    const res = await fetch(url);
+    const data = await res.json();
+    if(data.signOffRegister) signoffs = data.signOffRegister;
+    console.log('Live data loaded from SharePoint');
+  }catch(e){ console.warn('Live data load failed — using local cache'); }
+}
+
+// ═══════════════════════════════════════
+// PDF VIEWER
+// ═══════════════════════════════════════
+let currentPdfUrl = '';
+
+function openPdfViewer(url, title, id){
+  if(!url){ toast('No PDF linked for this SWMS'); return; }
+  currentPdfUrl = url;
+  window.open(url, '_blank');
+}
+
+function printPdf(){
+  if(!currentPdfUrl) return;
+  window.open(currentPdfUrl, '_blank');
+}
+
+function closePdfViewer(){ currentPdfUrl = ''; }
+function initSig(canvasId, wrapId){
+  const canvas=document.getElementById(canvasId);
+  const wrap=document.getElementById(wrapId);
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  let drawing=false,lx=0,ly=0;
+  function resize(){
+    // If canvas is not visible, width will be 0 — skip until called again
+    const r=canvas.getBoundingClientRect();
+    if(!r.width) return;
+    const dpr=window.devicePixelRatio||1;
+    canvas.width=r.width*dpr; canvas.height=r.height*dpr;
+    ctx.scale(dpr,dpr); ctx.strokeStyle='#111827'; ctx.lineWidth=2.5; ctx.lineCap='round'; ctx.lineJoin='round';
+  }
+  function pos(e){ const r=canvas.getBoundingClientRect(),s=e.touches?e.touches[0]:e; return{x:s.clientX-r.left,y:s.clientY-r.top}; }
+  canvas.addEventListener('mousedown',e=>{drawing=true;const p=pos(e);lx=p.x;ly=p.y;wrap.classList.add('active');});
+  canvas.addEventListener('mousemove',e=>{if(!drawing)return;const p=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;});
+  canvas.addEventListener('mouseup',()=>drawing=false);
+  canvas.addEventListener('touchstart',e=>{e.preventDefault();drawing=true;const p=pos(e);lx=p.x;ly=p.y;wrap.classList.add('active');},{passive:false});
+  canvas.addEventListener('touchmove',e=>{if(!drawing)return;e.preventDefault();const p=pos(e);ctx.beginPath();ctx.moveTo(lx,ly);ctx.lineTo(p.x,p.y);ctx.stroke();lx=p.x;ly=p.y;},{passive:false});
+  canvas.addEventListener('touchend',()=>drawing=false);
+  // Store resize so it can be called externally when canvas becomes visible
+  canvas._resize = resize;
+  resize();
+  window.addEventListener('resize',resize);
+}
+
+function clearSig(canvasId,wrapId){
+  const c=document.getElementById(canvasId);
+  c.getContext('2d').clearRect(0,0,c.width,c.height);
+  document.getElementById(wrapId).classList.remove('active');
+}
+
+function isSigBlank(canvas){
+  return !canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data.some(v=>v!==0);
+}
+
+// ═══════════════════════════════════════
+// CHECKBOX TOGGLE
+// ═══════════════════════════════════════
+// syncCheck reads the real checkbox state after the browser has updated it
+// avoids the double-toggle bug caused by onclick + label for both firing
+function syncCheck(cbId, itemId){
+  const checked = document.getElementById(cbId).checked;
+  document.getElementById(itemId).classList.toggle('checked', checked);
+}
+
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
+function todayISO(){ const n=new Date(),p=x=>String(x).padStart(2,'0'); return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`; }
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+window.addEventListener('load',()=>{
+  cfg = loadObj(KEYS.config);
+  refreshSwmsLib();
+  loadLiveData();
+  document.getElementById('ptDate').value = todayISO();
+  document.getElementById('ptTime').value = new Date().toTimeString().slice(0,5);
+  refreshDropdowns();
+  renderRegister();
+  initSig('sigCanvas1','sigWrap1');
+});
+</script>
+</body>
+</html>
