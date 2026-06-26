@@ -1318,6 +1318,7 @@ function submitSignOff(){
     worker:signWorker,
     dateSigned:document.getElementById('signDate').value,
     sig:canvas.toDataURL('image/png',0.4),
+    sigBase64: canvas.toDataURL('image/png',0.4).split(',')[1], // raw base64, no prefix
     ts:new Date().toISOString(),
   };
   signoffs.push(rec);
@@ -1332,7 +1333,7 @@ function submitSignOff(){
     SWMS_Title:     rec.swmsTitle,
     SWMS_Version:   String(rec.swmsVersion),
     Date_Signed:    rec.dateSigned,
-    Signature_PNG:  rec.sig,           // base64 PNG — PA saves this as a file
+    Signature_PNG:  rec.sigBase64,     // raw base64 PNG — no data:image prefix — PA uses base64ToBinary() directly
     Signature_File: rec.id + '.png',   // filename PA should use when creating the file
     Source:         'SWMS-System-v5',
   });
@@ -2076,7 +2077,7 @@ async function testFlowUrl(inputId, label){
     SWMS_Title: 'Test',
     SWMS_Version: '1',
     Date_Signed: new Date().toISOString().slice(0,10),
-    Signature_PNG: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+    Signature_PNG: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
     Signature_File: 'TEST-001.png',
     Source: 'SWMS-System-v5-test',
   }, label);
