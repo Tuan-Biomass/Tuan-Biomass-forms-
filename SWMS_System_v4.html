@@ -618,7 +618,10 @@ hr.divider{border:none;border-top:1px solid var(--border);margin:15px 0}
     </div>
     <div class="field">
       <label for="cfgSignUrl">Flow 2 — Submit Sign-Off (POST)</label>
-      <input type="text" id="cfgSignUrl" placeholder="https://prod-xx.logic.azure.com/...">
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="cfgSignUrl" placeholder="https://..." style="flex:1;">
+        <button class="btn btn-secondary btn-sm" onclick="testFlowUrl('cfgSignUrl','sign-off')">Test</button>
+      </div>
     </div>
     <div class="field">
       <label for="cfgPtUrl">Flow 3 — Submit Pre-Task (POST)</label>
@@ -1319,9 +1322,8 @@ function submitSignOff(){
   };
   signoffs.push(rec);
   save(KEYS.signoffs, signoffs);
-  // POST to SharePoint via PA Flow 2.
-  // The flow saves Signature_PNG as a .png file in SharePoint /Signatures/ folder,
-  // then writes the file path (Signature_Path) into the Excel row — not the raw base64.
+  // Reload cfg fresh in case URL was saved after page load
+  cfg = loadObj(KEYS.config);
   postFlow(cfg.signUrl, {
     Signoff_ID:     rec.id,
     Timestamp:      rec.ts,
@@ -1540,8 +1542,9 @@ function submitPreTask(){
     ts:new Date().toISOString(),
   };
   pretasks.push(rec);
-  save(KEYS.pretasks,rec);
-  // POST to SharePoint via PA
+  save(KEYS.pretasks, rec);
+  // Reload cfg fresh in case URL was saved after page load
+  cfg = loadObj(KEYS.config);
   postFlow(cfg.ptUrl,{
     Task_ID:            rec.id,
     Timestamp:          rec.ts,
@@ -2060,11 +2063,51 @@ function clearData(){
 // ═══════════════════════════════════════
 let _liveRefreshTimer = null;
 
-async function postFlow(url, payload){
-  if(!url) return;
+async function testFlowUrl(inputId, label){
+  const url = document.getElementById(inputId).value.trim();
+  if(!url){ toast('Paste a URL first','var(--danger)'); return; }
+  toast('Testing connection...','var(--amber)');
+  const ok = await postFlow(url, {
+    test: true,
+    Signoff_ID: 'TEST-001',
+    Timestamp: new Date().toISOString(),
+    Worker_Name: 'Test Worker',
+    SWMS_ID: 'SWMS-001',
+    SWMS_Title: 'Test',
+    SWMS_Version: '1',
+    Date_Signed: new Date().toISOString().slice(0,10),
+    Signature_PNG: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+    Signature_File: 'TEST-001.png',
+    Source: 'SWMS-System-v5-test',
+  }, label);
+  if(ok) toast(`✓ ${label} flow connected successfully`,'var(--green)');
+}
+
+
+  if(!url){
+    console.warn('postFlow: no URL configured for', label||'flow');
+    return false;
+  }
   try{
-    await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-  }catch(e){ console.warn('PA post failed',e); }
+    const res = await fetch(url, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload),
+      mode:'cors',
+    });
+    if(!res.ok){
+      console.warn('postFlow failed:', res.status, res.statusText, label);
+      toast(`Flow error ${res.status} — check PA flow`, 'var(--amber)');
+      return false;
+    }
+    console.log('postFlow success:', label, res.status);
+    return true;
+  }catch(e){
+    console.warn('postFlow network error:', e.message, label);
+    // CORS or network error — record saved locally, flow not reached
+    toast('Saved locally — flow not reached (check URL or CORS)', 'var(--amber)');
+    return false;
+  }
 }
 
 async function loadLiveData(){
