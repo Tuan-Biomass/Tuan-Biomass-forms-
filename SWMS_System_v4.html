@@ -2083,7 +2083,7 @@ async function testFlowUrl(inputId, label){
   if(ok) toast(`✓ ${label} flow connected successfully`,'var(--green)');
 }
 
-
+async function postFlow(url, payload, label){
   if(!url){
     console.warn('postFlow: no URL configured for', label||'flow');
     return false;
