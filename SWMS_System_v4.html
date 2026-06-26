@@ -1318,7 +1318,15 @@ function submitSignOff(){
     worker:signWorker,
     dateSigned:document.getElementById('signDate').value,
     sig:canvas.toDataURL('image/png',0.4),
-    sigBase64: canvas.toDataURL('image/png',0.4).split(',')[1], // raw base64, no prefix
+    // Compress to small JPEG for PA — keeps payload under 5KB
+    sigBase64: (()=>{
+      const tmp = document.createElement('canvas');
+      tmp.width = 300; tmp.height = 100;
+      const tctx = tmp.getContext('2d');
+      tctx.fillStyle='#fff'; tctx.fillRect(0,0,300,100);
+      tctx.drawImage(canvas,0,0,300,100);
+      return tmp.toDataURL('image/jpeg',0.6).split(',')[1];
+    })(),
     ts:new Date().toISOString(),
   };
   signoffs.push(rec);
@@ -1334,7 +1342,7 @@ function submitSignOff(){
     SWMS_Version:   String(rec.swmsVersion),
     Date_Signed:    rec.dateSigned,
     Signature_PNG:  rec.sigBase64,     // raw base64 PNG — no data:image prefix — PA uses base64ToBinary() directly
-    Signature_File: rec.id + '.png',   // filename PA should use when creating the file
+    Signature_File: rec.id + '.jpg',   // filename PA should use when creating the file
     Source:         'SWMS-System-v5',
   });
   document.getElementById('signConfirmText').textContent = `${signWorker} \u2014 ${signSwms.title} v${signSwms.version} \u2014 signed on ${fmtDate(rec.dateSigned)}. Record saved.`;
