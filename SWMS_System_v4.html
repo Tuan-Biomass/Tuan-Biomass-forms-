@@ -1319,17 +1319,20 @@ function submitSignOff(){
   };
   signoffs.push(rec);
   save(KEYS.signoffs, signoffs);
-  // POST to SharePoint via PA — includes base64 signature PNG
+  // POST to SharePoint via PA Flow 2.
+  // The flow saves Signature_PNG as a .png file in SharePoint /Signatures/ folder,
+  // then writes the file path (Signature_Path) into the Excel row — not the raw base64.
   postFlow(cfg.signUrl, {
-    Signoff_ID:    rec.id,
-    Timestamp:     rec.ts,
-    Worker_Name:   rec.worker,
-    SWMS_ID:       rec.swmsId,
-    SWMS_Title:    rec.swmsTitle,
-    SWMS_Version:  String(rec.swmsVersion),
-    Date_Signed:   rec.dateSigned,
-    Signature_PNG: rec.sig,
-    Source:        'SWMS-System-v5',
+    Signoff_ID:     rec.id,
+    Timestamp:      rec.ts,
+    Worker_Name:    rec.worker,
+    SWMS_ID:        rec.swmsId,
+    SWMS_Title:     rec.swmsTitle,
+    SWMS_Version:   String(rec.swmsVersion),
+    Date_Signed:    rec.dateSigned,
+    Signature_PNG:  rec.sig,           // base64 PNG — PA saves this as a file
+    Signature_File: rec.id + '.png',   // filename PA should use when creating the file
+    Source:         'SWMS-System-v5',
   });
   document.getElementById('signConfirmText').textContent = `${signWorker} \u2014 ${signSwms.title} v${signSwms.version} \u2014 signed on ${fmtDate(rec.dateSigned)}. Record saved.`;
   setSignStep(4);
@@ -2018,19 +2021,42 @@ function clearData(){
 // ═══════════════════════════════════════
 // POWER AUTOMATE — 4 flows
 // Flow 1 GET  : fetch sign-off register from SharePoint → merge into signoffs[]
-// Flow 2 POST : submit new sign-off record (includes sig PNG) → Worker_SWMS_Register table
+// Flow 2 POST : submit sign-off → save signature PNG as SharePoint file → write metadata row to Excel
 // Flow 3 POST : submit new pre-task record → Task_Register table
 // Flow 4 GET  : fetch pre-task register from SharePoint → merge into pretasks[]
 //
-// PA FLOW SETUP (create once in Power Automate):
-// Flow 1 — HTTP GET trigger → "List rows present in a table" (Worker_SWMS_Register) → Return as JSON
-//   Response body: { "signOffRegister": [array of row objects] }
-// Flow 2 — HTTP POST trigger → "Add a row into a table" (Worker_SWMS_Register)
-//   Body fields: Signoff_ID, Timestamp, Worker_Name, SWMS_ID, SWMS_Title, SWMS_Version, Date_Signed, Signature_PNG, Source
-// Flow 3 — HTTP POST trigger → "Add a row into a table" (Task_Register)
-//   Body fields: Task_ID, Timestamp, Date, Time, SWMS_ID, SWMS_Title, SWMS_Version, Location, Crew, Conditions_Changed, Change_Detail, Source
-// Flow 4 — HTTP GET trigger → "List rows present in a table" (Task_Register) → Return as JSON
-//   Response body: { "taskRegister": [array of row objects] }
+// PA FLOW SETUP:
+// Flow 1 — Trigger: HTTP GET
+//   → List rows (Worker_SWMS_Register table)
+//   → Response: { "signOffRegister": @{outputs('List_rows')?['body/value']} }
+//
+// Flow 2 — Trigger: HTTP POST  (this is the one with 3 steps)
+//   Step 1: Parse JSON (body schema below)
+//   Step 2: Create file (SharePoint)
+//           Site: your Tuan site
+//           Folder: /Shared Documents/ATB.SS. Safety Management System/08_Risk Assessments/04. SWMS/Signatures
+//           File name: triggerBody()?['Signature_File']          e.g. abc123def.png
+//           File content: base64ToBinary(triggerBody()?['Signature_PNG'])
+//   Step 3: Add a row into a table (Worker_SWMS_Register)
+//           Signoff_ID    = triggerBody()?['Signoff_ID']
+//           Timestamp     = triggerBody()?['Timestamp']
+//           Worker_Name   = triggerBody()?['Worker_Name']
+//           SWMS_ID       = triggerBody()?['SWMS_ID']
+//           SWMS_Title    = triggerBody()?['SWMS_Title']
+//           SWMS_Version  = triggerBody()?['SWMS_Version']
+//           Date_Signed   = triggerBody()?['Date_Signed']
+//           Signature_Path= outputs('Create_file')?['body/Path']   ← SharePoint path to the saved PNG
+//           Source        = triggerBody()?['Source']
+//
+// Flow 3 — Trigger: HTTP POST
+//   Step 1: Parse JSON
+//   Step 2: Add a row into a table (Task_Register)
+//           Task_ID, Timestamp, Date, Time, SWMS_ID, SWMS_Title, SWMS_Version,
+//           Location, Crew, Conditions_Changed, Change_Detail, Source
+//
+// Flow 4 — Trigger: HTTP GET
+//   → List rows (Task_Register table)
+//   → Response: { "taskRegister": @{outputs('List_rows')?['body/value']} }
 // ═══════════════════════════════════════
 let _liveRefreshTimer = null;
 
