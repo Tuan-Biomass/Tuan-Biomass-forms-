@@ -484,7 +484,7 @@ function documentTypeOptions(category) {
   const options = {
     risk:      ["SWMS","JSA / Risk Assessment","Other Document"],
     insurance: ["Public Liability Insurance","Workers Compensation Insurance"],
-    licence:   ["High Risk Work Licence","Front End Loader Licence","Working at Heights Certificate","Confined Space Certificate"]
+    licence:   ["High Risk Work Licence","Driver Licence","Front End Loader Licence","Telehandler Licence","Working at Heights Certificate","Confined Space Certificate"]
   };
   return `<option value="">Select...</option>${options[category].map(v => `<option>${escapeHTML(v)}</option>`).join("")}`;
 }
