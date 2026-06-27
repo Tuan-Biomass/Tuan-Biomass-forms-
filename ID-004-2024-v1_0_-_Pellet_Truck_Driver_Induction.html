@@ -31,124 +31,62 @@
   .progress-wrap { background: var(--green-dark); padding: 0 24px 14px; }
   .progress-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; }
   .progress-fill  { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
-  .progress-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px;
-    font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+  .progress-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
   .container { max-width: 780px; margin: 0 auto; padding: 32px 20px 80px; }
   .screen { display: none; }
   .screen.active { display: block; animation: fadeUp 0.3s ease; }
   @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-  .card {
-    background: var(--card); border-radius: 12px; padding: 32px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
-    margin-bottom: 20px;
-  }
-  .section-tag {
-    display: inline-block; background: var(--green); color: white;
-    font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 11px;
-    letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px;
-    border-radius: 4px; margin-bottom: 14px;
-  }
-  .card h2 {
-    font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 28px;
-    color: var(--green-dark); line-height: 1.15; margin-bottom: 16px;
-  }
+  .card { background: var(--card); border-radius: 12px; padding: 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04); margin-bottom: 20px; }
+  .section-tag { display: inline-block; background: var(--green); color: white; font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 14px; }
+  .card h2 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 28px; color: var(--green-dark); line-height: 1.15; margin-bottom: 16px; }
   .card p { font-size: 15px; line-height: 1.7; color: #374151; margin-bottom: 12px; }
   .rule-list { list-style: none; margin-top: 8px; }
-  .rule-list li {
-    display: flex; gap: 14px; align-items: flex-start;
-    padding: 12px 0; border-bottom: 1px solid var(--border);
-    font-size: 15px; line-height: 1.5;
-  }
+  .rule-list li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.5; }
   .rule-list li:last-child { border-bottom: none; }
-  .rule-num {
-    flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; color: white;
-  }
+  .rule-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; color: white; }
   .rule-num.green  { background: var(--green); }
   .rule-num.amber  { background: var(--accent); color: var(--green-dark); }
   .rule-num.red    { background: var(--warn); }
-  .alert-box {
-    border-left: 4px solid var(--warn); background: #fff5f5;
-    padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
-    font-size: 14px; line-height: 1.6;
-  }
+  .alert-box { border-left: 4px solid var(--warn); background: #fff5f5; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; line-height: 1.6; }
   .alert-box strong { color: var(--warn); font-family: "Barlow Condensed", sans-serif; font-size: 15px; }
-  .info-box {
-    border-left: 4px solid var(--green); background: #f0faf4;
-    padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
-    font-size: 14px; line-height: 1.8;
-  }
+  .info-box { border-left: 4px solid var(--green); background: #f0faf4; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; line-height: 1.8; }
   .form-group { margin-bottom: 18px; }
-  .form-group label {
-    display: block; font-family: "Barlow Condensed", sans-serif; font-weight: 600;
-    font-size: 13px; letter-spacing: 0.8px; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 6px;
-  }
-  .form-group input, .form-group select {
-    width: 100%; padding: 11px 14px; border: 1.5px solid var(--border);
-    border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 15px;
-    color: var(--text); background: var(--bg); transition: border-color 0.2s; outline: none;
-  }
+  .form-group label { display: block; font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .form-group input, .form-group select { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 15px; color: var(--text); background: var(--bg); transition: border-color 0.2s; outline: none; }
   .form-group input:focus { border-color: var(--green); background: white; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
   .checklist { list-style: none; margin-top: 8px; }
-  .checklist li {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 15px;
-  }
+  .checklist li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
   .checklist li:last-child { border-bottom: none; }
   .checklist input[type=checkbox] { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--green); flex-shrink: 0; }
   .img-full { width: 100%; max-width: 100%; border-radius: 8px; margin: 16px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
   .img-caption { text-align: center; font-size: 12px; color: var(--muted); margin-top: -8px; margin-bottom: 16px; font-style: italic; }
-  .quiz-counter { font-size: 13px; color: var(--muted); margin-bottom: 8px;
-    font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
-  .quiz-question { font-family: "Barlow Condensed", sans-serif; font-size: 20px; font-weight: 600;
-    color: var(--green-dark); margin-bottom: 18px; line-height: 1.3; }
+  .quiz-counter { font-size: 13px; color: var(--muted); margin-bottom: 8px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+  .quiz-question { font-family: "Barlow Condensed", sans-serif; font-size: 20px; font-weight: 600; color: var(--green-dark); margin-bottom: 18px; line-height: 1.3; }
   .options { display: flex; flex-direction: column; gap: 10px; }
-  .option {
-    padding: 13px 18px; border: 1.5px solid var(--border); border-radius: 8px;
-    cursor: pointer; font-size: 15px; transition: all 0.15s; background: var(--bg);
-  }
+  .option { padding: 13px 18px; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px; transition: all 0.15s; background: var(--bg); }
   .option:hover  { border-color: var(--green-light); background: #f0faf4; }
   .option.correct { border-color: #16a34a; background: #f0fdf4; color: #14532d; font-weight: 500; }
   .option.wrong   { border-color: var(--warn); background: #fff5f5; color: #7f1d1d; }
   .option.show-correct { border-color: #16a34a; background: #f0fdf4; }
-  .quiz-feedback { margin-top: 14px; padding: 12px 16px; border-radius: 8px;
-    font-size: 14px; line-height: 1.5; display: none; }
+  .quiz-feedback { margin-top: 14px; padding: 12px 16px; border-radius: 8px; font-size: 14px; line-height: 1.5; display: none; }
   .quiz-feedback.show { display: block; }
   .quiz-feedback.pass { background: #f0fdf4; color: #14532d; border: 1px solid #86efac; }
   .quiz-feedback.fail { background: #fff5f5; color: #7f1d1d; border: 1px solid #fca5a5; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px;
-    border-radius: 8px; font-family: "Barlow Condensed", sans-serif;
-    font-weight: 700; font-size: 16px; letter-spacing: 0.5px; cursor: pointer; border: none; transition: all 0.15s;
-  }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px; border-radius: 8px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; cursor: pointer; border: none; transition: all 0.15s; }
   .btn-primary   { background: var(--green); color: white; }
   .btn-primary:hover  { background: var(--green-dark); transform: translateY(-1px); }
   .btn-primary:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
   .btn-secondary { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
   .btn-secondary:hover { background: #f0faf4; }
   .btn-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
-  .result-badge {
-    width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 20px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 36px;
-  }
+  .result-badge { width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 36px; }
   .result-badge.pass { background: #f0fdf4; border: 3px solid #16a34a; color: #16a34a; }
   .result-screen { text-align: center; }
-  .record-box {
-    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-    padding: 16px 20px; margin: 20px 0; text-align: left; font-size: 14px; line-height: 2;
-  }
-  .record-box strong {
-    font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px;
-    text-transform: uppercase; color: var(--muted); display: block; line-height: 1; margin-bottom: 2px;
-  }
+  .record-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 20px 0; text-align: left; font-size: 14px; line-height: 2; }
+  .record-box strong { font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); display: block; line-height: 1; margin-bottom: 2px; }
   .status-msg { margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic; }
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-  @media (max-width: 520px) { .contact-grid { grid-template-columns: 1fr; } }
   .contact-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
   .contact-card .role   { font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
   .contact-card .name   { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
@@ -158,36 +96,47 @@
   .ppe-card .ppe-label { font-weight: 600; font-size: 14px; color: var(--green-dark); margin-bottom: 6px; }
   .ppe-card ul { list-style: disc; padding-left: 16px; font-size: 13px; line-height: 1.8; color: #374151; }
   .table-style { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
-  .table-style th { background: var(--green-dark); color: white; padding: 10px 12px; text-align: left;
-    font-family: "Barlow Condensed", sans-serif; font-size: 13px; letter-spacing: 0.5px; }
+  .table-style th { background: var(--green-dark); color: white; padding: 10px 12px; text-align: left; font-family: "Barlow Condensed", sans-serif; font-size: 13px; letter-spacing: 0.5px; }
   .table-style td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
   .table-style tr:last-child td { border-bottom: none; }
   .table-style td ul { list-style: disc; padding-left: 16px; line-height: 1.8; }
-  .licence-table th, .licence-table td { font-weight: 400; font-family:"Barlow",sans-serif; }
-  .licence-table input { width:100%; padding:9px 10px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); font-size:14px; }
-  .doc-row {
-    display: grid; grid-template-columns: 1fr 160px auto; gap: 10px; align-items: center; margin-bottom: 10px;
-  }
-  @media (max-width: 600px) { .doc-row { grid-template-columns: 1fr; } }
-  .doc-row select, .doc-row input[type=text] {
-    width: 100%; padding: 9px 10px; border: 1.5px solid var(--border);
-    border-radius: 8px; background: var(--bg); font-size: 14px;
-  }
-  .doc-row .file-actions { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-  .file-btn {
-    cursor: pointer; background: var(--green); color: white; padding: 4px 8px;
-    border-radius: 4px; font-size: 12px; font-family: 'Barlow Condensed', sans-serif;
-    font-weight: 600; white-space: nowrap;
-  }
-  .remove-row-btn {
-    background: none; border: none; color: var(--warn); cursor: pointer;
-    font-size: 18px; line-height: 1; padding: 2px 4px;
-  }
-  .doc-section-note { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
-  @media print {
-    .site-header, .btn-row, .progress-wrap { display: none; }
-    body { background: white; }
-    .card { box-shadow: none; border: 1px solid #ddd; }
+
+  /* ── Document upload section (licence only) ── */
+  .doc-section { border: 1.5px solid var(--border); border-radius: 14px; background: #fff; margin: 16px 0; overflow: hidden; }
+  .doc-section-head { padding: 14px 16px; border-bottom: 1px solid var(--border); background: #F9FAFB; }
+  .doc-section-title { font-family: "Barlow Condensed", sans-serif; font-size: 22px; font-weight: 800; color: var(--green-dark); letter-spacing: .4px; text-transform: uppercase; }
+  .doc-section-sub { font-size: 14px; color: var(--muted); margin-top: 3px; }
+  .doc-section-licence { border-color: #C4B5FD; }
+  .doc-section-licence .doc-section-head { background: #F5F3FF; }
+  .doc-row { display: flex; flex-direction: column; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #E5E7EB; }
+  .doc-row:last-child { border-bottom: none; }
+  .doc-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 6px; }
+  .doc-field select, .doc-field input[type=date] { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 14px; color: var(--text); background: #fff; }
+  .doc-field select:focus, .doc-field input[type=date]:focus { outline: none; border-color: var(--green); }
+  .file-btn { cursor: pointer; background: #9CA3AF; color: white; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; white-space: nowrap; letter-spacing: .3px; }
+  .file-btn:hover { background: #6B7280; }
+  .file-list { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  .doc-remove { margin-top: 4px; }
+  .extra-field { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 10px; padding: 12px 14px; }
+  .extra-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 6px; }
+  .extra-field input[type=text] { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 14px; color: var(--text); background: #fff; margin-bottom: 10px; }
+  .extra-field input[type=text]:focus { outline: none; border-color: var(--green); }
+  .hrwl-field { background: #F5F3FF; border: 1px solid #DDD6FE; border-radius: 10px; padding: 12px 14px; }
+  .hrwl-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 4px; }
+  .hrwl-note { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .hrwl-code-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 7px; }
+  .hrwl-code { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border); border-radius: 8px; background: #fff; min-height: 42px; font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 17px; color: var(--green-dark); cursor: pointer; }
+  .hrwl-code input { display: none; }
+  .hrwl-code:has(input:checked) { background: #DCFCE7; border-color: var(--green); color: var(--green-dark); }
+  .section-add { margin: 12px 16px 16px; font-size: 13px; width: auto !important; display: inline-flex !important; align-self: flex-start; }
+  .skip-note { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .upload-notice { border-radius: 10px; padding: 13px 16px; margin-bottom: 16px; font-size: 14px; line-height: 1.5; background: #FFFBEB; border: 1px solid #FACC15; color: #713F12; }
+
+  @media (max-width: 520px) {
+    .form-row, .contact-grid, .ppe-grid { grid-template-columns: 1fr; }
+    .btn { width:100%; justify-content:center; }
+    .table-style { font-size:13px; }
+    .table-style th, .table-style td { padding:9px 8px; }
   }
 </style>
 </head>
@@ -198,10 +147,10 @@ const CONFIG = {
   siteName:    "Tuan Biomass",
   siteAddress: "Tuan, Queensland",
   contacts: [
-    { role: "Plant Manager",         name: "David Knight",   phone: "0439 013 224" },
-    { role: "Safety Manager",        name: "Chris Foster",   phone: "0478 774 434" },
-    { role: "Principal Contractor",  name: "Brett Stevens",  phone: "0430 939 468" },
-    { role: "STL / QSL-WPC (Port)",  name: "QSL-Inductions", phone: "0437 458 551" },
+    { role: "Plant Manager",         name: "David Knight",    phone: "0439 013 224" },
+    { role: "Safety Manager",        name: "Chris Foster",    phone: "0478 774 434" },
+    { role: "Principal Contractor",  name: "Brett Stevens",   phone: "0430 939 468" },
+    { role: "STL / QSL-WPC (Port)",  name: "QSL-Inductions",  phone: "0437 458 551" },
   ],
   siteRules_tuan: [
     "Contact the loader operator on Channel 34 before entering the site.",
@@ -261,15 +210,6 @@ const CONFIG = {
   sharePointFolder: "Contractor Documents",
 };
 
-function getFolderForDocType(docType) {
-  const t = (docType || "").toLowerCase();
-  if (t === "swms") return "SWMS";
-  if (t.includes("insurance")) return "Insurance";
-  if (["forklift","ewp","front end loader","working at heights","first aid","crane"].some(x => t.includes(x))) return "Tickets";
-  if (["c","lr","mr","hr","hc","mc"].includes(t.trim())) return "Licences";
-  return "Other";
-}
-
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -281,13 +221,12 @@ function fileToBase64(file) {
 </script>
 
 <header class="site-header">
-  <img src="https://i.ibb.co/1GR1Hq5P/Albioma-Logo.jpg" alt="Albioma" style="height:38px; width:auto;" onerror="this.style.display='none'">
+  <img src="https://i.ibb.co/1GR1Hq5P/Albioma-Logo.jpg" alt="Albioma" style="height:38px;width:auto;" onerror="this.style.display='none'">
   <div>
     <h1 id="headerTitle"></h1>
     <p id="headerSub"></p>
   </div>
 </header>
-
 <div class="progress-wrap">
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div class="progress-label" id="progressLabel">Registration</div>
@@ -297,15 +236,15 @@ function fileToBase64(file) {
 
   <!-- SCREEN 0: REGISTRATION -->
   <div class="screen active" id="screen-0">
-    <div style="border-radius:12px; overflow:hidden; margin-bottom:20px; box-shadow:0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);">
-      <img src="https://i.ibb.co/PGBz9DJG/tuan-site-jpg.jpg" alt="Tuan Biomass site" style="width:100%; height:260px; object-fit:cover; display:block;">
+    <div style="border-radius:12px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);">
+      <img src="https://i.ibb.co/PGBz9DJG/tuan-site-jpg.jpg" alt="Tuan Biomass site" style="width:100%;height:260px;object-fit:cover;display:block;">
     </div>
     <div class="card">
-      <img src="https://i.ibb.co/1GR1Hq5P/Albioma-Logo.jpg" alt="Albioma" style="height:32px; width:auto; margin-bottom:16px; object-fit:contain; object-position:left;" onerror="this.style.display='none'">
-      <div style="display:inline-block; background:var(--green); border-radius:20px; padding:4px 12px; font-size:12px; letter-spacing:1px; font-family:'Barlow Condensed',sans-serif; color:white; text-transform:uppercase; margin-bottom:12px;">Mandatory Truck Driver Induction</div>
-      <h2 style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:32px; line-height:1.1; color:var(--green-dark); margin-bottom:10px;">Welcome to Tuan Biomass</h2>
-      <p style="font-size:15px; color:#374151; line-height:1.6; margin-bottom:20px;">Before accessing this site you must complete this induction. It covers traffic management, safety procedures, PPE requirements, and emergency procedures for pellet loading at Tuan and unloading at the Port of Bundaberg. A quiz follows — you must score <span id="passMarkHero"></span>% or higher to pass.</p>
-      <hr style="border:none; border-top:1px solid var(--border); margin-bottom:20px;">
+      <img src="https://i.ibb.co/1GR1Hq5P/Albioma-Logo.jpg" alt="Albioma" style="height:32px;width:auto;margin-bottom:16px;object-fit:contain;object-position:left;" onerror="this.style.display='none'">
+      <div style="display:inline-block;background:var(--green);border-radius:20px;padding:4px 12px;font-size:12px;letter-spacing:1px;font-family:'Barlow Condensed',sans-serif;color:white;text-transform:uppercase;margin-bottom:12px;">Mandatory Truck Driver Induction</div>
+      <h2 style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32px;line-height:1.1;color:var(--green-dark);margin-bottom:10px;">Welcome to Tuan Biomass</h2>
+      <p style="font-size:15px;color:#374151;line-height:1.6;margin-bottom:20px;">Before accessing this site you must complete this induction. It covers traffic management, safety procedures, PPE requirements, and emergency procedures for pellet loading at Tuan and unloading at the Port of Bundaberg. A quiz follows — you must score <span id="passMarkHero"></span>% or higher to pass.</p>
+      <hr style="border:none;border-top:1px solid var(--border);margin-bottom:20px;">
       <div class="section-tag">Driver Details</div>
       <h2>Driver Registration</h2>
       <div class="form-row">
@@ -329,21 +268,47 @@ function fileToBase64(file) {
     </div>
   </div>
 
-  <!-- SCREEN 1: LICENCE & DOCUMENT VERIFICATION -->
+  <!-- SCREEN 1: LICENCE UPLOAD -->
   <div class="screen" id="screen-1">
     <div class="card">
       <div class="section-tag">Licence Verification</div>
-      <h2>Record Your Licences</h2>
-      <p class="doc-section-note">Add a row for each licence or ticket you hold. Select the type, enter the expiry date, and upload a photo or file. Files uploaded here will be saved to the contractor documents folder in SharePoint.</p>
-      <div id="licenceRows"></div>
-      <button class="btn btn-secondary" style="margin-top:8px" onclick="addLicenceRow()">+ Add Licence</button>
-    </div>
-    <div class="card">
-      <div class="section-tag">Supporting Documents</div>
-      <h2>Insurance &amp; Other Documents</h2>
-      <p class="doc-section-note">Upload insurance certificates, SWMS or any other supporting documents. Each file will be saved to the appropriate folder in SharePoint.</p>
-      <div id="extraDocRows"></div>
-      <button class="btn btn-secondary" style="margin-top:8px" onclick="addExtraDocRow()">+ Add Document</button>
+      <h2>Upload Your Licences</h2>
+      <p>Upload your driver licences and any relevant certificates below. Skip this section if it does not apply.</p>
+      <div class="upload-notice">Only upload licences that apply to you. Skip any row that does not apply.</div>
+
+      <div class="doc-section doc-section-licence">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Driver Licence</div>
+        </div>
+        <!-- Fixed Driver Licence row -->
+        <div style="padding:14px 16px;border-bottom:1px solid #E5E7EB;">
+          <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">Upload a photo or scan of your current driver licence.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+            <label class="file-btn">File<input type="file" id="dl_files" multiple accept="image/*,.pdf" style="display:none" onchange="showDLFiles('file')"></label>
+            <label class="file-btn">Camera<input type="file" id="dl_camera" accept="image/*" capture="environment" style="display:none" onchange="showDLFiles('camera')"></label>
+          </div>
+          <div class="file-list" id="dl_fname">No documents selected.</div>
+        </div>
+        <!-- Optional section divider -->
+        <div style="padding:12px 16px;background:#F5F3FF;border-bottom:1px solid #DDD6FE;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);">Optional — Other Licences / Certificates</div>
+          <div class="doc-section-sub">High Risk Work Licence needs expiry date and HRWL codes. Other licences are upload only.</div>
+          <div class="skip-note">Skip this section if it does not apply.</div>
+        </div>
+        <div id="licenceRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('licence')">+ Add Licence / Certificate</button>
+      </div>
+
+      <!-- Queued files summary -->
+      <div id="queueSummary" style="margin-top:16px;border:1.5px solid #86EFAC;border-radius:10px;padding:14px 16px;background:#F0FDF4;display:none;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--green-dark);margin-bottom:8px;">Files Queued for Upload</div>
+        <div id="queueList" style="font-size:13px;color:#374151;line-height:1.9;"></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:8px;">These will be uploaded when you complete the induction.</div>
+      </div>
+      <div id="queueEmpty" style="margin-top:16px;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;background:#F9FAFB;">
+        <div style="font-size:13px;color:var(--muted);">No documents selected yet — skip this screen if licences do not apply.</div>
+      </div>
+
       <div class="btn-row">
         <button class="btn btn-secondary" id="licBack">Back</button>
         <button class="btn btn-primary"   id="licNext">Next</button>
@@ -358,9 +323,7 @@ function fileToBase64(file) {
       <h2>Site Contacts</h2>
       <div class="contact-grid" id="contactGrid"></div>
     </div>
-    <div class="alert-box" style="margin-top:16px;">
-      <strong>CCTV cameras are installed in high-risk areas to monitor safety and security across site.</strong>
-    </div>
+    <div class="alert-box" style="margin-top:16px;"><strong>CCTV cameras are installed in high-risk areas to monitor safety and security across site.</strong></div>
     <div class="btn-row">
       <button class="btn btn-secondary" id="s1Back">Back</button>
       <button class="btn btn-primary"   id="s1Next">Next</button>
@@ -389,7 +352,7 @@ function fileToBase64(file) {
     </div>
   </div>
 
-  <!-- SCREEN 3: CHAIN OF RESPONSIBILITY & FATIGUE -->
+  <!-- SCREEN 3: CoR & FATIGUE -->
   <div class="screen" id="screen-3">
     <div class="card">
       <div class="section-tag">Legal Obligations</div>
@@ -446,7 +409,7 @@ function fileToBase64(file) {
     </div>
   </div>
 
-  <!-- SCREEN 5: PELLET LOADING — TUAN SITE -->
+  <!-- SCREEN 5: TUAN LOADING -->
   <div class="screen" id="screen-5">
     <div class="card">
       <div class="section-tag">Pellet Loading</div>
@@ -467,7 +430,7 @@ function fileToBase64(file) {
     </div>
   </div>
 
-  <!-- SCREEN 6: PELLET UNLOADING — PORT -->
+  <!-- SCREEN 6: PORT UNLOADING -->
   <div class="screen" id="screen-6">
     <div class="card">
       <div class="section-tag">Pellet Unloading</div>
@@ -561,14 +524,14 @@ function fileToBase64(file) {
     </div>
   </div>
 
-  <!-- SCREEN 10: INDUCTION COMPLETE -->
+  <!-- SCREEN 10: COMPLETE -->
   <div class="screen" id="screen-10">
     <div class="card result-screen">
       <div class="result-badge pass">✓</div>
       <h2>Induction Complete</h2>
       <p>Thank you for completing the Tuan Biomass Pellet Truck Driver Induction.</p>
       <p>Before unsupervised access to site is granted, you must report to the Site Office where the following will be completed:</p>
-      <ul style="text-align:left; max-width:700px; margin:15px auto; line-height:1.7; color:#374151;">
+      <ul style="text-align:left;max-width:700px;margin:15px auto;line-height:1.7;color:#374151;">
         <li>Verification of induction completion.</li>
         <li>Site tour conducted by an authorised Tuan Biomass representative.</li>
         <li>Collection and verification of required licences, tickets and competencies.</li>
@@ -576,7 +539,7 @@ function fileToBase64(file) {
         <li>Confirmation of any site-specific requirements or restrictions.</li>
       </ul>
       <div class="record-box">
-        <h3 style="font-family:'Barlow Condensed',sans-serif; color:var(--green-dark); margin-bottom:12px;">Induction Record</h3>
+        <h3 style="font-family:'Barlow Condensed',sans-serif;color:var(--green-dark);margin-bottom:12px;">Induction Record</h3>
         <div><strong>Name</strong><span id="recordName"></span></div>
         <div><strong>Company</strong><span id="recordCompany"></span></div>
         <div><strong>Truck Registration</strong><span id="recordRego"></span></div>
@@ -594,106 +557,44 @@ function fileToBase64(file) {
 </div>
 
 <script>
-document.getElementById("headerTitle").textContent  = CONFIG.siteName + " — Pellet Truck Driver Induction";
-document.getElementById("headerSub").textContent    = CONFIG.siteAddress;
-document.getElementById("passMarkHero").textContent = CONFIG.passMark;
-document.getElementById("quizPassNote").textContent = CONFIG.passMark;
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.getElementById("headerTitle").textContent   = CONFIG.siteName + " — Pellet Truck Driver Induction";
+document.getElementById("headerSub").textContent     = CONFIG.siteAddress;
+document.getElementById("passMarkHero").textContent  = CONFIG.passMark;
+document.getElementById("quizPassNote").textContent  = CONFIG.passMark;
 document.getElementById("quizTotalNote").textContent = CONFIG.quiz.length;
-document.getElementById("driverDate").value         = new Date().toISOString().split("T")[0];
+document.getElementById("driverDate").value          = new Date().toISOString().split("T")[0];
 
 const cg = document.getElementById("contactGrid");
 CONFIG.contacts.forEach(c => {
-  const d = document.createElement("div");
-  d.className = "contact-card";
-  d.innerHTML = `<div class="role">${c.role}</div><div class="name">${c.name}</div><div class="detail">${c.phone}</div>`;
-  cg.appendChild(d);
+  cg.insertAdjacentHTML("beforeend", `<div class="contact-card"><div class="role">${c.role}</div><div class="name">${c.name}</div><div class="detail">${c.phone}</div></div>`);
 });
 
-const licenceTypes = ["C","LR","MR","HR","HC","MC","Forklift","EWP","Front End Loader","Working at Heights","First Aid","Crane","Other"];
-
-// ── Licence rows (dynamic, like extra docs) ──
-let licenceCount = 0;
-function addLicenceRow() {
-  const id = "lic" + licenceCount++;
-  const container = document.getElementById("licenceRows");
-  const div = document.createElement("div");
-  div.className = "doc-row";
-  div.id = id + "_row";
-  div.innerHTML = `
-    <select id="${id}_type">
-      <option value="">Select type...</option>
-      ${licenceTypes.map(t => `<option>${t}</option>`).join("")}
-    </select>
-    <input type="text" id="${id}_expiry" placeholder="DD/MM/YYYY" inputmode="numeric" maxlength="10" oninput="formatDateInput(this)">
-    <div class="file-actions">
-      <label class="file-btn">📁 File<input type="file" id="${id}_file" accept="image/*,.pdf" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''"></label>
-      <label class="file-btn">📷 Camera<input type="file" id="${id}_cam" accept="image/*" capture="environment" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''"></label>
-      <span id="${id}_fname" style="font-size:11px;color:#6b7280;"></span>
-      <button type="button" class="remove-row-btn" onclick="document.getElementById('${id}_row').remove()">✕</button>
-    </div>`;
-  container.appendChild(div);
-}
-addLicenceRow(); // start with one row
-
-// ── Auto-format date text inputs as DD/MM/YYYY ──
-function formatDateInput(input) {
-  let digits = input.value.replace(/\D/g, "").slice(0, 8);
-  let out = digits;
-  if (digits.length > 4) out = digits.slice(0,2) + "/" + digits.slice(2,4) + "/" + digits.slice(4);
-  else if (digits.length > 2) out = digits.slice(0,2) + "/" + digits.slice(2);
-  input.value = out;
-}
-
-// ── Extra doc rows (insurance / other) ──
-let extraDocCount = 0;
-function addExtraDocRow() {
-  const id = "extraDoc" + extraDocCount++;
-  const container = document.getElementById("extraDocRows");
-  const div = document.createElement("div");
-  div.className = "doc-row";
-  div.id = id + "_row";
-  div.innerHTML = `
-    <select id="${id}_type">
-      <option value="">Select type...</option>
-      <option>Insurance / public liability</option>
-      <option>SWMS</option>
-      <option>Other document / competency</option>
-    </select>
-    <input type="text" id="${id}_expiry" placeholder="DD/MM/YYYY" inputmode="numeric" maxlength="10" oninput="formatDateInput(this)">
-    <div class="file-actions">
-      <label class="file-btn">📁 File<input type="file" id="${id}_file" accept="image/*,.pdf,.doc,.docx" multiple style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?Array.from(this.files).map(f=>f.name).join(', '):''"></label>
-      <label class="file-btn">📷 Camera<input type="file" id="${id}_cam" accept="image/*" capture="environment" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''"></label>
-      <span id="${id}_fname" style="font-size:11px;color:#6b7280;"></span>
-      <button type="button" class="remove-row-btn" onclick="document.getElementById('${id}_row').remove()">✕</button>
-    </div>`;
-  container.appendChild(div);
-}
-addExtraDocRow(); // start with one row
-
 const trl = document.getElementById("tuanRulesList");
-CONFIG.siteRules_tuan.forEach((r, i) => { trl.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`); });
+CONFIG.siteRules_tuan.forEach((r,i) => trl.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`));
 
 const prl = document.getElementById("portRulesList");
-CONFIG.siteRules_port.forEach((r, i) => { prl.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`); });
+CONFIG.siteRules_port.forEach((r,i) => prl.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`));
 
 const ht = document.getElementById("hazardTable");
 CONFIG.hazards.forEach(h => {
   ht.insertAdjacentHTML("beforeend", `<tr><td style="font-weight:600;color:var(--warn);">${h.hazard}</td><td><ul>${h.controls.map(c=>`<li>${c}</li>`).join("")}</ul></td></tr>`);
 });
 
+// ── Screen navigation ─────────────────────────────────────────────────────────
 const SCREENS = {
-  "0":   { label: "Registration",         pct: 0  },
-  "1":   { label: "Licences",             pct: 8  },
-  "2":   { label: "Contacts",             pct: 16 },
-  "2b":  { label: "Directions",           pct: 24 },
-  "3":   { label: "CoR & Fatigue",        pct: 33 },
-  "4":   { label: "PPE & Drug/Alcohol",   pct: 42 },
-  "5":   { label: "Tuan Loading Rules",   pct: 51 },
-  "6":   { label: "Port Unloading Rules", pct: 60 },
-  "7":   { label: "Hazards & Emergency",  pct: 72 },
-  "8":   { label: "Quiz",                 pct: 82 },
-  "9":   { label: "Declaration",          pct: 92 },
-  "10":  { label: "Complete",             pct: 100 },
+  "0":  { label: "Registration",         pct: 0   },
+  "1":  { label: "Licences",             pct: 8   },
+  "2":  { label: "Contacts",             pct: 16  },
+  "2b": { label: "Directions",           pct: 24  },
+  "3":  { label: "CoR & Fatigue",        pct: 33  },
+  "4":  { label: "PPE & Drug/Alcohol",   pct: 42  },
+  "5":  { label: "Tuan Loading Rules",   pct: 51  },
+  "6":  { label: "Port Unloading Rules", pct: 60  },
+  "7":  { label: "Hazards & Emergency",  pct: 72  },
+  "8":  { label: "Quiz",                 pct: 82  },
+  "9":  { label: "Declaration",          pct: 92  },
+  "10": { label: "Complete",             pct: 100 },
 };
 
 function goTo(n) {
@@ -704,13 +605,13 @@ function goTo(n) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-document.getElementById("startBtn").addEventListener("click", function() {
-  const name   = document.getElementById("driverName").value.trim();
-  const company = document.getElementById("driverCompany").value.trim();
-  const rego   = document.getElementById("driverRego").value.trim();
-  const companyContact = document.getElementById("companyContact").value.trim();
+document.getElementById("startBtn").addEventListener("click", () => {
+  const name                 = document.getElementById("driverName").value.trim();
+  const company              = document.getElementById("driverCompany").value.trim();
+  const rego                 = document.getElementById("driverRego").value.trim();
+  const companyContact       = document.getElementById("companyContact").value.trim();
   const companyContactMobile = document.getElementById("companyContactMobile").value.trim();
-  const date   = document.getElementById("driverDate").value;
+  const date                 = document.getElementById("driverDate").value;
   if (!name || !company || !rego || !companyContact || !companyContactMobile || !date) {
     alert("Please fill in your name, company, truck registration, company contact, company contact mobile and date before beginning.");
     return;
@@ -720,22 +621,164 @@ document.getElementById("startBtn").addEventListener("click", function() {
 
 document.getElementById("licBack").addEventListener("click", () => goTo("0"));
 document.getElementById("licNext").addEventListener("click", () => goTo("2"));
-document.getElementById("s1Back").addEventListener("click", () => goTo("1"));
-document.getElementById("s1Next").addEventListener("click", () => goTo("2b"));
+document.getElementById("s1Back").addEventListener("click",  () => goTo("1"));
+document.getElementById("s1Next").addEventListener("click",  () => goTo("2b"));
 document.getElementById("s1bBack").addEventListener("click", () => goTo("2"));
 document.getElementById("s1bNext").addEventListener("click", () => goTo("3"));
-document.getElementById("s2Back").addEventListener("click", () => goTo("2b"));
-document.getElementById("s2Next").addEventListener("click", () => goTo("4"));
-document.getElementById("s3Back").addEventListener("click", () => goTo("3"));
-document.getElementById("s3Next").addEventListener("click", () => goTo("5"));
-document.getElementById("s4Back").addEventListener("click", () => goTo("4"));
-document.getElementById("s4Next").addEventListener("click", () => goTo("6"));
-document.getElementById("s5Back").addEventListener("click", () => goTo("5"));
-document.getElementById("s5Next").addEventListener("click", () => goTo("7"));
-document.getElementById("s6Back").addEventListener("click", () => goTo("6"));
-document.getElementById("s6Next").addEventListener("click", () => { resetQuiz(); goTo("8"); });
-document.getElementById("s7Back").addEventListener("click", () => goTo("7"));
+document.getElementById("s2Back").addEventListener("click",  () => goTo("2b"));
+document.getElementById("s2Next").addEventListener("click",  () => goTo("4"));
+document.getElementById("s3Back").addEventListener("click",  () => goTo("3"));
+document.getElementById("s3Next").addEventListener("click",  () => goTo("5"));
+document.getElementById("s4Back").addEventListener("click",  () => goTo("4"));
+document.getElementById("s4Next").addEventListener("click",  () => goTo("6"));
+document.getElementById("s5Back").addEventListener("click",  () => goTo("5"));
+document.getElementById("s5Next").addEventListener("click",  () => goTo("7"));
+document.getElementById("s6Back").addEventListener("click",  () => goTo("6"));
+document.getElementById("s6Next").addEventListener("click",  () => { resetQuiz(); goTo("8"); });
+document.getElementById("s7Back").addEventListener("click",  () => goTo("7"));
 
+// ── Document upload (licence only) ────────────────────────────────────────────
+function escapeHTML(str) {
+  return String(str||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function documentTypeOptions() {
+  const opts = ["High Risk Work Licence","Front End Loader Licence","Working at Heights Certificate","Confined Space Certificate"];
+  return `<option value="">Select...</option>${opts.map(v => `<option>${escapeHTML(v)}</option>`).join("")}`;
+}
+
+function hrwlCodeBoxes() {
+  const codes = ["LF","LO","DG","RB","RI","RA","SB","SI","SA","WP","CB","CD","CN","C2","C6","C1","C0","CP","CT","CS","CV","HM","HP","RS","PB","BS","BA","ES","TO"];
+  return codes.map(code => `<label class="hrwl-code" title="${code}"><input type="checkbox" class="hrwl-code-check" value="${code}">${code}</label>`).join("");
+}
+
+function addDocumentRow() {
+  const container = document.getElementById("licenceRows");
+  const rowId = `doc_lic_${Date.now()}_${Math.floor(Math.random()*10000)}`;
+  const div = document.createElement("div");
+  div.className = "doc-row document-row";
+  div.dataset.rowId = rowId;
+  div.innerHTML = `
+    <div class="doc-field">
+      <label>Type *</label>
+      <select class="doc-type" onchange="handleDocumentTypeChange('${rowId}')">${documentTypeOptions()}</select>
+    </div>
+    <div class="doc-field expiry-wrap hidden" style="display:none;">
+      <label>Expiry Date *</label>
+      <input type="date" class="doc-expiry">
+    </div>
+    <div class="doc-field">
+      <label>Upload Document / Take Photos *</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+        <label class="file-btn">File<input type="file" class="doc-files" multiple accept="image/*,.pdf,.doc,.docx" style="display:none" onchange="showSelectedFiles('${rowId}','file')"></label>
+        <label class="file-btn">Camera<input type="file" class="doc-camera" accept="image/*" capture="environment" style="display:none" onchange="showSelectedFiles('${rowId}','camera')"></label>
+      </div>
+      <div class="file-list" id="files_${rowId}">No documents selected.</div>
+    </div>
+    <div class="doc-field">
+      <button class="btn btn-secondary doc-remove" onclick="removeDocumentRow('${rowId}')">Remove</button>
+    </div>
+    <div class="hrwl-field hidden" style="display:none;">
+      <label>High Risk Work Licence Classes *</label>
+      <div class="hrwl-note">Select the two-letter HRWL codes shown on the licence card.</div>
+      <div class="hrwl-code-grid">${hrwlCodeBoxes()}</div>
+    </div>
+  `;
+  container.appendChild(div);
+}
+
+function handleDocumentTypeChange(rowId) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const val        = row.querySelector(".doc-type").value;
+  const expiryWrap = row.querySelector(".expiry-wrap");
+  const hrwl       = row.querySelector(".hrwl-field");
+
+  // Hide all conditional fields first
+  expiryWrap.style.display = "none";
+  hrwl.style.display       = "none";
+
+  if (val === "High Risk Work Licence") {
+    expiryWrap.style.display = "block";
+    hrwl.style.display       = "block";
+  }
+  // No expiry for other licence types in this induction
+  if (val !== "High Risk Work Licence") {
+    row.querySelectorAll(".hrwl-code-check").forEach(i => i.checked = false);
+    row.querySelector(".doc-expiry").value = "";
+  }
+}
+
+function removeDocumentRow(rowId) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const rows = [...document.querySelectorAll(".document-row")];
+  if (rows.length <= 1) { alert("Keep at least one row. Leave it blank if it does not apply."); return; }
+  row.remove();
+  updateQueueSummary();
+}
+
+function showSelectedFiles(rowId, source) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const input = source === "camera" ? row.querySelector(".doc-camera") : row.querySelector(".doc-files");
+  const files = [...(input.files || [])];
+  document.getElementById(`files_${rowId}`).innerHTML = files.length
+    ? files.map(f => `${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>")
+    : "No documents selected.";
+  updateQueueSummary();
+}
+
+function updateQueueSummary() {
+  const items = [];
+  // Fixed driver licence row
+  const dlF = document.getElementById('dl_files');
+  const dlC = document.getElementById('dl_camera');
+  const dlFiles = (dlF && dlF.files && dlF.files.length) ? [...dlF.files]
+                : (dlC && dlC.files && dlC.files.length) ? [...dlC.files] : [];
+  dlFiles.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">Driver Licence</span> — ${f.name}`));
+  // Additional licence rows
+  const rows = [...document.querySelectorAll(".document-row")];
+  rows.forEach(row => {
+    const docType  = row.querySelector(".doc-type").value.trim();
+    const fileInput = row.querySelector(".doc-files");
+    const camInput  = row.querySelector(".doc-camera");
+    const files = (fileInput && fileInput.files && fileInput.files.length) ? [...fileInput.files]
+                : (camInput  && camInput.files  && camInput.files.length)  ? [...camInput.files]
+                : [];
+    if (docType && files.length) {
+      files.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">${docType}</span> — ${f.name}`));
+    }
+  });
+  const summary   = document.getElementById("queueSummary");
+  const empty     = document.getElementById("queueEmpty");
+  const queueList = document.getElementById("queueList");
+  if (items.length) {
+    queueList.innerHTML     = items.join("<br>");
+    summary.style.display   = "block";
+    empty.style.display     = "none";
+  } else {
+    summary.style.display   = "none";
+    empty.style.display     = "block";
+  }
+}
+
+function showDLFiles(source) {
+  const input = source === 'camera' ? document.getElementById('dl_camera') : document.getElementById('dl_files');
+  const files = [...(input.files || [])];
+  document.getElementById('dl_fname').innerHTML = files.length
+    ? files.map(f => `${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join('<br>')
+    : 'No documents selected.';
+  updateQueueSummary();
+}
+
+// Also include driver licence row in queue summary
+const _origUpdate = updateQueueSummary;
+
+// Initialise with one blank licence row
+addDocumentRow();
+
+// ── Quiz ──────────────────────────────────────────────────────────────────────
 let quizAnswers = [];
 let currentQ    = 0;
 
@@ -747,7 +790,7 @@ function resetQuiz() {
 
 function renderQuestion() {
   const q = CONFIG.quiz[currentQ];
-  document.getElementById("quizCounter").textContent = "Question " + (currentQ + 1) + " of " + CONFIG.quiz.length;
+  document.getElementById("quizCounter").textContent  = "Question " + (currentQ + 1) + " of " + CONFIG.quiz.length;
   document.getElementById("quizQuestion").textContent = q.question;
   const opts = document.getElementById("quizOptions");
   opts.innerHTML = "";
@@ -767,32 +810,32 @@ function renderQuestion() {
 
 function selectOption(idx) {
   if (quizAnswers[currentQ] !== null) return;
-  const q      = CONFIG.quiz[currentQ];
-  const isLast = currentQ === CONFIG.quiz.length - 1;
+  const q       = CONFIG.quiz[currentQ];
+  const isLast  = currentQ === CONFIG.quiz.length - 1;
   const correct = (idx === q.correct);
   quizAnswers[currentQ] = correct;
   document.querySelectorAll(".option").forEach((el, i) => {
     el.style.pointerEvents = "none";
     if (i === q.correct) el.classList.add("show-correct");
     if (i === idx && !correct) el.classList.add("wrong");
-    if (i === idx && correct) { el.classList.remove("show-correct"); el.classList.add("correct"); }
+    if (i === idx && correct)  { el.classList.remove("show-correct"); el.classList.add("correct"); }
   });
   const fb = document.getElementById("quizFeedback");
   fb.textContent = q.feedback;
   fb.className   = "quiz-feedback show " + (correct ? "pass" : "fail");
-  if (isLast) { document.getElementById("quizSubmitBtn").style.display = "inline-flex"; }
-  else        { document.getElementById("quizNextBtn").style.display   = "inline-flex"; }
+  if (isLast) document.getElementById("quizSubmitBtn").style.display = "inline-flex";
+  else        document.getElementById("quizNextBtn").style.display   = "inline-flex";
 }
 
-document.getElementById("quizNextBtn").addEventListener("click", function() { currentQ++; renderQuestion(); });
-
-document.getElementById("quizSubmitBtn").addEventListener("click", function() {
+document.getElementById("quizNextBtn").addEventListener("click",   () => { currentQ++; renderQuestion(); });
+document.getElementById("quizSubmitBtn").addEventListener("click", () => {
   const correct = quizAnswers.filter(Boolean).length;
   const score   = Math.round((correct / CONFIG.quiz.length) * 100);
   if (score >= CONFIG.passMark) { goTo("9"); }
   else { alert("Quiz not passed. You scored " + score + "%. A score of " + CONFIG.passMark + "% or higher is required."); resetQuiz(); goTo("8"); }
 });
 
+// ── Submit declaration ────────────────────────────────────────────────────────
 document.getElementById("submitDeclBtn").addEventListener("click", async function() {
   const checks = document.querySelectorAll(".decl-check");
   if (!Array.from(checks).every(c => c.checked)) { alert("Please tick all declaration items before submitting."); return; }
@@ -806,61 +849,54 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
   const rego                 = document.getElementById("driverRego").value.trim();
   const date                 = document.getElementById("driverDate").value;
   const phone                = document.getElementById("phone").value.trim();
-  const personId             = phone.replace(/\D/g, "");
+  const personId             = phone.replace(/\D/g,"");
   const companyContact       = document.getElementById("companyContact").value.trim();
   const companyContactMobile = document.getElementById("companyContactMobile").value.trim();
   const companyContactEmail  = document.getElementById("companyContactEmail").value.trim();
   const score                = Math.round((quizAnswers.filter(Boolean).length / CONFIG.quiz.length) * 100);
 
-  // ── Populate completion screen ──
-  document.getElementById("recordName").textContent    = name || "Not recorded";
-  document.getElementById("recordCompany").textContent = company || "Not recorded";
-  document.getElementById("recordRego").textContent    = rego || "Not recorded";
-  document.getElementById("recordCompanyContact").textContent       = companyContact || "Not recorded";
-  document.getElementById("recordCompanyContactMobile").textContent = companyContactMobile || "Not recorded";
-  document.getElementById("recordCompanyContactEmail").textContent  = companyContactEmail || "Not provided";
-  document.getElementById("recordScore").textContent  = score;
-  document.getElementById("recordDate").textContent   = new Date().toLocaleString("en-AU");
+  // Populate completion screen
+  document.getElementById("recordName").textContent                  = name || "Not recorded";
+  document.getElementById("recordCompany").textContent               = company || "Not recorded";
+  document.getElementById("recordRego").textContent                  = rego || "Not recorded";
+  document.getElementById("recordCompanyContact").textContent        = companyContact || "Not recorded";
+  document.getElementById("recordCompanyContactMobile").textContent  = companyContactMobile || "Not recorded";
+  document.getElementById("recordCompanyContactEmail").textContent   = companyContactEmail || "Not provided";
+  document.getElementById("recordScore").textContent                 = score;
+  document.getElementById("recordDate").textContent                  = new Date().toLocaleString("en-AU");
 
-  // ── Build upload documents array ──
+  // Collect documents
   const uploadDocuments = [];
   const docList = [];
 
-  // Licence rows
-  const licRows = document.getElementById("licenceRows").querySelectorAll("[id$='_row']");
-  for (const row of licRows) {
-    const rowId   = row.id.replace("_row","");
-    const docType = document.getElementById(rowId + "_type").value.trim();
-    const expiry  = document.getElementById(rowId + "_expiry").value.trim();
-    const fInput  = document.getElementById(rowId + "_file");
-    const cInput  = document.getElementById(rowId + "_cam");
-    const activeInput = (fInput && fInput.files && fInput.files.length) ? fInput
-                      : (cInput && cInput.files && cInput.files.length) ? cInput
-                      : null;
-    if (!docType || !activeInput) continue;
-    const file = activeInput.files[0];
-    docList.push(docType + " (" + file.name + ")");
-    try {
-      const base64 = await fileToBase64(file);
-      uploadDocuments.push({
-        document_type: docType,
-        expiry_date:   expiry,
-        attachments:   [{ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 }]
-      });
-    } catch(e) { console.warn("Could not read licence file", e); }
+  // Fixed driver licence row
+  const dlFInput = document.getElementById('dl_files');
+  const dlCInput = document.getElementById('dl_camera');
+  const dlFiles  = (dlFInput && dlFInput.files && dlFInput.files.length) ? [...dlFInput.files]
+                 : (dlCInput && dlCInput.files && dlCInput.files.length) ? [...dlCInput.files] : [];
+  if (dlFiles.length) {
+    const dlAttachments = [];
+    for (const file of dlFiles) {
+      docList.push('Driver Licence (' + file.name + ')');
+      try {
+        const base64 = await fileToBase64(file);
+        dlAttachments.push({ file_name: file.name, content_type: file.type || 'application/octet-stream', size: file.size, content_base64: base64 });
+      } catch(e) { console.warn('Could not read DL file', file.name, e); }
+    }
+    if (dlAttachments.length) uploadDocuments.push({ category: 'licence', document_type: 'Driver Licence', expiry_date: '', hrwl_classes: '', attachments: dlAttachments });
   }
 
-  // Extra doc rows
-  const extraRows = document.getElementById("extraDocRows").querySelectorAll("[id$='_row']");
-  for (const row of extraRows) {
-    const rowId   = row.id.replace("_row","");
-    const docType = document.getElementById(rowId + "_type").value.trim();
-    const expiry  = document.getElementById(rowId + "_expiry").value;
-    const fInput  = document.getElementById(rowId + "_file");
-    const cInput  = document.getElementById(rowId + "_cam");
-    const files   = (fInput && fInput.files && fInput.files.length) ? [...fInput.files]
-                  : (cInput && cInput.files && cInput.files.length) ? [...cInput.files]
-                  : [];
+  const rows = [...document.querySelectorAll(".document-row")];
+
+  for (const row of rows) {
+    const docType     = row.querySelector(".doc-type").value.trim();
+    const expiry_date = row.querySelector(".doc-expiry").value;
+    const hrwl_classes = [...row.querySelectorAll(".hrwl-code-check:checked")].map(i => i.value).join(", ");
+    const fileInput   = row.querySelector(".doc-files");
+    const camInput    = row.querySelector(".doc-camera");
+    const files = (fileInput && fileInput.files && fileInput.files.length) ? [...fileInput.files]
+                : (camInput  && camInput.files  && camInput.files.length)  ? [...camInput.files]
+                : [];
     if (!docType || !files.length) continue;
     const attachments = [];
     for (const file of files) {
@@ -868,21 +904,20 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
       try {
         const base64 = await fileToBase64(file);
         attachments.push({ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 });
-      } catch(e) { console.warn("Could not read file", e); }
+      } catch(e) { console.warn("Could not read file", file.name, e); }
     }
-    if (attachments.length) uploadDocuments.push({ document_type: docType, expiry_date: expiry, attachments });
+    if (attachments.length) {
+      uploadDocuments.push({ category: "licence", document_type: docType, expiry_date, hrwl_classes, attachments });
+    }
   }
 
   document.getElementById("recordDocs").textContent = docList.length ? docList.join(", ") : "None submitted";
 
-  // ── Build payloads ──
   const inductionPayload = {
     induction_type:         "Pellet Truck Driver",
     document_no:            "ID-004-2024-v1.0",
     person_id:              personId,
-    name,
-    company,
-    phone,
+    name, company, phone,
     trade:                  "Pellet Truck Driver",
     company_contact_name:   companyContact,
     company_contact_mobile: companyContactMobile,
@@ -912,25 +947,20 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
 
   goTo("10");
 
-  // ── Fire both flows in parallel ──
   const inductionFetch = fetch(CONFIG.webhookURL, {
     method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(inductionPayload)
   });
-
   const uploadFetch = uploadPayload ? fetch(CONFIG.docUploadURL, {
     method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(uploadPayload)
   }) : Promise.resolve(null);
 
   const [inductionResult, uploadResult] = await Promise.allSettled([inductionFetch, uploadFetch]);
-
   const inductionOk = inductionResult.status === "fulfilled" && (inductionResult.value.ok || inductionResult.value.status === 202);
   const uploadOk    = !uploadPayload || (uploadResult.status === "fulfilled" && uploadResult.value && (uploadResult.value.ok || uploadResult.value.status === 202));
 
   const el = document.getElementById("completeStatus");
   if (inductionOk && uploadOk) {
-    el.textContent = uploadPayload
-      ? "✓ Induction record and documents submitted successfully."
-      : "✓ Induction successfully submitted.";
+    el.textContent = uploadPayload ? "✓ Induction record and documents submitted successfully." : "✓ Induction successfully submitted.";
   } else if (inductionOk && !uploadOk) {
     el.textContent = "✓ Induction record submitted. ⚠ Document upload failed — please bring originals to the site office.";
   } else {
