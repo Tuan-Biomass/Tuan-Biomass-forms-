@@ -337,6 +337,16 @@ const CONFIG = {
         <button class="btn btn-secondary section-add" onclick="addDocumentRow('insurance')">+ Add Insurance Document</button>
       </div>
 
+      <!-- Queued files summary -->
+      <div id="queueSummary" style="margin-top:16px;border:1.5px solid #86EFAC;border-radius:10px;padding:14px 16px;background:#F0FDF4;display:none;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--green-dark);margin-bottom:8px;">Files Queued for Upload</div>
+        <div id="queueList" style="font-size:13px;color:#374151;line-height:1.9;"></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:8px;">These will be uploaded when you complete the induction.</div>
+      </div>
+      <div id="queueEmpty" style="margin-top:16px;border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;background:#F9FAFB;">
+        <div style="font-size:13px;color:var(--muted);">No documents selected yet — skip this screen if documents do not apply.</div>
+      </div>
+
       <div class="btn-row">
         <button class="btn btn-secondary" data-back>Back</button>
         <button class="btn btn-primary" data-next>Next</button>
@@ -597,6 +607,33 @@ function removeDocumentRow(rowId) {
   const rows = [...document.querySelectorAll(`.document-row[data-category="${category}"]`)];
   if (rows.length <= 1) { alert("Keep at least one row per section. Leave it blank if that section does not apply."); return; }
   row.remove();
+}
+
+function updateQueueSummary() {
+  const rows = [...document.querySelectorAll('.document-row')];
+  const items = [];
+  rows.forEach(row => {
+    const docType = row.querySelector('.doc-type').value.trim();
+    const fileInput = row.querySelector('.doc-files');
+    const camInput  = row.querySelector('.doc-camera');
+    const files = (fileInput && fileInput.files && fileInput.files.length) ? [...fileInput.files]
+                : (camInput  && camInput.files  && camInput.files.length)  ? [...camInput.files]
+                : [];
+    if (docType && files.length) {
+      files.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">${docType}</span> — ${f.name}`));
+    }
+  });
+  const summary  = document.getElementById('queueSummary');
+  const empty    = document.getElementById('queueEmpty');
+  const queueList = document.getElementById('queueList');
+  if (items.length) {
+    queueList.innerHTML = items.join('<br>');
+    summary.style.display = 'block';
+    empty.style.display   = 'none';
+  } else {
+    summary.style.display = 'none';
+    empty.style.display   = 'block';
+  }
 }
 
 function showSelectedFiles(rowId, source) {
