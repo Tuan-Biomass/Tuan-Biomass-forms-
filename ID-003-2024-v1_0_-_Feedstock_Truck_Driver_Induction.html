@@ -83,8 +83,6 @@
   .table-style th { background: var(--green-dark); color: white; padding: 10px 12px; text-align: left; font-family: "Barlow Condensed", sans-serif; font-size: 13px; letter-spacing: 0.5px; font-weight:600; }
   .table-style td { padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; color:#374151; }
   .table-style tr:last-child td { border-bottom: none; }
-  .licence-table th, .licence-table td { font-weight: 400; font-family:"Barlow",sans-serif; }
-  .licence-table input { width:100%; padding:9px 10px; border:1.5px solid var(--border); border-radius:8px; background:var(--bg); font-size:14px; }
   .img-full { width: 100%; max-width: 100%; border-radius: 8px; margin: 16px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
   .img-caption { text-align: center; font-size: 12px; color: var(--muted); margin-top: -8px; margin-bottom: 16px; font-style: italic; }
   .checklist { list-style: none; margin-top: 8px; }
@@ -114,12 +112,52 @@
   .result-badge { width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 36px; }
   .result-badge.pass { background: #f0fdf4; border: 3px solid #16a34a; color: #16a34a; }
   .result-badge.fail { background: #fff5f5; border: 3px solid var(--warn); color: var(--warn); }
-  .result-score { font-family: "Barlow Condensed", sans-serif; font-size: 48px; font-weight: 800; color: var(--green-dark); line-height: 1; }
-  .result-label { font-size: 14px; color: var(--muted); margin-top: 4px; }
   .record-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 20px 0; text-align: left; font-size: 14px; line-height: 2; }
   .record-box strong { font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); display: block; line-height: 1; margin-bottom: 2px; }
   .status-msg { margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic; }
   .hidden { display: none !important; }
+
+  /* ── Document upload sections (matches site register) ── */
+  .doc-section { border: 1.5px solid var(--border); border-radius: 14px; background: #fff; margin: 16px 0; overflow: hidden; }
+  .doc-section-head { padding: 14px 16px; border-bottom: 1px solid var(--border); background: #F9FAFB; }
+  .doc-section-title { font-family: "Barlow Condensed", sans-serif; font-size: 22px; font-weight: 800; color: var(--green-dark); letter-spacing: .4px; text-transform: uppercase; }
+  .doc-section-sub { font-size: 14px; color: var(--muted); margin-top: 3px; }
+  .doc-section-risk { border-color: #86EFAC; }
+  .doc-section-risk .doc-section-head { background: #F0FDF4; }
+  .doc-section-insurance { border-color: #93C5FD; }
+  .doc-section-insurance .doc-section-head { background: #EFF6FF; }
+  .doc-section-licence { border-color: #C4B5FD; }
+  .doc-section-licence .doc-section-head { background: #F5F3FF; }
+  .doc-row { display: flex; flex-direction: column; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #E5E7EB; }
+  .doc-row:last-child { border-bottom: none; }
+  .doc-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 6px; }
+  .doc-field select, .doc-field input[type=date] { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 14px; color: var(--text); background: #fff; }
+  .doc-field select:focus, .doc-field input[type=date]:focus { outline: none; border-color: var(--green); }
+  .file-btn { cursor: pointer; background: #9CA3AF; color: white; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; white-space: nowrap; letter-spacing: .3px; }
+  .file-btn:hover { background: #6B7280; }
+  .file-list { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  .doc-remove { margin-top: 4px; }
+  .extra-field { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 10px; padding: 12px 14px; }
+  .extra-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 6px; }
+  .extra-field input[type=text] { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 14px; color: var(--text); background: #fff; margin-bottom: 10px; }
+  .extra-field input[type=text]:focus { outline: none; border-color: var(--green); }
+  .hrwl-field { background: #F5F3FF; border: 1px solid #DDD6FE; border-radius: 10px; padding: 12px 14px; }
+  .hrwl-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 4px; }
+  .hrwl-note { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .hrwl-code-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 7px; }
+  .hrwl-code { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border); border-radius: 8px; background: #fff; min-height: 42px; font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 17px; color: var(--green-dark); cursor: pointer; }
+  .hrwl-code input { display: none; }
+  .hrwl-code:has(input:checked) { background: #DCFCE7; border-color: var(--green); color: var(--green-dark); }
+  .section-add { margin: 12px 16px 16px; font-size: 13px; width: auto !important; display: inline-flex !important; align-self: flex-start; }
+  .skip-note { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .upload-notice { border-radius: 10px; padding: 13px 16px; margin-bottom: 16px; font-size: 14px; line-height: 1.5; background: #FFFBEB; border: 1px solid #FACC15; color: #713F12; }
+
+  @media (max-width: 640px) {
+    .doc-row { grid-template-columns: 1fr; }
+    .doc-remove { margin-top: 0; }
+    .hrwl-field { grid-column: 1; }
+    .extra-field { grid-column: 1; }
+  }
   @media (max-width: 520px) {
     .site-header { padding: 16px 34px 16px 38px; }
     .site-header img { height:36px; }
@@ -182,18 +220,8 @@ const CONFIG = {
   docUploadURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ea796d14f9dd4e28b18fb1aff4549436/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FeqbZvLGedzM-MoMUiaD4XEsurylA62HYCJmLFeDpg",
   sharePointFolder: "Contractor Documents",
 };
-
-// Maps licence/ticket types to SharePoint subfolders
-function getFolderForDocType(docType) {
-  const t = docType.toLowerCase();
-  if (t === "swms") return "SWMS";
-  if (t.includes("insurance")) return "Insurance";
-  if (t === "c" || t === "lr" || t === "mr" || t === "hr" || t === "hc" || t === "mc") return "Licences";
-  if (t.includes("forklift") || t.includes("ewp") || t.includes("front end loader") ||
-      t.includes("working at heights") || t.includes("first aid") || t.includes("crane")) return "Tickets";
-  return "Other";
-}
 </script>
+
 <header class="site-header">
   <img src="https://i.ibb.co/1GR1Hq5P/Albioma-Logo.jpg" alt="Albioma" onerror="this.style.display='none'">
   <div>
@@ -207,6 +235,8 @@ function getFolderForDocType(docType) {
 </div>
 
 <div class="container">
+
+  <!-- SCREEN 0: REGISTRATION -->
   <div class="screen active" id="screen-0">
     <div class="hero-img">
       <img src="https://i.ibb.co/PGBz9DJG/tuan-site-jpg.jpg" alt="Tuan Biomass site">
@@ -266,27 +296,55 @@ function getFolderForDocType(docType) {
     </div>
   </div>
 
-  <!-- SCREEN 1: LICENCE & TICKET VERIFICATION -->
+  <!-- SCREEN 1: DOCUMENT UPLOAD (matches site register pattern) -->
   <div class="screen" id="screen-1">
     <div class="card">
-      <div class="section-tag">Licence & Ticket Verification</div>
-      <h2>Record Your Licences</h2>
-      <p>List all relevant truck licences and tickets below. Files uploaded here will be saved to the contractor documents folder in SharePoint.</p>
-      <table class="table-style licence-table">
-        <thead><tr><th>Licence / Ticket Type</th><th>Expiry Date</th><th>Photo / File</th></tr></thead>
-        <tbody id="licenceRows"></tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="section-tag">Supporting Documents</div>
-      <h2>Insurance &amp; Other Documents</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Upload insurance certificates, SWMS or any other supporting documents. Each file will be saved to the appropriate folder in SharePoint.</p>
-      <div id="extraDocRows"></div>
-      <button class="btn btn-secondary" style="margin-top:8px" onclick="addExtraDocRow()">+ Add Document</button>
-      <div class="btn-row"><button class="btn btn-secondary" data-back>Back</button><button class="btn btn-primary" data-next>Next</button></div>
+      <div class="section-tag">Licences &amp; Documents</div>
+      <h2>Upload Your Documents</h2>
+      <p>Upload your licences, insurance and risk assessments below. Skip any section that does not apply to you.</p>
+      <div class="upload-notice">Only upload documents that apply to you. Skip any section or row that does not apply.</div>
+
+      <!-- LICENCES / CERTIFICATES -->
+      <div class="doc-section doc-section-licence">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Licences / Certificates</div>
+          <div class="doc-section-sub">High Risk Work Licence needs expiry date and HRWL codes. Other licences are uploaded only.</div>
+          <div class="skip-note">Skip anything that does not apply.</div>
+        </div>
+        <div id="licenceRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('licence')">+ Add Licence / Certificate</button>
+      </div>
+
+      <!-- RISK ASSESSMENTS -->
+      <div class="doc-section doc-section-risk">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Risk Assessment</div>
+          <div class="doc-section-sub">SWMS, JSA / Risk Assessment, Other Document. Upload only — no expiry date required.</div>
+          <div class="skip-note">Skip this section if it does not apply.</div>
+        </div>
+        <div id="riskRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('risk')">+ Add Risk Assessment Document</button>
+      </div>
+
+      <!-- INSURANCE -->
+      <div class="doc-section doc-section-insurance">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Insurance</div>
+          <div class="doc-section-sub">Public Liability needs policy number, coverage amount and expiry. Workers Compensation needs policy number and expiry.</div>
+          <div class="skip-note">Skip this section if it does not apply.</div>
+        </div>
+        <div id="insuranceRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('insurance')">+ Add Insurance Document</button>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-secondary" data-back>Back</button>
+        <button class="btn btn-primary" data-next>Next</button>
+      </div>
     </div>
   </div>
 
+  <!-- SCREEN 2: CONTACTS -->
   <div class="screen" id="screen-2">
     <div class="card">
       <div class="section-tag">Key Personnel</div><h2>Site Contacts</h2>
@@ -295,38 +353,54 @@ function getFolderForDocType(docType) {
     </div>
     <div class="btn-row"><button class="btn btn-secondary" data-back>Back</button><button class="btn btn-primary" data-next>Next</button></div>
   </div>
+
+  <!-- SCREEN 3: CoR -->
   <div class="screen" id="screen-3">
     <div class="card"><div class="section-tag">Legal Obligations</div><h2>Chain of Responsibility</h2><p>Everyone in the transport supply chain shares responsibility for heavy vehicle safety and compliance with HVNL and CoR requirements.</p><ul class="rule-list"><li><span class="rule-num green">1</span>Help with accurate load documentation and weight limits.</li><li><span class="rule-num green">2</span>Follow safe loading and unloading procedures.</li><li><span class="rule-num green">3</span>Report unsafe practices or CoR breaches immediately.</li><li><span class="rule-num green">4</span>Vehicles must be roadworthy and maintained before entering site.</li></ul></div>
     <div class="card"><div class="section-tag">Fatigue Management</div><h2>Fatigue Requirements</h2><ul class="rule-list"><li><span class="rule-num amber">1</span>Comply with NHVR work and rest hour requirements.</li><li><span class="rule-num amber">2</span>Maintain an accurate and current log book.</li><li><span class="rule-num amber">3</span>Take required rest breaks and do not exceed legal driving limits.</li><li><span class="rule-num amber">4</span>Report fatigue concerns to site management.</li><li><span class="rule-num amber">5</span>If fatigued, stop work and seek help.</li></ul></div>
     <div class="btn-row"><button class="btn btn-secondary" data-back>Back</button><button class="btn btn-primary" data-next>Next</button></div>
   </div>
+
+  <!-- SCREEN 4: PPE -->
   <div class="screen" id="screen-4">
     <div class="card"><div class="section-tag">Personal Protective Equipment</div><h2>PPE Requirements</h2><p>The following PPE must be worn while on site. Failure to wear required PPE may result in removal from the site.</p><div class="ppe-grid"><div class="ppe-card"><div class="ppe-label">Day Shift</div><ul><li>Steel-cap boots</li><li>Hard hat</li><li>High-visibility clothing</li></ul></div><div class="ppe-card"><div class="ppe-label">Night Shift</div><ul><li>Steel-cap boots</li><li>Hard hat</li><li>High-visibility clothing with reflective tape</li></ul></div></div></div>
-    <div class="card"><div class="section-tag">Drug & Alcohol Policy</div><h2>Zero Tolerance</h2><p>Drugs and alcohol are strictly prohibited on site. Workers must not be under the influence of alcohol or non-prescription drugs while working.</p><div class="alert-box"><strong>Warning:</strong> Any contractor attending site may be subject to random drug testing.</div></div>
+    <div class="card"><div class="section-tag">Drug &amp; Alcohol Policy</div><h2>Zero Tolerance</h2><p>Drugs and alcohol are strictly prohibited on site. Workers must not be under the influence of alcohol or non-prescription drugs while working.</p><div class="alert-box"><strong>Warning:</strong> Any contractor attending site may be subject to random drug testing.</div></div>
     <div class="btn-row"><button class="btn btn-secondary" data-back>Back</button><button class="btn btn-primary" data-next>Next</button></div>
   </div>
+
+  <!-- SCREEN 5: TRAFFIC -->
   <div class="screen" id="screen-5">
-    <div class="card"><div class="section-tag">Feedstock Delivery</div><h2>Traffic & Delivery Rules</h2><p>To reduce collision risk between mobile plant and vehicles, traffic must flow one way around the site where possible unless special permission has been granted.</p><ul class="rule-list" id="siteRulesList"></ul></div>
-    <div class="card"><div class="section-tag">Site Images</div><h2>Tuan Site Map & Loader Zone</h2><img src="Feedstock Site Map.svg" alt="Feedstock Site Map" class="img-full"><p class="img-caption">Feedstock Site Map: traffic flows clockwise around the ring road</p><img src="https://i.ibb.co/cXDyWZMw/6m-Zone.png" alt="6 metre exclusion zone around loader" class="img-full"><p class="img-caption">Front End Loader Operations: 6 metre exclusion zone</p></div>
+    <div class="card"><div class="section-tag">Feedstock Delivery</div><h2>Traffic &amp; Delivery Rules</h2><p>To reduce collision risk between mobile plant and vehicles, traffic must flow one way around the site where possible unless special permission has been granted.</p><ul class="rule-list" id="siteRulesList"></ul></div>
+    <div class="card"><div class="section-tag">Site Images</div><h2>Tuan Site Map &amp; Loader Zone</h2><img src="Feedstock Site Map.svg" alt="Feedstock Site Map" class="img-full"><p class="img-caption">Feedstock Site Map: traffic flows clockwise around the ring road</p><img src="https://i.ibb.co/cXDyWZMw/6m-Zone.png" alt="6 metre exclusion zone around loader" class="img-full"><p class="img-caption">Front End Loader Operations: 6 metre exclusion zone</p></div>
     <div class="btn-row"><button class="btn btn-secondary" data-back>Back</button><button class="btn btn-primary" data-next>Next</button></div>
   </div>
+
+  <!-- SCREEN 6: TIPPING / EMERGENCY -->
   <div class="screen" id="screen-6">
     <div class="card"><div class="section-tag">Tip Over Axle Trucks</div><h2>Tipping Safety</h2><ul class="rule-list"><li><span class="rule-num amber">1</span>The ring road must be clear when an axle tipper truck is unloading.</li><li><span class="rule-num amber">2</span>No vehicles or workers are allowed within 10 metres either side of the truck while tipping.</li><li><span class="rule-num amber">3</span>Tipping is not allowed in high winds or if the load is uneven.</li><li><span class="rule-num amber">4</span>Before raising the tipper, contact anyone in the vicinity and confirm the area is clear.</li><li><span class="rule-num amber">5</span>Confirm the ground is free of sawdust or chip. If the area is covered with debris, call the loader driver to scrape and clear the road before tipping.</li></ul></div>
     <div class="card"><div class="section-tag">Emergency Procedures</div><h2>In an Emergency</h2><ul class="rule-list"><li><span class="rule-num red">1</span>Stop all work immediately.</li><li><span class="rule-num red">2</span>Call for help using site communication channels or notify the nearest worker.</li><li><span class="rule-num red">3</span>Dial 000 if emergency services are required.</li><li><span class="rule-num red">4</span>Follow the evacuation plan and go to the nearest assembly point.</li><li><span class="rule-num red">5</span>Do not return to work until the all-clear is given.</li></ul></div>
     <div class="btn-row"><button class="btn btn-secondary" data-back>Back</button><button class="btn btn-primary" data-next>Next</button></div>
   </div>
+
+  <!-- SCREEN 7: HAZARDS -->
   <div class="screen" id="screen-7">
     <div class="card"><div class="section-tag">Hazard Controls</div><h2>Main Hazards</h2><table class="table-style"><thead><tr><th>Hazard</th><th>Controls</th></tr></thead><tbody id="hazardRows"></tbody></table></div>
     <div class="card"><div class="section-tag">Non-Compliance</div><h2>Consequences</h2><div class="alert-box"><strong>Important:</strong> Any truck driver found not complying with site rules may have their rego recorded and reported to the trucking company's management.</div><p>Failure to comply may result in removal from site or further action by management.</p></div>
     <div class="btn-row"><button class="btn btn-secondary" data-back>Back</button><button class="btn btn-primary" id="beginQuizBtn">Start Quiz</button></div>
   </div>
+
+  <!-- SCREEN 8: ACKNOWLEDGEMENT -->
   <div class="screen" id="screen-8">
     <div class="card"><div class="section-tag">Final Acknowledgement</div><h2>Confirm You Have Understood</h2><p>You have passed the quiz. Tick each acknowledgement below to complete the induction.</p><div class="info-box" id="ackScoreBox"></div><ul class="checklist" id="ackList"><li><input type="checkbox">I have received and read the feedstock truck driver induction requirements.</li><li><input type="checkbox">I understand the site traffic rules including Channel 34 communication, clockwise traffic flow, speed limits and loader exclusion zones.</li><li><input type="checkbox">I have received and read the PPE requirements for day shift and night shift work on site.</li><li><input type="checkbox">I understand I must follow the site directions for feedstock delivery, unloading, dockets and site exit.</li><li><input type="checkbox">I understand the emergency procedure including stopping work, calling for help, evacuation and calling 000 if required.</li><li><input type="checkbox">I understand any contractor attending site may be subject to random drug testing.</li></ul><div class="alert-box" id="ackError" style="display:none">Please tick every acknowledgement before completing the induction.</div><div class="btn-row"><button class="btn btn-secondary" id="ackBackBtn">Back to Quiz</button><button class="btn btn-primary" id="completeInductionBtn">Complete Induction</button></div></div>
   </div>
+
+  <!-- SCREEN 9: QUIZ -->
   <div class="screen" id="screen-9">
     <div class="card"><div class="section-tag">Knowledge Check</div><p>Answer all <span id="quizTotalNote"></span> questions. You must score <span id="quizPassNote"></span>% or higher to pass and complete this induction.</p></div>
     <div class="card" id="quizCard"><div class="quiz-counter" id="quizCounter"></div><div class="quiz-question" id="quizQuestion"></div><div class="options" id="quizOptions"></div><div class="quiz-feedback" id="quizFeedback"></div><div class="btn-row"><button class="btn btn-secondary" id="quizBackBtn">Back</button><button class="btn btn-primary" id="quizNextBtn" style="display:none">Next Question</button><button class="btn btn-primary" id="quizSubmitBtn" style="display:none">Submit Quiz</button></div></div>
   </div>
+
+  <!-- SCREEN 10: COMPLETE -->
   <div class="screen" id="screen-10">
     <div class="card result-screen">
       <div class="result-badge pass">✓</div>
@@ -354,125 +428,254 @@ function getFolderForDocType(docType) {
       <div class="status-msg" id="uploadStatusMsg"></div>
     </div>
   </div>
-</div>
+
+</div><!-- /container -->
 
 <script>
+// ── Init ──────────────────────────────────────────────────────────────────────
 document.getElementById("headerTitle").textContent = CONFIG.siteName + " — Feedstock Truck Driver Induction";
 document.getElementById("headerSub").textContent = CONFIG.siteAddress;
 document.getElementById("quizPassNote").textContent = CONFIG.passMark;
 document.getElementById("quizTotalNote").textContent = CONFIG.quiz.length;
-if(document.getElementById("passMarkHero")) document.getElementById("passMarkHero").textContent = CONFIG.passMark;
-if(document.getElementById("driverDate")) document.getElementById("driverDate").value = new Date().toISOString().slice(0,10);
+if (document.getElementById("passMarkHero")) document.getElementById("passMarkHero").textContent = CONFIG.passMark;
+if (document.getElementById("driverDate")) document.getElementById("driverDate").value = new Date().toISOString().slice(0,10);
 
 const contacts = document.getElementById("contactGrid");
-CONFIG.contacts.forEach(c => contacts.insertAdjacentHTML("beforeend", `<div class="contact-card"><div class="role">${c.role}</div><div class="name">${c.name}</div><div class="detail">${c.phone}</div></div>`));
-
-function showLicFileName(i, type) {
-  const input = document.getElementById(type === 'camera' ? "licCamera" + i : "licFile" + i);
-  const span  = document.getElementById("licFileName" + i);
-  if (input && input.files.length && span) span.textContent = input.files[0].name;
-}
-
-const licenceTypes = ["C", "LR", "MR", "HR", "HC", "MC", "Forklift", "EWP", "Front End Loader", "Working at Heights", "First Aid", "Crane", "Other"];
-const licenceRows = document.getElementById("licenceRows");
-licenceTypes.forEach((t,i)=> licenceRows.insertAdjacentHTML("beforeend", `<tr>
-  <td>${t}</td>
-  <td><input id="licExp${i}" placeholder="DD/MM/YYYY"></td>
-  <td>
-    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
-        📁 File<input type="file" id="licFile${i}" accept="image/*,.pdf" style="display:none" onchange="showLicFileName(${i},'file')">
-      </label>
-      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
-        📷 Camera<input type="file" id="licCamera${i}" accept="image/*" capture="environment" style="display:none" onchange="showLicFileName(${i},'camera')">
-      </label>
-      <span id="licFileName${i}" style="font-size:11px;color:#6b7280;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-    </div>
-  </td>
-</tr>`));
-
-// Extra doc rows (insurance, SWMS etc.)
-let extraDocCount = 0;
-function addExtraDocRow() {
-  const id = "extraDoc" + extraDocCount++;
-  const container = document.getElementById("extraDocRows");
-  const div = document.createElement("div");
-  div.id = id + "_row";
-  div.style.cssText = "display:grid;grid-template-columns:1fr 160px auto;gap:10px;align-items:center;margin-bottom:10px;";
-  div.innerHTML = `
-    <div>
-      <select id="${id}_type" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
-        <option value="">Select type...</option>
-        <option>Insurance / public liability</option>
-        <option>SWMS</option>
-        <option>Other document / competency</option>
-      </select>
-    </div>
-    <div>
-      <input type="date" id="${id}_expiry" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
-    </div>
-    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
-        📁 File<input type="file" id="${id}_file" accept="image/*,.pdf,.doc,.docx" multiple style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?Array.from(this.files).map(f=>f.name).join(', '):''" >
-      </label>
-      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
-        📷 Camera<input type="file" id="${id}_cam" accept="image/*" capture="environment" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''">
-      </label>
-      <span id="${id}_fname" style="font-size:11px;color:#6b7280;"></span>
-      <button type="button" onclick="document.getElementById('${id}_row').remove()" style="background:none;border:none;color:var(--warn);cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;">✕</button>
-    </div>`;
-  container.appendChild(div);
-}
-// Start with one extra doc row
-addExtraDocRow();
+CONFIG.contacts.forEach(c => contacts.insertAdjacentHTML("beforeend",
+  `<div class="contact-card"><div class="role">${c.role}</div><div class="name">${c.name}</div><div class="detail">${c.phone}</div></div>`));
 
 const rules = document.getElementById("siteRulesList");
-CONFIG.siteRules.forEach((r,i)=> rules.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`));
+CONFIG.siteRules.forEach((r,i) => rules.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`));
 const hazards = document.getElementById("hazardRows");
-CONFIG.hazards.forEach(h=> hazards.insertAdjacentHTML("beforeend", `<tr><td>${h.hazard}</td><td>${h.controls}</td></tr>`));
+CONFIG.hazards.forEach(h => hazards.insertAdjacentHTML("beforeend", `<tr><td>${h.hazard}</td><td>${h.controls}</td></tr>`));
 
+// ── Screen navigation ─────────────────────────────────────────────────────────
 const screens = [...document.querySelectorAll(".screen")];
-const labels = ["Registration","Licences","Contacts","CoR","PPE","Traffic","Emergency","Hazards","Acknowledgement","Quiz","Complete"];
+const labels  = ["Registration","Licences & Documents","Contacts","CoR","PPE","Traffic","Emergency","Hazards","Acknowledgement","Quiz","Complete"];
 let current = 0, currentQ = 0, quizAnswers = [], lastScore = 0, lastCorrect = 0, lastPassed = false;
 
-function showScreen(n){ current = Math.max(0, Math.min(n, screens.length-1)); screens.forEach((s,i)=>s.classList.toggle("active", i===current)); document.getElementById("progressFill").style.width = ((current+1)/screens.length*100) + "%"; document.getElementById("progressLabel").textContent = labels[current] || "Induction"; window.scrollTo({top:0,behavior:"smooth"}); }
-function registrationComplete(){ return ["driverName","driverCompany","driverRego","phone"].every(id=>document.getElementById(id).value.trim()); }
+function showScreen(n) {
+  current = Math.max(0, Math.min(n, screens.length - 1));
+  screens.forEach((s,i) => s.classList.toggle("active", i === current));
+  document.getElementById("progressFill").style.width = ((current + 1) / screens.length * 100) + "%";
+  document.getElementById("progressLabel").textContent = labels[current] || "Induction";
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+function registrationComplete() {
+  return ["driverName","driverCompany","driverRego","phone"].every(id => document.getElementById(id).value.trim());
+}
 
 document.getElementById("startBtn").onclick = () => {
-  if(!registrationComplete()){ alert("Please complete your name, company, truck registration and mobile number before starting."); return; }
+  if (!registrationComplete()) { alert("Please complete your name, company, truck registration and mobile number before starting."); return; }
   showScreen(1);
 };
-document.querySelectorAll("[data-next]").forEach(b=>b.onclick=()=>showScreen(current+1));
-document.querySelectorAll("[data-back]").forEach(b=>b.onclick=()=>showScreen(current-1));
+document.querySelectorAll("[data-next]").forEach(b => b.onclick = () => showScreen(current + 1));
+document.querySelectorAll("[data-back]").forEach(b => b.onclick = () => showScreen(current - 1));
 document.getElementById("beginQuizBtn").onclick = startQuiz;
 
-function startQuiz(){ currentQ = 0; quizAnswers = new Array(CONFIG.quiz.length).fill(null); showScreen(9); renderQuiz(); }
-function renderQuiz(){ const q = CONFIG.quiz[currentQ]; document.getElementById("quizCounter").textContent = `Question ${currentQ+1} of ${CONFIG.quiz.length}`; document.getElementById("quizQuestion").textContent = q.question; const opts=document.getElementById("quizOptions"); opts.innerHTML=""; q.options.forEach((opt,i)=>{ const div=document.createElement("div"); div.className="option"; div.textContent=opt; div.onclick=()=>selectAnswer(i,div); opts.appendChild(div); }); const fb=document.getElementById("quizFeedback"); fb.className="quiz-feedback"; fb.textContent=""; document.getElementById("quizNextBtn").style.display="none"; document.getElementById("quizSubmitBtn").style.display="none"; }
-function selectAnswer(i,el){ if(quizAnswers[currentQ] !== null) return; const q=CONFIG.quiz[currentQ]; const correct=i===q.correct; quizAnswers[currentQ]=correct; [...document.querySelectorAll(".option")].forEach((o,idx)=>{ if(idx===q.correct) o.classList.add("show-correct"); if(idx===i) o.classList.add(correct ? "correct" : "wrong"); }); const fb=document.getElementById("quizFeedback"); fb.className = "quiz-feedback show " + (correct ? "pass" : "fail"); fb.textContent = (correct ? "Correct. " : "Not correct. ") + q.feedback; if(currentQ===CONFIG.quiz.length-1) document.getElementById("quizSubmitBtn").style.display="inline-flex"; else document.getElementById("quizNextBtn").style.display="inline-flex"; }
+// ── Document upload section (matches site register) ───────────────────────────
+function escapeHTML(str) {
+  return String(str||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function documentTypeOptions(category) {
+  const options = {
+    risk:      ["SWMS","JSA / Risk Assessment","Other Document"],
+    insurance: ["Public Liability Insurance","Workers Compensation Insurance"],
+    licence:   ["High Risk Work Licence","Driver Licence","Front End Loader Licence","Working at Heights Certificate","Confined Space Certificate"]
+  };
+  return `<option value="">Select...</option>${options[category].map(v => `<option>${escapeHTML(v)}</option>`).join("")}`;
+}
+
+function sectionRowsId(category) {
+  return category === "risk" ? "riskRows" : category === "insurance" ? "insuranceRows" : "licenceRows";
+}
+
+function hrwlCodeBoxes() {
+  const codes = ["LF","LO","DG","RB","RI","RA","SB","SI","SA","WP","CB","CD","CN","C2","C6","C1","C0","CP","CT","CS","CV","HM","HP","RS","PB","BS","BA","ES","TO"];
+  return codes.map(code => `
+    <label class="hrwl-code" title="${code}">
+      <input type="checkbox" class="hrwl-code-check" value="${code}">
+      ${code}
+    </label>`).join("");
+}
+
+function addDocumentRow(category) {
+  const container = document.getElementById(sectionRowsId(category));
+  const rowId = `doc_${category}_${Date.now()}_${Math.floor(Math.random()*10000)}`;
+  const div = document.createElement("div");
+  div.className = "doc-row document-row";
+  div.dataset.rowId = rowId;
+  div.dataset.category = category;
+  div.innerHTML = `
+    <div class="doc-field">
+      <label>Type *</label>
+      <select class="doc-type" onchange="handleDocumentTypeChange('${rowId}')">${documentTypeOptions(category)}</select>
+    </div>
+
+    <div class="doc-field expiry-wrap hidden">
+      <label>Expiry Date *</label>
+      <input type="date" class="doc-expiry">
+    </div>
+
+    <div class="doc-field">
+      <label>Upload Document / Take Photos *</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+        <label class="file-btn">File<input type="file" class="doc-files" multiple accept="image/*,.pdf,.doc,.docx" style="display:none" onchange="showSelectedFiles('${rowId}','file')"></label>
+        <label class="file-btn">Camera<input type="file" class="doc-camera" accept="image/*" capture="environment" style="display:none" onchange="showSelectedFiles('${rowId}','camera')"></label>
+      </div>
+      <div class="file-list" id="files_${rowId}">No documents selected.</div>
+    </div>
+
+    <div class="doc-field">
+      <button class="btn btn-secondary doc-remove" onclick="removeDocumentRow('${rowId}')">Remove</button>
+    </div>
+
+    <div class="extra-field public-liability-field hidden">
+      <label>Public Liability Policy Number *</label>
+      <input type="text" class="policy-number" placeholder="Enter policy number">
+      <label>Coverage Amount *</label>
+      <input type="text" class="coverage-amount" placeholder="e.g. $20 million">
+    </div>
+
+    <div class="extra-field workers-comp-field hidden">
+      <label>Workers Compensation Policy Number *</label>
+      <input type="text" class="policy-number" placeholder="Enter policy number">
+    </div>
+
+    <div class="hrwl-field hidden">
+      <label>High Risk Work Licence Classes *</label>
+      <div class="hrwl-note">Select the two-letter HRWL codes shown on the licence card.</div>
+      <div class="hrwl-code-grid">${hrwlCodeBoxes()}</div>
+    </div>
+  `;
+  container.appendChild(div);
+  handleDocumentTypeChange(rowId);
+}
+
+function handleDocumentTypeChange(rowId) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const val      = row.querySelector(".doc-type").value;
+  const category = row.dataset.category;
+  const expiryWrap      = row.querySelector(".expiry-wrap");
+  const expiryInput     = row.querySelector(".doc-expiry");
+  const publicLiability = row.querySelector(".public-liability-field");
+  const workersComp     = row.querySelector(".workers-comp-field");
+  const hrwl            = row.querySelector(".hrwl-field");
+
+  expiryWrap.classList.add("hidden");
+  publicLiability.classList.add("hidden");
+  workersComp.classList.add("hidden");
+  hrwl.classList.add("hidden");
+
+  if (category === "insurance") {
+    if (val === "Public Liability Insurance")  { expiryWrap.classList.remove("hidden"); publicLiability.classList.remove("hidden"); }
+    if (val === "Workers Compensation Insurance") { expiryWrap.classList.remove("hidden"); workersComp.classList.remove("hidden"); }
+  }
+  if (category === "licence" && val === "High Risk Work Licence") {
+    expiryWrap.classList.remove("hidden");
+    hrwl.classList.remove("hidden");
+  }
+  // Only HRWL gets expiry in this induction — all other licence types are upload only
+
+  if (!(category === "licence" && val === "High Risk Work Licence")) {
+    row.querySelectorAll(".hrwl-code-check").forEach(i => i.checked = false);
+  }
+  if (!(category === "insurance" && (val === "Public Liability Insurance" || val === "Workers Compensation Insurance"))) {
+    row.querySelectorAll(".policy-number").forEach(i => i.value = "");
+    const coverage = row.querySelector(".coverage-amount");
+    if (coverage) coverage.value = "";
+  }
+  if (expiryWrap.classList.contains("hidden")) expiryInput.value = "";
+}
+
+function removeDocumentRow(rowId) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const category = row.dataset.category;
+  const rows = [...document.querySelectorAll(`.document-row[data-category="${category}"]`)];
+  if (rows.length <= 1) { alert("Keep at least one row per section. Leave it blank if that section does not apply."); return; }
+  row.remove();
+}
+
+function showSelectedFiles(rowId, source) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const input = source === "camera" ? row.querySelector(".doc-camera") : row.querySelector(".doc-files");
+  const files = [...(input.files || [])];
+  document.getElementById(`files_${rowId}`).innerHTML = files.length
+    ? files.map(f => `${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>")
+    : "No files selected.";
+}
+
+function rowApplies(row) {
+  const doc_type    = row.querySelector(".doc-type").value.trim();
+  const filesMain   = [...row.querySelector(".doc-files").files];
+  const filesCam    = [...row.querySelector(".doc-camera").files];
+  const expiry      = row.querySelector(".doc-expiry").value;
+  const hrwl        = [...row.querySelectorAll(".hrwl-code-check:checked")].length;
+  const policies    = [...row.querySelectorAll(".policy-number")].map(i => i.value.trim()).filter(Boolean);
+  const coverage    = row.querySelector(".coverage-amount") ? row.querySelector(".coverage-amount").value.trim() : "";
+  return doc_type || filesMain.length || filesCam.length || expiry || hrwl || policies.length || coverage;
+}
+
+function resetDocumentSections() {
+  document.getElementById("riskRows").innerHTML = "";
+  document.getElementById("insuranceRows").innerHTML = "";
+  document.getElementById("licenceRows").innerHTML = "";
+  addDocumentRow("licence");
+  addDocumentRow("risk");
+  addDocumentRow("insurance");
+}
+
+// Initialise document sections on load
+resetDocumentSections();
+
+// ── Quiz ──────────────────────────────────────────────────────────────────────
+function startQuiz() { currentQ = 0; quizAnswers = new Array(CONFIG.quiz.length).fill(null); showScreen(9); renderQuiz(); }
+function renderQuiz() {
+  const q = CONFIG.quiz[currentQ];
+  document.getElementById("quizCounter").textContent = `Question ${currentQ+1} of ${CONFIG.quiz.length}`;
+  document.getElementById("quizQuestion").textContent = q.question;
+  const opts = document.getElementById("quizOptions"); opts.innerHTML = "";
+  q.options.forEach((opt,i) => { const div = document.createElement("div"); div.className = "option"; div.textContent = opt; div.onclick = () => selectAnswer(i,div); opts.appendChild(div); });
+  const fb = document.getElementById("quizFeedback"); fb.className = "quiz-feedback"; fb.textContent = "";
+  document.getElementById("quizNextBtn").style.display = "none";
+  document.getElementById("quizSubmitBtn").style.display = "none";
+}
+function selectAnswer(i,el) {
+  if (quizAnswers[currentQ] !== null) return;
+  const q = CONFIG.quiz[currentQ]; const correct = i === q.correct; quizAnswers[currentQ] = correct;
+  [...document.querySelectorAll(".option")].forEach((o,idx) => { if(idx===q.correct) o.classList.add("show-correct"); if(idx===i) o.classList.add(correct ? "correct" : "wrong"); });
+  const fb = document.getElementById("quizFeedback"); fb.className = "quiz-feedback show " + (correct ? "pass" : "fail"); fb.textContent = (correct ? "Correct. " : "Not correct. ") + q.feedback;
+  if (currentQ === CONFIG.quiz.length - 1) document.getElementById("quizSubmitBtn").style.display = "inline-flex";
+  else document.getElementById("quizNextBtn").style.display = "inline-flex";
+}
 document.getElementById("quizNextBtn").onclick = () => { currentQ++; renderQuiz(); window.scrollTo({top:0,behavior:"smooth"}); };
 document.getElementById("quizBackBtn").onclick = () => showScreen(7);
 document.getElementById("quizSubmitBtn").onclick = () => {
-  lastCorrect=quizAnswers.filter(Boolean).length;
-  lastScore=Math.round(lastCorrect/CONFIG.quiz.length*100);
-  lastPassed=lastScore>=CONFIG.passMark;
-  if(!lastPassed){
-    alert(`You scored ${lastScore}%. A minimum score of ${CONFIG.passMark}% is required. The quiz will restart.`);
-    startQuiz();
-    return;
-  }
-  document.querySelectorAll("#ackList input").forEach(cb=>cb.checked=false);
-  document.getElementById("ackError").style.display="none";
-  document.getElementById("ackScoreBox").innerHTML=`<strong>Quiz Result</strong> ${lastScore}% — ${lastCorrect} of ${CONFIG.quiz.length} correct.`;
+  lastCorrect = quizAnswers.filter(Boolean).length;
+  lastScore   = Math.round(lastCorrect / CONFIG.quiz.length * 100);
+  lastPassed  = lastScore >= CONFIG.passMark;
+  if (!lastPassed) { alert(`You scored ${lastScore}%. A minimum score of ${CONFIG.passMark}% is required. The quiz will restart.`); startQuiz(); return; }
+  document.querySelectorAll("#ackList input").forEach(cb => cb.checked = false);
+  document.getElementById("ackError").style.display = "none";
+  document.getElementById("ackScoreBox").innerHTML = `<strong>Quiz Result</strong> ${lastScore}% — ${lastCorrect} of ${CONFIG.quiz.length} correct.`;
   showScreen(8);
 };
 document.getElementById("ackBackBtn").onclick = () => showScreen(9);
 
-function fileToBase64(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result.split(",")[1]); r.onerror=rej; r.readAsDataURL(file); }); }
+// ── File helper ───────────────────────────────────────────────────────────────
+function fileToBase64(file) {
+  return new Promise((res,rej) => { const r = new FileReader(); r.onload = () => res(r.result.split(",")[1]); r.onerror = rej; r.readAsDataURL(file); });
+}
 
+// ── Complete induction ────────────────────────────────────────────────────────
 document.getElementById("completeInductionBtn").onclick = async () => {
-  const all = [...document.querySelectorAll("#ackList input")].every(cb=>cb.checked);
+  const all = [...document.querySelectorAll("#ackList input")].every(cb => cb.checked);
   document.getElementById("ackError").style.display = all ? "none" : "block";
-  if(!all) return;
+  if (!all) return;
 
   const name                   = document.getElementById("driverName").value.trim();
   const company                = document.getElementById("driverCompany").value.trim();
@@ -484,56 +687,42 @@ document.getElementById("completeInductionBtn").onclick = async () => {
   const company_contact_email  = document.getElementById("companyContactEmail").value.trim();
   const date                   = document.getElementById("driverDate").value;
 
-  // ── Build document list for induction webhook ──
-  const licTypes = ["C","LR","MR","HR","HC","MC","Forklift","EWP","Front End Loader","Working at Heights","First Aid","Crane","Other"];
+  // Collect documents from all three sections
   const docList = [];
-
-  // ── Build documents array for document upload flow ──
   const uploadDocuments = [];
+  const rows = [...document.querySelectorAll(".document-row")];
 
-  // Licence table rows
-  for (let i = 0; i < licTypes.length; i++) {
-    const expiry = document.getElementById("licExp" + i).value;
-    const fileInput = document.getElementById("licFile" + i);
-    const camInput  = document.getElementById("licCamera" + i);
-    const activeInput = (fileInput && fileInput.files && fileInput.files.length) ? fileInput
-                      : (camInput && camInput.files && camInput.files.length) ? camInput
-                      : null;
-    if (!activeInput) continue;
-    const file = activeInput.files[0];
-    docList.push(licTypes[i] + " (" + file.name + ")");
-    try {
-      const base64 = await fileToBase64(file);
-      uploadDocuments.push({
-        document_type: licTypes[i],
-        expiry_date: expiry,
-        attachments: [{ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 }]
-      });
-    } catch(e) { console.warn("Could not read licence file", file.name, e); }
-  }
+  for (const row of rows) {
+    if (!rowApplies(row)) continue;
+    const category    = row.dataset.category;
+    const doc_type    = row.querySelector(".doc-type").value.trim();
+    const expiry_date = row.querySelector(".doc-expiry").value;
+    const hrwl_classes = [...row.querySelectorAll(".hrwl-code-check:checked")].map(i => i.value).join(", ");
+    const coverage_amount = row.querySelector(".coverage-amount") ? row.querySelector(".coverage-amount").value.trim() : "";
 
-  // Extra doc rows (insurance, SWMS etc.)
-  const extraRows = document.getElementById("extraDocRows").querySelectorAll("[id$='_row']");
-  for (const row of extraRows) {
-    const rowId = row.id.replace("_row","");
-    const docType = document.getElementById(rowId + "_type").value.trim();
-    const expiry  = document.getElementById(rowId + "_expiry").value;
-    const fInput  = document.getElementById(rowId + "_file");
-    const cInput  = document.getElementById(rowId + "_cam");
-    const files   = (fInput && fInput.files && fInput.files.length) ? [...fInput.files]
-                  : (cInput && cInput.files && cInput.files.length) ? [...cInput.files]
-                  : [];
-    if (!docType || !files.length) continue;
+    let policy_number = "";
+    if (doc_type === "Public Liability Insurance") policy_number = row.querySelector(".public-liability-field .policy-number").value.trim();
+    if (doc_type === "Workers Compensation Insurance") policy_number = row.querySelector(".workers-comp-field .policy-number").value.trim();
+
+    // Collect files — prefer file picker, fall back to camera
+    const fileInput = row.querySelector(".doc-files");
+    const camInput  = row.querySelector(".doc-camera");
+    const files = (fileInput && fileInput.files && fileInput.files.length) ? [...fileInput.files]
+                : (camInput && camInput.files && camInput.files.length)   ? [...camInput.files]
+                : [];
+
+    if (!doc_type || !files.length) continue;
+
     const attachments = [];
     for (const file of files) {
-      docList.push(docType + " (" + file.name + ")");
+      docList.push(doc_type + " (" + file.name + ")");
       try {
         const base64 = await fileToBase64(file);
         attachments.push({ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 });
       } catch(e) { console.warn("Could not read file", file.name, e); }
     }
     if (attachments.length) {
-      uploadDocuments.push({ document_type: docType, expiry_date: expiry, attachments });
+      uploadDocuments.push({ category, document_type: doc_type, expiry_date, hrwl_classes, policy_number, coverage_amount, attachments });
     }
   }
 
@@ -547,7 +736,9 @@ document.getElementById("completeInductionBtn").onclick = async () => {
   document.getElementById("recordDocs").textContent             = docList.length ? docList.join(", ") : "None submitted";
   document.getElementById("recordDate").textContent             = new Date().toLocaleString("en-AU");
 
-  // ── Fire induction webhook ──
+  showScreen(10);
+
+  // Fire induction webhook
   const inductionPayload = {
     induction_type:           "Feedstock Truck Driver",
     document_no:              CONFIG.documentNo,
@@ -571,26 +762,23 @@ document.getElementById("completeInductionBtn").onclick = async () => {
     submitted_at:             new Date().toISOString(),
   };
 
-  showScreen(10);
-
   if (CONFIG.webhookURL && CONFIG.webhookURL !== "PASTE_POWER_AUTOMATE_WEBHOOK_URL_HERE") {
-    try {
-      await fetch(CONFIG.webhookURL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(inductionPayload) });
-    } catch(e) { console.warn("Induction webhook failed:", e); }
+    try { await fetch(CONFIG.webhookURL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(inductionPayload) }); }
+    catch(e) { console.warn("Induction webhook failed:", e); }
   }
 
-  // ── Fire document upload flow (separate, same as site register) ──
+  // Fire document upload flow (same flow as site register)
   if (uploadDocuments.length && CONFIG.docUploadURL) {
     const uploadPayload = {
-      type:         "document_upload",
-      record_id:    personId,
-      person_id:    personId,
+      type:          "document_upload",
+      record_id:     personId,
+      person_id:     personId,
       mobile_number: phone,
-      full_name:    name,
-      company:      company,
-      notes:        "Uploaded during induction — " + CONFIG.documentNo,
-      uploaded_at:  new Date().toISOString(),
-      documents:    uploadDocuments
+      full_name:     name,
+      company:       company,
+      notes:         "Uploaded during induction — " + CONFIG.documentNo,
+      uploaded_at:   new Date().toISOString(),
+      documents:     uploadDocuments
     };
     try {
       document.getElementById("uploadStatusMsg").textContent = "Uploading documents...";
