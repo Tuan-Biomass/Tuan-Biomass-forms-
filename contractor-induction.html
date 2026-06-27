@@ -20,179 +20,122 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: "Barlow", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-  .site-header {
-    background: #ffffff; color: var(--green-dark);
-    padding: 16px 24px; display: flex; align-items: center; gap: 16px;
-    position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
-    border-bottom: 3px solid var(--green);
-  }
+  .site-header { background: #ffffff; color: var(--green-dark); padding: 16px 24px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15); border-bottom: 3px solid var(--green); }
   .site-header h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 22px; color: var(--green-dark); }
   .site-header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
   .progress-wrap { background: var(--green-dark); padding: 0 24px 14px; }
   .progress-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
-  .progress-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px;
-    font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+  .progress-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
   .container { max-width: 780px; margin: 0 auto; padding: 32px 20px 80px; }
   .screen { display: none; }
   .screen.active { display: block; animation: fadeUp 0.3s ease; }
   @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
-  .card {
-    background: var(--card); border-radius: 12px; padding: 32px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
-    margin-bottom: 20px;
-  }
-  .section-tag {
-    display: inline-block; background: var(--green); color: white;
-    font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 11px;
-    letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px;
-    border-radius: 4px; margin-bottom: 14px;
-  }
-  .card h2 {
-    font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 28px;
-    color: var(--green-dark); line-height: 1.15; margin-bottom: 16px;
-  }
+  .card { background: var(--card); border-radius: 12px; padding: 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04); margin-bottom: 20px; }
+  .section-tag { display: inline-block; background: var(--green); color: white; font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 14px; }
+  .card h2 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 28px; color: var(--green-dark); line-height: 1.15; margin-bottom: 16px; }
   .card p { font-size: 15px; line-height: 1.7; color: #374151; margin-bottom: 12px; }
   .rule-list { list-style: none; margin-top: 8px; }
-  .rule-list li {
-    display: flex; gap: 14px; align-items: flex-start;
-    padding: 12px 0; border-bottom: 1px solid var(--border);
-    font-size: 15px; line-height: 1.5;
-  }
+  .rule-list li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.5; }
   .rule-list li:last-child { border-bottom: none; }
-  .rule-num {
-    flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; color: white;
-  }
+  .rule-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; color: white; }
   .rule-num.golden { background: var(--accent); color: var(--green-dark); }
   .rule-num.site   { background: var(--green); }
   .rule-num.hazard { background: var(--warn); }
-  .alert-box {
-    border-left: 4px solid var(--warn); background: #fff5f5;
-    padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
-    font-size: 14px; line-height: 1.6;
-  }
+  .alert-box { border-left: 4px solid var(--warn); background: #fff5f5; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; line-height: 1.6; }
   .alert-box strong { color: var(--warn); font-family: "Barlow Condensed", sans-serif; font-size: 15px; }
-  .info-box {
-    border-left: 4px solid var(--green); background: #f0faf4;
-    padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;
-    font-size: 14px; line-height: 1.8;
-  }
+  .info-box { border-left: 4px solid var(--green); background: #f0faf4; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; line-height: 1.8; }
   .form-group { margin-bottom: 18px; }
-  .form-group label {
-    display: block; font-family: "Barlow Condensed", sans-serif; font-weight: 600;
-    font-size: 13px; letter-spacing: 0.8px; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 6px;
-  }
-  .form-group input, .form-group select, .form-group textarea {
-    width: 100%; padding: 11px 14px; border: 1.5px solid var(--border);
-    border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 15px;
-    color: var(--text); background: var(--bg); transition: border-color 0.2s; outline: none;
-  }
-  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    border-color: var(--green); background: white;
-  }
+  .form-group label { display: block; font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 15px; color: var(--text); background: var(--bg); transition: border-color 0.2s; outline: none; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green); background: white; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  @media (max-width: 520px) { .form-row { grid-template-columns: 1fr; } }
   .checklist { list-style: none; margin-top: 8px; }
-  .checklist li {
-    display: flex; align-items: flex-start; gap: 12px;
-    padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 15px;
-  }
+  .checklist li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
   .checklist li:last-child { border-bottom: none; }
   .checklist input[type=checkbox] { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--green); flex-shrink: 0; }
-  .img-full {
-    width: 100%; border-radius: 8px; margin: 16px 0;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  }
-  .img-caption {
-    text-align: center; font-size: 12px; color: var(--muted);
-    margin-top: -8px; margin-bottom: 16px; font-style: italic;
-  }
-  .quiz-question {
-    font-family: "Barlow Condensed", sans-serif; font-size: 20px; font-weight: 600;
-    color: var(--green-dark); margin-bottom: 18px; line-height: 1.3;
-  }
-  .quiz-counter { font-size: 13px; color: var(--muted); margin-bottom: 8px;
-    font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+  .img-full { width: 100%; border-radius: 8px; margin: 16px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+  .img-caption { text-align: center; font-size: 12px; color: var(--muted); margin-top: -8px; margin-bottom: 16px; font-style: italic; }
+  .quiz-question { font-family: "Barlow Condensed", sans-serif; font-size: 20px; font-weight: 600; color: var(--green-dark); margin-bottom: 18px; line-height: 1.3; }
+  .quiz-counter { font-size: 13px; color: var(--muted); margin-bottom: 8px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
   .options { display: flex; flex-direction: column; gap: 10px; }
-  .option {
-    padding: 13px 18px; border: 1.5px solid var(--border); border-radius: 8px;
-    cursor: pointer; font-size: 15px; transition: all 0.15s; background: var(--bg);
-  }
+  .option { padding: 13px 18px; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px; transition: all 0.15s; background: var(--bg); }
   .option:hover { border-color: var(--green-light); background: #f0faf4; }
-  .option.selected { border-color: var(--green); background: #f0faf4; font-weight: 500; }
   .option.correct  { border-color: #16a34a; background: #f0fdf4; color: #14532d; }
   .option.wrong    { border-color: var(--warn); background: #fff5f5; color: #7f1d1d; }
   .option.reveal-correct { border-color: #16a34a; background: #f0fdf4; }
-  .quiz-feedback {
-    margin-top: 14px; padding: 12px 16px; border-radius: 8px;
-    font-size: 14px; line-height: 1.5; display: none;
-  }
+  .quiz-feedback { margin-top: 14px; padding: 12px 16px; border-radius: 8px; font-size: 14px; line-height: 1.5; display: none; }
   .quiz-feedback.show { display: block; }
   .quiz-feedback.pass { background: #f0fdf4; color: #14532d; border: 1px solid #86efac; }
   .quiz-feedback.fail { background: #fff5f5; color: #7f1d1d; border: 1px solid #fca5a5; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px;
-    border-radius: 8px; font-family: "Barlow Condensed", sans-serif;
-    font-weight: 700; font-size: 16px; letter-spacing: 0.5px; cursor: pointer; border: none; transition: all 0.15s;
-  }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px; border-radius: 8px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; cursor: pointer; border: none; transition: all 0.15s; }
   .btn-primary { background: var(--green); color: white; }
   .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
   .btn-primary:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
   .btn-secondary { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
   .btn-secondary:hover { background: #f0faf4; }
   .btn-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
-  .result-badge {
-    width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 20px;
-    display: flex; align-items: center; justify-content: center; font-size: 40px;
-  }
+  .result-badge { width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
   .result-badge.pass { background: #f0fdf4; border: 3px solid #16a34a; }
-  .result-badge.fail { background: #fff5f5; border: 3px solid var(--warn); }
   .result-screen { text-align: center; }
   .result-score { font-family: "Barlow Condensed", sans-serif; font-size: 48px; font-weight: 800; color: var(--green-dark); line-height: 1; }
   .result-label { font-size: 14px; color: var(--muted); margin-top: 4px; }
-  .record-box {
-    background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-    padding: 16px 20px; margin: 20px 0; text-align: left; font-size: 14px; line-height: 2;
-  }
-  .record-box strong {
-    font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px;
-    text-transform: uppercase; color: var(--muted); display: block; line-height: 1; margin-bottom: 2px;
-  }
+  .record-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 20px 0; text-align: left; font-size: 14px; line-height: 2; }
+  .record-box strong { font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); display: block; line-height: 1; margin-bottom: 2px; }
   .status-msg { margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic; }
-  .hero {
-    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%);
-    color: white; border-radius: 12px; padding: 40px 32px; margin-bottom: 20px;
-    position: relative; overflow: hidden;
-  }
-  .hero::before {
-    content: ""; position: absolute; top: -40px; right: -40px;
-    width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.04);
-  }
+  .hero { background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%); color: white; border-radius: 12px; padding: 40px 32px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.04); }
   .hero h2 { font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 36px; line-height: 1.1; margin-bottom: 12px; }
   .hero p { font-size: 15px; opacity: 0.85; line-height: 1.6; }
-  .hero .pill {
-    display: inline-block; background: rgba(255,255,255,0.15); border-radius: 20px;
-    padding: 4px 12px; font-size: 12px; letter-spacing: 1px;
-    font-family: "Barlow Condensed", sans-serif; margin-bottom: 14px; text-transform: uppercase;
-  }
-  .licence-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 14px; }
-  .licence-table th { background: var(--green-dark); color: white; padding: 10px 12px; text-align: left; font-family: "Barlow Condensed", sans-serif; font-size: 13px; letter-spacing: 0.5px; }
-  .licence-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
-  .licence-table tr:last-child td { border-bottom: none; }
-  .licence-table input[type=text] { border: 1px solid var(--border); border-radius: 4px; padding: 4px 8px; width: 100%; font-size: 13px; }
+  .hero .pill { display: inline-block; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 12px; font-size: 12px; letter-spacing: 1px; font-family: "Barlow Condensed", sans-serif; margin-bottom: 14px; text-transform: uppercase; }
   .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-  @media (max-width: 520px) { .contact-grid { grid-template-columns: 1fr; } }
   .contact-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
   .contact-card .role { font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
   .contact-card .name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
   .contact-card .detail { font-size: 13px; color: var(--muted); line-height: 1.6; }
-  @media print {
-    .site-header, .btn-row, .progress-wrap { display: none; }
-    body { background: white; }
-    .card { box-shadow: none; border: 1px solid #ddd; }
+
+  /* ── Document upload sections (matches site register) ── */
+  .doc-section { border: 1.5px solid var(--border); border-radius: 14px; background: #fff; margin: 16px 0; overflow: hidden; }
+  .doc-section-head { padding: 14px 16px; border-bottom: 1px solid var(--border); background: #F9FAFB; }
+  .doc-section-title { font-family: "Barlow Condensed", sans-serif; font-size: 22px; font-weight: 800; color: var(--green-dark); letter-spacing: .4px; text-transform: uppercase; }
+  .doc-section-sub { font-size: 14px; color: var(--muted); margin-top: 3px; }
+  .doc-section-risk { border-color: #86EFAC; }
+  .doc-section-risk .doc-section-head { background: #F0FDF4; }
+  .doc-section-insurance { border-color: #93C5FD; }
+  .doc-section-insurance .doc-section-head { background: #EFF6FF; }
+  .doc-section-licence { border-color: #C4B5FD; }
+  .doc-section-licence .doc-section-head { background: #F5F3FF; }
+  .doc-row { display: flex; flex-direction: column; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #E5E7EB; }
+  .doc-row:last-child { border-bottom: none; }
+  .doc-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 6px; }
+  .doc-field select, .doc-field input[type=date] { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 14px; color: var(--text); background: #fff; }
+  .doc-field select:focus, .doc-field input[type=date]:focus { outline: none; border-color: var(--green); }
+  .file-btn { cursor: pointer; background: #9CA3AF; color: white; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; white-space: nowrap; letter-spacing: .3px; }
+  .file-btn:hover { background: #6B7280; }
+  .file-list { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  .doc-remove { margin-top: 4px; }
+  .extra-field { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 10px; padding: 12px 14px; }
+  .extra-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 6px; }
+  .extra-field input[type=text] { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 14px; color: var(--text); background: #fff; margin-bottom: 10px; }
+  .extra-field input[type=text]:focus { outline: none; border-color: var(--green); }
+  .hrwl-field { background: #F5F3FF; border: 1px solid #DDD6FE; border-radius: 10px; padding: 12px 14px; }
+  .hrwl-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 4px; }
+  .hrwl-note { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .hrwl-code-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 7px; }
+  .hrwl-code { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border); border-radius: 8px; background: #fff; min-height: 42px; font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 17px; color: var(--green-dark); cursor: pointer; }
+  .hrwl-code input { display: none; }
+  .hrwl-code:has(input:checked) { background: #DCFCE7; border-color: var(--green); color: var(--green-dark); }
+  .section-add { margin: 12px 16px 16px; font-size: 13px; width: auto !important; display: inline-flex !important; align-self: flex-start; }
+  .skip-note { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .upload-notice { border-radius: 10px; padding: 13px 16px; margin-bottom: 16px; font-size: 14px; line-height: 1.5; background: #FFFBEB; border: 1px solid #FACC15; color: #713F12; }
+
+  /* Queue summary */
+  #queueSummary { margin-top:16px; border:1.5px solid #86EFAC; border-radius:10px; padding:14px 16px; background:#F0FDF4; display:none; }
+  #queueEmpty   { margin-top:16px; border:1.5px solid var(--border); border-radius:10px; padding:14px 16px; background:#F9FAFB; }
+
+  @media (max-width: 520px) {
+    .form-row, .contact-grid { grid-template-columns: 1fr; }
+    .btn { width:100%; justify-content:center; }
   }
 </style>
 </head>
@@ -202,7 +145,6 @@
 const CONFIG = {
   siteName:    "Tuan Biomass",
   siteAddress: "Tuan, Queensland",
-  logoMark:    "TB",
   emergency: {
     phone:       "000",
     site:        "David Knight — 0439 013 224",
@@ -212,8 +154,8 @@ const CONFIG = {
     uhfChannel:  "34",
   },
   contacts: [
-    { role: "Plant Manager",         name: "David Knight", phone: "0439 013 224", email: "david.knight@albioma.com" },
-    { role: "Safety & Compliance",   name: "Chris Foster", phone: "0478 774 434", email: "christopher.foster@albioma.com" },
+    { role: "Plant Manager",       name: "David Knight", phone: "0439 013 224", email: "david.knight@albioma.com" },
+    { role: "Safety & Compliance", name: "Chris Foster", phone: "0478 774 434", email: "christopher.foster@albioma.com" },
   ],
   goldenRules: [
     { title: "ATEX / Fire",             detail: "Comply with ATEX risk rules defined for this site. Adhere to the rules set out in any SWMS and hot work permit presented to you or in which you have taken part." },
@@ -276,15 +218,6 @@ const CONFIG = {
   docUploadURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ea796d14f9dd4e28b18fb1aff4549436/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FeqbZvLGedzM-MoMUiaD4XEsurylA62HYCJmLFeDpg",
   sharePointFolder: "Contractor Documents",
 };
-
-function getFolderForDocType(docType) {
-  const t = (docType || "").toLowerCase();
-  if (t === "swms") return "SWMS";
-  if (t.includes("insurance")) return "Insurance";
-  if (["forklift","ewp","front end loader","working at heights","confined space","first aid","crane"].some(x => t.includes(x))) return "Tickets";
-  if (["c","lr","mr","hr","hc","mc"].includes(t.trim())) return "Licences";
-  return "Other";
-}
 </script>
 
 <header class="site-header">
@@ -293,7 +226,6 @@ function getFolderForDocType(docType) {
     <p>Tuan, Queensland</p>
   </div>
 </header>
-
 <div class="progress-wrap">
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div class="progress-label" id="progressLabel">Registration</div>
@@ -301,7 +233,7 @@ function getFolderForDocType(docType) {
 
 <div class="container">
 
-  <!-- SCREEN 0: WELCOME / REGISTRATION -->
+  <!-- SCREEN 0: REGISTRATION -->
   <div class="screen active" id="screen-0">
     <div class="hero">
       <div class="pill">Mandatory Contractor Induction</div>
@@ -312,10 +244,7 @@ function getFolderForDocType(docType) {
     <div class="card">
       <div class="section-tag">Contractor Details</div>
       <h2>Register Before You Begin</h2>
-      <div class="form-group">
-        <label>Name</label>
-        <input type="text" id="name" placeholder="Full name">
-      </div>
+      <div class="form-group"><label>Name</label><input type="text" id="name" placeholder="Full name"></div>
       <div class="form-row">
         <div class="form-group"><label>Company / Employer</label><input type="text" id="company" placeholder="Your company name"></div>
         <div class="form-group"><label>Trade / Role</label><input type="text" id="trade" placeholder="e.g. Electrician, Fitter"></div>
@@ -341,7 +270,7 @@ function getFolderForDocType(docType) {
     </div>
   </div>
 
-  <!-- SCREEN 1: KEY CONTACTS & EMERGENCY -->
+  <!-- SCREEN 1: EMERGENCY & CONTACTS -->
   <div class="screen" id="screen-1">
     <div class="card">
       <div class="section-tag">Emergency Information</div>
@@ -435,18 +364,10 @@ function getFolderForDocType(docType) {
         <li><span class="rule-num hazard">!</span><div>Maintenance work involving mobile plant for lifting operations (cranes, telehandlers, forklifts)</div></li>
         <li><span class="rule-num hazard">!</span><div>Work around moving machinery or tasks requiring guarding removal</div></li>
       </ul>
-      <div class="info-box" style="margin-top:16px">
-        <strong>Before work begins:</strong> Submit your SWMS to the site safety contact for approval. All workers on the task must review and sign it on site before starting.
-      </div>
+      <div class="info-box" style="margin-top:16px"><strong>Before work begins:</strong> Submit your SWMS to the site safety contact for approval. All workers on the task must review and sign it on site before starting.</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;">
-        <div>
-          <img class="img-full" src="https://i.ibb.co/zkmWy0g/hot-work-jpg.jpg" alt="Hot Work" style="margin:0;">
-          <p class="img-caption">Hot work — pellet mill maintenance</p>
-        </div>
-        <div>
-          <img class="img-full" src="https://i.ibb.co/LDZwwXqJ/roof-clean-jpg.jpg" alt="Roof Access" style="margin:0;">
-          <p class="img-caption">Working at heights — roof access</p>
-        </div>
+        <div><img class="img-full" src="https://i.ibb.co/zkmWy0g/hot-work-jpg.jpg" alt="Hot Work" style="margin:0;"><p class="img-caption">Hot work — pellet mill maintenance</p></div>
+        <div><img class="img-full" src="https://i.ibb.co/LDZwwXqJ/roof-clean-jpg.jpg" alt="Roof Access" style="margin:0;"><p class="img-caption">Working at heights — roof access</p></div>
       </div>
       <div class="btn-row">
         <button class="btn btn-secondary" onclick="goTo(4)">← Back</button>
@@ -458,7 +379,7 @@ function getFolderForDocType(docType) {
   <!-- SCREEN 6: DOCUMENTS & ACKNOWLEDGEMENT -->
   <div class="screen" id="screen-6">
     <div class="card">
-      <div class="section-tag">Documents & Permits</div>
+      <div class="section-tag">Documents &amp; Permits</div>
       <h2>Your Responsibilities</h2>
       <ul class="rule-list">
         <li><span class="rule-num site">1</span><div>Provide copies of SWMS or JSAs for all high-risk work before commencing.</div></li>
@@ -468,26 +389,62 @@ function getFolderForDocType(docType) {
         <li><span class="rule-num site">5</span><div>Non-compliance must be reported to Chris Foster immediately with a corrective actions list before work continues.</div></li>
       </ul>
     </div>
+
     <div class="card">
-      <div class="section-tag">Licence & Ticket Verification</div>
-      <h2>Record Your Licences</h2>
-      <p>List all relevant licences and tickets below. Files uploaded here will be saved to the contractor documents folder in SharePoint.</p>
-      <table class="licence-table">
-        <thead><tr><th>Licence / Ticket Type</th><th>Expiry Date</th><th>Photo / File</th></tr></thead>
-        <tbody id="licenceTable"></tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="section-tag">Supporting Documents</div>
-      <h2>Insurance, SWMS &amp; Other Documents</h2>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px;">Upload insurance certificates, SWMS or any other supporting documents. Each file will be saved to the appropriate folder in SharePoint.</p>
-      <div id="extraDocRows"></div>
-      <button class="btn btn-secondary" style="margin-top:8px" onclick="addExtraDocRow()">+ Add Document</button>
+      <div class="section-tag">Licences, Documents &amp; Insurance</div>
+      <h2>Upload Your Documents</h2>
+      <p>Upload your licences, risk assessments and insurance below. Skip any section that does not apply.</p>
+      <div class="upload-notice">Only upload documents that apply to you. Skip any section or row that does not apply.</div>
+
+      <!-- LICENCES / CERTIFICATES -->
+      <div class="doc-section doc-section-licence">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Licences / Certificates</div>
+          <div class="doc-section-sub">High Risk Work Licence needs expiry date and HRWL codes. Other licences are upload only.</div>
+          <div class="skip-note">Skip anything that does not apply.</div>
+        </div>
+        <div id="licenceRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('licence')">+ Add Licence / Certificate</button>
+      </div>
+
+      <!-- RISK ASSESSMENTS -->
+      <div class="doc-section doc-section-risk">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Risk Assessment</div>
+          <div class="doc-section-sub">SWMS, JSA / Risk Assessment, Other Document. Upload only — no expiry date required.</div>
+          <div class="skip-note">Skip this section if it does not apply.</div>
+        </div>
+        <div id="riskRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('risk')">+ Add Risk Assessment Document</button>
+      </div>
+
+      <!-- INSURANCE -->
+      <div class="doc-section doc-section-insurance">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Insurance</div>
+          <div class="doc-section-sub">Public Liability needs policy number, coverage amount and expiry. Workers Compensation needs policy number and expiry.</div>
+          <div class="skip-note">Skip this section if it does not apply.</div>
+        </div>
+        <div id="insuranceRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('insurance')">+ Add Insurance Document</button>
+      </div>
+
+      <!-- Queue summary -->
+      <div id="queueSummary">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--green-dark);margin-bottom:8px;">Files Queued for Upload</div>
+        <div id="queueList" style="font-size:13px;color:#374151;line-height:1.9;"></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:8px;">These will be uploaded when you complete the induction.</div>
+      </div>
+      <div id="queueEmpty">
+        <div style="font-size:13px;color:var(--muted);">No documents selected yet — skip this screen if documents do not apply.</div>
+      </div>
+
       <div class="form-group" style="margin-top:20px">
         <label>Any additional notes</label>
         <textarea id="docNotes" rows="3" placeholder="e.g. SWMS will be emailed separately, waiting on renewed ticket..."></textarea>
       </div>
     </div>
+
     <div class="card">
       <div class="section-tag">Acknowledgement</div>
       <h2>Confirm You Have Understood</h2>
@@ -503,9 +460,9 @@ function getFolderForDocType(docType) {
   <div class="screen" id="screen-7">
     <div class="card">
       <div class="section-tag">Knowledge Check</div>
-      <div class="quiz-counter" id="quizCounter"></div>
+      <div class="quiz-counter"  id="quizCounter"></div>
       <div class="quiz-question" id="quizQuestion"></div>
-      <div class="options" id="quizOptions"></div>
+      <div class="options"       id="quizOptions"></div>
       <div class="quiz-feedback" id="quizFeedback"></div>
       <div class="btn-row">
         <button class="btn btn-primary" id="quizNextBtn" onclick="nextQuestion()" style="display:none">Next Question →</button>
@@ -519,16 +476,16 @@ function getFolderForDocType(docType) {
       <div class="result-badge" id="resultBadge"></div>
       <div class="result-score" id="resultScore"></div>
       <div class="result-label" id="resultLabel"></div>
-      <div class="record-box" id="recordBox"></div>
+      <div class="record-box"   id="recordBox"></div>
       <div id="resultMsg" style="font-size:15px;line-height:1.6;margin-bottom:8px;"></div>
-      <div class="status-msg" id="sheetStatus"></div>
+      <div class="status-msg"   id="sheetStatus"></div>
       <div class="btn-row" style="justify-content:center">
-        <button class="btn btn-secondary" onclick="window.print()">🖨 Print Record</button>
+        <button class="btn btn-secondary" onclick="window.print()">Print Record</button>
       </div>
     </div>
   </div>
 
-</div>
+</div><!-- /container -->
 
 <script>
 const TOTAL_SCREENS = 9;
@@ -537,8 +494,6 @@ let currentScreen = 0;
 let currentQ = 0;
 let answers = [];
 let quizAnswered = false;
-
-const LICENCE_TYPES = ["Forklift","EWP","Front End Loader","Working at Heights","Confined Space","Crane","Other"];
 
 const ACK_ITEMS = [
   "I have received and read Albioma's Golden Rules.",
@@ -549,35 +504,7 @@ const ACK_ITEMS = [
   "I have received emergency procedure information including the muster point, first aid location, alarm process, and fire extinguisher locations.",
 ];
 
-let extraDocCount = 0;
-
-function addExtraDocRow() {
-  const id = "extraDoc" + extraDocCount++;
-  const container = document.getElementById("extraDocRows");
-  const div = document.createElement("div");
-  div.id = id + "_row";
-  div.style.cssText = "display:grid;grid-template-columns:1fr 160px auto;gap:10px;align-items:center;margin-bottom:10px;";
-  div.innerHTML = `
-    <select id="${id}_type" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
-      <option value="">Select type...</option>
-      <option>Insurance / public liability</option>
-      <option>SWMS</option>
-      <option>Other document / competency</option>
-    </select>
-    <input type="date" id="${id}_expiry" style="width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:8px;background:var(--bg);font-size:14px;">
-    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
-        📁 File<input type="file" id="${id}_file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?Array.from(this.files).map(f=>f.name).join(', '):''">
-      </label>
-      <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;white-space:nowrap;">
-        📷 Camera<input type="file" id="${id}_cam" accept="image/*" capture="environment" style="display:none" onchange="document.getElementById('${id}_fname').textContent=this.files.length?this.files[0].name:''">
-      </label>
-      <span id="${id}_fname" style="font-size:11px;color:#6b7280;"></span>
-      <button type="button" onclick="document.getElementById('${id}_row').remove()" style="background:none;border:none;color:var(--warn);cursor:pointer;font-size:18px;line-height:1;padding:2px 4px;">✕</button>
-    </div>`;
-  container.appendChild(div);
-}
-
+// ── Init ──────────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("passMarkDisplay").textContent = CONFIG.passMark;
   document.getElementById("siteEmPhone").textContent    = CONFIG.emergency.site;
@@ -597,14 +524,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const sr = document.getElementById("siteRulesList");
-  CONFIG.siteRules.forEach((r,i) => {
-    sr.innerHTML += `<li><span class="rule-num site">${i+1}</span><div>${r}</div></li>`;
-  });
+  CONFIG.siteRules.forEach((r,i) => { sr.innerHTML += `<li><span class="rule-num site">${i+1}</span><div>${r}</div></li>`; });
 
   const hz = document.getElementById("hazardsList");
-  CONFIG.hazards.forEach(h => {
-    hz.innerHTML += `<li><span class="rule-num hazard">!</span><div>${h}</div></li>`;
-  });
+  CONFIG.hazards.forEach(h => { hz.innerHTML += `<li><span class="rule-num hazard">!</span><div>${h}</div></li>`; });
 
   const pz = document.getElementById("ppeZoneList");
   CONFIG.ppeZones.forEach(z => {
@@ -614,49 +537,20 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>`;
   });
 
-  // Licence table
-  const lt = document.getElementById("licenceTable");
-  LICENCE_TYPES.forEach((l, i) => {
-    lt.innerHTML += `<tr>
-      <td>${l}</td>
-      <td><input type="text" id="licExpiry${i}" placeholder="DD/MM/YYYY" style="width:130px"></td>
-      <td>
-        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-          <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
-            📁 File<input type="file" id="licFile${i}" accept="image/*,.pdf" style="display:none" onchange="showFileName(${i})">
-          </label>
-          <label style="cursor:pointer;background:var(--green);color:white;padding:4px 8px;border-radius:4px;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;">
-            📷 Camera<input type="file" id="licCamera${i}" accept="image/*" capture="environment" style="display:none" onchange="showCameraName(${i})">
-          </label>
-          <span id="licFileName${i}" style="font-size:11px;color:#6b7280;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-        </div>
-      </td>
-    </tr>`;
-  });
-
-  // Acknowledgement checklist
   const ac = document.getElementById("ackChecklist");
   ACK_ITEMS.forEach((item,i) => {
     ac.innerHTML += `<li><input type="checkbox" id="ack${i}"><label for="ack${i}" style="cursor:pointer">${item}</label></li>`;
   });
 
-  // Start with one extra doc row
-  addExtraDocRow();
+  // Initialise one blank row per section
+  addDocumentRow("licence");
+  addDocumentRow("risk");
+  addDocumentRow("insurance");
 
   updateProgress();
 });
 
-function showFileName(i) {
-  const input = document.getElementById("licFile" + i);
-  const span  = document.getElementById("licFileName" + i);
-  if (input && input.files.length && span) span.textContent = input.files[0].name;
-}
-function showCameraName(i) {
-  const input = document.getElementById("licCamera" + i);
-  const span  = document.getElementById("licFileName" + i);
-  if (input && input.files.length && span) span.textContent = input.files[0].name;
-}
-
+// ── Screen navigation ─────────────────────────────────────────────────────────
 function goTo(n) {
   document.getElementById("screen-" + currentScreen).classList.remove("active");
   currentScreen = n;
@@ -674,11 +568,11 @@ function updateProgress() {
 }
 
 function startInduction() {
-  const name = document.getElementById("name").value.trim();
-  const co   = document.getElementById("company").value.trim();
-  const emergencyName         = document.getElementById("emergencyName").value.trim();
-  const emergencyRelationship = document.getElementById("emergencyRelationship").value.trim();
-  const emergencyPhone        = document.getElementById("emergencyPhone").value.trim();
+  const name                 = document.getElementById("name").value.trim();
+  const co                   = document.getElementById("company").value.trim();
+  const emergencyName        = document.getElementById("emergencyName").value.trim();
+  const emergencyRelationship= document.getElementById("emergencyRelationship").value.trim();
+  const emergencyPhone       = document.getElementById("emergencyPhone").value.trim();
   if (!name || !co) { alert("Please enter your name and company before continuing."); return; }
   if (!emergencyName || !emergencyRelationship || !emergencyPhone) { alert("Please enter the emergency contact name, relationship, and phone number before continuing."); return; }
   contractor = {
@@ -698,27 +592,187 @@ function startInduction() {
 function proceedToQuiz() {
   const unchecked = ACK_ITEMS.map((_,i) => document.getElementById("ack"+i).checked).filter(v => !v).length;
   if (unchecked > 0) { alert("Please tick all acknowledgement boxes before proceeding to the quiz."); return; }
-  const licenceRows = LICENCE_TYPES.map((type, i) => {
-    const expiry = document.getElementById("licExpiry" + i)?.value.trim() || "";
-    const fileInput   = document.getElementById("licFile" + i);
-    const cameraInput = document.getElementById("licCamera" + i);
-    const fileName = (fileInput && fileInput.files && fileInput.files.length ? fileInput.files[0].name : "")
-                  || (cameraInput && cameraInput.files && cameraInput.files.length ? cameraInput.files[0].name : "");
-    if (!expiry && !fileName) return null;
-    return `${type}: expiry ${expiry || "—"}${fileName ? ", file " + fileName : ""}`;
-  }).filter(Boolean);
-  contractor.licences  = licenceRows.length > 0 ? licenceRows.join("; ") : "None declared";
-  contractor.docNotes  = document.getElementById("docNotes").value.trim() || "—";
+  contractor.docNotes = document.getElementById("docNotes").value.trim() || "—";
   goTo(7);
 }
 
+// ── Document upload (matches site register) ───────────────────────────────────
+function escapeHTML(str) {
+  return String(str||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function documentTypeOptions(category) {
+  const options = {
+    risk:      ["SWMS","JSA / Risk Assessment","Other Document"],
+    insurance: ["Public Liability Insurance","Workers Compensation Insurance"],
+    licence:   ["High Risk Work Licence","Driver Licence","Front End Loader Licence","Telehandler Licence","Working at Heights Certificate","Confined Space Certificate"]
+  };
+  return `<option value="">Select...</option>${options[category].map(v => `<option>${escapeHTML(v)}</option>`).join("")}`;
+}
+
+function sectionRowsId(category) {
+  return category === "risk" ? "riskRows" : category === "insurance" ? "insuranceRows" : "licenceRows";
+}
+
+function hrwlCodeBoxes() {
+  const codes = ["LF","LO","DG","RB","RI","RA","SB","SI","SA","WP","CB","CD","CN","C2","C6","C1","C0","CP","CT","CS","CV","HM","HP","RS","PB","BS","BA","ES","TO"];
+  return codes.map(code => `<label class="hrwl-code" title="${code}"><input type="checkbox" class="hrwl-code-check" value="${code}">${code}</label>`).join("");
+}
+
+function addDocumentRow(category) {
+  const container = document.getElementById(sectionRowsId(category));
+  const rowId = `doc_${category}_${Date.now()}_${Math.floor(Math.random()*10000)}`;
+  const div = document.createElement("div");
+  div.className = "doc-row document-row";
+  div.dataset.rowId = rowId;
+  div.dataset.category = category;
+  div.innerHTML = `
+    <div class="doc-field">
+      <label>Type *</label>
+      <select class="doc-type" onchange="handleDocumentTypeChange('${rowId}')">${documentTypeOptions(category)}</select>
+    </div>
+    <div class="doc-field expiry-wrap" style="display:none;">
+      <label>Expiry Date *</label>
+      <div style="display:flex;gap:8px;">
+        <select class="doc-expiry-month" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Month</option>
+          <option value="01">January</option><option value="02">February</option><option value="03">March</option>
+          <option value="04">April</option><option value="05">May</option><option value="06">June</option>
+          <option value="07">July</option><option value="08">August</option><option value="09">September</option>
+          <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+        </select>
+        <select class="doc-expiry-year" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Year</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option>
+        </select>
+      </div>
+      <input type="hidden" class="doc-expiry">
+    </div>
+    <div class="doc-field">
+      <label>Upload Document / Take Photos *</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+        <label class="file-btn">File<input type="file" class="doc-files" multiple accept="image/*,.pdf,.doc,.docx" style="display:none" onchange="showSelectedFiles('${rowId}','file')"></label>
+        <label class="file-btn">Camera<input type="file" class="doc-camera" accept="image/*" capture="environment" style="display:none" onchange="showSelectedFiles('${rowId}','camera')"></label>
+      </div>
+      <div class="file-list" id="files_${rowId}">No documents selected.</div>
+    </div>
+    <div class="doc-field">
+      <button class="btn btn-secondary doc-remove" onclick="removeDocumentRow('${rowId}')">Remove</button>
+    </div>
+    <div class="extra-field public-liability-field" style="display:none;">
+      <label>Public Liability Policy Number *</label>
+      <input type="text" class="policy-number" placeholder="Enter policy number">
+      <label>Coverage Amount *</label>
+      <input type="text" class="coverage-amount" placeholder="e.g. $20 million">
+    </div>
+    <div class="extra-field workers-comp-field" style="display:none;">
+      <label>Workers Compensation Policy Number *</label>
+      <input type="text" class="policy-number" placeholder="Enter policy number">
+    </div>
+    <div class="hrwl-field" style="display:none;">
+      <label>High Risk Work Licence Classes *</label>
+      <div class="hrwl-note">Select the two-letter HRWL codes shown on the licence card.</div>
+      <div class="hrwl-code-grid">${hrwlCodeBoxes()}</div>
+    </div>
+  `;
+  container.appendChild(div);
+}
+
+function syncExpiry(el) {
+  const wrap  = el.closest(".expiry-wrap");
+  if (!wrap) return;
+  const month = wrap.querySelector(".doc-expiry-month").value;
+  const year  = wrap.querySelector(".doc-expiry-year").value;
+  wrap.querySelector(".doc-expiry").value = (year && month) ? `${year}-${month}-01` : "";
+}
+
+function handleDocumentTypeChange(rowId) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const val      = row.querySelector(".doc-type").value;
+  const category = row.dataset.category;
+  const expiryWrap = row.querySelector(".expiry-wrap");
+  const expiryInput= row.querySelector(".doc-expiry");
+  const pubLiab  = row.querySelector(".public-liability-field");
+  const workComp = row.querySelector(".workers-comp-field");
+  const hrwl     = row.querySelector(".hrwl-field");
+
+  expiryWrap.style.display = "none";
+  pubLiab.style.display    = "none";
+  workComp.style.display   = "none";
+  hrwl.style.display       = "none";
+
+  if (category === "insurance") {
+    if (val === "Public Liability Insurance")      { expiryWrap.style.display = "block"; pubLiab.style.display  = "block"; }
+    if (val === "Workers Compensation Insurance")  { expiryWrap.style.display = "block"; workComp.style.display = "block"; }
+  }
+  if (category === "licence" && val === "High Risk Work Licence") {
+    expiryWrap.style.display = "block";
+    hrwl.style.display = "block";
+  }
+  if (expiryWrap.style.display === "none") {
+    expiryInput.value = "";
+    const mSel = expiryWrap.querySelector(".doc-expiry-month");
+    const ySel = expiryWrap.querySelector(".doc-expiry-year");
+    if (mSel) mSel.value = "";
+    if (ySel) ySel.value = "";
+  }
+}
+
+function removeDocumentRow(rowId) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const category = row.dataset.category;
+  const rows = [...document.querySelectorAll(`.document-row[data-category="${category}"]`)];
+  if (rows.length <= 1) { alert("Keep at least one row per section. Leave it blank if that section does not apply."); return; }
+  row.remove();
+  updateQueueSummary();
+}
+
+function showSelectedFiles(rowId, source) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const input = source === "camera" ? row.querySelector(".doc-camera") : row.querySelector(".doc-files");
+  const files = [...(input.files || [])];
+  document.getElementById(`files_${rowId}`).innerHTML = files.length
+    ? files.map(f => `${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>")
+    : "No documents selected.";
+  updateQueueSummary();
+}
+
+function updateQueueSummary() {
+  const items = [];
+  const rows = [...document.querySelectorAll(".document-row")];
+  rows.forEach(row => {
+    const docType  = row.querySelector(".doc-type").value.trim();
+    const fileInput = row.querySelector(".doc-files");
+    const camInput  = row.querySelector(".doc-camera");
+    const files = (fileInput && fileInput.files && fileInput.files.length) ? [...fileInput.files]
+                : (camInput  && camInput.files  && camInput.files.length)  ? [...camInput.files] : [];
+    if (docType && files.length) {
+      files.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">${docType}</span> — ${f.name}`));
+    }
+  });
+  const summary   = document.getElementById("queueSummary");
+  const empty     = document.getElementById("queueEmpty");
+  const queueList = document.getElementById("queueList");
+  if (items.length) {
+    queueList.innerHTML   = items.join("<br>");
+    summary.style.display = "block";
+    empty.style.display   = "none";
+  } else {
+    summary.style.display = "none";
+    empty.style.display   = "block";
+  }
+}
+
+// ── Quiz ──────────────────────────────────────────────────────────────────────
 function loadQuestion(index) {
   currentQ = index;
   quizAnswered = false;
   const q = CONFIG.quiz[index];
-  document.getElementById("quizCounter").textContent = `Question ${index + 1} of ${CONFIG.quiz.length}`;
+  document.getElementById("quizCounter").textContent  = `Question ${index + 1} of ${CONFIG.quiz.length}`;
   document.getElementById("quizQuestion").textContent = q.question;
-  document.getElementById("quizFeedback").className = "quiz-feedback";
+  document.getElementById("quizFeedback").className   = "quiz-feedback";
   document.getElementById("quizFeedback").textContent = "";
   document.getElementById("quizNextBtn").style.display = "none";
   const opts = document.getElementById("quizOptions");
@@ -752,6 +806,7 @@ function nextQuestion() {
   if (currentQ < CONFIG.quiz.length - 1) { loadQuestion(currentQ + 1); } else { showResult(); }
 }
 
+// ── File helper ───────────────────────────────────────────────────────────────
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -761,6 +816,7 @@ function fileToBase64(file) {
   });
 }
 
+// ── Show result & submit ──────────────────────────────────────────────────────
 function showResult() {
   const correct = answers.filter((a,i) => a === CONFIG.quiz[i].correctIndex).length;
   const pct     = Math.round((correct / CONFIG.quiz.length) * 100);
@@ -787,7 +843,7 @@ function showResult() {
     <strong>Name</strong>${contractor.name}
     <strong>Company</strong>${contractor.company}
     <strong>Trade / Role</strong>${contractor.trade || "—"}
-    <strong>Company Contact Name</strong>${contractor.companyContactName || "—"}
+    <strong>Company Contact</strong>${contractor.companyContactName || "—"}
     <strong>Company Contact Mobile</strong>${contractor.companyContactMobile || "—"}
     <strong>Company Contact Email</strong>${contractor.companyContactEmail || "—"}
     <strong>Phone</strong>${contractor.phone || "—"}
@@ -795,95 +851,86 @@ function showResult() {
     <strong>Emergency Contact Phone</strong>${contractor.emergencyPhone || "—"}
     <strong>Planned Date(s)</strong>${contractor.dates || "—"}
     <strong>High Risk Tasks</strong>${contractor.tasks || "—"}
-    <strong>Licences / Tickets</strong>${contractor.licences || "—"}
     <strong>Document Notes</strong>${contractor.docNotes || "—"}
     <strong>Date Inducted</strong>${dateStr} at ${timeStr}
     <strong>Result</strong>✅ PASSED (${pct}%)
     <strong>Site</strong>${CONFIG.siteName}
   `;
   document.getElementById("resultMsg").textContent = "Induction complete. Please confirm sign-in with site personnel before commencing work.";
-  sendToFlow({ name: contractor.name, company: contractor.company, trade: contractor.trade, company_contact_name: contractor.companyContactName, company_contact_mobile: contractor.companyContactMobile, company_contact_email: contractor.companyContactEmail, phone: contractor.phone, emergency_name: contractor.emergencyName, emergency_relationship: contractor.emergencyRelationship, emergency_phone: contractor.emergencyPhone, dates: contractor.dates, tasks: contractor.tasks, licences: contractor.licences, doc_notes: contractor.docNotes, date: dateStr, time: timeStr, score: pct, result: "PASSED", site: CONFIG.siteName });
+
+  sendToFlow({ name: contractor.name, company: contractor.company, trade: contractor.trade,
+    company_contact_name: contractor.companyContactName, company_contact_mobile: contractor.companyContactMobile,
+    company_contact_email: contractor.companyContactEmail, phone: contractor.phone,
+    emergency_name: contractor.emergencyName, emergency_relationship: contractor.emergencyRelationship,
+    emergency_phone: contractor.emergencyPhone, dates: contractor.dates, tasks: contractor.tasks,
+    doc_notes: contractor.docNotes, date: dateStr, time: timeStr, score: pct, result: "PASSED", site: CONFIG.siteName });
 }
 
 async function sendToFlow(data) {
   const el = document.getElementById("sheetStatus");
   el.textContent = "Submitting induction record…";
-
   const personId = (data.phone || "").replace(/\D/g, "");
 
-  // ── Build upload documents array ──
+  // Collect documents from all three sections
   const uploadDocuments = [];
+  const docList = [];
+  const rows = [...document.querySelectorAll(".document-row")];
 
-  // Licence table rows
-  for (let i = 0; i < LICENCE_TYPES.length; i++) {
-    const expiry      = document.getElementById("licExpiry" + i)?.value.trim() || "";
-    const fileInput   = document.getElementById("licFile" + i);
-    const cameraInput = document.getElementById("licCamera" + i);
-    const activeInput = (fileInput && fileInput.files && fileInput.files.length) ? fileInput
-                      : (cameraInput && cameraInput.files && cameraInput.files.length) ? cameraInput
-                      : null;
-    if (!activeInput) continue;
-    const file = activeInput.files[0];
-    try {
-      const base64 = await fileToBase64(file);
-      uploadDocuments.push({
-        document_type: LICENCE_TYPES[i],
-        expiry_date:   expiry,
-        attachments:   [{ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 }]
-      });
-    } catch(e) { console.warn("Could not read licence file", e); }
-  }
+  for (const row of rows) {
+    const category    = row.dataset.category;
+    const doc_type    = row.querySelector(".doc-type").value.trim();
+    const expiry_date = row.querySelector(".doc-expiry").value;
+    const hrwl_classes = [...row.querySelectorAll(".hrwl-code-check:checked")].map(i => i.value).join(", ");
+    const pubLiabEl   = row.querySelector(".public-liability-field .policy-number");
+    const workCompEl  = row.querySelector(".workers-comp-field .policy-number");
+    const coverageEl  = row.querySelector(".coverage-amount");
+    const policy_number   = (doc_type === "Public Liability Insurance" ? pubLiabEl?.value.trim() : workCompEl?.value.trim()) || "";
+    const coverage_amount = coverageEl?.value.trim() || "";
 
-  // Extra doc rows (insurance, SWMS etc.)
-  const extraRows = document.getElementById("extraDocRows").querySelectorAll("[id$='_row']");
-  for (const row of extraRows) {
-    const rowId   = row.id.replace("_row","");
-    const docType = document.getElementById(rowId + "_type").value.trim();
-    const expiry  = document.getElementById(rowId + "_expiry").value;
-    const fInput  = document.getElementById(rowId + "_file");
-    const cInput  = document.getElementById(rowId + "_cam");
-    const files   = (fInput && fInput.files && fInput.files.length) ? [...fInput.files]
-                  : (cInput && cInput.files && cInput.files.length) ? [...cInput.files]
-                  : [];
-    if (!docType || !files.length) continue;
+    const fileInput = row.querySelector(".doc-files");
+    const camInput  = row.querySelector(".doc-camera");
+    const files = (fileInput && fileInput.files && fileInput.files.length) ? [...fileInput.files]
+                : (camInput  && camInput.files  && camInput.files.length)  ? [...camInput.files] : [];
+    if (!doc_type || !files.length) continue;
+
     const attachments = [];
     for (const file of files) {
+      docList.push(doc_type + " (" + file.name + ")");
       try {
         const base64 = await fileToBase64(file);
         attachments.push({ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 });
-      } catch(e) { console.warn("Could not read file", e); }
+      } catch(e) { console.warn("Could not read file", file.name, e); }
     }
     if (attachments.length) {
-      uploadDocuments.push({ document_type: docType, expiry_date: expiry, attachments });
+      uploadDocuments.push({ category, document_type: doc_type, expiry_date, hrwl_classes, policy_number, coverage_amount, attachments });
     }
   }
 
-  // ── Build payloads ──
   const inductionPayload = {
-    induction_type:           "Contractor General",
-    document_no:              "ID-002-2025-v3.0",
-    person_id:                personId,
-    name:                     data.name,
-    company:                  data.company,
-    trade:                    data.trade || "",
-    company_contact_name:     data.company_contact_name || "",
-    company_contact_mobile:   data.company_contact_mobile || "",
-    company_contact_email:    data.company_contact_email || "",
-    phone:                    data.phone || "",
-    emergency_name:           data.emergency_name || "",
-    emergency_relationship:   data.emergency_relationship || "",
-    emergency_phone:          data.emergency_phone || "",
-    planned_dates:            data.dates || "",
-    high_risk_tasks:          data.tasks || "",
-    licences:                 data.licences || "",
-    document_notes:           data.doc_notes || "",
-    date_inducted:            data.date,
-    time_inducted:            data.time,
-    score:                    data.score,
-    result:                   data.result,
-    site:                     data.site,
-    sharepoint_folder:        CONFIG.sharePointFolder,
-    submitted_at:             new Date().toISOString(),
+    induction_type:         "Contractor General",
+    document_no:            "ID-002-2025-v3.0",
+    person_id:              personId,
+    name:                   data.name,
+    company:                data.company,
+    trade:                  data.trade || "",
+    company_contact_name:   data.company_contact_name || "",
+    company_contact_mobile: data.company_contact_mobile || "",
+    company_contact_email:  data.company_contact_email || "",
+    phone:                  data.phone || "",
+    emergency_name:         data.emergency_name || "",
+    emergency_relationship: data.emergency_relationship || "",
+    emergency_phone:        data.emergency_phone || "",
+    planned_dates:          data.dates || "",
+    high_risk_tasks:        data.tasks || "",
+    documents_submitted:    docList.length ? docList.join("; ") : "None",
+    document_notes:         data.doc_notes || "",
+    date_inducted:          data.date,
+    time_inducted:          data.time,
+    score:                  data.score,
+    result:                 data.result,
+    site:                   data.site,
+    sharepoint_folder:      CONFIG.sharePointFolder,
+    submitted_at:           new Date().toISOString(),
   };
 
   const uploadPayload = uploadDocuments.length ? {
@@ -898,49 +945,21 @@ async function sendToFlow(data) {
     documents:     uploadDocuments
   } : null;
 
-  // ── Fire both flows in parallel ──
-  const inductionFetch = fetch(CONFIG.webhookURL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(inductionPayload),
-  });
-
-  const uploadFetch = uploadPayload ? fetch(CONFIG.docUploadURL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(uploadPayload),
-  }) : Promise.resolve(null);
-
+  const inductionFetch = fetch(CONFIG.webhookURL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(inductionPayload) });
+  const uploadFetch    = uploadPayload ? fetch(CONFIG.docUploadURL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(uploadPayload) }) : Promise.resolve(null);
   const [inductionResult, uploadResult] = await Promise.allSettled([inductionFetch, uploadFetch]);
 
-  // ── Induction result ──
-  let inductionOk = false;
-  if (inductionResult.status === "fulfilled") {
-    const resp = inductionResult.value;
-    inductionOk = resp.ok || resp.status === 202;
-  }
+  const inductionOk = inductionResult.status === "fulfilled" && (inductionResult.value.ok || inductionResult.value.status === 202);
+  const uploadOk    = !uploadPayload || (uploadResult.status === "fulfilled" && uploadResult.value && (uploadResult.value.ok || uploadResult.value.status === 202));
 
-  // ── Upload result ──
-  let uploadOk = !uploadPayload; // true if no files to upload
-  if (uploadResult.status === "fulfilled" && uploadResult.value) {
-    const res = uploadResult.value;
-    uploadOk = res.ok || res.status === 202;
-  }
-
-  // ── Status message ──
   if (inductionOk && uploadOk) {
-    el.textContent = uploadPayload
-      ? "✓ Induction record and documents submitted successfully."
-      : "✓ Your induction record has been submitted successfully.";
+    el.textContent = uploadPayload ? "✓ Induction record and documents submitted successfully." : "✓ Induction record submitted successfully.";
   } else if (inductionOk && !uploadOk) {
     el.textContent = "✓ Induction record submitted. ⚠ Document upload failed — please bring originals to the site office.";
-    console.warn("Upload result:", uploadResult);
-  } else if (!inductionOk) {
+  } else {
     el.textContent = "⚠ Submission failed. Please advise site management manually.";
-    console.warn("Induction result:", inductionResult);
   }
 }
 </script>
-
 </body>
 </html>
