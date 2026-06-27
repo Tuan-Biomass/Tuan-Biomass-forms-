@@ -373,9 +373,10 @@ async function startTicketUpload(id){
   document.getElementById("ticketPerson").innerHTML=`<strong>${escapeHTML(rec.full_name)}</strong> — ${escapeHTML(rec.company)} — mobile ID: ${escapeHTML(rec.mobile_number||rec.person_id||"-")}`;
   resetDocumentSections();
   msg("ticketMessage","","");
-  // Run doc check to show expired licence warning
+  // Show page first, then run doc check and update notice
+  showPage("tickets");
   const notice=document.getElementById("uploadNotice");
-  notice.innerHTML="Only upload documents that apply to you. Skip any section or row that does not apply.";
+  notice.innerHTML="Checking your documents... please wait.";
   notice.className="notice notice-warn";
   if(CONFIG.docCheckURL&&rec.mobile_number){
     try{
@@ -391,11 +392,16 @@ async function startTicketUpload(id){
           }
           notice.innerHTML=`⚠️ <strong>Your documents need updating before you can proceed to site.</strong><br>The following are expired or missing: <strong>${escapeHTML(expiredList)}</strong>.<br>Upload current copies below — one row per document.`;
           notice.className="notice notice-danger";
+        } else {
+          notice.innerHTML="Only upload documents that apply to you. Skip any section or row that does not apply.";
+          notice.className="notice notice-warn";
         }
       }
-    }catch(e){console.warn("Doc check error:",e)}
+    }catch(e){
+      notice.innerHTML="Only upload documents that apply to you. Skip any section or row that does not apply.";
+      notice.className="notice notice-warn";
+    }
   }
-  showPage("tickets");
 }
 
 
