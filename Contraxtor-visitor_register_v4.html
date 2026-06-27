@@ -257,7 +257,13 @@ async function submitSignIn(){
           state.ticketId=newRec.id;
           document.getElementById("ticketPerson").innerHTML=`<strong>${escapeHTML(newRec.full_name)}</strong> — ${escapeHTML(newRec.company)}`;
           resetDocumentSections();
-          const expiredList=docData.expired_docs&&Array.isArray(docData.expired_docs)&&docData.expired_docs.length?docData.expired_docs.join(", "):"one or more documents";
+          const rawDocs=docData.expired_docs;
+          let expiredList="one or more documents";
+          if(rawDocs&&Array.isArray(rawDocs)&&rawDocs.length){
+            // Handle both flat strings ["HRWL"] and objects [{"":"HRWL"}]
+            const names=rawDocs.map(d=>typeof d==="string"?d:Object.values(d)[0]).filter(Boolean);
+            if(names.length) expiredList=names.join(", ");
+          }
           const notice=document.getElementById("uploadNotice");
           notice.innerHTML=`⚠️ <strong>Your documents need updating before you can proceed to site.</strong><br>The following are expired or missing: <strong>${escapeHTML(expiredList)}</strong>.<br>Upload current copies below — one row per document.`;
           notice.className="notice notice-danger";
