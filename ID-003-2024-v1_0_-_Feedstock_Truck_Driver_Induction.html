@@ -307,35 +307,27 @@ const CONFIG = {
       <!-- LICENCES / CERTIFICATES -->
       <div class="doc-section doc-section-licence">
         <div class="doc-section-head">
-          <div class="doc-section-title">Licences / Certificates</div>
-          <div class="doc-section-sub">High Risk Work Licence needs expiry date and HRWL codes. Other licences are uploaded only.</div>
-          <div class="skip-note">Skip anything that does not apply.</div>
+          <div class="doc-section-title" style="font-size:30px;">Driver Licence</div>
+        </div>
+        <!-- Fixed Driver Licence row -->
+        <div style="padding:14px 16px;border-bottom:1px solid #E5E7EB;">
+          <div style="font-size:13px;color:var(--muted);margin-bottom:10px;">Upload a photo or scan of your current driver licence.</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+            <label class="file-btn">File<input type="file" id="dl_files" multiple accept="image/*,.pdf" style="display:none" onchange="showDLFiles('file')"></label>
+            <label class="file-btn">Camera<input type="file" id="dl_camera" accept="image/*" capture="environment" style="display:none" onchange="showDLFiles('camera')"></label>
+          </div>
+          <div class="file-list" id="dl_fname">No documents selected.</div>
+        </div>
+        <!-- Optional section divider -->
+        <div style="padding:12px 16px;background:#F5F3FF;border-bottom:1px solid #DDD6FE;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);">Optional — Other Licences / Certificates</div>
+          <div class="doc-section-sub">High Risk Work Licence needs expiry date and HRWL codes. Other licences are upload only.</div>
+          <div class="skip-note">Skip this section if it does not apply.</div>
         </div>
         <div id="licenceRows"></div>
         <button class="btn btn-secondary section-add" onclick="addDocumentRow('licence')">+ Add Licence / Certificate</button>
       </div>
 
-      <!-- RISK ASSESSMENTS -->
-      <div class="doc-section doc-section-risk">
-        <div class="doc-section-head">
-          <div class="doc-section-title">Risk Assessment</div>
-          <div class="doc-section-sub">SWMS, JSA / Risk Assessment, Other Document. Upload only — no expiry date required.</div>
-          <div class="skip-note">Skip this section if it does not apply.</div>
-        </div>
-        <div id="riskRows"></div>
-        <button class="btn btn-secondary section-add" onclick="addDocumentRow('risk')">+ Add Risk Assessment Document</button>
-      </div>
-
-      <!-- INSURANCE -->
-      <div class="doc-section doc-section-insurance">
-        <div class="doc-section-head">
-          <div class="doc-section-title">Insurance</div>
-          <div class="doc-section-sub">Public Liability needs policy number, coverage amount and expiry. Workers Compensation needs policy number and expiry.</div>
-          <div class="skip-note">Skip this section if it does not apply.</div>
-        </div>
-        <div id="insuranceRows"></div>
-        <button class="btn btn-secondary section-add" onclick="addDocumentRow('insurance')">+ Add Insurance Document</button>
-      </div>
 
       <!-- Queued files summary -->
       <div id="queueSummary" style="margin-top:16px;border:1.5px solid #86EFAC;border-radius:10px;padding:14px 16px;background:#F0FDF4;display:none;">
@@ -492,7 +484,7 @@ function documentTypeOptions(category) {
   const options = {
     risk:      ["SWMS","JSA / Risk Assessment","Other Document"],
     insurance: ["Public Liability Insurance","Workers Compensation Insurance"],
-    licence:   ["High Risk Work Licence","Driver Licence","Front End Loader Licence","Working at Heights Certificate","Confined Space Certificate"]
+    licence:   ["High Risk Work Licence","Front End Loader Licence","Working at Heights Certificate","Confined Space Certificate"]
   };
   return `<option value="">Select...</option>${options[category].map(v => `<option>${escapeHTML(v)}</option>`).join("")}`;
 }
@@ -609,9 +601,25 @@ function removeDocumentRow(rowId) {
   row.remove();
 }
 
+function showDLFiles(source) {
+  const input = source === 'camera' ? document.getElementById('dl_camera') : document.getElementById('dl_files');
+  const files = [...(input.files || [])];
+  document.getElementById('dl_fname').innerHTML = files.length
+    ? files.map(f => `${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join('<br>')
+    : 'No documents selected.';
+  updateQueueSummary();
+}
+
 function updateQueueSummary() {
-  const rows = [...document.querySelectorAll('.document-row')];
   const items = [];
+  // Fixed driver licence row
+  const dlF = document.getElementById('dl_files');
+  const dlC = document.getElementById('dl_camera');
+  const dlFiles = (dlF && dlF.files && dlF.files.length) ? [...dlF.files]
+                : (dlC && dlC.files && dlC.files.length) ? [...dlC.files] : [];
+  dlFiles.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">Driver Licence</span> — ${f.name}`));
+  // Additional rows
+  const rows = [...document.querySelectorAll('.document-row')];
   rows.forEach(row => {
     const docType = row.querySelector('.doc-type').value.trim();
     const fileInput = row.querySelector('.doc-files');
@@ -658,12 +666,8 @@ function rowApplies(row) {
 }
 
 function resetDocumentSections() {
-  document.getElementById("riskRows").innerHTML = "";
-  document.getElementById("insuranceRows").innerHTML = "";
   document.getElementById("licenceRows").innerHTML = "";
   addDocumentRow("licence");
-  addDocumentRow("risk");
-  addDocumentRow("insurance");
 }
 
 // Initialise document sections on load
@@ -727,6 +731,24 @@ document.getElementById("completeInductionBtn").onclick = async () => {
   // Collect documents from all three sections
   const docList = [];
   const uploadDocuments = [];
+
+  // Fixed driver licence row
+  const dlFInput = document.getElementById('dl_files');
+  const dlCInput = document.getElementById('dl_camera');
+  const dlFiles  = (dlFInput && dlFInput.files && dlFInput.files.length) ? [...dlFInput.files]
+                 : (dlCInput && dlCInput.files && dlCInput.files.length) ? [...dlCInput.files] : [];
+  if (dlFiles.length) {
+    const dlAttachments = [];
+    for (const file of dlFiles) {
+      docList.push('Driver Licence (' + file.name + ')');
+      try {
+        const base64 = await fileToBase64(file);
+        dlAttachments.push({ file_name: file.name, content_type: file.type || 'application/octet-stream', size: file.size, content_base64: base64 });
+      } catch(e) { console.warn('Could not read DL file', file.name, e); }
+    }
+    if (dlAttachments.length) uploadDocuments.push({ category: 'licence', document_type: 'Driver Licence', expiry_date: '', hrwl_classes: '', policy_number: '', coverage_amount: '', attachments: dlAttachments });
+  }
+
   const rows = [...document.querySelectorAll(".document-row")];
 
   for (const row of rows) {
