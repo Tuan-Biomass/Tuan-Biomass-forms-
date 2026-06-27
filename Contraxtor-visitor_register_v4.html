@@ -366,13 +366,35 @@ function resetDocumentSections(){
   addDocumentRow("licence");
 }
 
-function startTicketUpload(id){
+async function startTicketUpload(id){
   const rec=loadRecords().find(r=>r.id===id);
   if(!rec)return;
   state.ticketId=id;
   document.getElementById("ticketPerson").innerHTML=`<strong>${escapeHTML(rec.full_name)}</strong> — ${escapeHTML(rec.company)} — mobile ID: ${escapeHTML(rec.mobile_number||rec.person_id||"-")}`;
   resetDocumentSections();
   msg("ticketMessage","","");
+  // Run doc check to show expired licence warning
+  const notice=document.getElementById("uploadNotice");
+  notice.innerHTML="Only upload documents that apply to you. Skip any section or row that does not apply.";
+  notice.className="notice notice-warn";
+  if(CONFIG.docCheckURL&&rec.mobile_number){
+    try{
+      const docRes=await fetch(CONFIG.docCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:rec.full_name,company:rec.company,person_id:rec.person_id,mobile_number:rec.mobile_number,date:rec.date,arrival_time:rec.arrival_time})});
+      if(docRes.ok){
+        const docData=await docRes.json();
+        if(docData.docs_expired==="true"){
+          const rawDocs=docData.expired_docs;
+          let expiredList="one or more documents";
+          if(rawDocs&&Array.isArray(rawDocs)&&rawDocs.length){
+            const names=rawDocs.map(d=>typeof d==="string"?d:Object.values(d)[0]).filter(Boolean);
+            if(names.length) expiredList=names.join(", ");
+          }
+          notice.innerHTML=`⚠️ <strong>Your documents need updating before you can proceed to site.</strong><br>The following are expired or missing: <strong>${escapeHTML(expiredList)}</strong>.<br>Upload current copies below — one row per document.`;
+          notice.className="notice notice-danger";
+        }
+      }
+    }catch(e){console.warn("Doc check error:",e)}
+  }
   showPage("tickets");
 }
 
