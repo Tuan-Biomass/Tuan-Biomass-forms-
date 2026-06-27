@@ -247,9 +247,12 @@ async function submitSignIn(){
   const records=loadRecords();records.push(record);saveRecords(records);
   if(CONFIG.docCheckURL&&state.inducted==="yes"&&mobileNumber){
     try{
+      console.log("[DocCheck] Calling docCheckURL for",mobileNumber,"inducted:",state.inducted);
       const docRes=await fetch(CONFIG.docCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,person_id:personId,mobile_number:mobileNumber,date:date,arrival_time:arrivalTime})});
+      console.log("[DocCheck] Response status:",docRes.status);
       if(docRes.ok){
         const docData=await docRes.json();
+        console.log("[DocCheck] Response data:",JSON.stringify(docData));
         if(docData.docs_expired==="true"){
           clearSignInForm();
           showPage("home");
