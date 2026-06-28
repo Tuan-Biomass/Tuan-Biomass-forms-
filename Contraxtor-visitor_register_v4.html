@@ -148,11 +148,12 @@ function genId(){return crypto.randomUUID?crypto.randomUUID():'vis_'+Date.now().
 function showPage(page){
   ["pageHome","pageSignin","pageTickets","pageSignout"].forEach(id=>document.getElementById(id).classList.add("hidden"));
   document.getElementById("page"+page.charAt(0).toUpperCase()+page.slice(1)).classList.remove("hidden");
-  if(page==="tickets"){
+  if(page==="tickets"&&!window._keepNotice){
     const notice=document.getElementById("uploadNotice");
     notice.innerHTML="Only upload documents that apply to you. Skip any section or row that does not apply.";
     notice.className="notice notice-warn";
   }
+  window._keepNotice=false;
   if(page==="home")renderHome();
   if(page==="signin")setDefaultDateTime();
   window.scrollTo(0,0);
@@ -278,6 +279,7 @@ async function submitSignIn(){
           notice.innerHTML=`⚠️ <strong>Your documents need updating before you can proceed to site.</strong><br>The following are expired or missing: <strong>${escapeHTML(expiredList)}</strong>.<br>Upload current copies below — one row per document.`;
           notice.className="notice notice-danger";
           msg("ticketMessage","","");
+          window._keepNotice=true;
           showPage("tickets");
           return;
         }
