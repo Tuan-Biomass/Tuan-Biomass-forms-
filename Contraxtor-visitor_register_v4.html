@@ -264,13 +264,16 @@ async function submitSignIn(){
           let rawDocs=docData.expired_docs;
           let expiredList="one or more documents";
           try{
-            // Handle string, array, or stringified array of objects
-            if(typeof rawDocs==="string") rawDocs=JSON.parse(rawDocs);
+            if(typeof rawDocs==="string"){
+              // Strip curly/smart quotes and backticks before parsing
+              rawDocs=rawDocs.replace(/[\u2018\u2019\u201c\u201d`]/g,'"');
+              rawDocs=JSON.parse(rawDocs);
+            }
             if(Array.isArray(rawDocs)&&rawDocs.length){
               const names=rawDocs.map(d=>{
-                if(typeof d==="string") return d.replace(/^`/,"").trim();
+                if(typeof d==="string") return d.replace(/^[`"]/,"").trim();
                 const v=Object.values(d)[0]||"";
-                return v.replace(/^`/,"").trim();
+                return v.replace(/^[`"]/,"").trim();
               }).filter(Boolean);
               if(names.length) expiredList=names.join(", ");
             }
@@ -396,13 +399,16 @@ async function startTicketUpload(id){
           let rawDocs=docData.expired_docs;
           let expiredList="one or more documents";
           try{
-            // Handle string, array, or stringified array of objects
-            if(typeof rawDocs==="string") rawDocs=JSON.parse(rawDocs);
+            if(typeof rawDocs==="string"){
+              // Strip curly/smart quotes and backticks before parsing
+              rawDocs=rawDocs.replace(/[\u2018\u2019\u201c\u201d`]/g,'"');
+              rawDocs=JSON.parse(rawDocs);
+            }
             if(Array.isArray(rawDocs)&&rawDocs.length){
               const names=rawDocs.map(d=>{
-                if(typeof d==="string") return d.replace(/^`/,"").trim();
+                if(typeof d==="string") return d.replace(/^[`"]/,"").trim();
                 const v=Object.values(d)[0]||"";
-                return v.replace(/^`/,"").trim();
+                return v.replace(/^[`"]/,"").trim();
               }).filter(Boolean);
               if(names.length) expiredList=names.join(", ");
             }
