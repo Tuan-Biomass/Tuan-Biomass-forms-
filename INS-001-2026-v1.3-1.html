@@ -345,7 +345,7 @@ async function submitInsurance(){
   const wcFiles = await buildAttachments("wcFiles");
   if(wcFiles.length){
     documents.push({
-      document_type: "Workers Compensation",
+      document_type: "Workers Compensation Insurance",
       policy_number: val("wcPolicy"),
       expiry_date: getExpiryString("wc"),
       attachments: wcFiles
