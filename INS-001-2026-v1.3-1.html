@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuan Biomass — Contractor Insurance Upload</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--green:#2D6A4F;--green-dark:#1B4332;--accent:#D4A017;--danger:#DC2626;--bg:#F6F7F8;--card:#fff;--border:#D1D5DB;--muted:#6B7280;--text:#111827}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Barlow",sans-serif;background:var(--bg);color:var(--text)}
+.header{background:#fff;border-bottom:3px solid var(--green);padding:14px 22px;display:flex;gap:14px;align-items:center}
+.header h1{font-family:"Barlow Condensed",sans-serif;font-size:24px;color:var(--green-dark)}
+.header p{font-size:13px;color:var(--muted)}
+.wrap{max-width:900px;margin:20px auto;padding:0 14px 60px}
+.card{background:#fff;border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:22px}
+.title{font-family:"Barlow Condensed",sans-serif;font-size:25px;font-weight:800;color:var(--green-dark)}
+.sub{font-size:13px;color:var(--muted);margin:6px 0 18px}
+.section{border:1.5px solid var(--border);border-radius:14px;margin:18px 0;overflow:hidden}
+.section-head{background:#F9FAFB;padding:12px 16px;border-bottom:1px solid var(--border)}
+.section-title{font-family:"Barlow Condensed",sans-serif;font-size:19px;font-weight:800;color:var(--green-dark)}
+.section-body{padding:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{margin-bottom:14px}
+label{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:13px;text-transform:uppercase;color:var(--green-dark);margin-bottom:5px;letter-spacing:.5px}
+input,select{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:14px;font-family:"Barlow",sans-serif}
+input:focus,select:focus{outline:none;border-color:var(--green)}
+.file-input{border:1.5px dashed var(--border);background:#F9FAFB}
+.notice{padding:12px 15px;border-radius:12px;margin:14px 0;font-size:13px;line-height:1.45}
+.notice-warn{background:#FFFBEB;border:1px solid #FACC15;color:#713F12}
+.notice-danger{background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B}
+.notice-success{background:#F0FDF4;border:1px solid #86EFAC;color:#166534}
+.notice-info{background:#EFF6FF;border:1px solid #93C5FD;color:#1E40AF}
+.btn{border:none;border-radius:10px;padding:11px 18px;font-family:"Barlow Condensed",sans-serif;font-size:16px;font-weight:800;cursor:pointer;transition:background .2s,opacity .2s}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover:not(:disabled){background:var(--green-dark)}
+.btn-primary:disabled{opacity:.55;cursor:not-allowed}
+.actions{display:flex;justify-content:flex-end;margin-top:18px}
+.file-list{font-size:13px;color:var(--muted);margin-top:7px;line-height:1.4}
+.footer{text-align:center;font-size:12px;color:var(--muted);margin-top:18px}
+.date-row{display:grid;grid-template-columns:80px 1fr 100px;gap:10px}
+.date-row select{padding:13px 10px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.card{padding:14px}.title{font-size:21px}.date-row{grid-template-columns:70px 1fr 90px}}
+</style>
+</head>
+
+<body>
+<header class="header">
+  <img src="https://i.ibb.co/1GR1Hq5P/Albioma-Logo.jpg" alt="Albioma" style="height:38px;width:auto;" onerror="this.style.display='none'">
+  <div>
+    <h1>Tuan Biomass</h1>
+    <p>Contractor Insurance Submission</p>
+  </div>
+</header>
+
+<main class="wrap">
+<section class="card">
+  <div class="title">Contractor Insurance Upload</div>
+  <p class="sub">Upload current Public Liability and Workers Compensation documents before attending site.</p>
+
+  <div class="notice notice-warn">
+    Use company insurance documents only. Accepted files: PDF, Word documents or photos.
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Contractor Details</div>
+    </div>
+    <div class="section-body">
+      <div class="grid">
+        <div class="field">
+          <label>Company</label>
+          <input id="company" type="text" autocomplete="organization">
+        </div>
+        <div class="field">
+          <label>Company Email</label>
+          <input id="contactEmail" type="email" autocomplete="email">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Public Liability Insurance</div>
+    </div>
+    <div class="section-body">
+      <div class="grid">
+        <div class="field">
+          <label>Policy Number</label>
+          <input id="plPolicy" type="text">
+        </div>
+        <div class="field">
+          <label>Coverage Amount ($)</label>
+          <input id="plCoverage" type="text" placeholder="e.g. 10,000,000">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Policy Expiry</label>
+        <div class="date-row">
+          <select id="plDay" onchange="checkExpiryDropdown('pl','plExpiryNotice')">
+            <option value="">Day</option>
+          </select>
+          <select id="plMonth" onchange="checkExpiryDropdown('pl','plExpiryNotice')">
+            <option value="">Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <select id="plYear" onchange="checkExpiryDropdown('pl','plExpiryNotice')">
+            <option value="">Year</option>
+          </select>
+        </div>
+      </div>
+      <div id="plExpiryNotice"></div>
+
+      <div class="field">
+        <label>Upload Public Liability Document</label>
+        <input id="plFiles" class="file-input" type="file" multiple accept="image/*,.pdf,.doc,.docx" onchange="showFiles('plFiles','plFileList')">
+        <div id="plFileList" class="file-list">No files selected.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Workers Compensation Insurance</div>
+    </div>
+    <div class="section-body">
+      <div class="grid">
+        <div class="field">
+          <label>Policy Number</label>
+          <input id="wcPolicy" type="text">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Policy Expiry</label>
+        <div class="date-row">
+          <select id="wcDay" onchange="checkExpiryDropdown('wc','wcExpiryNotice')">
+            <option value="">Day</option>
+          </select>
+          <select id="wcMonth" onchange="checkExpiryDropdown('wc','wcExpiryNotice')">
+            <option value="">Month</option>
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <select id="wcYear" onchange="checkExpiryDropdown('wc','wcExpiryNotice')">
+            <option value="">Year</option>
+          </select>
+        </div>
+      </div>
+      <div id="wcExpiryNotice"></div>
+
+      <div class="field">
+        <label>Upload Workers Compensation Document</label>
+        <input id="wcFiles" class="file-input" type="file" multiple accept="image/*,.pdf,.doc,.docx" onchange="showFiles('wcFiles','wcFileList')">
+        <div id="wcFileList" class="file-list">No files selected.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Notes</div>
+    </div>
+    <div class="section-body">
+      <div class="field" style="margin-bottom:0">
+        <label>Additional Notes</label>
+        <textarea id="notes" rows="4" style="width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font-size:14px;font-family:'Barlow',sans-serif;resize:vertical" placeholder="Any additional information regarding your insurance coverage..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div id="message"></div>
+
+  <div class="actions">
+    <button id="submitBtn" class="btn btn-primary" onclick="submitInsurance()">Submit Insurance</button>
+  </div>
+
+  <div class="footer">INS-001-2026-v1.3 · Tuan Biomass · Albioma</div>
+</section>
+</main>
+
+<script>
+const CONFIG = {
+  insuranceUploadURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ea796d14f9dd4e28b18fb1aff4549436/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FeqbZvLGedzM-MoMUiaD4XEsurylA62HYCJmLFeDpg"
+};
+
+// Populate day and year dropdowns
+(function(){
+  const currentYear = new Date().getFullYear();
+  ["plDay","wcDay"].forEach(id => {
+    const el = document.getElementById(id);
+    for(let d = 1; d <= 31; d++){
+      const o = document.createElement("option");
+      o.value = String(d).padStart(2,"0");
+      o.textContent = d;
+      el.appendChild(o);
+    }
+  });
+  ["plYear","wcYear"].forEach(id => {
+    const el = document.getElementById(id);
+    for(let y = currentYear; y <= currentYear + 10; y++){
+      const o = document.createElement("option");
+      o.value = y;
+      o.textContent = y;
+      el.appendChild(o);
+    }
+  });
+})();
+
+function getExpiryDate(prefix){
+  const d = document.getElementById(prefix+"Day").value;
+  const m = document.getElementById(prefix+"Month").value;
+  const y = document.getElementById(prefix+"Year").value;
+  if(!d || !m || !y) return null;
+  return new Date(`${y}-${m}-${d}`);
+}
+
+function getExpiryString(prefix){
+  const d = document.getElementById(prefix+"Day").value;
+  const m = document.getElementById(prefix+"Month").value;
+  const y = document.getElementById(prefix+"Year").value;
+  if(!d || !m || !y) return "";
+  return `${y}-${m}-${d}`;
+}
+
+function checkExpiryDropdown(prefix, noticeId){
+  const expiry = getExpiryDate(prefix);
+  const notice = document.getElementById(noticeId);
+  if(!expiry){ notice.innerHTML = ""; return; }
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  if(expiry < today){
+    notice.innerHTML = `<div class="notice notice-danger">⚠️ This policy appears to have already expired. Tuan Biomass cannot approve site access with an expired policy. Please provide a current certificate before submitting.</div>`;
+  } else {
+    const daysLeft = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+    if(daysLeft <= 30){
+      notice.innerHTML = `<div class="notice notice-warn">⚠️ This policy expires in ${daysLeft} day${daysLeft === 1 ? "" : "s"}. Tuan Biomass may request a renewal certificate before your next visit.</div>`;
+    } else {
+      notice.innerHTML = "";
+    }
+  }
+}
+
+function msg(type, text){
+  document.getElementById("message").innerHTML =
+    text ? `<div class="notice notice-${type}">${text}</div>` : "";
+}
+
+function val(id){
+  return document.getElementById(id).value.trim();
+}
+
+function showFiles(inputId, listId){
+  const files = [...document.getElementById(inputId).files];
+  document.getElementById(listId).innerHTML = files.length
+    ? files.map(f => `${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>")
+    : "No files selected.";
+}
+
+function validate(){
+  // Only block submission if a date is entered and already expired
+  const today = new Date(); today.setHours(0,0,0,0);
+  const plExpiry = getExpiryDate("pl");
+  if(plExpiry && plExpiry < today){
+    msg("danger","Public Liability policy is expired. Please obtain a current certificate before submitting.");
+    return false;
+  }
+  const wcExpiry = getExpiryDate("wc");
+  if(wcExpiry && wcExpiry < today){
+    msg("danger","Workers Compensation policy is expired. Please obtain a current certificate before submitting.");
+    return false;
+  }
+  return true;
+}
+
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function buildAttachments(inputId){
+  const files = [...document.getElementById(inputId).files];
+  const attachments = [];
+  for(const file of files){
+    attachments.push({
+      file_name: file.name,
+      content_type: file.type || "application/octet-stream",
+      size: file.size,
+      content_base64: await fileToBase64(file)
+    });
+  }
+  return attachments;
+}
+
+async function submitInsurance(){
+  if(!validate()) return;
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.textContent = "Uploading...";
+  msg("warn","Uploading insurance documents...");
+
+  const payload = {
+    type: "insurance_upload",
+    submitted_at: new Date().toISOString(),
+
+    company: val("company"),
+    company_email: val("contactEmail"),
+    notes: val("notes"),
+
+    public_liability: {
+      policy_number: val("plPolicy"),
+      coverage_amount: val("plCoverage"),
+      expiry_date: getExpiryString("pl"),
+      attachments: await buildAttachments("plFiles")
+    },
+
+    workers_compensation: {
+      policy_number: val("wcPolicy"),
+      expiry_date: getExpiryString("wc"),
+      attachments: await buildAttachments("wcFiles")
+    }
+  };
+
+  try{
+    const res = await fetch(CONFIG.insuranceUploadURL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    if(!res.ok){
+      msg("danger","Upload failed. Contact Tuan Biomass before attending site.");
+      btn.disabled = false;
+      btn.textContent = "Submit Insurance";
+      return;
+    }
+
+    msg("success","Insurance documents submitted. Tuan Biomass will review them before site access is approved.");
+    clearForm();
+
+  }catch(e){
+    console.error(e);
+    msg("danger","Upload failed. Check internet connection or contact Tuan Biomass.");
+    btn.disabled = false;
+    btn.textContent = "Submit Insurance";
+  }
+}
+
+function clearForm(){
+  document.querySelectorAll("input,select,textarea").forEach(el => { el.value = ""; });
+  document.getElementById("plFileList").innerHTML = "No files selected.";
+  document.getElementById("wcFileList").innerHTML = "No files selected.";
+  document.getElementById("plExpiryNotice").innerHTML = "";
+  document.getElementById("wcExpiryNotice").innerHTML = "";
+}
+
+function escapeHTML(str){
+  return String(str || "").replace(/[&<>"']/g, m => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[m]));
+}
+</script>
+</body>
+</html>
