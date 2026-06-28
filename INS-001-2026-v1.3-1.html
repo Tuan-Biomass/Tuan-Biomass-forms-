@@ -363,12 +363,20 @@ async function submitInsurance(){
   };
 
   try{
-    await fetch(CONFIG.insuranceUploadURL, {
+    const res = await fetch(CONFIG.insuranceUploadURL, {
       method: "POST",
-      mode: "no-cors",
       headers: {"Content-Type":"application/json"},
       body: JSON.stringify(payload)
     });
+
+    if(!res.ok){
+      const errText = await res.text();
+      console.error("Flow error:", res.status, errText);
+      msg("danger","Upload failed ("+res.status+"). Contact Tuan Biomass before attending site.");
+      btn.disabled = false;
+      btn.textContent = "Submit Insurance";
+      return;
+    }
 
     msg("success","Insurance documents submitted. Tuan Biomass will review them before site access is approved.");
     clearForm();
