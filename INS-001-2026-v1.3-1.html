@@ -329,26 +329,37 @@ async function submitInsurance(){
   btn.textContent = "Uploading...";
   msg("warn","Uploading insurance documents...");
 
-  const payload = {
-    type: "insurance_upload",
-    submitted_at: new Date().toISOString(),
+  const documents = [];
 
-    company: val("company"),
-    company_email: val("contactEmail"),
-    notes: val("notes"),
-
-    public_liability: {
+  const plFiles = await buildAttachments("plFiles");
+  if(plFiles.length){
+    documents.push({
+      document_type: "Public Liability Insurance",
       policy_number: val("plPolicy"),
       coverage_amount: val("plCoverage"),
       expiry_date: getExpiryString("pl"),
-      attachments: await buildAttachments("plFiles")
-    },
+      attachments: plFiles
+    });
+  }
 
-    workers_compensation: {
+  const wcFiles = await buildAttachments("wcFiles");
+  if(wcFiles.length){
+    documents.push({
+      document_type: "Workers Compensation",
       policy_number: val("wcPolicy"),
       expiry_date: getExpiryString("wc"),
-      attachments: await buildAttachments("wcFiles")
-    }
+      attachments: wcFiles
+    });
+  }
+
+  const payload = {
+    type: "insurance_upload",
+    submitted_at: new Date().toISOString(),
+    company: val("company"),
+    full_name: val("company"),
+    company_email: val("contactEmail"),
+    notes: val("notes"),
+    documents: documents
   };
 
   try{
