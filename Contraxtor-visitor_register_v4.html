@@ -261,12 +261,19 @@ async function submitSignIn(){
           document.getElementById("ticketPerson").innerHTML=`<strong>${escapeHTML(newRec.full_name)}</strong> — ${escapeHTML(newRec.company)}`;
           resetDocumentSections();
           let rawDocs=docData.expired_docs;
-          if(typeof rawDocs==="string"){try{rawDocs=JSON.parse(rawDocs);}catch(e){}}
           let expiredList="one or more documents";
-          if(rawDocs&&Array.isArray(rawDocs)&&rawDocs.length){
-            const names=rawDocs.map(d=>typeof d==="string"?d:Object.values(d)[0]).filter(Boolean);
-            if(names.length) expiredList=names.join(", ");
-          }
+          try{
+            // Handle string, array, or stringified array of objects
+            if(typeof rawDocs==="string") rawDocs=JSON.parse(rawDocs);
+            if(Array.isArray(rawDocs)&&rawDocs.length){
+              const names=rawDocs.map(d=>{
+                if(typeof d==="string") return d.replace(/^`/,"").trim();
+                const v=Object.values(d)[0]||"";
+                return v.replace(/^`/,"").trim();
+              }).filter(Boolean);
+              if(names.length) expiredList=names.join(", ");
+            }
+          }catch(e){console.warn("expired_docs parse error:",e,rawDocs);}
           const notice=document.getElementById("uploadNotice");
           notice.innerHTML=`⚠️ <strong>Your documents need updating before you can proceed to site.</strong><br>The following are expired or missing: <strong>${escapeHTML(expiredList)}</strong>.<br>Upload current copies below — one row per document.`;
           notice.className="notice notice-danger";
@@ -385,12 +392,19 @@ async function startTicketUpload(id){
         const docData=await docRes.json();
         if(docData.docs_expired==="true"){
           let rawDocs=docData.expired_docs;
-          if(typeof rawDocs==="string"){try{rawDocs=JSON.parse(rawDocs);}catch(e){}}
           let expiredList="one or more documents";
-          if(rawDocs&&Array.isArray(rawDocs)&&rawDocs.length){
-            const names=rawDocs.map(d=>typeof d==="string"?d:Object.values(d)[0]).filter(Boolean);
-            if(names.length) expiredList=names.join(", ");
-          }
+          try{
+            // Handle string, array, or stringified array of objects
+            if(typeof rawDocs==="string") rawDocs=JSON.parse(rawDocs);
+            if(Array.isArray(rawDocs)&&rawDocs.length){
+              const names=rawDocs.map(d=>{
+                if(typeof d==="string") return d.replace(/^`/,"").trim();
+                const v=Object.values(d)[0]||"";
+                return v.replace(/^`/,"").trim();
+              }).filter(Boolean);
+              if(names.length) expiredList=names.join(", ");
+            }
+          }catch(e){console.warn("expired_docs parse error:",e,rawDocs);}
           notice.innerHTML=`⚠️ <strong>Your documents need updating before you can proceed to site.</strong><br>The following are expired or missing: <strong>${escapeHTML(expiredList)}</strong>.<br>Upload current copies below — one row per document.`;
           notice.className="notice notice-danger";
         } else {
