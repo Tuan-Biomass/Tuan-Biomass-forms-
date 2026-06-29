@@ -52,6 +52,13 @@
 
   <div class="form-grid">
     <div class="field">
+      <label for="companyEmail">Company Email</label>
+      <input type="email" id="companyEmail" placeholder="e.g. admin@smithelectrical.com.au" autocomplete="email">
+    </div>
+  </div>
+
+  <div class="form-grid">
+    <div class="field">
       <label for="mobileNumber">Mobile Number *</label>
       <input type="text" id="mobileNumber" placeholder="e.g. 0412 345 678" inputmode="tel" autocomplete="tel">
     </div>
@@ -344,6 +351,7 @@ async function submitTickets(){
 
   const fullName=document.getElementById("fullName").value.trim();
   const company=document.getElementById("company").value.trim();
+  const companyEmail=document.getElementById("companyEmail").value.trim();
   const mobileNumber=document.getElementById("mobileNumber").value.trim();
   const personId=normaliseMobile(mobileNumber);
   const uploadDate=document.getElementById("uploadDate").value;
@@ -421,6 +429,7 @@ async function submitTickets(){
     mobile_number:mobileNumber,
     full_name:fullName,
     company:company,
+    company_email:companyEmail,
     upload_date:uploadDate,
     notes:notes,
     uploaded_at:new Date().toISOString(),
