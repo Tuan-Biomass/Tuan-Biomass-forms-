@@ -214,6 +214,7 @@ const CONFIG = {
     { question: "What is Albioma's policy on drugs and alcohol on site?", options: ["A breathalyser test is required each morning", "Zero tolerance — no drugs or alcohol permitted on site", "Allowed in small amounts after hours", "Only applies to machinery operators"], correctIndex: 1, feedback: "Zero tolerance. No drugs or alcohol are permitted on site at any time for any person." },
   ],
   passMark: 80,
+  inductionCheckURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/55cd38b7bffd45dd83188083da5df32a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=QFuqTfr5A9qFz77bc84c_DNb8wOdr02DXr_JniMu9ug",
   webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
   docUploadURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ea796d14f9dd4e28b18fb1aff4549436/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FeqbZvLGedzM-MoMUiaD4XEsurylA62HYCJmLFeDpg",
   sharePointFolder: "Contractor Documents",
@@ -250,7 +251,7 @@ const CONFIG = {
         <div class="form-group"><label>Trade / Role</label><input type="text" id="trade" placeholder="e.g. Electrician, Fitter"></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label>Mobile Number</label><input type="tel" id="phone" placeholder="Mobile number"></div>
+        <div class="form-group"><label>Mobile Number</label><input type="tel" id="phone" placeholder="Mobile number" onblur="autofillFromMobile(this.value)"><div id="autofillHint" style="margin-top:6px;font-size:13px;color:#40916C;"></div></div>
         <div class="form-group"><label>Planned Date(s) on Site</label><input type="text" id="dates" placeholder="e.g. 22/04/2026"></div>
       </div>
       <div class="form-group"><label>High Risk Tasks Being Undertaken</label><input type="text" id="tasks" placeholder="e.g. Working at heights, hot work, confined space"></div>
@@ -565,6 +566,40 @@ function updateProgress() {
   document.getElementById("progressFill").style.width = pct + "%";
   const labels = ["Registration","Emergency & Contacts","Golden Rules","Site Rules","Hazards & PPE","SWMS","Documents & Acknowledgement","Quiz","Complete"];
   document.getElementById("progressLabel").textContent = labels[currentScreen] || "";
+}
+
+function normaliseMobile(m){ return m.replace(/\D/g,""); }
+
+async function autofillFromMobile(mobile) {
+  mobile = mobile.trim();
+  if (mobile.length < 8) return;
+  const hint = document.getElementById("autofillHint");
+  hint.innerHTML = "Looking up contractor details...";
+  try {
+    const res = await fetch(CONFIG.inductionCheckURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mobile_number: mobile, person_id: normaliseMobile(mobile), lookup_only: "true" })
+    });
+    if (!res.ok) { hint.innerHTML = ""; return; }
+    const rec = await res.json();
+    if (rec.full_name) {
+      document.getElementById("name").value = rec.full_name || "";
+      document.getElementById("company").value = rec.company || "";
+      if (rec.company_contact_name)   document.getElementById("companyContactName").value   = rec.company_contact_name;
+      if (rec.company_contact_mobile) document.getElementById("companyContactMobile").value = rec.company_contact_mobile;
+      if (rec.company_contact_email)  document.getElementById("companyContactEmail").value  = rec.company_contact_email;
+      if (rec.emergency_name)         document.getElementById("emergencyName").value         = rec.emergency_name;
+      if (rec.emergency_relationship) document.getElementById("emergencyRelationship").value = rec.emergency_relationship;
+      if (rec.emergency_phone)        document.getElementById("emergencyPhone").value        = rec.emergency_phone;
+      hint.innerHTML = "<span style='color:#2D6A4F'>✓ Details filled from contractor register — please check and update if needed</span>";
+    } else {
+      hint.innerHTML = "<span style='color:#6b7280'>No existing record found — please enter details manually</span>";
+    }
+  } catch(e) {
+    hint.innerHTML = "";
+    console.warn("Autofill lookup failed:", e);
+  }
 }
 
 function startInduction() {
