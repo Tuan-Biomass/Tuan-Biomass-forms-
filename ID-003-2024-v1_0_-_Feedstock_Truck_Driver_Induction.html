@@ -216,6 +216,7 @@ const CONFIG = {
     { question: "What is the site drug and alcohol rule?", options: ["Allowed after hours", "Only applies to employees", "Drugs and alcohol are strictly prohibited on site", "Only applies to forklift drivers"], correct: 2, feedback: "Drugs and alcohol are strictly prohibited on site. Contractors may be subject to random drug testing." }
   ],
   passMark: 80,
+  inductionCheckURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/55cd38b7bffd45dd83188083da5df32a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=QFuqTfr5A9qFz77bc84c_DNb8wOdr02DXr8-avaAXh8",
   webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
   docUploadURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ea796d14f9dd4e28b18fb1aff4549436/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FeqbZvLGedzM-MoMUiaD4XEsurylA62HYCJmLFeDpg",
   sharePointFolder: "Contractor Documents",
@@ -249,6 +250,12 @@ const CONFIG = {
       <hr style="border:none; border-top:1px solid var(--border); margin-bottom:20px;">
       <div class="section-tag">Driver Details</div>
       <h2>Driver Registration</h2>
+      <div class="info-box" style="margin-bottom:16px">If you have previously completed this induction, enter your mobile number first and your details will be filled in automatically.</div>
+      <div class="form-group">
+        <label>Driver Mobile Number</label>
+        <input type="text" id="phone" placeholder="Mobile number" inputmode="tel" onblur="autofillFromMobile(this.value)">
+        <div id="autofillHint" style="margin-top:6px;font-size:13px;"></div>
+      </div>
       <div class="form-row">
         <div class="form-group">
           <label>Full Name</label>
@@ -259,15 +266,9 @@ const CONFIG = {
           <input type="text" id="driverCompany" placeholder="e.g. ABC Transport">
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Truck Registration</label>
-          <input type="text" id="driverRego" placeholder="e.g. 123 ABC">
-        </div>
-        <div class="form-group">
-          <label>Driver Mobile Number</label>
-          <input type="text" id="phone" placeholder="Mobile number" inputmode="tel">
-        </div>
+      <div class="form-group">
+        <label>Truck Registration</label>
+        <input type="text" id="driverRego" placeholder="e.g. 123 ABC">
       </div>
       <div class="section-tag" style="margin-top:8px">Company Contact</div>
       <div class="form-row">
@@ -708,6 +709,37 @@ document.getElementById("quizSubmitBtn").onclick = () => {
 document.getElementById("ackBackBtn").onclick = () => showScreen(9);
 
 // ── File helper ───────────────────────────────────────────────────────────────
+function normaliseMobile(m){ return m.replace(/[^0-9]/g,""); }
+
+async function autofillFromMobile(mobile) {
+  mobile = mobile.trim();
+  if (mobile.length < 8) return;
+  const hint = document.getElementById("autofillHint");
+  hint.innerHTML = "<span style='color:#6b7280'>Looking up driver details...</span>";
+  try {
+    const res = await fetch(CONFIG.inductionCheckURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mobile_number: mobile, person_id: mobile, lookup_only: "true" })
+    });
+    if (!res.ok) { hint.innerHTML = ""; return; }
+    const d = await res.json();
+    if (d.full_name) {
+      document.getElementById("driverName").value = d.full_name || "";
+      document.getElementById("driverCompany").value = d.company || "";
+      if (d.company_contact_name)   document.getElementById("companyContact").value       = d.company_contact_name;
+      if (d.company_contact_mobile) document.getElementById("companyContactMobile").value = d.company_contact_mobile;
+      if (d.company_contact_email)  document.getElementById("companyContactEmail").value  = d.company_contact_email;
+      hint.innerHTML = "<span style='color:#2D6A4F'>Details filled from contractor register - please check and update if needed</span>";
+    } else {
+      hint.innerHTML = "<span style='color:#6b7280'>No existing record found - please enter details manually</span>";
+    }
+  } catch(e) {
+    hint.innerHTML = "";
+    console.warn("Autofill lookup failed:", e);
+  }
+}
+
 function fileToBase64(file) {
   return new Promise((res,rej) => { const r = new FileReader(); r.onload = () => res(r.result.split(",")[1]); r.onerror = rej; r.readAsDataURL(file); });
 }
