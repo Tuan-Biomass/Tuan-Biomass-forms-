@@ -577,25 +577,24 @@ async function autofillFromMobile(mobile) {
   mobile = mobile.trim();
   if (mobile.length < 8) return;
   const hint = document.getElementById("autofillHint");
-  hint.innerHTML = "Looking up contractor details...";
+  hint.innerHTML = "<span style='color:#6b7280'>Looking up contractor details...</span>";
   try {
     const res = await fetch(CONFIG.inductionCheckURL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ mobile_number: mobile, person_id: normaliseMobile(mobile), lookup_only: "true" })
+      body: JSON.stringify({ mobile_number: mobile, person_id: mobile, lookup_only: "true" })
     });
     if (!res.ok) { hint.innerHTML = ""; return; }
-    const rec = await res.json();
-    const person = rec.full_name ? rec : (Array.isArray(rec) && rec.length ? rec[0] : null);
-    if (person && person.full_name) {
-      document.getElementById("name").value = person.full_name || "";
-      document.getElementById("company").value = person.company || "";
-      if (person.company_contact_name)   document.getElementById("companyContactName").value   = person.company_contact_name;
-      if (person.company_contact_mobile) document.getElementById("companyContactMobile").value = person.company_contact_mobile;
-      if (person.company_contact_email)  document.getElementById("companyContactEmail").value  = person.company_contact_email;
-      if (person.emergency_name)         document.getElementById("emergencyName").value         = person.emergency_name;
-      if (person.emergency_relationship) document.getElementById("emergencyRelationship").value = person.emergency_relationship;
-      if (person.emergency_phone)        document.getElementById("emergencyPhone").value        = person.emergency_phone;
+    const data = await res.json();
+    if (data.full_name) {
+      document.getElementById("name").value = data.full_name || "";
+      document.getElementById("company").value = data.company || "";
+      if (data.company_contact_name)   document.getElementById("companyContactName").value   = data.company_contact_name;
+      if (data.company_contact_mobile) document.getElementById("companyContactMobile").value = data.company_contact_mobile;
+      if (data.company_contact_email)  document.getElementById("companyContactEmail").value  = data.company_contact_email;
+      if (data.emergency_name)         document.getElementById("emergencyName").value         = data.emergency_name;
+      if (data.emergency_relationship) document.getElementById("emergencyRelationship").value = data.emergency_relationship;
+      if (data.emergency_phone)        document.getElementById("emergencyPhone").value        = data.emergency_phone;
       hint.innerHTML = "<span style='color:#2D6A4F'>✓ Details filled from contractor register — please check and update if needed</span>";
     } else {
       hint.innerHTML = "<span style='color:#6b7280'>No existing record found — please enter details manually</span>";
