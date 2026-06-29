@@ -835,6 +835,7 @@ document.getElementById("completeInductionBtn").onclick = async () => {
       mobile_number: phone,
       full_name:     name,
       company:       company,
+      company_email: company_contact_email || "",
       notes:         "Uploaded during induction — " + CONFIG.documentNo,
       uploaded_at:   new Date().toISOString(),
       documents:     uploadDocuments
