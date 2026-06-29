@@ -245,15 +245,18 @@ const CONFIG = {
     <div class="card">
       <div class="section-tag">Contractor Details</div>
       <h2>Register Before You Begin</h2>
+      <div class="info-box" style="margin-bottom:16px">If you have previously completed this induction, enter your mobile number first and your details will be filled in automatically.</div>
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="tel" id="phone" placeholder="Mobile number" onblur="autofillFromMobile(this.value)">
+        <div id="autofillHint" style="margin-top:6px;font-size:13px;"></div>
+      </div>
       <div class="form-group"><label>Name</label><input type="text" id="name" placeholder="Full name"></div>
       <div class="form-row">
         <div class="form-group"><label>Company / Employer</label><input type="text" id="company" placeholder="Your company name"></div>
         <div class="form-group"><label>Trade / Role</label><input type="text" id="trade" placeholder="e.g. Electrician, Fitter"></div>
       </div>
-      <div class="form-row">
-        <div class="form-group"><label>Mobile Number</label><input type="tel" id="phone" placeholder="Mobile number" onblur="autofillFromMobile(this.value)"><div id="autofillHint" style="margin-top:6px;font-size:13px;color:#40916C;"></div></div>
-        <div class="form-group"><label>Planned Date(s) on Site</label><input type="text" id="dates" placeholder="e.g. 22/04/2026"></div>
-      </div>
+      <div class="form-group"><label>Planned Date(s) on Site</label><input type="text" id="dates" placeholder="e.g. 22/04/2026"></div>
       <div class="form-group"><label>High Risk Tasks Being Undertaken</label><input type="text" id="tasks" placeholder="e.g. Working at heights, hot work, confined space"></div>
       <div class="section-tag" style="margin-top:8px">Company Contact</div>
       <div class="form-row">
@@ -583,15 +586,16 @@ async function autofillFromMobile(mobile) {
     });
     if (!res.ok) { hint.innerHTML = ""; return; }
     const rec = await res.json();
-    if (rec.full_name) {
-      document.getElementById("name").value = rec.full_name || "";
-      document.getElementById("company").value = rec.company || "";
-      if (rec.company_contact_name)   document.getElementById("companyContactName").value   = rec.company_contact_name;
-      if (rec.company_contact_mobile) document.getElementById("companyContactMobile").value = rec.company_contact_mobile;
-      if (rec.company_contact_email)  document.getElementById("companyContactEmail").value  = rec.company_contact_email;
-      if (rec.emergency_name)         document.getElementById("emergencyName").value         = rec.emergency_name;
-      if (rec.emergency_relationship) document.getElementById("emergencyRelationship").value = rec.emergency_relationship;
-      if (rec.emergency_phone)        document.getElementById("emergencyPhone").value        = rec.emergency_phone;
+    const person = rec.full_name ? rec : (Array.isArray(rec) && rec.length ? rec[0] : null);
+    if (person && person.full_name) {
+      document.getElementById("name").value = person.full_name || "";
+      document.getElementById("company").value = person.company || "";
+      if (person.company_contact_name)   document.getElementById("companyContactName").value   = person.company_contact_name;
+      if (person.company_contact_mobile) document.getElementById("companyContactMobile").value = person.company_contact_mobile;
+      if (person.company_contact_email)  document.getElementById("companyContactEmail").value  = person.company_contact_email;
+      if (person.emergency_name)         document.getElementById("emergencyName").value         = person.emergency_name;
+      if (person.emergency_relationship) document.getElementById("emergencyRelationship").value = person.emergency_relationship;
+      if (person.emergency_phone)        document.getElementById("emergencyPhone").value        = person.emergency_phone;
       hint.innerHTML = "<span style='color:#2D6A4F'>✓ Details filled from contractor register — please check and update if needed</span>";
     } else {
       hint.innerHTML = "<span style='color:#6b7280'>No existing record found — please enter details manually</span>";
