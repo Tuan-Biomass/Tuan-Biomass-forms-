@@ -940,6 +940,7 @@ async function sendToFlow(data) {
     mobile_number: data.phone,
     full_name:     data.name,
     company:       data.company,
+    company_email: data.company_contact_email || "",
     notes:         "Uploaded during contractor induction — ID-002-2025-v3.0",
     uploaded_at:   new Date().toISOString(),
     documents:     uploadDocuments
