@@ -80,9 +80,7 @@ input:focus,select:focus{outline:none;border-color:var(--green)}
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-head">
-      <div class="section-title">Public Liability Insurance</div>
+  <div class="section" id="plSection">
     </div>
     <div class="section-body">
       <div class="grid">
@@ -132,9 +130,7 @@ input:focus,select:focus{outline:none;border-color:var(--green)}
     </div>
   </div>
 
-  <div class="section">
-    <div class="section-head">
-      <div class="section-title">Workers Compensation Insurance</div>
+  <div class="section" id="wcSection">
     </div>
     <div class="section-body">
       <div class="grid">
@@ -228,6 +224,50 @@ const CONFIG = {
       el.appendChild(o);
     }
   });
+
+  // ── URL Parameter Prefill ──────────────────────────────────────────────────
+  // Reads ?company=...&email=...&type=... from the link sent in reminder emails.
+  // Locks prefilled fields so contractors cannot accidentally change them.
+  (function prefillFromURL(){
+    const params = new URLSearchParams(window.location.search);
+
+    function prefillAndLock(id, value){
+      if(!value) return;
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.value = value;
+      el.readOnly = true;
+      el.style.background = "#f0f4f0";
+      el.style.color = "#555";
+      el.style.cursor = "not-allowed";
+    }
+
+    const company = params.get("company");
+    const email   = params.get("email");
+    const type    = params.get("type");   // "pl" or "wc" (or full name)
+
+    prefillAndLock("company",      company);
+    prefillAndLock("contactEmail", email);
+
+    // Highlight the relevant insurance section and scroll to it
+    if(type){
+      const t = type.toLowerCase();
+      let sectionId = null;
+      if(t === "pl" || t.includes("public")){
+        sectionId = "plSection";
+      } else if(t === "wc" || t.includes("worker")){
+        sectionId = "wcSection";
+      }
+      if(sectionId){
+        const section = document.getElementById(sectionId);
+        if(section){
+          section.style.border = "2px solid var(--green)";
+          section.style.boxShadow = "0 0 0 4px rgba(56,142,60,0.12)";
+          setTimeout(() => section.scrollIntoView({behavior:"smooth", block:"start"}), 400);
+        }
+      }
+    }
+  })();
 })();
 
 function getExpiryDate(prefix){
