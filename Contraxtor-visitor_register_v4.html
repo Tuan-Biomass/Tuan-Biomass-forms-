@@ -461,7 +461,25 @@ function addDocumentRow(category){
 
     <div class="doc-field expiry-wrap hidden">
       <label>Expiry Date *</label>
-      <div class="expiry-wrap" style="display:contents;">
+      ${category === "insurance" ? `
+      <div style="display:flex;gap:8px;">
+        <select class="doc-expiry-day" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Day</option>
+          ${Array.from({length:31},(_,i)=>i+1).map(d=>`<option value="${String(d).padStart(2,'0')}">${d}</option>`).join("")}
+        </select>
+        <select class="doc-expiry-month" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Month</option>
+          <option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option>
+          <option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option>
+          <option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option>
+          <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+        </select>
+        <select class="doc-expiry-year" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Year</option>
+          ${Array.from({length:15},(_,i)=>2026+i).map(y=>`<option value="${y}">${y}</option>`).join("")}
+        </select>
+      </div>
+      ` : `
       <div style="display:flex;gap:8px;">
         <select class="doc-expiry-month" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
           <option value="">Month</option>
@@ -471,11 +489,12 @@ function addDocumentRow(category){
           <option value="10">October</option><option value="11">November</option><option value="12">December</option>
         </select>
         <select class="doc-expiry-year" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
-          <option value="">Year</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option>
+          <option value="">Year</option>
+          ${Array.from({length:15},(_,i)=>2026+i).map(y=>`<option value="${y}">${y}</option>`).join("")}
         </select>
       </div>
+      `}
       <input type="hidden" class="doc-expiry">
-      </div>
     </div>
 
     <div class="doc-field">
@@ -581,11 +600,13 @@ function showSelectedFiles(rowId){
 }
 
 function syncExpiry(el) {
-  const wrap = el.closest(".expiry-wrap");
+  const wrap  = el.closest(".expiry-wrap");
   if (!wrap) return;
-  const month = wrap.querySelector(".doc-expiry-month").value;
-  const year  = wrap.querySelector(".doc-expiry-year").value;
-  wrap.querySelector(".doc-expiry").value = (year && month) ? `${year}-${month}-01` : "";
+  const month = wrap.querySelector(".doc-expiry-month") ? wrap.querySelector(".doc-expiry-month").value : "";
+  const year  = wrap.querySelector(".doc-expiry-year")  ? wrap.querySelector(".doc-expiry-year").value  : "";
+  const dayEl = wrap.querySelector(".doc-expiry-day");
+  const day   = dayEl ? (dayEl.value || "01") : "01";
+  wrap.querySelector(".doc-expiry").value = (year && month) ? `${year}-${month}-${day}` : "";
 }
 
 function fileToBase64(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(",")[1]);reader.onerror=reject;reader.readAsDataURL(file)})}
