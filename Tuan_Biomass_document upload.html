@@ -140,6 +140,11 @@ function formatDate(input){
 }
 
 function isValidDate(value){
+  if(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/.test(value)){
+    const [year,month,day]=value.split("-").map(Number);
+    const d=new Date(year,month-1,day);
+    return d.getFullYear()===year && d.getMonth()===month-1 && d.getDate()===day;
+  }
   if(!/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/.test(value))return false;
   const [day,month,year]=value.split("/").map(Number);
   const d=new Date(year,month-1,day);
