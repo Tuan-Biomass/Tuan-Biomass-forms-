@@ -461,7 +461,21 @@ function addDocumentRow(category){
 
     <div class="doc-field expiry-wrap hidden">
       <label>Expiry Date *</label>
-      <input type="date" class="doc-expiry">
+      <div class="expiry-wrap" style="display:contents;">
+      <div style="display:flex;gap:8px;">
+        <select class="doc-expiry-month" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Month</option>
+          <option value="01">January</option><option value="02">February</option><option value="03">March</option>
+          <option value="04">April</option><option value="05">May</option><option value="06">June</option>
+          <option value="07">July</option><option value="08">August</option><option value="09">September</option>
+          <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+        </select>
+        <select class="doc-expiry-year" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Year</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option>
+        </select>
+      </div>
+      <input type="hidden" class="doc-expiry">
+      </div>
     </div>
 
     <div class="doc-field">
@@ -564,6 +578,14 @@ function showSelectedFiles(rowId){
   if(!row)return;
   const files=[...row.querySelector(".doc-files").files];
   document.getElementById(`files_${rowId}`).innerHTML=files.length?files.map(f=>`${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>"):"No documents selected.";
+}
+
+function syncExpiry(el) {
+  const wrap = el.closest(".expiry-wrap");
+  if (!wrap) return;
+  const month = wrap.querySelector(".doc-expiry-month").value;
+  const year  = wrap.querySelector(".doc-expiry-year").value;
+  wrap.querySelector(".doc-expiry").value = (year && month) ? `${year}-${month}-01` : "";
 }
 
 function fileToBase64(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(",")[1]);reader.onerror=reject;reader.readAsDataURL(file)})}
