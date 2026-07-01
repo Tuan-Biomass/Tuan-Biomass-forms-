@@ -596,6 +596,10 @@ function fileToBase64(file) {
         <div><strong>Date Completed</strong><span id="recordDate"></span></div>
       </div>
       <div class="status-msg" id="completeStatus">Submitting induction record...</div>
+      <div class="btn-row" style="justify-content:center;margin-top:24px;">
+        <button class="btn btn-secondary" id="homeBtn">Home</button>
+        <button class="btn btn-primary"   id="closeBtn">Close</button>
+      </div>
     </div>
   </div>
 
@@ -681,6 +685,16 @@ document.getElementById("s5Next").addEventListener("click",  () => goTo("7"));
 document.getElementById("s6Back").addEventListener("click",  () => goTo("6"));
 document.getElementById("s6Next").addEventListener("click",  () => { resetQuiz(); goTo("8"); });
 document.getElementById("s7Back").addEventListener("click",  () => goTo("7"));
+document.getElementById("homeBtn").addEventListener("click", () => { location.reload(); });
+document.getElementById("closeBtn").addEventListener("click", () => {
+  window.close();
+  // Some browsers block window.close() on tabs not opened by script — fall back to a message.
+  setTimeout(() => {
+    if (!window.closed) {
+      document.getElementById("completeStatus").textContent = "You can now close this tab.";
+    }
+  }, 300);
+});
 
 // ── Document upload (licence only) ────────────────────────────────────────────
 function escapeHTML(str) {
