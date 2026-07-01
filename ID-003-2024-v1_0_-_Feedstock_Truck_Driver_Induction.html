@@ -429,6 +429,10 @@ const CONFIG = {
         <div><strong>Date Completed</strong><span id="recordDate"></span></div>
       </div>
       <div class="status-msg" id="uploadStatusMsg"></div>
+      <div class="btn-row" style="justify-content:center;margin-top:24px;">
+        <button class="btn btn-secondary" id="homeBtn">Home</button>
+        <button class="btn btn-primary"   id="closeBtn">Close</button>
+      </div>
     </div>
   </div>
 
@@ -475,6 +479,16 @@ document.getElementById("startBtn").onclick = () => {
 document.querySelectorAll("[data-next]").forEach(b => b.onclick = () => showScreen(current + 1));
 document.querySelectorAll("[data-back]").forEach(b => b.onclick = () => showScreen(current - 1));
 document.getElementById("beginQuizBtn").onclick = startQuiz;
+document.getElementById("homeBtn").onclick = () => { location.reload(); };
+document.getElementById("closeBtn").onclick = () => {
+  window.close();
+  // Some browsers block window.close() on tabs not opened by script — fall back to a message.
+  setTimeout(() => {
+    if (!window.closed) {
+      document.getElementById("uploadStatusMsg").textContent = "You can now close this tab.";
+    }
+  }, 300);
+};
 
 // ── Document upload section (matches site register) ───────────────────────────
 function escapeHTML(str) {
