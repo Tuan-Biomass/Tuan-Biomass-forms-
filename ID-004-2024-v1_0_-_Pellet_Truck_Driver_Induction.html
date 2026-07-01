@@ -697,7 +697,7 @@ function hrwlCodeBoxes() {
   return codes.map(code => `<label class="hrwl-code" title="${code}"><input type="checkbox" class="hrwl-code-check" value="${code}">${code}</label>`).join("");
 }
 
-function addDocumentRow() {
+function addDocumentRow(category = "licence") {
   const container = document.getElementById("licenceRows");
   const rowId = `doc_lic_${Date.now()}_${Math.floor(Math.random()*10000)}`;
   const div = document.createElement("div");
