@@ -485,6 +485,8 @@ const CONFIG = {
       <div class="status-msg"   id="sheetStatus"></div>
       <div class="btn-row" style="justify-content:center">
         <button class="btn btn-secondary" onclick="window.print()">Print Record</button>
+        <button class="btn btn-secondary" id="homeBtn">Home</button>
+        <button class="btn btn-primary"   id="closeBtn">Close</button>
       </div>
     </div>
   </div>
@@ -552,6 +554,17 @@ document.addEventListener("DOMContentLoaded", () => {
   addDocumentRow("insurance");
 
   updateProgress();
+
+  document.getElementById("homeBtn").addEventListener("click", () => { location.reload(); });
+  document.getElementById("closeBtn").addEventListener("click", () => {
+    window.close();
+    // Some browsers block window.close() on tabs not opened by script — fall back to a message.
+    setTimeout(() => {
+      if (!window.closed) {
+        document.getElementById("sheetStatus").textContent = "You can now close this tab.";
+      }
+    }, 300);
+  });
 });
 
 // ── Screen navigation ─────────────────────────────────────────────────────────
