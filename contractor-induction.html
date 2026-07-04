@@ -227,6 +227,7 @@ function timeNow(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${p
 function genId(){return crypto.randomUUID?crypto.randomUUID():'ind_'+Date.now().toString(36)+Math.random().toString(36).slice(2)}
 
 const STORE_KEY = "tuan_biomass_site_register_v4";
+const SIGNIN_URL = "Contraxtor-visitor_register_v4.html";
 function loadLocalRecords(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}}
 function saveLocalRecords(r){localStorage.setItem(STORE_KEY, JSON.stringify(r))}
 
@@ -576,8 +577,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   updateProgress();
 
-  document.getElementById("homeBtn").addEventListener("click", () => { location.reload(); });
+  if (cameFromSiteSignIn) {
+    document.getElementById("closeBtn").textContent = "Return to Site Register";
+  }
+  document.getElementById("homeBtn").addEventListener("click", () => {
+    if (cameFromSiteSignIn) { window.location.href = SIGNIN_URL; return; }
+    location.reload();
+  });
   document.getElementById("closeBtn").addEventListener("click", () => {
+    if (cameFromSiteSignIn) { window.location.href = SIGNIN_URL; return; }
     window.close();
     // Some browsers block window.close() on tabs not opened by script — fall back to a message.
     setTimeout(() => {
@@ -1077,6 +1085,9 @@ async function sendToFlow(data) {
     const localRecords = loadLocalRecords();
     localRecords.push(signInRecord);
     saveLocalRecords(localRecords);
+
+    el.textContent += " Returning you to the site register...";
+    setTimeout(() => { window.location.href = SIGNIN_URL; }, 2200);
   }
 }
 </script>
