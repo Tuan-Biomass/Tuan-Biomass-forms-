@@ -226,9 +226,14 @@ function todayISO(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${
 function timeNow(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${p(n.getHours())}:${p(n.getMinutes())}`}
 function genId(){return crypto.randomUUID?crypto.randomUUID():'ind_'+Date.now().toString(36)+Math.random().toString(36).slice(2)}
 
+const STORE_KEY = "tuan_biomass_site_register_v4";
+function loadLocalRecords(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}}
+function saveLocalRecords(r){localStorage.setItem(STORE_KEY, JSON.stringify(r))}
+
 // ── Prefill from sign-in redirect (name, company, mobile, rego) ───────────────
 const urlParams = new URLSearchParams(window.location.search);
 const incomingRego = urlParams.get("rego") || "";
+const cameFromSiteSignIn = urlParams.get("return") === "site-register";
 window.addEventListener("DOMContentLoaded", () => {
   const n = urlParams.get("name"), c = urlParams.get("company"), m = urlParams.get("mobile");
   if (n) document.getElementById("name").value = n;
@@ -946,7 +951,9 @@ function showResult() {
     <strong>Result</strong>✅ PASSED (${pct}%)
     <strong>Site</strong>${CONFIG.siteName}
   `;
-  document.getElementById("resultMsg").textContent = "Induction complete — you're signed in and on today's site register.";
+  document.getElementById("resultMsg").textContent = cameFromSiteSignIn
+    ? "Induction complete — you're signed in and on today's site register."
+    : "Induction complete. Please confirm sign-in with site personnel before commencing work.";
 
   sendToFlow({ name: contractor.name, company: contractor.company, trade: contractor.trade,
     company_contact_name: contractor.companyContactName, company_contact_mobile: contractor.companyContactMobile,
@@ -1043,15 +1050,16 @@ async function sendToFlow(data) {
   const inductionOk = inductionResult.status === "fulfilled" && (inductionResult.value.ok || inductionResult.value.status === 202);
   const uploadOk    = !uploadPayload || (uploadResult.status === "fulfilled" && uploadResult.value && (uploadResult.value.ok || uploadResult.value.status === 202));
 
-  if (inductionOk && uploadOk) {
+  if (inductionOk) {
     el.textContent = uploadPayload ? "✓ Induction record and documents submitted successfully." : "✓ Induction record submitted successfully.";
-  } else if (inductionOk && !uploadOk) {
-    el.textContent = "✓ Induction record submitted. ⚠ Document upload failed — please bring originals to the site office.";
   } else {
     el.textContent = "⚠ Submission failed. Please advise site management manually.";
   }
+  if (inductionOk && !uploadOk) {
+    el.textContent += " ⚠ Document upload failed — please bring originals to the site office.";
+  }
 
-  if (inductionOk) {
+  if (inductionOk && cameFromSiteSignIn) {
     const signInRecord = {
       id: genId(), entry_id: "", type: "sign_in", person_id: personId,
       mobile_number: data.phone, status: "on_site", induction_valid: "Y",
@@ -1065,6 +1073,10 @@ async function sendToFlow(data) {
     };
     fetch(SIGNIN_WEBHOOK_URL, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({type:"sign_in", ...signInRecord}) })
       .catch(e => console.warn("Auto sign-in failed:", e));
+
+    const localRecords = loadLocalRecords();
+    localRecords.push(signInRecord);
+    saveLocalRecords(localRecords);
   }
 }
 </script>
