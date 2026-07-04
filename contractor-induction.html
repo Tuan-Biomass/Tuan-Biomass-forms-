@@ -219,6 +219,22 @@ const CONFIG = {
   docUploadURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ea796d14f9dd4e28b18fb1aff4549436/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FeqbZvLGedzM-MoMUiaD4XEsurylA62HYCJmLFeDpg",
   sharePointFolder: "Contractor Documents",
 };
+
+const SIGNIN_WEBHOOK_URL = "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/8d6c3ce1484148a88baa68c0719b1d95/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=W-1lwoCZwzUUphCxfOJOdEt465JiMBpWis7Pl8oqPl4";
+
+function todayISO(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`}
+function timeNow(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${p(n.getHours())}:${p(n.getMinutes())}`}
+function genId(){return crypto.randomUUID?crypto.randomUUID():'ind_'+Date.now().toString(36)+Math.random().toString(36).slice(2)}
+
+// ── Prefill from sign-in redirect (name, company, mobile, rego) ───────────────
+const urlParams = new URLSearchParams(window.location.search);
+const incomingRego = urlParams.get("rego") || "";
+window.addEventListener("DOMContentLoaded", () => {
+  const n = urlParams.get("name"), c = urlParams.get("company"), m = urlParams.get("mobile");
+  if (n) document.getElementById("name").value = n;
+  if (c) document.getElementById("company").value = c;
+  if (m) document.getElementById("phone").value = m;
+});
 </script>
 
 <header class="site-header">
@@ -930,7 +946,7 @@ function showResult() {
     <strong>Result</strong>✅ PASSED (${pct}%)
     <strong>Site</strong>${CONFIG.siteName}
   `;
-  document.getElementById("resultMsg").textContent = "Induction complete. Please confirm sign-in with site personnel before commencing work.";
+  document.getElementById("resultMsg").textContent = "Induction complete — you're signed in and on today's site register.";
 
   sendToFlow({ name: contractor.name, company: contractor.company, trade: contractor.trade,
     company_contact_name: contractor.companyContactName, company_contact_mobile: contractor.companyContactMobile,
@@ -1033,6 +1049,22 @@ async function sendToFlow(data) {
     el.textContent = "✓ Induction record submitted. ⚠ Document upload failed — please bring originals to the site office.";
   } else {
     el.textContent = "⚠ Submission failed. Please advise site management manually.";
+  }
+
+  if (inductionOk) {
+    const signInRecord = {
+      id: genId(), entry_id: "", type: "sign_in", person_id: personId,
+      mobile_number: data.phone, status: "on_site", induction_valid: "Y",
+      date: todayISO(), full_name: data.name, company: data.company,
+      arrival_time: timeNow(), departure_time: "", hours_on_site: "",
+      inducted_previously: "yes", visitor: "N", access_type: "yes",
+      escorted_only: false, site_contact_responsible: "",
+      vehicle_rego: incomingRego, tickets_uploaded: [],
+      safety_issue: "", issue_details: "", notes: "Auto-signed-in after induction",
+      signed_in_at: new Date().toISOString(), signed_out_at: ""
+    };
+    fetch(SIGNIN_WEBHOOK_URL, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({type:"sign_in", ...signInRecord}) })
+      .catch(e => console.warn("Auto sign-in failed:", e));
   }
 }
 </script>
