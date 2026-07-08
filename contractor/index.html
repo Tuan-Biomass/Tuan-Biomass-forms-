@@ -1,1 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tuan Biomass — Contractor Induction</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #2D6A4F;
+    --green-dark: #1B4332;
+    --green-light: #40916C;
+    --accent: #F4A261;
+    --warn: #E63946;
+    --bg: #F8F6F1;
+    --card: #FFFFFF;
+    --text: #1a1a1a;
+    --muted: #6b7280;
+    --border: #e5e7eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Barlow", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  .site-header { background: #ffffff; color: var(--green-dark); padding: 16px 24px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.15); border-bottom: 3px solid var(--green); }
+  .site-header h1 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 22px; color: var(--green-dark); }
+  .site-header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .progress-wrap { background: var(--green-dark); padding: 0 24px 14px; }
+  .progress-track { height: 4px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--accent); border-radius: 4px; transition: width 0.4s ease; }
+  .progress-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+  .container { max-width: 780px; margin: 0 auto; padding: 32px 20px 80px; }
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadeUp 0.3s ease; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  .card { background: var(--card); border-radius: 12px; padding: 32px; box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04); margin-bottom: 20px; }
+  .section-tag { display: inline-block; background: var(--green); color: white; font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; margin-bottom: 14px; }
+  .card h2 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 28px; color: var(--green-dark); line-height: 1.15; margin-bottom: 16px; }
+  .card p { font-size: 15px; line-height: 1.7; color: #374151; margin-bottom: 12px; }
+  .rule-list { list-style: none; margin-top: 8px; }
+  .rule-list li { display: flex; gap: 14px; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 15px; line-height: 1.5; }
+  .rule-list li:last-child { border-bottom: none; }
+  .rule-num { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; color: white; }
+  .rule-num.golden { background: var(--accent); color: var(--green-dark); }
+  .rule-num.site   { background: var(--green); }
+  .rule-num.hazard { background: var(--warn); }
+  .alert-box { border-left: 4px solid var(--warn); background: #fff5f5; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; line-height: 1.6; }
+  .alert-box strong { color: var(--warn); font-family: "Barlow Condensed", sans-serif; font-size: 15px; }
+  .info-box { border-left: 4px solid var(--green); background: #f0faf4; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-size: 14px; line-height: 1.8; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-family: "Barlow Condensed", sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 15px; color: var(--text); background: var(--bg); transition: border-color 0.2s; outline: none; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green); background: white; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .checklist { list-style: none; margin-top: 8px; }
+  .checklist li { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist input[type=checkbox] { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--green); flex-shrink: 0; }
+  .img-full { width: 100%; border-radius: 8px; margin: 16px 0; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+  .img-caption { text-align: center; font-size: 12px; color: var(--muted); margin-top: -8px; margin-bottom: 16px; font-style: italic; }
+  .quiz-question { font-family: "Barlow Condensed", sans-serif; font-size: 20px; font-weight: 600; color: var(--green-dark); margin-bottom: 18px; line-height: 1.3; }
+  .quiz-counter { font-size: 13px; color: var(--muted); margin-bottom: 8px; font-family: "Barlow Condensed", sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .option { padding: 13px 18px; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; font-size: 15px; transition: all 0.15s; background: var(--bg); }
+  .option:hover { border-color: var(--green-light); background: #f0faf4; }
+  .option.correct  { border-color: #16a34a; background: #f0fdf4; color: #14532d; }
+  .option.wrong    { border-color: var(--warn); background: #fff5f5; color: #7f1d1d; }
+  .option.reveal-correct { border-color: #16a34a; background: #f0fdf4; }
+  .quiz-feedback { margin-top: 14px; padding: 12px 16px; border-radius: 8px; font-size: 14px; line-height: 1.5; display: none; }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.pass { background: #f0fdf4; color: #14532d; border: 1px solid #86efac; }
+  .quiz-feedback.fail { background: #fff5f5; color: #7f1d1d; border: 1px solid #fca5a5; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 26px; border-radius: 8px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-primary { background: var(--green); color: white; }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-primary:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
+  .btn-secondary { background: transparent; color: var(--green); border: 1.5px solid var(--green); }
+  .btn-secondary:hover { background: #f0faf4; }
+  .btn-row { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+  .result-badge { width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 40px; }
+  .result-badge.pass { background: #f0fdf4; border: 3px solid #16a34a; }
+  .result-screen { text-align: center; }
+  .result-score { font-family: "Barlow Condensed", sans-serif; font-size: 48px; font-weight: 800; color: var(--green-dark); line-height: 1; }
+  .result-label { font-size: 14px; color: var(--muted); margin-top: 4px; }
+  .record-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 20px 0; text-align: left; font-size: 14px; line-height: 2; }
+  .record-box strong { font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); display: block; line-height: 1; margin-bottom: 2px; }
+  .status-msg { margin-top: 16px; font-size: 13px; color: var(--muted); font-style: italic; }
+  .hero { background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 100%); color: white; border-radius: 12px; padding: 40px 32px; margin-bottom: 20px; position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.04); }
+  .hero h2 { font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 36px; line-height: 1.1; margin-bottom: 12px; }
+  .hero p { font-size: 15px; opacity: 0.85; line-height: 1.6; }
+  .hero .pill { display: inline-block; background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 12px; font-size: 12px; letter-spacing: 1px; font-family: "Barlow Condensed", sans-serif; margin-bottom: 14px; text-transform: uppercase; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .contact-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .contact-card .role { font-family: "Barlow Condensed", sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .contact-card .name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .contact-card .detail { font-size: 13px; color: var(--muted); line-height: 1.6; }
 
+  /* ── Document upload sections (matches site register) ── */
+  .doc-section { border: 1.5px solid var(--border); border-radius: 14px; background: #fff; margin: 16px 0; overflow: hidden; }
+  .doc-section-head { padding: 14px 16px; border-bottom: 1px solid var(--border); background: #F9FAFB; }
+  .doc-section-title { font-family: "Barlow Condensed", sans-serif; font-size: 22px; font-weight: 800; color: var(--green-dark); letter-spacing: .4px; text-transform: uppercase; }
+  .doc-section-sub { font-size: 14px; color: var(--muted); margin-top: 3px; }
+  .doc-section-risk { border-color: #86EFAC; }
+  .doc-section-risk .doc-section-head { background: #F0FDF4; }
+  .doc-section-insurance { border-color: #93C5FD; }
+  .doc-section-insurance .doc-section-head { background: #EFF6FF; }
+  .doc-section-licence { border-color: #C4B5FD; }
+  .doc-section-licence .doc-section-head { background: #F5F3FF; }
+  .doc-row { display: flex; flex-direction: column; gap: 12px; padding: 14px 16px; border-bottom: 1px solid #E5E7EB; }
+  .doc-row:last-child { border-bottom: none; }
+  .doc-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 6px; }
+  .doc-field select, .doc-field input[type=date] { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 14px; color: var(--text); background: #fff; }
+  .doc-field select:focus, .doc-field input[type=date]:focus { outline: none; border-color: var(--green); }
+  .file-btn { cursor: pointer; background: #9CA3AF; color: white; padding: 8px 14px; border-radius: 8px; font-size: 13px; font-family: "Barlow Condensed", sans-serif; font-weight: 700; white-space: nowrap; letter-spacing: .3px; }
+  .file-btn:hover { background: #6B7280; }
+  .file-list { font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+  .doc-remove { margin-top: 4px; }
+  .extra-field { background: #F9FAFB; border: 1px solid #E5E7EB; border-radius: 10px; padding: 12px 14px; }
+  .extra-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 6px; }
+  .extra-field input[type=text] { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-family: "Barlow", sans-serif; font-size: 14px; color: var(--text); background: #fff; margin-bottom: 10px; }
+  .extra-field input[type=text]:focus { outline: none; border-color: var(--green); }
+  .hrwl-field { background: #F5F3FF; border: 1px solid #DDD6FE; border-radius: 10px; padding: 12px 14px; }
+  .hrwl-field label { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 13px; letter-spacing: .5px; text-transform: uppercase; color: var(--green-dark); display: block; margin-bottom: 4px; }
+  .hrwl-note { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .hrwl-code-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 7px; }
+  .hrwl-code { display: flex; align-items: center; justify-content: center; border: 1.5px solid var(--border); border-radius: 8px; background: #fff; min-height: 42px; font-family: "Barlow Condensed", sans-serif; font-weight: 800; font-size: 17px; color: var(--green-dark); cursor: pointer; }
+  .hrwl-code input { display: none; }
+  .hrwl-code:has(input:checked) { background: #DCFCE7; border-color: var(--green); color: var(--green-dark); }
+  .section-add { margin: 12px 16px 16px; font-size: 13px; width: auto !important; display: inline-flex !important; align-self: flex-start; }
+  .skip-note { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .upload-notice { border-radius: 10px; padding: 13px 16px; margin-bottom: 16px; font-size: 14px; line-height: 1.5; background: #FFFBEB; border: 1px solid #FACC15; color: #713F12; }
+
+  /* Queue summary */
+  #queueSummary { margin-top:16px; border:1.5px solid #86EFAC; border-radius:10px; padding:14px 16px; background:#F0FDF4; display:none; }
+  #queueEmpty   { margin-top:16px; border:1.5px solid var(--border); border-radius:10px; padding:14px 16px; background:#F9FAFB; }
+
+  @media (max-width: 520px) {
+    .form-row, .contact-grid { grid-template-columns: 1fr; }
+    .btn { width:100%; justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<script>
+const CONFIG = {
+  siteName:    "Tuan Biomass",
+  siteAddress: "Tuan, Queensland",
+  emergency: {
+    phone:       "000",
+    site:        "David Knight — 0439 013 224",
+    musterPoint: "Car park by the front gate",
+    firstAid:    "Smoko Room",
+    fireEx:      "Wall of main shed",
+    uhfChannel:  "34",
+  },
+  contacts: [
+    { role: "Plant Manager",       name: "David Knight", phone: "0439 013 224", email: "david.knight@albioma.com" },
+    { role: "Safety & Compliance", name: "Chris Foster", phone: "0478 774 434", email: "christopher.foster@albioma.com" },
+  ],
+  goldenRules: [
+    { title: "ATEX / Fire",             detail: "Comply with ATEX risk rules defined for this site. Adhere to the rules set out in any SWMS and hot work permit presented to you or in which you have taken part." },
+    { title: "Personal Protective Equipment", detail: "Wear the PPE required in the area, where you are working." },
+    { title: "Chemical Risks",          detail: "Follow the work instructions or safety data sheets for all products you use or handle." },
+    { title: "Movement",                detail: "Maintain clear, positive communication at all times while moving around site. Before crossing the ring road, contact the loader driver on UHF Channel 34 and confirm they have acknowledged you before proceeding." },
+    { title: "Lifting Operations",      detail: "Follow the lifting plan at all times (markings, signals, slinging methods and designated lifting areas). Never walk or stand under a suspended load. Only use lifting gear with current inspection tags. Check the tag colour matches the current inspection period shown on the lifting gear rack. Do not use damaged or untagged lifting equipment." },
+    { title: "Confined Spaces",         detail: "Never enter a confined space without authorisation, atmosphere control, and surveillance." },
+    { title: "Working at Heights",      detail: "Respect collective protection mechanisms. If removal is required, take compensatory measures. Always work with a harness and anti-fall system." },
+    { title: "Isolation of Energy",     detail: "Work must only be carried out on equipment that has been isolated from all energy sources. Lockout Officers are responsible for isolating plant and equipment and applying lockout devices before work begins." },
+    { title: "Operation of Machinery",  detail: "You may only drive a machine or vehicle if you hold a valid ticket for it." },
+    { title: "Hot Spot Work",           detail: "Do not carry out hot work unless a Hot Work Permit and risk assessment have been completed and authorised. All work must strictly comply with the conditions listed on the permit." },
+  ],
+  siteRules: [
+    "Sign in and sign out when attending site.",
+    "Smoking is permitted in designated areas only. No drugs or alcohol are permitted on site.",
+    "Follow all site signage and instructions at all times.",
+    "Do not wander around site. Remain in your work area and only access areas required for your task.",
+    "Mobile phone use is prohibited while walking or operating vehicles.",
+    "The site can be busy. Stay alert for moving plant, forklifts, loaders and trucks at all times.",
+    "When crossing or moving around the ring road, contact the loader driver on UHF Channel 34.",
+    "Seat belts must be worn and all speed limits observed.",
+    "All energy sources must be fully isolated and discharged before work begins — use lockout/tagout.",
+    "A hot work permit must be approved before any cutting, grinding, or welding begins.",
+    "Only qualified personnel may conduct work at height. Barricade areas below overhead work.",
+    "All lifting equipment must be visually inspected before use. Only trained personnel may use lifting gear.",
+    "Always clean up your work area before leaving site.",
+    "CCTV cameras are in operation in high-risk areas for safety and security monitoring.",
+    "Report any unsafe condition, near miss, or incident immediately to your site contact.",
+  ],
+  hazards: [
+    "Rotating and moving machinery — Guards must be in place at all times. Never reach past guarding. Risk assessment and Authorisation is required before removing any guard.",
+    "Combustible biomass dust — No ignition sources in dust-prone areas. Avoid using compressed air or air tools unless authorised.",
+    "Forklift and loader movements — use designated pedestrian walkways only.",
+    "Working at heights — Authorisation is required before working at heights. A SWMS or JSA must be completed and the area below must be barricaded.",
+    "Confined spaces — Confined space entry requires a permit, atmosphere testing, a standby person, and an approved SWMS before entry.",
+    "Hot surfaces and process equipment — do not touch without checking first.",
+    "Slip and trip hazards — pellet fines, wet surfaces, and uneven ground.",
+    "Noise — hearing protection is mandatory in high-noise zones.",
+  ],
+  ppeZones: [
+    { zone: "Blue — Main Shed (Operational)", color: "#2563eb", items: ["Long hi-vis clothing", "Steel cap boots", "Hearing protection"] },
+    { zone: "Yellow — Pellet Mills / High-Risk", color: "#d97706", items: ["Long hi-vis clothing", "Steel cap boots", "Hard hat", "Hearing protection"] },
+    { zone: "Green — Ring Road / Open Grounds", color: "#16a34a", items: ["Long hi-vis clothing", "Steel cap boots", "Hearing protection"] },
+    { zone: "Red — Office / Admin / Car Park", color: "#dc2626", items: ["Enclosed footwear", "Appropriate office dress"] },
+  ],
+  quiz: [
+    { question: "Where is the site muster point in an emergency?", options: ["Main shed entrance", "Car park by the front gate", "Smoko Room", "Administration office"], correctIndex: 1, feedback: "The muster point is the car park by the front gate. Proceed there immediately in any emergency." },
+    { question: "What UHF channel must you contact before crossing or moving around the facility?", options: ["Channel 10", "Channel 22", "Channel 34", "Channel 40"], correctIndex: 2, feedback: "Always contact the loader driver on UHF Channel 34 before crossing or moving around the facility." },
+    { question: "What is required before any hot work (cutting, grinding, welding) can begin?", options: ["Verbal approval from your supervisor", "An approved hot work permit", "A safety glasses check", "Nothing — just use common sense"], correctIndex: 1, feedback: "An approved hot work permit is mandatory before any cutting, grinding, or welding on site." },
+    { question: "Where is the first aid kit located?", options: ["Main shed wall", "Administration office", "Smoko Room", "Near the front gate"], correctIndex: 2, feedback: "The first aid kit is located in the Smoko Room." },
+    { question: "Which PPE is required in the Yellow zone (pellet mills and high-risk areas)?", options: ["Hi-vis vest and safety glasses only", "Long hi-vis, steel cap boots, hard hat and hearing protection", "Steel cap boots and hard hat only", "No specific PPE required"], correctIndex: 1, feedback: "The Yellow zone requires long hi-vis clothing, steel cap boots, hard hat, and hearing protection." },
+    { question: "What must you do before entering a confined space?", options: ["Check with a workmate", "Enter quickly to minimise exposure", "Obtain a permit, atmosphere control, and have a watch person present", "Wear a dust mask and proceed"], correctIndex: 2, feedback: "Confined space entry requires a permit, atmosphere control, and a surveillance/watch person — no exceptions." },
+    { question: "Can machine guards be removed?", options: ["Yes, if the job is easier to complete", "Yes, if you put them back afterwards", "Only if authorised and the equipment has been isolated", "Yes, if no one is watching"], correctIndex: 2, feedback: "Machine guards must remain in place. Guards may only be removed if authorised and the equipment has been properly isolated." },
+    { question: "Who must you report a near miss or unsafe condition to?", options: ["Fix it yourself and say nothing", "Your own supervisor only", "Your site contact at Albioma immediately", "Write it in a notebook for later"], correctIndex: 2, feedback: "All near misses, hazards, and unsafe conditions must be reported immediately to your Albioma site contact." },
+    { question: "What is Albioma's policy on drugs and alcohol on site?", options: ["A breathalyser test is required each morning", "Zero tolerance — no drugs or alcohol permitted on site", "Allowed in small amounts after hours", "Only applies to machinery operators"], correctIndex: 1, feedback: "Zero tolerance. No drugs or alcohol are permitted on site at any time for any person." },
+  ],
+  passMark: 80,
+  inductionCheckURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/55cd38b7bffd45dd83188083da5df32a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=QFuqTfr5A9qFz77bc84c_DNb8wOdr02DXr8-avaAXh8",
+  webhookURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/425da04b2be34be1a5fbd322b9ac5990/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=vegsJ3zS5PegjOTPtPq0SqpSFcBC41y-giLJ5KC-5DQ",
+  docUploadURL: "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/ea796d14f9dd4e28b18fb1aff4549436/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0FeqbZvLGedzM-MoMUiaD4XEsurylA62HYCJmLFeDpg",
+  sharePointFolder: "Contractor Documents",
+};
+
+const SIGNIN_WEBHOOK_URL = "https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/8d6c3ce1484148a88baa68c0719b1d95/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=W-1lwoCZwzUUphCxfOJOdEt465JiMBpWis7Pl8oqPl4";
+
+function todayISO(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`}
+function timeNow(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${p(n.getHours())}:${p(n.getMinutes())}`}
+function genId(){return crypto.randomUUID?crypto.randomUUID():'ind_'+Date.now().toString(36)+Math.random().toString(36).slice(2)}
+
+const STORE_KEY = "tuan_biomass_site_register_v4";
+const SIGNIN_URL = "Contraxtor-visitor_register_v4.html";
+function loadLocalRecords(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}}
+function saveLocalRecords(r){localStorage.setItem(STORE_KEY, JSON.stringify(r))}
+
+// ── Prefill from sign-in redirect (name, company, mobile, rego) ───────────────
+const urlParams = new URLSearchParams(window.location.search);
+const incomingRego = urlParams.get("rego") || "";
+const cameFromSiteSignIn = urlParams.get("return") === "site-register";
+window.addEventListener("DOMContentLoaded", () => {
+  const n = urlParams.get("name"), c = urlParams.get("company"), m = urlParams.get("mobile");
+  if (n) document.getElementById("name").value = n;
+  if (c) document.getElementById("company").value = c;
+  if (m) document.getElementById("phone").value = m;
+});
+</script>
+
+<header class="site-header">
+  <div>
+    <h1>Tuan Biomass — Contractor Induction</h1>
+    <p>Tuan, Queensland</p>
+  </div>
+</header>
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label" id="progressLabel">Registration</div>
+</div>
+
+<div class="container">
+
+  <!-- SCREEN 0: REGISTRATION -->
+  <div class="screen active" id="screen-0">
+    <div class="hero">
+      <div class="pill">Mandatory Contractor Induction</div>
+      <h2>Welcome to Tuan Biomass</h2>
+      <p>Before accessing this site you must complete this induction. It covers Albioma's Golden Rules, site rules, hazards, PPE requirements, and emergency procedures. A quiz follows — you must score <span id="passMarkDisplay">80</span>% or higher to pass.</p>
+    </div>
+    <img class="img-full" src="https://i.ibb.co/JRjH4mVR/Dryer-drum.jpg" alt="Dryer Drum">
+    <div class="card">
+      <div class="section-tag">Contractor Details</div>
+      <h2>Register Before You Begin</h2>
+      <div class="info-box" style="margin-bottom:16px">If you have previously completed this induction, enter your mobile number first and your details will be filled in automatically.</div>
+      <div class="form-group">
+        <label>Mobile Number</label>
+        <input type="tel" id="phone" placeholder="Mobile number" onblur="autofillFromMobile(this.value)">
+        <div id="autofillHint" style="margin-top:6px;font-size:13px;"></div>
+      </div>
+      <div class="form-group"><label>Name</label><input type="text" id="name" placeholder="Full name"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Company / Employer</label><input type="text" id="company" placeholder="Your company name"></div>
+        <div class="form-group"><label>Trade / Role</label><input type="text" id="trade" placeholder="e.g. Electrician, Fitter"></div>
+      </div>
+      <div class="form-group"><label>Planned Date(s) on Site</label><input type="text" id="dates" placeholder="e.g. 22/04/2026"></div>
+      <div class="form-group"><label>High Risk Tasks Being Undertaken</label><input type="text" id="tasks" placeholder="e.g. Working at heights, hot work, confined space"></div>
+      <div class="section-tag" style="margin-top:8px">Company Contact</div>
+      <div class="form-row">
+        <div class="form-group"><label>Company Contact Name</label><input type="text" id="companyContactName" placeholder="e.g. Supervisor or manager"></div>
+        <div class="form-group"><label>Company Contact Mobile</label><input type="tel" id="companyContactMobile" placeholder="Mobile number"></div>
+      </div>
+      <div class="form-group"><label>Company Contact Email</label><input type="email" id="companyContactEmail" placeholder="Email address"></div>
+      <div class="section-tag" style="margin-top:8px">Emergency Contact</div>
+      <div class="form-row">
+        <div class="form-group"><label>Emergency Contact Name *</label><input type="text" id="emergencyName" placeholder="Emergency contact full name"></div>
+        <div class="form-group"><label>Relationship *</label><input type="text" id="emergencyRelationship" placeholder="e.g. Partner, parent, friend"></div>
+      </div>
+      <div class="form-group"><label>Emergency Contact Phone *</label><input type="tel" id="emergencyPhone" placeholder="Emergency contact phone number"></div>
+      <div class="btn-row"><button class="btn btn-primary" onclick="startInduction()">Begin Induction →</button></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 1: EMERGENCY & CONTACTS -->
+  <div class="screen" id="screen-1">
+    <div class="card">
+      <div class="section-tag">Emergency Information</div>
+      <h2>Know Before You Start</h2>
+      <div class="alert-box"><strong>EMERGENCY</strong><br>Site Emergency Contact: <span id="siteEmPhone"></span></div>
+      <div class="info-box">
+        <strong>Muster Point:</strong> <span id="musterPoint"></span><br>
+        <strong>First Aid Kit:</strong> <span id="firstAidLoc"></span><br>
+        <strong>Fire Extinguishers:</strong> <span id="fireExLoc"></span><br>
+        <strong>Loader UHF Channel:</strong> <span id="uhfChannel"></span>
+      </div>
+      <p>If you discover any emergency — fire, injury, spill, or life-threatening situation — raise the alarm and proceed to the muster point. Do not re-enter until an Albioma supervisor gives the all-clear.</p>
+      <div class="section-tag" style="margin-top:20px">Key Site Contacts</div>
+      <div class="contact-grid" id="contactGrid"></div>
+      <div class="btn-row"><button class="btn btn-primary" onclick="goTo(2)">Next →</button></div>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: GOLDEN RULES -->
+  <div class="screen" id="screen-2">
+    <div class="card">
+      <div class="section-tag">Albioma Golden Rules</div>
+      <h2>Non-Negotiable Safety Rules</h2>
+      <p>All contractors must comply with Albioma's Golden Rules. Breaching any Golden Rule is grounds for immediate removal from site.</p>
+      <img class="img-full" src="https://i.ibb.co/Z6j32Gvc/Albioma-golden-rules.png" alt="Albioma Golden Rules">
+      <img class="img-full" src="https://i.ibb.co/VKzxZXP/golden-rules-explained-png.png" alt="Golden Rules Explained">
+      <p class="img-caption">Albioma Safety Golden Rules — Let's make safety our priority</p>
+      <ul class="rule-list" id="goldenRulesList"></ul>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goTo(1)">← Back</button>
+        <button class="btn btn-primary" onclick="goTo(3)">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: SITE RULES -->
+  <div class="screen" id="screen-3">
+    <div class="card">
+      <div class="section-tag">Site Rules</div>
+      <h2>General Site Safety Rules</h2>
+      <ul class="rule-list" id="siteRulesList"></ul>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goTo(2)">← Back</button>
+        <button class="btn btn-primary" onclick="goTo(4)">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: HAZARDS & PPE -->
+  <div class="screen" id="screen-4">
+    <div class="card">
+      <div class="section-tag">Site Hazards</div>
+      <h2>Hazards to be Aware Of</h2>
+      <ul class="rule-list" id="hazardsList"></ul>
+    </div>
+    <div class="card">
+      <div class="section-tag">PPE Requirements</div>
+      <h2>PPE by Zone</h2>
+      <p>PPE requirements vary by zone. Know which zone you are working in.</p>
+      <img class="img-full" src="https://i.ibb.co/fzLMb693/ppe-map-1-png.png" alt="PPE Map 1">
+      <img class="img-full" src="https://i.ibb.co/HLhK4y10/ppe-map-2-png.png" alt="PPE Map 2">
+      <img class="img-full" src="https://i.ibb.co/qYKB0N6B/ppe-map-3-png.png" alt="PPE Map 3">
+      <img class="img-full" src="https://i.ibb.co/RpbHRFXP/ppe-map-4-png.png" alt="PPE Map 4">
+      <div id="ppeZoneList" style="margin-top:16px"></div>
+      <div class="info-box" style="margin-top:16px">
+        <strong>PPE Store:</strong> Main office — fill out the PPE register when collecting.<br>
+        <strong>Note:</strong> Contractors must supply and maintain their own PPE. Additional task-specific PPE is required as per your own risk assessments.
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goTo(3)">← Back</button>
+        <button class="btn btn-primary" onclick="goTo(5)">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 5: SWMS -->
+  <div class="screen" id="screen-5">
+    <div class="card">
+      <div class="section-tag">High Risk Work</div>
+      <h2>Safe Work Method Statements (SWMS)</h2>
+      <p>A Safe Work Method Statement (SWMS) is required for high-risk construction or maintenance activities on this site. Once approved, the SWMS must be reviewed and signed by all workers involved in the task before work begins.</p>
+      <p style="font-weight:500;margin-top:4px">Tasks on this site that require a SWMS include:</p>
+      <ul class="rule-list">
+        <li><span class="rule-num hazard">!</span><div>Working at heights without collective protection</div></li>
+        <li><span class="rule-num hazard">!</span><div>Confined space entry (silos, bins, ducting)</div></li>
+        <li><span class="rule-num hazard">!</span><div>Hot work outside the workshop (welding, grinding, cutting, oxy work)</div></li>
+        <li><span class="rule-num hazard">!</span><div>Electrical work and isolation activities</div></li>
+        <li><span class="rule-num hazard">!</span><div>Major mechanical maintenance (conveyors, presses, elevators, gearboxes)</div></li>
+        <li><span class="rule-num hazard">!</span><div>Installation or modification of plant and equipment</div></li>
+        <li><span class="rule-num hazard">!</span><div>Structural repairs or fabrication work</div></li>
+        <li><span class="rule-num hazard">!</span><div>Maintenance work involving mobile plant for lifting operations (cranes, telehandlers, forklifts)</div></li>
+        <li><span class="rule-num hazard">!</span><div>Work around moving machinery or tasks requiring guarding removal</div></li>
+      </ul>
+      <div class="info-box" style="margin-top:16px"><strong>Before work begins:</strong> Submit your SWMS to the site safety contact for approval. All workers on the task must review and sign it on site before starting.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;">
+        <div><img class="img-full" src="https://i.ibb.co/zkmWy0g/hot-work-jpg.jpg" alt="Hot Work" style="margin:0;"><p class="img-caption">Hot work — pellet mill maintenance</p></div>
+        <div><img class="img-full" src="https://i.ibb.co/LDZwwXqJ/roof-clean-jpg.jpg" alt="Roof Access" style="margin:0;"><p class="img-caption">Working at heights — roof access</p></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goTo(4)">← Back</button>
+        <button class="btn btn-primary" onclick="goTo(6)">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 6: DOCUMENTS & ACKNOWLEDGEMENT -->
+  <div class="screen" id="screen-6">
+    <div class="card">
+      <div class="section-tag">Documents &amp; Permits</div>
+      <h2>Your Responsibilities</h2>
+      <ul class="rule-list">
+        <li><span class="rule-num site">1</span><div>Provide copies of SWMS or JSAs for all high-risk work before commencing.</div></li>
+        <li><span class="rule-num site">2</span><div>Hold and present valid certificates of competency for all plant and equipment you intend to operate.</div></li>
+        <li><span class="rule-num site">3</span><div>Ensure your workers are trained in and follow all conditions of permits issued on site.</div></li>
+        <li><span class="rule-num site">4</span><div>For multi-day work: conduct daily toolbox talks and communicate any change in conditions immediately to Albioma management.</div></li>
+        <li><span class="rule-num site">5</span><div>Non-compliance must be reported to Chris Foster immediately with a corrective actions list before work continues.</div></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="section-tag">Licences, Documents &amp; Insurance</div>
+      <h2>Upload Your Documents</h2>
+      <p>Upload your licences, risk assessments and insurance below. Skip any section that does not apply.</p>
+      <div class="upload-notice">Only upload documents that apply to you. Skip any section or row that does not apply.</div>
+
+      <!-- LICENCES / CERTIFICATES -->
+      <div class="doc-section doc-section-licence">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Licences / Certificates</div>
+          <div class="doc-section-sub">High Risk Work Licence needs expiry date and HRWL codes. Other licences are upload only.</div>
+          <div class="skip-note">Skip anything that does not apply.</div>
+        </div>
+        <div id="licenceRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('licence')">+ Add Licence / Certificate</button>
+      </div>
+
+      <!-- RISK ASSESSMENTS -->
+      <div class="doc-section doc-section-risk">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Risk Assessment</div>
+          <div class="doc-section-sub">SWMS, JSA / Risk Assessment, Other Document. Upload only — no expiry date required.</div>
+          <div class="skip-note">Skip this section if it does not apply.</div>
+        </div>
+        <div id="riskRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('risk')">+ Add Risk Assessment Document</button>
+      </div>
+
+      <!-- INSURANCE -->
+      <div class="doc-section doc-section-insurance">
+        <div class="doc-section-head">
+          <div class="doc-section-title">Insurance</div>
+          <div class="doc-section-sub">Public Liability needs policy number, coverage amount and expiry. Workers Compensation needs policy number and expiry.</div>
+          <div class="skip-note">Skip this section if it does not apply.</div>
+        </div>
+        <div id="insuranceRows"></div>
+        <button class="btn btn-secondary section-add" onclick="addDocumentRow('insurance')">+ Add Insurance Document</button>
+      </div>
+
+      <!-- Queue summary -->
+      <div id="queueSummary">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--green-dark);margin-bottom:8px;">Files Queued for Upload</div>
+        <div id="queueList" style="font-size:13px;color:#374151;line-height:1.9;"></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:8px;">These will be uploaded when you complete the induction.</div>
+      </div>
+      <div id="queueEmpty">
+        <div style="font-size:13px;color:var(--muted);">No documents selected yet — skip this screen if documents do not apply.</div>
+      </div>
+
+      <div class="form-group" style="margin-top:20px">
+        <label>Any additional notes</label>
+        <textarea id="docNotes" rows="3" placeholder="e.g. SWMS will be emailed separately, waiting on renewed ticket..."></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-tag">Acknowledgement</div>
+      <h2>Confirm You Have Understood</h2>
+      <ul class="checklist" id="ackChecklist"></ul>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="goTo(5)">← Back</button>
+        <button class="btn btn-primary" onclick="proceedToQuiz()">Proceed to Quiz →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 7: QUIZ -->
+  <div class="screen" id="screen-7">
+    <div class="card">
+      <div class="section-tag">Knowledge Check</div>
+      <div class="quiz-counter"  id="quizCounter"></div>
+      <div class="quiz-question" id="quizQuestion"></div>
+      <div class="options"       id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="quizNextBtn" onclick="nextQuestion()" style="display:none">Next Question →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCREEN 8: RESULT -->
+  <div class="screen" id="screen-8">
+    <div class="card result-screen">
+      <div class="result-badge" id="resultBadge"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-label" id="resultLabel"></div>
+      <div class="record-box"   id="recordBox"></div>
+      <div id="resultMsg" style="font-size:15px;line-height:1.6;margin-bottom:8px;"></div>
+      <div class="status-msg"   id="sheetStatus"></div>
+      <div class="btn-row" style="justify-content:center">
+        <button class="btn btn-secondary" onclick="window.print()">Print Record</button>
+        <button class="btn btn-secondary" id="homeBtn">Home</button>
+        <button class="btn btn-primary"   id="closeBtn">Close</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<script>
+const TOTAL_SCREENS = 9;
+let contractor = {};
+let currentScreen = 0;
+let currentQ = 0;
+let answers = [];
+let quizAnswered = false;
+
+const ACK_ITEMS = [
+  "I have received and read Albioma's Golden Rules.",
+  "I have received and read the General Workplace Safety Rules including site access, PPE, permits, emergency procedures, and reporting requirements.",
+  "I have received and read the Site Safety Rules.",
+  "I understand I must follow the Albioma work permit system for hot work and confined space entry.",
+  "I have reviewed the PPE zone requirements and will supply task-specific PPE as identified in my risk assessments.",
+  "I have received emergency procedure information including the muster point, first aid location, alarm process, and fire extinguisher locations.",
+];
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("passMarkDisplay").textContent = CONFIG.passMark;
+  document.getElementById("siteEmPhone").textContent    = CONFIG.emergency.site;
+  document.getElementById("musterPoint").textContent    = CONFIG.emergency.musterPoint;
+  document.getElementById("firstAidLoc").textContent    = CONFIG.emergency.firstAid;
+  document.getElementById("fireExLoc").textContent      = CONFIG.emergency.fireEx;
+  document.getElementById("uhfChannel").textContent     = CONFIG.emergency.uhfChannel;
+
+  const cg = document.getElementById("contactGrid");
+  CONFIG.contacts.forEach(c => {
+    cg.innerHTML += `<div class="contact-card"><div class="role">${c.role}</div><div class="name">${c.name}</div><div class="detail">${c.phone}<br>${c.email}</div></div>`;
+  });
+
+  const gr = document.getElementById("goldenRulesList");
+  CONFIG.goldenRules.forEach((r,i) => {
+    gr.innerHTML += `<li><span class="rule-num golden">${i+1}</span><div><strong>${r.title}</strong><br><span style="color:#6b7280;font-size:14px">${r.detail}</span></div></li>`;
+  });
+
+  const sr = document.getElementById("siteRulesList");
+  CONFIG.siteRules.forEach((r,i) => { sr.innerHTML += `<li><span class="rule-num site">${i+1}</span><div>${r}</div></li>`; });
+
+  const hz = document.getElementById("hazardsList");
+  CONFIG.hazards.forEach(h => { hz.innerHTML += `<li><span class="rule-num hazard">!</span><div>${h}</div></li>`; });
+
+  const pz = document.getElementById("ppeZoneList");
+  CONFIG.ppeZones.forEach(z => {
+    pz.innerHTML += `<div style="border-left:4px solid ${z.color};background:#f8f6f1;padding:12px 16px;border-radius:0 8px 8px 0;margin-bottom:10px">
+      <strong style="color:${z.color};font-family:Barlow Condensed,sans-serif;font-size:15px">${z.zone}</strong>
+      <div style="font-size:14px;margin-top:4px;color:#374151">${z.items.join(" · ")}</div>
+    </div>`;
+  });
+
+  const ac = document.getElementById("ackChecklist");
+  ACK_ITEMS.forEach((item,i) => {
+    ac.innerHTML += `<li><input type="checkbox" id="ack${i}"><label for="ack${i}" style="cursor:pointer">${item}</label></li>`;
+  });
+
+  // Initialise one blank row per section
+  addDocumentRow("licence");
+  addDocumentRow("risk");
+  addDocumentRow("insurance");
+
+  updateProgress();
+
+  if (cameFromSiteSignIn) {
+    document.getElementById("closeBtn").textContent = "Return to Site Register";
+  }
+  document.getElementById("homeBtn").addEventListener("click", () => {
+    if (cameFromSiteSignIn) { window.location.href = SIGNIN_URL; return; }
+    location.reload();
+  });
+  document.getElementById("closeBtn").addEventListener("click", () => {
+    if (cameFromSiteSignIn) { window.location.href = SIGNIN_URL; return; }
+    window.close();
+    // Some browsers block window.close() on tabs not opened by script — fall back to a message.
+    setTimeout(() => {
+      if (!window.closed) {
+        document.getElementById("sheetStatus").textContent = "You can now close this tab.";
+      }
+    }, 300);
+  });
+});
+
+// ── Screen navigation ─────────────────────────────────────────────────────────
+function goTo(n) {
+  document.getElementById("screen-" + currentScreen).classList.remove("active");
+  currentScreen = n;
+  document.getElementById("screen-" + currentScreen).classList.add("active");
+  updateProgress();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (n === 7) loadQuestion(0);
+}
+
+function updateProgress() {
+  const pct = Math.round((currentScreen / (TOTAL_SCREENS - 1)) * 100);
+  document.getElementById("progressFill").style.width = pct + "%";
+  const labels = ["Registration","Emergency & Contacts","Golden Rules","Site Rules","Hazards & PPE","SWMS","Documents & Acknowledgement","Quiz","Complete"];
+  document.getElementById("progressLabel").textContent = labels[currentScreen] || "";
+}
+
+function normaliseMobile(m){ return m.replace(/\D/g,""); }
+
+async function autofillFromMobile(mobile) {
+  mobile = mobile.trim();
+  if (mobile.length < 8) return;
+  const hint = document.getElementById("autofillHint");
+  hint.innerHTML = "<span style='color:#6b7280'>Looking up contractor details...</span>";
+  try {
+    const res = await fetch(CONFIG.inductionCheckURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ mobile_number: mobile, person_id: mobile, lookup_only: "true" })
+    });
+    if (!res.ok) { hint.innerHTML = ""; return; }
+    const data = await res.json();
+    if (data.full_name) {
+      document.getElementById("name").value = data.full_name || "";
+      document.getElementById("company").value = data.company || "";
+      if (data.company_contact_name)   document.getElementById("companyContactName").value   = data.company_contact_name;
+      if (data.company_contact_mobile) document.getElementById("companyContactMobile").value = data.company_contact_mobile;
+      if (data.company_contact_email)  document.getElementById("companyContactEmail").value  = data.company_contact_email;
+      if (data.emergency_name)         document.getElementById("emergencyName").value         = data.emergency_name;
+      if (data.emergency_relationship) document.getElementById("emergencyRelationship").value = data.emergency_relationship;
+      if (data.emergency_phone)        document.getElementById("emergencyPhone").value        = data.emergency_phone;
+      hint.innerHTML = "<span style='color:#2D6A4F'>✓ Details filled from contractor register — please check and update if needed</span>";
+    } else {
+      hint.innerHTML = "<span style='color:#6b7280'>No existing record found — please enter details manually</span>";
+    }
+  } catch(e) {
+    hint.innerHTML = "";
+    console.warn("Autofill lookup failed:", e);
+  }
+}
+
+function startInduction() {
+  const name                 = document.getElementById("name").value.trim();
+  const co                   = document.getElementById("company").value.trim();
+  const emergencyName        = document.getElementById("emergencyName").value.trim();
+  const emergencyRelationship= document.getElementById("emergencyRelationship").value.trim();
+  const emergencyPhone       = document.getElementById("emergencyPhone").value.trim();
+  if (!name || !co) { alert("Please enter your name and company before continuing."); return; }
+  if (!emergencyName || !emergencyRelationship || !emergencyPhone) { alert("Please enter the emergency contact name, relationship, and phone number before continuing."); return; }
+  contractor = {
+    name, company: co,
+    trade:                document.getElementById("trade").value.trim(),
+    companyContactName:   document.getElementById("companyContactName").value.trim(),
+    companyContactMobile: document.getElementById("companyContactMobile").value.trim(),
+    companyContactEmail:  document.getElementById("companyContactEmail").value.trim(),
+    phone:                document.getElementById("phone").value.trim(),
+    emergencyName, emergencyRelationship, emergencyPhone,
+    dates: document.getElementById("dates").value.trim(),
+    tasks: document.getElementById("tasks").value.trim(),
+  };
+  goTo(1);
+}
+
+function proceedToQuiz() {
+  const unchecked = ACK_ITEMS.map((_,i) => document.getElementById("ack"+i).checked).filter(v => !v).length;
+  if (unchecked > 0) { alert("Please tick all acknowledgement boxes before proceeding to the quiz."); return; }
+  contractor.docNotes = document.getElementById("docNotes").value.trim() || "—";
+  goTo(7);
+}
+
+// ── Document upload (matches site register) ───────────────────────────────────
+function escapeHTML(str) {
+  return String(str||"").replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function documentTypeOptions(category) {
+  const options = {
+    risk:      ["SWMS","JSA / Risk Assessment","Other Document"],
+    insurance: ["Public Liability Insurance","Workers Compensation Insurance"],
+    licence:   ["High Risk Work Licence","Driver Licence","Front End Loader Licence","Telehandler Licence","Working at Heights Certificate","Confined Space Certificate","Trade Certificate"]
+  };
+  return `<option value="">Select...</option>${options[category].map(v => `<option>${escapeHTML(v)}</option>`).join("")}`;
+}
+
+function sectionRowsId(category) {
+  return category === "risk" ? "riskRows" : category === "insurance" ? "insuranceRows" : "licenceRows";
+}
+
+function hrwlCodeBoxes() {
+  const codes = ["LF","LO","DG","RB","RI","RA","SB","SI","SA","WP","CB","CD","CN","C2","C6","C1","C0","CP","CT","CS","CV","HM","HP","RS","PB","BS","BA","ES","TO"];
+  return codes.map(code => `<label class="hrwl-code" title="${code}"><input type="checkbox" class="hrwl-code-check" value="${code}">${code}</label>`).join("");
+}
+
+function addDocumentRow(category) {
+  const container = document.getElementById(sectionRowsId(category));
+  const rowId = `doc_${category}_${Date.now()}_${Math.floor(Math.random()*10000)}`;
+  const div = document.createElement("div");
+  div.className = "doc-row document-row";
+  div.dataset.rowId = rowId;
+  div.dataset.category = category;
+  div.innerHTML = `
+    <div class="doc-field">
+      <label>Type *</label>
+      <select class="doc-type" onchange="handleDocumentTypeChange('${rowId}')">${documentTypeOptions(category)}</select>
+    </div>
+    <div class="doc-field expiry-wrap" style="display:none;">
+      <label>Expiry Date *</label>
+      ${category === "insurance" ? `
+      <div style="display:flex;gap:8px;">
+        <select class="doc-expiry-day" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Day</option>
+          ${Array.from({length:31},(_,i)=>i+1).map(d=>`<option value="${String(d).padStart(2,'0')}">${d}</option>`).join("")}
+        </select>
+        <select class="doc-expiry-month" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Month</option>
+          <option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option>
+          <option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option>
+          <option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option>
+          <option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option>
+        </select>
+        <select class="doc-expiry-year" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Year</option>
+          ${Array.from({length:15},(_,i)=>2026+i).map(y=>`<option value="${y}">${y}</option>`).join("")}
+        </select>
+      </div>
+      ` : `
+      <div style="display:flex;gap:8px;">
+        <select class="doc-expiry-month" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Month</option>
+          <option value="01">January</option><option value="02">February</option><option value="03">March</option>
+          <option value="04">April</option><option value="05">May</option><option value="06">June</option>
+          <option value="07">July</option><option value="08">August</option><option value="09">September</option>
+          <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+        </select>
+        <select class="doc-expiry-year" onchange="syncExpiry(this)" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'Barlow',sans-serif;font-size:14px;background:#fff;">
+          <option value="">Year</option>
+          ${Array.from({length:15},(_,i)=>2026+i).map(y=>`<option value="${y}">${y}</option>`).join("")}
+        </select>
+      </div>
+      `}
+      <input type="hidden" class="doc-expiry">
+    </div>
+    <div class="doc-field">
+      <label>Upload Document / Take Photos *</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+        <label class="file-btn">File<input type="file" class="doc-files" multiple accept="image/*,.pdf,.doc,.docx" style="display:none" onchange="showSelectedFiles('${rowId}','file')"></label>
+        <label class="file-btn">Camera<input type="file" class="doc-camera" accept="image/*" capture="environment" style="display:none" onchange="showSelectedFiles('${rowId}','camera')"></label>
+      </div>
+      <div class="file-list" id="files_${rowId}">No documents selected.</div>
+    </div>
+    <div class="doc-field">
+      <button class="btn btn-secondary doc-remove" onclick="removeDocumentRow('${rowId}')">Remove</button>
+    </div>
+    <div class="extra-field public-liability-field" style="display:none;">
+      <label>Public Liability Policy Number *</label>
+      <input type="text" class="policy-number" placeholder="Enter policy number">
+      <label>Coverage Amount *</label>
+      <input type="text" class="coverage-amount" placeholder="e.g. $20 million">
+    </div>
+    <div class="extra-field workers-comp-field" style="display:none;">
+      <label>Workers Compensation Policy Number *</label>
+      <input type="text" class="policy-number" placeholder="Enter policy number">
+    </div>
+    <div class="hrwl-field" style="display:none;">
+      <label>High Risk Work Licence Classes *</label>
+      <div class="hrwl-note">Select the two-letter HRWL codes shown on the licence card.</div>
+      <div class="hrwl-code-grid">${hrwlCodeBoxes()}</div>
+    </div>
+  `;
+  container.appendChild(div);
+}
+
+function syncExpiry(el) {
+  const wrap  = el.closest(".expiry-wrap");
+  if (!wrap) return;
+  const month = wrap.querySelector(".doc-expiry-month") ? wrap.querySelector(".doc-expiry-month").value : "";
+  const year  = wrap.querySelector(".doc-expiry-year")  ? wrap.querySelector(".doc-expiry-year").value  : "";
+  const dayEl = wrap.querySelector(".doc-expiry-day");
+  const day   = dayEl ? (dayEl.value || "01") : "01";
+  wrap.querySelector(".doc-expiry").value = (year && month) ? `${year}-${month}-${day}` : "";
+}
+
+function handleDocumentTypeChange(rowId) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const val      = row.querySelector(".doc-type").value;
+  const category = row.dataset.category;
+  const expiryWrap = row.querySelector(".expiry-wrap");
+  const expiryInput= row.querySelector(".doc-expiry");
+  const pubLiab  = row.querySelector(".public-liability-field");
+  const workComp = row.querySelector(".workers-comp-field");
+  const hrwl     = row.querySelector(".hrwl-field");
+
+  expiryWrap.style.display = "none";
+  pubLiab.style.display    = "none";
+  workComp.style.display   = "none";
+  hrwl.style.display       = "none";
+
+  if (category === "insurance") {
+    if (val === "Public Liability Insurance")      { expiryWrap.style.display = "block"; pubLiab.style.display  = "block"; }
+    if (val === "Workers Compensation Insurance")  { expiryWrap.style.display = "block"; workComp.style.display = "block"; }
+  }
+  if (category === "licence" && val === "High Risk Work Licence") {
+    expiryWrap.style.display = "block";
+    hrwl.style.display = "block";
+  }
+  if (expiryWrap.style.display === "none") {
+    expiryInput.value = "";
+    const mSel = expiryWrap.querySelector(".doc-expiry-month");
+    const ySel = expiryWrap.querySelector(".doc-expiry-year");
+    if (mSel) mSel.value = "";
+    if (ySel) ySel.value = "";
+  }
+}
+
+function removeDocumentRow(rowId) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const category = row.dataset.category;
+  const rows = [...document.querySelectorAll(`.document-row[data-category="${category}"]`)];
+  if (rows.length <= 1) { alert("Keep at least one row per section. Leave it blank if that section does not apply."); return; }
+  row.remove();
+  updateQueueSummary();
+}
+
+function showSelectedFiles(rowId, source) {
+  const row = document.querySelector(`.document-row[data-row-id="${rowId}"]`);
+  if (!row) return;
+  const input = source === "camera" ? row.querySelector(".doc-camera") : row.querySelector(".doc-files");
+  const files = [...(input.files || [])];
+  document.getElementById(`files_${rowId}`).innerHTML = files.length
+    ? files.map(f => `${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>")
+    : "No documents selected.";
+  updateQueueSummary();
+}
+
+function updateQueueSummary() {
+  const items = [];
+  const rows = [...document.querySelectorAll(".document-row")];
+  rows.forEach(row => {
+    const docType  = row.querySelector(".doc-type").value.trim();
+    const fileInput = row.querySelector(".doc-files");
+    const camInput  = row.querySelector(".doc-camera");
+    const files = (fileInput && fileInput.files && fileInput.files.length) ? [...fileInput.files]
+                : (camInput  && camInput.files  && camInput.files.length)  ? [...camInput.files] : [];
+    if (docType && files.length) {
+      files.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">${docType}</span> — ${f.name}`));
+    }
+  });
+  const summary   = document.getElementById("queueSummary");
+  const empty     = document.getElementById("queueEmpty");
+  const queueList = document.getElementById("queueList");
+  if (items.length) {
+    queueList.innerHTML   = items.join("<br>");
+    summary.style.display = "block";
+    empty.style.display   = "none";
+  } else {
+    summary.style.display = "none";
+    empty.style.display   = "block";
+  }
+}
+
+// ── Quiz ──────────────────────────────────────────────────────────────────────
+function loadQuestion(index) {
+  currentQ = index;
+  quizAnswered = false;
+  const q = CONFIG.quiz[index];
+  document.getElementById("quizCounter").textContent  = `Question ${index + 1} of ${CONFIG.quiz.length}`;
+  document.getElementById("quizQuestion").textContent = q.question;
+  document.getElementById("quizFeedback").className   = "quiz-feedback";
+  document.getElementById("quizFeedback").textContent = "";
+  document.getElementById("quizNextBtn").style.display = "none";
+  const opts = document.getElementById("quizOptions");
+  opts.innerHTML = "";
+  q.options.forEach((opt,i) => {
+    const div = document.createElement("div");
+    div.className = "option";
+    div.textContent = opt;
+    div.onclick = () => selectAnswer(i);
+    opts.appendChild(div);
+  });
+}
+
+function selectAnswer(i) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  answers[currentQ] = i;
+  const q = CONFIG.quiz[currentQ];
+  const opts = document.querySelectorAll(".option");
+  opts[i].classList.add(i === q.correctIndex ? "correct" : "wrong");
+  if (i !== q.correctIndex) opts[q.correctIndex].classList.add("reveal-correct");
+  const fb = document.getElementById("quizFeedback");
+  fb.textContent = (i === q.correctIndex ? "✓ Correct. " : "✗ Incorrect. ") + q.feedback;
+  fb.className = "quiz-feedback show " + (i === q.correctIndex ? "pass" : "fail");
+  const btn = document.getElementById("quizNextBtn");
+  btn.style.display = "inline-flex";
+  btn.textContent = currentQ === CONFIG.quiz.length - 1 ? "See Results →" : "Next Question →";
+}
+
+function nextQuestion() {
+  if (currentQ < CONFIG.quiz.length - 1) { loadQuestion(currentQ + 1); } else { showResult(); }
+}
+
+// ── File helper ───────────────────────────────────────────────────────────────
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ── Show result & submit ──────────────────────────────────────────────────────
+function showResult() {
+  const correct = answers.filter((a,i) => a === CONFIG.quiz[i].correctIndex).length;
+  const pct     = Math.round((correct / CONFIG.quiz.length) * 100);
+  const passed  = pct >= CONFIG.passMark;
+
+  if (!passed) {
+    const fb = document.getElementById("quizFeedback");
+    fb.textContent = "You did not reach " + CONFIG.passMark + "%. Please complete the quiz again.";
+    fb.className = "quiz-feedback show fail";
+    document.getElementById("quizNextBtn").style.display = "none";
+    setTimeout(() => { answers = []; loadQuestion(0); window.scrollTo({ top: 0, behavior: "smooth" }); }, 2500);
+    return;
+  }
+
+  const now     = new Date();
+  const dateStr = now.toLocaleDateString("en-AU", {day:"2-digit",month:"2-digit",year:"numeric"});
+  const timeStr = now.toLocaleTimeString("en-AU", {hour:"2-digit",minute:"2-digit"});
+  goTo(8);
+  document.getElementById("resultBadge").textContent = "✓";
+  document.getElementById("resultBadge").className   = "result-badge pass";
+  document.getElementById("resultScore").textContent = pct + "%";
+  document.getElementById("resultLabel").textContent = correct + " of " + CONFIG.quiz.length + " correct";
+  document.getElementById("recordBox").innerHTML = `
+    <strong>Name</strong>${contractor.name}
+    <strong>Company</strong>${contractor.company}
+    <strong>Trade / Role</strong>${contractor.trade || "—"}
+    <strong>Company Contact</strong>${contractor.companyContactName || "—"}
+    <strong>Company Contact Mobile</strong>${contractor.companyContactMobile || "—"}
+    <strong>Company Contact Email</strong>${contractor.companyContactEmail || "—"}
+    <strong>Phone</strong>${contractor.phone || "—"}
+    <strong>Emergency Contact</strong>${contractor.emergencyName || "—"} (${contractor.emergencyRelationship || "—"})
+    <strong>Emergency Contact Phone</strong>${contractor.emergencyPhone || "—"}
+    <strong>Planned Date(s)</strong>${contractor.dates || "—"}
+    <strong>High Risk Tasks</strong>${contractor.tasks || "—"}
+    <strong>Document Notes</strong>${contractor.docNotes || "—"}
+    <strong>Date Inducted</strong>${dateStr} at ${timeStr}
+    <strong>Result</strong>✅ PASSED (${pct}%)
+    <strong>Site</strong>${CONFIG.siteName}
+  `;
+  document.getElementById("resultMsg").textContent = cameFromSiteSignIn
+    ? "Induction complete — you're signed in and on today's site register."
+    : "Induction complete. Please confirm sign-in with site personnel before commencing work.";
+
+  sendToFlow({ name: contractor.name, company: contractor.company, trade: contractor.trade,
+    company_contact_name: contractor.companyContactName, company_contact_mobile: contractor.companyContactMobile,
+    company_contact_email: contractor.companyContactEmail, phone: contractor.phone,
+    emergency_name: contractor.emergencyName, emergency_relationship: contractor.emergencyRelationship,
+    emergency_phone: contractor.emergencyPhone, dates: contractor.dates, tasks: contractor.tasks,
+    doc_notes: contractor.docNotes, date: dateStr, time: timeStr, score: pct, result: "PASSED", site: CONFIG.siteName });
+}
+
+async function sendToFlow(data) {
+  const el = document.getElementById("sheetStatus");
+  el.textContent = "Submitting induction record…";
+  const personId = (data.phone || "").replace(/\D/g, "");
+
+  // Collect documents from all three sections
+  const uploadDocuments = [];
+  const docList = [];
+  const rows = [...document.querySelectorAll(".document-row")];
+
+  for (const row of rows) {
+    const category    = row.dataset.category;
+    const doc_type    = row.querySelector(".doc-type").value.trim();
+    const expiry_date = row.querySelector(".doc-expiry").value;
+    const hrwl_classes = [...row.querySelectorAll(".hrwl-code-check:checked")].map(i => i.value).join(", ");
+    const pubLiabEl   = row.querySelector(".public-liability-field .policy-number");
+    const workCompEl  = row.querySelector(".workers-comp-field .policy-number");
+    const coverageEl  = row.querySelector(".coverage-amount");
+    const policy_number   = (doc_type === "Public Liability Insurance" ? pubLiabEl?.value.trim() : workCompEl?.value.trim()) || "";
+    const coverage_amount = coverageEl?.value.trim() || "";
+
+    const fileInput = row.querySelector(".doc-files");
+    const camInput  = row.querySelector(".doc-camera");
+    const files = (fileInput && fileInput.files && fileInput.files.length) ? [...fileInput.files]
+                : (camInput  && camInput.files  && camInput.files.length)  ? [...camInput.files] : [];
+    if (!doc_type || !files.length) continue;
+
+    const attachments = [];
+    for (const file of files) {
+      docList.push(doc_type + " (" + file.name + ")");
+      try {
+        const base64 = await fileToBase64(file);
+        attachments.push({ file_name: file.name, content_type: file.type || "application/octet-stream", size: file.size, content_base64: base64 });
+      } catch(e) { console.warn("Could not read file", file.name, e); }
+    }
+    if (attachments.length) {
+      uploadDocuments.push({ category, document_type: doc_type, expiry_date, hrwl_classes, policy_number, coverage_amount, attachments });
+    }
+  }
+
+  const inductionPayload = {
+    induction_type:         "Contractor General",
+    document_no:            "ID-002-2025-v3.0",
+    person_id:              personId,
+    name:                   data.name,
+    company:                data.company,
+    trade:                  data.trade || "",
+    company_contact_name:   data.company_contact_name || "",
+    company_contact_mobile: data.company_contact_mobile || "",
+    company_contact_email:  data.company_contact_email || "",
+    phone:                  data.phone || "",
+    emergency_name:         data.emergency_name || "",
+    emergency_relationship: data.emergency_relationship || "",
+    emergency_phone:        data.emergency_phone || "",
+    planned_dates:          data.dates || "",
+    high_risk_tasks:        data.tasks || "",
+    documents_submitted:    docList.length ? docList.join("; ") : "None",
+    document_notes:         data.doc_notes || "",
+    date_inducted:          data.date,
+    time_inducted:          data.time,
+    score:                  data.score,
+    result:                 data.result,
+    site:                   data.site,
+    sharepoint_folder:      CONFIG.sharePointFolder,
+    submitted_at:           new Date().toISOString(),
+  };
+
+  const uploadPayload = uploadDocuments.length ? {
+    type:          "document_upload",
+    record_id:     personId,
+    person_id:     personId,
+    mobile_number: data.phone,
+    full_name:     data.name,
+    company:       data.company,
+    company_email: data.company_contact_email || "",
+    notes:         "Uploaded during contractor induction — ID-002-2025-v3.0",
+    uploaded_at:   new Date().toISOString(),
+    documents:     uploadDocuments
+  } : null;
+
+  const inductionFetch = fetch(CONFIG.webhookURL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(inductionPayload) });
+  const uploadFetch    = uploadPayload ? fetch(CONFIG.docUploadURL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(uploadPayload) }) : Promise.resolve(null);
+  const [inductionResult, uploadResult] = await Promise.allSettled([inductionFetch, uploadFetch]);
+
+  const inductionOk = inductionResult.status === "fulfilled" && (inductionResult.value.ok || inductionResult.value.status === 202);
+  const uploadOk    = !uploadPayload || (uploadResult.status === "fulfilled" && uploadResult.value && (uploadResult.value.ok || uploadResult.value.status === 202));
+
+  if (inductionOk) {
+    el.textContent = uploadPayload ? "✓ Induction record and documents submitted successfully." : "✓ Induction record submitted successfully.";
+  } else {
+    el.textContent = "⚠ Submission failed. Please advise site management manually.";
+  }
+  if (inductionOk && !uploadOk) {
+    el.textContent += " ⚠ Document upload failed — please bring originals to the site office.";
+  }
+
+  if (inductionOk && cameFromSiteSignIn) {
+    const signInRecord = {
+      id: genId(), entry_id: "", type: "sign_in", person_id: personId,
+      mobile_number: data.phone, status: "on_site", induction_valid: "Y",
+      date: todayISO(), full_name: data.name, company: data.company,
+      arrival_time: timeNow(), departure_time: "", hours_on_site: "",
+      inducted_previously: "yes", visitor: "N", access_type: "yes",
+      escorted_only: false, site_contact_responsible: "",
+      vehicle_rego: incomingRego, tickets_uploaded: [],
+      safety_issue: "", issue_details: "", notes: "Auto-signed-in after induction",
+      signed_in_at: new Date().toISOString(), signed_out_at: ""
+    };
+    fetch(SIGNIN_WEBHOOK_URL, { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify({type:"sign_in", ...signInRecord}) })
+      .catch(e => console.warn("Auto sign-in failed:", e));
+
+    const localRecords = loadLocalRecords();
+    localRecords.push(signInRecord);
+    saveLocalRecords(localRecords);
+
+    el.textContent += " Returning you to the site register...";
+    setTimeout(() => { window.location.href = SIGNIN_URL; }, 2200);
+  }
+}
+</script>
+</body>
+                                              </html>
