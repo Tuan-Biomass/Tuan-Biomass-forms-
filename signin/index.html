@@ -7,6 +7,7 @@
 <title>Tuan Biomass — Site Register</title>
 <link rel="icon" type="image/png" href="icon-signin.png">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <style>
 :root{--green:#2D6A4F;--green-dark:#1B4332;--accent:#D4A017;--danger:#DC2626;--bg:#F6F7F8;--card:#fff;--border:#D1D5DB;--muted:#6B7280;--text:#111827}
 *{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100%}body{font-family:"Barlow",sans-serif;background:var(--bg);color:var(--text)}
@@ -33,6 +34,7 @@
 </style>
 </head>
 <body>
+<div id="turnstileContainer" style="display:none"></div>
 <header class="site-header">
   <img src="/images/Albioma-Logo.jpg" alt="Albioma" style="height:38px;width:auto;" onerror="this.style.display='none'">
   <div>
@@ -243,7 +245,8 @@ async function submitSignIn(){
   const record={id:genId(),entry_id:"",type:"sign_in",person_id:personId,mobile_number:mobileNumber,status:"on_site",induction_valid:"Y",date:date,full_name:fullName,company:company,arrival_time:arrivalTime,departure_time:"",hours_on_site:"",inducted_previously:state.inducted==="yes"?"yes":"no",visitor:isEscorted?"Y":"N",access_type:state.inducted,escorted_only:isEscorted,site_contact_responsible:isEscorted?document.getElementById("escortContact").value.trim():"",vehicle_rego:rego,tickets_uploaded:[],safety_issue:"",issue_details:"",notes:"",signed_in_at:new Date().toISOString(),signed_out_at:""};
   msg("signinMessage","warn","Signing in...");
   try{
-    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_in",...record}, stripFormulaChars)});
+    const tsToken=await getTurnstileToken();
+    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_in",...record,turnstileToken:tsToken}, stripFormulaChars)});
     if(res.ok){const data=await res.json();if(data.entry_id){record.entry_id=data.entry_id;sessionStorage.setItem(`entryID_${record.id}`,data.entry_id);localStorage.setItem(`entryID_${record.id}`,data.entry_id)}}
   }catch(e){console.warn("Sign-in webhook error:",e)}
   const records=loadRecords();records.push(record);saveRecords(records);
@@ -346,7 +349,8 @@ async function completeSignOut(){
   const entryID=sessionStorage.getItem(`entryID_${rec.id}`)||localStorage.getItem(`entryID_${rec.id}`)||rec.entry_id||"";
   msg("signoutMessage","warn","Signing out...");
   try{
-    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_out",status:"signed_out",entry_id:entryID,person_id:rec.person_id,mobile_number:rec.mobile_number,full_name:rec.full_name,company:rec.company,date:rec.date,arrival_time:rec.arrival_time,time_out:departureTime,safety_issue:state.outIssue,safety_issue_details:issueDetailsStr,notes:rec.notes||""}, stripFormulaChars)});
+    const tsToken=await getTurnstileToken();
+    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_out",status:"signed_out",entry_id:entryID,person_id:rec.person_id,mobile_number:rec.mobile_number,full_name:rec.full_name,company:rec.company,date:rec.date,arrival_time:rec.arrival_time,time_out:departureTime,safety_issue:state.outIssue,safety_issue_details:issueDetailsStr,notes:rec.notes||"",turnstileToken:tsToken}, stripFormulaChars)});
     if(!res.ok){msg("signoutMessage","danger","Sign out could not be recorded. Please contact the site office.");return}
   }catch(e){msg("signoutMessage","danger","Sign out could not be recorded. Please contact the site office.");console.error("Sign-out webhook error:",e);return}
   sessionStorage.removeItem(`entryID_${rec.id}`);
@@ -698,8 +702,14 @@ async function submitTickets(){
 
   let ok=true;
   if(CONFIG.ticketUploadURL&&CONFIG.ticketUploadURL!=="PASTE_YOUR_TICKET_UPLOAD_FLOW_URL_HERE"){
-    const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload, stripFormulaChars)});
-    ok=res.ok
+    try{
+      upload.turnstileToken=await getTurnstileToken();
+      const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload, stripFormulaChars)});
+      ok=res.ok
+    }catch(e){
+      console.error("Ticket upload error:",e);
+      ok=false
+    }
   }
   if(!ok){msg("ticketMessage","danger","Upload failed. Try again or contact the site office.");return}
 
@@ -727,6 +737,32 @@ function escapeHTML(str){return String(str||"").replace(/[&<>"']/g,m=>({'&':'&am
 
 // Prevents Excel/CSV formula injection when text values are opened in Excel.
 // Skips content_base64 so file attachment data is never altered.
+const TURNSTILE_SITE_KEY = "0x4AAAAAADy0vxBqeCyp43cL";
+let turnstileWidgetId = null;
+
+function initTurnstile() {
+  if (typeof turnstile === "undefined") { setTimeout(initTurnstile, 200); return; }
+  turnstileWidgetId = turnstile.render("#turnstileContainer", {
+    sitekey: TURNSTILE_SITE_KEY,
+    size: "invisible",
+    execution: "execute"
+  });
+}
+window.addEventListener("DOMContentLoaded", initTurnstile);
+
+function getTurnstileToken() {
+  return new Promise((resolve, reject) => {
+    if (typeof turnstile === "undefined" || turnstileWidgetId === null) {
+      reject(new Error("Verification not ready. Please refresh and try again."));
+      return;
+    }
+    turnstile.execute(turnstileWidgetId, {
+      callback: (token) => resolve(token),
+      "error-callback": () => reject(new Error("Verification failed. Please refresh and try again."))
+    });
+  });
+}
+
 function stripFormulaChars(key, value) {
   if (key === "content_base64") return value;
   if (typeof value === "string" && /^[=+\-@]/.test(value)) return "'" + value;

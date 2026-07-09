@@ -6,6 +6,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Tuan Biomass — Pellet Truck Driver Induction</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <style>
   :root {
     --green: #2D6A4F;
@@ -142,6 +143,7 @@
 </style>
 </head>
 <body>
+<div id="turnstileContainer" style="display:none"></div>
 
 <script>
 const CONFIG = {
@@ -704,6 +706,32 @@ function escapeHTML(str) {
 
 // Prevents Excel/CSV formula injection when text values are opened in Excel.
 // Skips content_base64 so file attachment data is never altered.
+const TURNSTILE_SITE_KEY = "0x4AAAAAADy0vxBqeCyp43cL";
+let turnstileWidgetId = null;
+
+function initTurnstile() {
+  if (typeof turnstile === "undefined") { setTimeout(initTurnstile, 200); return; }
+  turnstileWidgetId = turnstile.render("#turnstileContainer", {
+    sitekey: TURNSTILE_SITE_KEY,
+    size: "invisible",
+    execution: "execute"
+  });
+}
+window.addEventListener("DOMContentLoaded", initTurnstile);
+
+function getTurnstileToken() {
+  return new Promise((resolve, reject) => {
+    if (typeof turnstile === "undefined" || turnstileWidgetId === null) {
+      reject(new Error("Verification not ready. Please refresh and try again."));
+      return;
+    }
+    turnstile.execute(turnstileWidgetId, {
+      callback: (token) => resolve(token),
+      "error-callback": () => reject(new Error("Verification failed. Please refresh and try again."))
+    });
+  });
+}
+
 function stripFormulaChars(key, value) {
   if (key === "content_base64") return value;
   if (typeof value === "string" && /^[=+\-@]/.test(value)) return "'" + value;
@@ -1065,6 +1093,15 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
 
   goTo("10");
 
+  const el = document.getElementById("completeStatus");
+  try {
+    inductionPayload.turnstileToken = await getTurnstileToken();
+    if (uploadPayload) uploadPayload.turnstileToken = await getTurnstileToken();
+  } catch (err) {
+    el.textContent = "⚠ " + err.message;
+    return;
+  }
+
   const inductionFetch = fetch(CONFIG.webhookURL, {
     method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(inductionPayload, stripFormulaChars)
   });
@@ -1076,7 +1113,6 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
   const inductionOk = inductionResult.status === "fulfilled" && (inductionResult.value.ok || inductionResult.value.status === 202);
   const uploadOk    = !uploadPayload || (uploadResult.status === "fulfilled" && uploadResult.value && (uploadResult.value.ok || uploadResult.value.status === 202));
 
-  const el = document.getElementById("completeStatus");
   if (inductionOk && uploadOk) {
     el.textContent = uploadPayload ? "✓ Induction record and documents submitted successfully." : "✓ Induction successfully submitted.";
   } else if (inductionOk && !uploadOk) {

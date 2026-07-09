@@ -6,6 +6,7 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Tuan Biomass — Contractor Insurance Upload</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <style>
 :root{--green:#2D6A4F;--green-dark:#1B4332;--accent:#D4A017;--danger:#DC2626;--bg:#F6F7F8;--card:#fff;--border:#D1D5DB;--muted:#6B7280;--text:#111827}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -46,6 +47,7 @@ input:focus,select:focus{outline:none;border-color:var(--green)}
 </head>
 
 <body>
+<div id="turnstileContainer" style="display:none"></div>
 <header class="header">
   <img src="/images/Albioma-Logo.jpg" alt="Albioma" style="height:38px;width:auto;" onerror="this.style.display='none'">
   <div>
@@ -410,6 +412,7 @@ async function submitInsurance(){
   };
 
   try{
+    payload.turnstileToken = await getTurnstileToken();
     const res = await fetch(CONFIG.insuranceUploadURL, {
       method: "POST",
       headers: {"Content-Type":"application/json"},
@@ -452,6 +455,32 @@ function escapeHTML(str){
 
 // Prevents Excel/CSV formula injection when text values are opened in Excel.
 // Skips content_base64 so file attachment data is never altered.
+const TURNSTILE_SITE_KEY = "0x4AAAAAADy0vxBqeCyp43cL";
+let turnstileWidgetId = null;
+
+function initTurnstile() {
+  if (typeof turnstile === "undefined") { setTimeout(initTurnstile, 200); return; }
+  turnstileWidgetId = turnstile.render("#turnstileContainer", {
+    sitekey: TURNSTILE_SITE_KEY,
+    size: "invisible",
+    execution: "execute"
+  });
+}
+window.addEventListener("DOMContentLoaded", initTurnstile);
+
+function getTurnstileToken() {
+  return new Promise((resolve, reject) => {
+    if (typeof turnstile === "undefined" || turnstileWidgetId === null) {
+      reject(new Error("Verification not ready. Please refresh and try again."));
+      return;
+    }
+    turnstile.execute(turnstileWidgetId, {
+      callback: (token) => resolve(token),
+      "error-callback": () => reject(new Error("Verification failed. Please refresh and try again."))
+    });
+  });
+}
+
 function stripFormulaChars(key, value) {
   if (key === "content_base64") return value;
   if (typeof value === "string" && /^[=+\-@]/.test(value)) return "'" + value;
