@@ -1031,7 +1031,7 @@ async function sendToFlow(data) {
       } catch(e) { console.warn("Could not read file", file.name, e); }
     }
     if (attachments.length) {
-      uploadDocuments.push({ category, document_type: doc_type, expiry_date, hrwl_classes, policy_number, coverage_amount, attachments });
+      uploadDocuments.push({ category, document_type: doc_type, expiry_date, licence_class: hrwl_classes, policy_number, coverage_amount, attachments });
     }
   }
 
