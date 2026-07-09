@@ -24,7 +24,7 @@
 </style>
 </head>
 <body>
-<div id="turnstileContainer" style="display:none"></div>
+<div id="turnstileContainer" style="position:fixed;bottom:12px;right:12px;z-index:9999"></div>
 <header class="site-header">
   <img src="/images/Albioma-Logo.jpg" alt="Albioma" style="height:38px;width:auto;" onerror="this.style.display='none'">
   <div>
@@ -186,7 +186,6 @@ function initTurnstile() {
   if (typeof turnstile === "undefined") { setTimeout(initTurnstile, 200); return; }
   turnstileWidgetId = turnstile.render("#turnstileContainer", {
     sitekey: TURNSTILE_SITE_KEY,
-    size: "invisible",
     execution: "execute"
   });
 }
