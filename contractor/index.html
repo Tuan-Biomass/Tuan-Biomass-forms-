@@ -228,7 +228,7 @@ function timeNow(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${p
 function genId(){return crypto.randomUUID?crypto.randomUUID():'ind_'+Date.now().toString(36)+Math.random().toString(36).slice(2)}
 
 const STORE_KEY = "tuan_biomass_site_register_v4";
-const SIGNIN_URL = "Contraxtor-visitor_register_v4.html";
+const SIGNIN_URL = "/signin/";
 function loadLocalRecords(){try{return JSON.parse(localStorage.getItem(STORE_KEY))||[]}catch(e){return[]}}
 function saveLocalRecords(r){localStorage.setItem(STORE_KEY, JSON.stringify(r))}
 
