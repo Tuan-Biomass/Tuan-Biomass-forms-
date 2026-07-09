@@ -175,6 +175,28 @@ function escapeHTML(str){
   return String(str||"").replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
 
+// Prevents Excel/CSV formula injection when text values are opened in Excel.
+// Skips content_base64 so file attachment data is never altered.
+function stripFormulaChars(key, value) {
+  if (key === "content_base64") return value;
+  if (typeof value === "string" && /^[=+\-@]/.test(value)) return "'" + value;
+  return value;
+}
+
+// Blocks oversized files before they're queued for upload.
+const MAX_FILE_MB = 20;
+function enforceFileSizeLimit(input) {
+  if (!input || !input.files || !input.files.length) return;
+  const files = [...input.files];
+  const oversized = files.filter(f => f.size > MAX_FILE_MB * 1024 * 1024);
+  if (oversized.length) {
+    alert(`These files exceed ${MAX_FILE_MB}MB and were not added: ` + oversized.map(f => f.name).join(", "));
+    const dt = new DataTransfer();
+    files.filter(f => f.size <= MAX_FILE_MB * 1024 * 1024).forEach(f => dt.items.add(f));
+    input.files = dt.files;
+  }
+}
+
 function documentTypeOptions(category){
   const options={
     risk:["SWMS","JSA / Risk Assessment","Other Document"],
@@ -353,7 +375,9 @@ function removeDocumentRow(rowId){
 function showSelectedFiles(rowId){
   const row=document.querySelector(`.document-row[data-row-id="${rowId}"]`);
   if(!row)return;
-  const files=[...row.querySelector(".doc-files").files];
+  const input=row.querySelector(".doc-files");
+  enforceFileSizeLimit(input);
+  const files=[...input.files];
   document.getElementById(`files_${rowId}`).innerHTML=files.length?files.map(f=>`${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>"):"No documents selected.";
 }
 
@@ -514,7 +538,7 @@ async function submitTickets(){
   };
 
   try{
-    const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload)});
+    const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload, stripFormulaChars)});
     if(!res.ok){msg("ticketMessage","danger","Upload failed. Try again or contact the site office.");return}
   }catch(e){
     console.error("Document upload error:",e);

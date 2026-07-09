@@ -2093,6 +2093,14 @@ async function testFlowUrl(inputId, label){
   if(ok) toast(`✓ ${label} flow connected successfully`,'var(--green)');
 }
 
+// Prevents Excel/CSV formula injection when text values are opened in Excel.
+// Skips content_base64/base64/file content fields so attachment data is never altered.
+function stripFormulaChars(key, value) {
+  if (/base64/i.test(key)) return value;
+  if (typeof value === "string" && /^[=+\-@]/.test(value)) return "'" + value;
+  return value;
+}
+
 async function postFlow(url, payload, label){
   if(!url){
     console.warn('postFlow: no URL configured for', label||'flow');
@@ -2102,7 +2110,7 @@ async function postFlow(url, payload, label){
     const res = await fetch(url, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(payload),
+      body:JSON.stringify(payload, stripFormulaChars),
       mode:'cors',
     });
     if(!res.ok){

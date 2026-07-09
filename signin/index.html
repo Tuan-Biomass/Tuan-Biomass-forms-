@@ -188,7 +188,7 @@ async function autoFillFromMobile(){
   const hint=document.getElementById("autofillHint");
   hint.innerHTML='<div class="autofill-hint">Looking up contractor details...</div>';
   try{
-    const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mobile_number:mobile,person_id:normaliseMobile(mobile),lookup_only:"true"})});
+    const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mobile_number:mobile,person_id:normaliseMobile(mobile),lookup_only:"true"}, stripFormulaChars)});
     if(!res.ok){hint.innerHTML="";return}
     const data=await res.json();
     if(data.full_name){
@@ -243,14 +243,14 @@ async function submitSignIn(){
   const record={id:genId(),entry_id:"",type:"sign_in",person_id:personId,mobile_number:mobileNumber,status:"on_site",induction_valid:"Y",date:date,full_name:fullName,company:company,arrival_time:arrivalTime,departure_time:"",hours_on_site:"",inducted_previously:state.inducted==="yes"?"yes":"no",visitor:isEscorted?"Y":"N",access_type:state.inducted,escorted_only:isEscorted,site_contact_responsible:isEscorted?document.getElementById("escortContact").value.trim():"",vehicle_rego:rego,tickets_uploaded:[],safety_issue:"",issue_details:"",notes:"",signed_in_at:new Date().toISOString(),signed_out_at:""};
   msg("signinMessage","warn","Signing in...");
   try{
-    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_in",...record})});
+    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_in",...record}, stripFormulaChars)});
     if(res.ok){const data=await res.json();if(data.entry_id){record.entry_id=data.entry_id;sessionStorage.setItem(`entryID_${record.id}`,data.entry_id);localStorage.setItem(`entryID_${record.id}`,data.entry_id)}}
   }catch(e){console.warn("Sign-in webhook error:",e)}
   const records=loadRecords();records.push(record);saveRecords(records);
   if(CONFIG.docCheckURL&&state.inducted==="yes"&&mobileNumber){
     try{
       console.log("[DocCheck] Calling docCheckURL for",mobileNumber,"inducted:",state.inducted);
-      const docRes=await fetch(CONFIG.docCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,person_id:personId,mobile_number:mobileNumber,date:date,arrival_time:arrivalTime})});
+      const docRes=await fetch(CONFIG.docCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,person_id:personId,mobile_number:mobileNumber,date:date,arrival_time:arrivalTime}, stripFormulaChars)});
       console.log("[DocCheck] Response status:",docRes.status);
       if(docRes.ok){
         const docData=await docRes.json();
@@ -295,7 +295,7 @@ async function submitSignIn(){
 
 async function checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime){
   if(!CONFIG.inductionCheckURL||CONFIG.inductionCheckURL==="PASTE_YOUR_INDUCTION_CHECK_FLOW_URL_HERE")return{inducted:true,source:"local demo mode"};
-  const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,mobile_number:mobileNumber,person_id:normaliseMobile(mobileNumber),date:date,arrival_time:arrivalTime})});
+  const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,mobile_number:mobileNumber,person_id:normaliseMobile(mobileNumber),date:date,arrival_time:arrivalTime}, stripFormulaChars)});
   if(!res.ok)throw new Error("Induction check failed");
   return await res.json();
 }
@@ -346,7 +346,7 @@ async function completeSignOut(){
   const entryID=sessionStorage.getItem(`entryID_${rec.id}`)||localStorage.getItem(`entryID_${rec.id}`)||rec.entry_id||"";
   msg("signoutMessage","warn","Signing out...");
   try{
-    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_out",status:"signed_out",entry_id:entryID,person_id:rec.person_id,mobile_number:rec.mobile_number,full_name:rec.full_name,company:rec.company,date:rec.date,arrival_time:rec.arrival_time,time_out:departureTime,safety_issue:state.outIssue,safety_issue_details:issueDetailsStr,notes:rec.notes||""})});
+    const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_out",status:"signed_out",entry_id:entryID,person_id:rec.person_id,mobile_number:rec.mobile_number,full_name:rec.full_name,company:rec.company,date:rec.date,arrival_time:rec.arrival_time,time_out:departureTime,safety_issue:state.outIssue,safety_issue_details:issueDetailsStr,notes:rec.notes||""}, stripFormulaChars)});
     if(!res.ok){msg("signoutMessage","danger","Sign out could not be recorded. Please contact the site office.");return}
   }catch(e){msg("signoutMessage","danger","Sign out could not be recorded. Please contact the site office.");console.error("Sign-out webhook error:",e);return}
   sessionStorage.removeItem(`entryID_${rec.id}`);
@@ -393,7 +393,7 @@ async function startTicketUpload(id){
   notice.className="notice notice-warn";
   if(CONFIG.docCheckURL&&rec.mobile_number){
     try{
-      const docRes=await fetch(CONFIG.docCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:rec.full_name,company:rec.company,person_id:rec.person_id,mobile_number:rec.mobile_number,date:rec.date,arrival_time:rec.arrival_time})});
+      const docRes=await fetch(CONFIG.docCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:rec.full_name,company:rec.company,person_id:rec.person_id,mobile_number:rec.mobile_number,date:rec.date,arrival_time:rec.arrival_time}, stripFormulaChars)});
       if(docRes.ok){
         const docData=await docRes.json();
         if(docData.docs_expired==="true"){
@@ -596,7 +596,9 @@ function removeDocumentRow(rowId){
 function showSelectedFiles(rowId){
   const row=document.querySelector(`.document-row[data-row-id="${rowId}"]`);
   if(!row)return;
-  const files=[...row.querySelector(".doc-files").files];
+  const input=row.querySelector(".doc-files");
+  enforceFileSizeLimit(input);
+  const files=[...input.files];
   document.getElementById(`files_${rowId}`).innerHTML=files.length?files.map(f=>`${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>"):"No documents selected.";
 }
 
@@ -696,7 +698,7 @@ async function submitTickets(){
 
   let ok=true;
   if(CONFIG.ticketUploadURL&&CONFIG.ticketUploadURL!=="PASTE_YOUR_TICKET_UPLOAD_FLOW_URL_HERE"){
-    const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload)});
+    const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload, stripFormulaChars)});
     ok=res.ok
   }
   if(!ok){msg("ticketMessage","danger","Upload failed. Try again or contact the site office.");return}
@@ -722,6 +724,28 @@ async function submitTickets(){
 
 function normaliseMobile(value){let d=String(value||"").replace(/\D/g,"");if(d.startsWith("61")&&d.length===11)d="0"+d.slice(2);return d}
 function escapeHTML(str){return String(str||"").replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+
+// Prevents Excel/CSV formula injection when text values are opened in Excel.
+// Skips content_base64 so file attachment data is never altered.
+function stripFormulaChars(key, value) {
+  if (key === "content_base64") return value;
+  if (typeof value === "string" && /^[=+\-@]/.test(value)) return "'" + value;
+  return value;
+}
+
+// Blocks oversized files before they're queued for upload.
+const MAX_FILE_MB = 20;
+function enforceFileSizeLimit(input) {
+  if (!input || !input.files || !input.files.length) return;
+  const files = [...input.files];
+  const oversized = files.filter(f => f.size > MAX_FILE_MB * 1024 * 1024);
+  if (oversized.length) {
+    alert(`These files exceed ${MAX_FILE_MB}MB and were not added: ` + oversized.map(f => f.name).join(", "));
+    const dt = new DataTransfer();
+    files.filter(f => f.size <= MAX_FILE_MB * 1024 * 1024).forEach(f => dt.items.add(f));
+    input.files = dt.files;
+  }
+}
 window.addEventListener("load",()=>{setDefaultDateTime();renderHome()});
 </script>
 </body>

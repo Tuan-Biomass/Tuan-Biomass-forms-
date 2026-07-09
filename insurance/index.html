@@ -321,7 +321,9 @@ function val(id){
 }
 
 function showFiles(inputId, listId){
-  const files = [...document.getElementById(inputId).files];
+  const input = document.getElementById(inputId);
+  enforceFileSizeLimit(input);
+  const files = [...input.files];
   document.getElementById(listId).innerHTML = files.length
     ? files.map(f => `${escapeHTML(f.name)} — ${(f.size/1024/1024).toFixed(2)} MB`).join("<br>")
     : "No files selected.";
@@ -411,7 +413,7 @@ async function submitInsurance(){
     const res = await fetch(CONFIG.insuranceUploadURL, {
       method: "POST",
       headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload, stripFormulaChars)
     });
 
     if(!res.ok){
@@ -446,6 +448,28 @@ function escapeHTML(str){
   return String(str || "").replace(/[&<>"']/g, m => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   }[m]));
+}
+
+// Prevents Excel/CSV formula injection when text values are opened in Excel.
+// Skips content_base64 so file attachment data is never altered.
+function stripFormulaChars(key, value) {
+  if (key === "content_base64") return value;
+  if (typeof value === "string" && /^[=+\-@]/.test(value)) return "'" + value;
+  return value;
+}
+
+// Blocks oversized files before they're queued for upload.
+const MAX_FILE_MB = 20;
+function enforceFileSizeLimit(input) {
+  if (!input || !input.files || !input.files.length) return;
+  const files = [...input.files];
+  const oversized = files.filter(f => f.size > MAX_FILE_MB * 1024 * 1024);
+  if (oversized.length) {
+    alert(`These files exceed ${MAX_FILE_MB}MB and were not added: ` + oversized.map(f => f.name).join(", "));
+    const dt = new DataTransfer();
+    files.filter(f => f.size <= MAX_FILE_MB * 1024 * 1024).forEach(f => dt.items.add(f));
+    input.files = dt.files;
+  }
 }
 </script>
 </body>
