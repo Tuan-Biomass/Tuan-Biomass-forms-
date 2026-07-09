@@ -518,6 +518,7 @@ function getTurnstileToken() {
       reject(new Error("Verification not ready. Please refresh and try again."));
       return;
     }
+    try { turnstile.reset(turnstileWidgetId); } catch (e) { /* ignore if nothing to reset yet */ }
     turnstile.execute(turnstileWidgetId, {
       callback: (token) => resolve(token),
       "error-callback": () => reject(new Error("Verification failed. Please refresh and try again."))
