@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Tuan Biomass — SWMS System v5</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -893,7 +894,7 @@ if(!cfg.settingsCode){
     ptUrl:       'https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/a55450ef89b34008b3efe5d74c5eb7d0/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=7_LmLcddRHFfqVmyXxUYlQ3zdGJ91tbv8bxE0MVmsfo',
     ptGetUrl:    'https://defaultde8813d6d4894c538dbbbb7918b75d.6c.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/41e1dedf7a094094b0ae235c6492631a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=K0ue8teWVJrVWQLh1RisAMZ4yu7fOrI6A6NGsupnAEE',
     pdfBase:     'https://tuan-biomass.github.io/Tuan-Biomass-forms-/',
-    settingsCode: 'TB2026',
+    settingsCode: 'tuan2026',
   };
   save(KEYS.config, cfg);
 }
@@ -1935,7 +1936,7 @@ function renderSettings(){
 
 function unlockSettings(){
   cfg = loadObj(KEYS.config);
-  const code = cfg.settingsCode || 'TB2026';
+  const code = cfg.settingsCode || 'tuan2026';
   const entered = document.getElementById('settingsCodeInput').value;
   if(entered !== code){
     document.getElementById('settingsCodeError').classList.remove('hidden');
@@ -1994,7 +1995,7 @@ function saveConfig(){
   mismatchDiv.classList.add('hidden');
 
   cfg = loadObj(KEYS.config);
-  let settingsCode = cfg.settingsCode || 'TB2026';
+  let settingsCode = cfg.settingsCode || 'tuan2026';
 
   if(newCode || newConfirm){
     if(newCode !== newConfirm){

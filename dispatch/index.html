@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Tuan Biomass — Pellet Truck Driver Induction</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -828,7 +829,7 @@ function updateQueueSummary() {
   const dlC = document.getElementById('dl_camera');
   const dlFiles = (dlF && dlF.files && dlF.files.length) ? [...dlF.files]
                 : (dlC && dlC.files && dlC.files.length) ? [...dlC.files] : [];
-  dlFiles.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">Driver Licence</span> — ${f.name}`));
+  dlFiles.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">Driver Licence</span> — ${escapeHTML(f.name)}`));
   // Additional licence rows
   const rows = [...document.querySelectorAll(".document-row")];
   rows.forEach(row => {
@@ -839,7 +840,7 @@ function updateQueueSummary() {
                 : (camInput  && camInput.files  && camInput.files.length)  ? [...camInput.files]
                 : [];
     if (docType && files.length) {
-      files.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">${docType}</span> — ${f.name}`));
+      files.forEach(f => items.push(`<span style="color:var(--green-dark);font-weight:600;">${escapeHTML(docType)}</span> — ${escapeHTML(f.name)}`));
     }
   });
   const summary   = document.getElementById("queueSummary");
