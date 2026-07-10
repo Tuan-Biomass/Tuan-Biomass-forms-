@@ -238,7 +238,7 @@ async function submitSignIn(){
         return;
       }
     }catch(e){
-      msg("signinMessage","danger","Could not check the induction register. Contact the site office before allowing access.");
+      msg("signinMessage","danger","Could not check the induction register. DEBUG: "+(e && e.message ? e.message : String(e))+" — Contact the site office before allowing access.");
       return;
     }
   }
@@ -299,7 +299,11 @@ async function submitSignIn(){
 async function checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime){
   if(!CONFIG.inductionCheckURL||CONFIG.inductionCheckURL==="PASTE_YOUR_INDUCTION_CHECK_FLOW_URL_HERE")return{inducted:true,source:"local demo mode"};
   const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({full_name:fullName,company:company,mobile_number:mobileNumber,person_id:normaliseMobile(mobileNumber),date:date,arrival_time:arrivalTime}, stripFormulaChars)});
-  if(!res.ok)throw new Error("Induction check failed");
+  if(!res.ok){
+    let detail="";
+    try{ detail=await res.text(); }catch(e){ detail="(could not read response body)"; }
+    throw new Error(`HTTP ${res.status} ${res.statusText} — ${detail.slice(0,200)}`);
+  }
   return await res.json();
 }
 
