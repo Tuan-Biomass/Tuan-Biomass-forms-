@@ -6,7 +6,6 @@
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Tuan Biomass — Pellet Truck Driver Induction</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <style>
   :root {
     --green: #2D6A4F;
@@ -143,7 +142,6 @@
 </style>
 </head>
 <body>
-<div id="turnstileContainer" style="position:fixed;bottom:12px;right:12px;z-index:9999"></div>
 
 <script>
 const CONFIG = {
@@ -706,32 +704,6 @@ function escapeHTML(str) {
 
 // Prevents Excel/CSV formula injection when text values are opened in Excel.
 // Skips content_base64 so file attachment data is never altered.
-const TURNSTILE_SITE_KEY = "0x4AAAAAADy0vxBqeCyp43cL";
-let turnstileWidgetId = null;
-
-function initTurnstile() {
-  if (typeof turnstile === "undefined") { setTimeout(initTurnstile, 200); return; }
-  turnstileWidgetId = turnstile.render("#turnstileContainer", {
-    sitekey: TURNSTILE_SITE_KEY,
-    execution: "execute"
-  });
-}
-window.addEventListener("DOMContentLoaded", initTurnstile);
-
-function getTurnstileToken() {
-  return new Promise((resolve, reject) => {
-    if (typeof turnstile === "undefined" || turnstileWidgetId === null) {
-      reject(new Error("Verification not ready. Please refresh and try again."));
-      return;
-    }
-    try { turnstile.reset(turnstileWidgetId); } catch (e) { /* ignore if nothing to reset yet */ }
-    turnstile.execute(turnstileWidgetId, {
-      callback: (token) => resolve(token),
-      "error-callback": () => reject(new Error("Verification failed. Please refresh and try again."))
-    });
-  });
-}
-
 function stripFormulaChars(key, value) {
   if (key === "content_base64") return value;
   if (typeof value === "string" && /^[=+\-@]/.test(value)) return "'" + value;
@@ -1094,14 +1066,6 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
   goTo("10");
 
   const el = document.getElementById("completeStatus");
-  try {
-    inductionPayload.turnstileToken = await getTurnstileToken();
-    if (uploadPayload) uploadPayload.turnstileToken = await getTurnstileToken();
-  } catch (err) {
-    el.textContent = "⚠ " + err.message;
-    return;
-  }
-
   const inductionFetch = fetch(CONFIG.webhookURL, {
     method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(inductionPayload, stripFormulaChars)
   });
