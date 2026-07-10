@@ -7,7 +7,6 @@
 <title>Tuan Biomass — Document Upload</title>
 <link rel="icon" type="image/png" href="icon-signin.png">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <style>
 :root{--green:#2D6A4F;--green-dark:#1B4332;--accent:#D4A017;--danger:#DC2626;--bg:#F6F7F8;--card:#fff;--border:#D1D5DB;--muted:#6B7280;--text:#111827}
 *{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100%}body{font-family:"Barlow",sans-serif;background:var(--bg);color:var(--text)}
@@ -24,7 +23,6 @@
 </style>
 </head>
 <body>
-<div id="turnstileContainer" style="position:fixed;bottom:12px;right:12px;z-index:9999"></div>
 <header class="site-header">
   <img src="/images/Albioma-Logo.jpg" alt="Albioma" style="height:38px;width:auto;" onerror="this.style.display='none'">
   <div>
@@ -179,32 +177,6 @@ function escapeHTML(str){
 
 // Prevents Excel/CSV formula injection when text values are opened in Excel.
 // Skips content_base64 so file attachment data is never altered.
-const TURNSTILE_SITE_KEY = "0x4AAAAAADy0vxBqeCyp43cL";
-let turnstileWidgetId = null;
-
-function initTurnstile() {
-  if (typeof turnstile === "undefined") { setTimeout(initTurnstile, 200); return; }
-  turnstileWidgetId = turnstile.render("#turnstileContainer", {
-    sitekey: TURNSTILE_SITE_KEY,
-    execution: "execute"
-  });
-}
-window.addEventListener("DOMContentLoaded", initTurnstile);
-
-function getTurnstileToken() {
-  return new Promise((resolve, reject) => {
-    if (typeof turnstile === "undefined" || turnstileWidgetId === null) {
-      reject(new Error("Verification not ready. Please refresh and try again."));
-      return;
-    }
-    try { turnstile.reset(turnstileWidgetId); } catch (e) { /* ignore if nothing to reset yet */ }
-    turnstile.execute(turnstileWidgetId, {
-      callback: (token) => resolve(token),
-      "error-callback": () => reject(new Error("Verification failed. Please refresh and try again."))
-    });
-  });
-}
-
 function stripFormulaChars(key, value) {
   if (key === "content_base64") return value;
   if (typeof value === "string" && /^[=+\-@]/.test(value)) return "'" + value;
@@ -566,7 +538,6 @@ async function submitTickets(){
   };
 
   try{
-    upload.turnstileToken = await getTurnstileToken();
     const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload, stripFormulaChars)});
     if(!res.ok){msg("ticketMessage","danger","Upload failed. Try again or contact the site office.");return}
   }catch(e){
