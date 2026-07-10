@@ -1118,7 +1118,16 @@ document.getElementById("submitDeclBtn").addEventListener("click", async functio
   } else if (inductionOk && !uploadOk) {
     el.textContent = "✓ Induction record submitted. ⚠ Document upload failed — please bring originals to the site office.";
   } else {
-    el.textContent = "⚠ Submission failed. Please advise site management manually.";
+    let debugDetail = "";
+    if (inductionResult.status === "rejected") {
+      debugDetail = "Network error: " + (inductionResult.reason && inductionResult.reason.message ? inductionResult.reason.message : String(inductionResult.reason));
+    } else {
+      const r = inductionResult.value;
+      let bodyText = "";
+      try { bodyText = await r.text(); } catch(e) { bodyText = "(could not read response body)"; }
+      debugDetail = `HTTP ${r.status} ${r.statusText} — ${bodyText.slice(0,300)}`;
+    }
+    el.textContent = "⚠ Submission failed. DEBUG: " + debugDetail + " — Please advise site management manually.";
   }
   btn.textContent = "Submitted";
 });
