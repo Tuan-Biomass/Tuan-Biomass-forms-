@@ -112,10 +112,16 @@ const CONFIG={
   ticketUploadURL:"/api/truck-doc-upload" // uploads any expired/missing documents
 };
 
+// Fixed assumed on-site duration added to the contractor hours-on-site total for every
+// truck check-in, since trucks don't sign out individually. Change this single number if
+// the assumed time ever needs adjusting.
+const ASSUMED_DURATION_MINUTES=33;
+
 let currentDriver=null;
 
 function todayISO(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`}
 function timeNow(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${p(n.getHours())}:${p(n.getMinutes())}`}
+function estimatedDepartureTime(minutesToAdd){const n=new Date(Date.now()+minutesToAdd*60000),p=x=>String(x).padStart(2,"0");return `${p(n.getHours())}:${p(n.getMinutes())}`}
 function escapeHTML(str){return String(str||"").replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
 function stripFormulaChars(key,value){if(key==="content_base64")return value;if(typeof value==="string"&&/^[=+\-@]/.test(value))return "'"+value;return value}
 function fileToBase64(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(",")[1]);reader.onerror=reject;reader.readAsDataURL(file)})}
@@ -400,7 +406,18 @@ function msg_upload(type,text){document.getElementById("uploadMessage").innerHTM
 async function logCheckIn(outcome){
   if(!currentDriver)return;
   try{
-    await fetch(CONFIG.checkInURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"truck_check_in",person_id:currentDriver.person_id,mobile_last4:currentDriver.code,full_name:currentDriver.full_name,company:currentDriver.company,date:todayISO(),arrival_time:timeNow(),outcome:outcome},stripFormulaChars)});
+    await fetch(CONFIG.checkInURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+      type:"truck_check_in",
+      person_id:currentDriver.person_id,
+      mobile_last4:currentDriver.code,
+      full_name:currentDriver.full_name,
+      company:currentDriver.company,
+      date:todayISO(),
+      arrival_time:timeNow(),
+      assumed_duration_minutes:ASSUMED_DURATION_MINUTES,
+      estimated_departure_time:estimatedDepartureTime(ASSUMED_DURATION_MINUTES),
+      outcome:outcome
+    },stripFormulaChars)});
   }catch(e){console.warn("Check-in log error:",e)}
 }
 </script>
