@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Tuan Biomass — Truck Driver Check-In</title>
+<link rel="icon" type="image/png" href="icon-signin.png">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--green:#2D6A4F;--green-dark:#1B4332;--accent:#D4A017;--danger:#DC2626;--bg:#F6F7F8;--card:#fff;--border:#D1D5DB;--muted:#6B7280;--text:#111827}
+*{box-sizing:border-box;margin:0;padding:0}html,body{min-height:100%}body{font-family:"Barlow",sans-serif;background:var(--bg);color:var(--text)}
+.site-header{background:#fff;color:var(--green-dark);padding:14px 22px;display:flex;align-items:center;gap:14px;border-bottom:3px solid var(--green);box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.site-header h1{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:16px;color:var(--green-dark)}.site-header p{font-size:13px;color:var(--muted);margin-top:2px}
+.wrap{width:100%;max-width:560px;margin:0 auto;padding:24px 14px 60px}
+.card{background:var(--card);border-radius:14px;box-shadow:0 2px 12px rgba(0,0,0,.08);padding:26px;min-height:calc(100vh - 170px);display:flex;flex-direction:column;justify-content:center}
+.title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:26px;color:var(--green-dark);line-height:1.15;text-align:center}
+.sub{font-size:15px;color:var(--muted);margin-top:8px;text-align:center}
+.pin-wrap{margin:34px 0 8px;display:flex;justify-content:center}
+.pin-boxes{display:flex;gap:14px}
+.pin-box{width:64px;height:76px;font-family:"Barlow Condensed",sans-serif;font-size:40px;text-align:center;border:2px solid var(--border);border-radius:14px;color:var(--green-dark);background:#fff}
+.pin-box:focus{outline:none;border-color:var(--green)}
+.pin-box.filled{border-color:var(--green);background:#F0FDF4}
+.hint{font-size:13px;color:var(--muted);text-align:center;margin-top:6px}
+.btn{border-radius:10px;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:16px;letter-spacing:.4px;cursor:pointer;border:none;transition:.15s;padding:14px 18px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;width:100%}
+.btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:var(--green-dark)}
+.btn-secondary{background:#EEF2F7;color:var(--green-dark);border:1px solid var(--border)}
+.btn-danger{background:var(--danger);color:#fff}
+.actions{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+.hidden{display:none!important}
+.spinner{width:44px;height:44px;border:4px solid #E5E7EB;border-top-color:var(--green);border-radius:50%;margin:0 auto 18px;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.welcome-name{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:30px;color:var(--green-dark);text-align:center}
+.welcome-company{font-size:15px;color:var(--muted);text-align:center;margin-top:4px}
+.status-box{border-radius:12px;padding:18px;margin:20px 0;font-size:15px;line-height:1.5;text-align:center}
+.status-ok{background:#F0FDF4;border:1px solid #86EFAC;color:#166534}
+.status-warn{background:#FFFBEB;border:1px solid #FACC15;color:#713F12}
+.status-danger{background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B}
+.notice{border-radius:12px;padding:15px 17px;margin:16px 0;font-size:14px;line-height:1.5}
+.notice-danger{background:#FEF2F2;border:1px solid #FCA5A5;color:#991B1B}
+.match-list{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.match-opt{border:1.5px solid var(--border);border-radius:10px;padding:14px;text-align:left;background:#fff;cursor:pointer;font-family:"Barlow",sans-serif;font-size:16px;color:var(--text)}
+.match-opt:hover{border-color:var(--green);background:#F0FDF4}
+.doc-list{margin-top:8px}
+.doc-item{border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:14px;background:#F9FAFB}
+.doc-item-title{font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:17px;color:var(--green-dark);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
+label{display:block;font-family:"Barlow Condensed",sans-serif;font-weight:700;font-size:13px;letter-spacing:.6px;text-transform:uppercase;color:var(--green-dark);margin-bottom:5px;margin-top:10px}
+input[type=text],input[type=date],select{width:100%;padding:11px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:"Barlow",sans-serif;font-size:15px;color:var(--text);background:#fff}
+input:focus,select:focus{outline:none;border-color:var(--green)}
+.file-input{width:100%;padding:12px;border:1.5px dashed var(--border);border-radius:9px;background:#fff;font-size:14px;margin-top:6px}
+.file-list{font-size:13px;color:var(--muted);margin-top:6px}
+.footer{text-align:center;font-size:12px;color:var(--muted);margin-top:18px}
+@media(max-width:420px){.pin-box{width:52px;height:64px;font-size:32px}.pin-boxes{gap:10px}.card{padding:18px}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <img src="/images/Albioma-Logo.jpg" alt="Albioma" style="height:38px;width:auto;" onerror="this.style.display='none'">
+  <div>
+    <h1>Tuan Biomass</h1>
+    <p>Truck Driver Check-In</p>
+  </div>
+</header>
+<main class="wrap">
+
+<section class="card" id="pageEntry">
+  <div class="title">Truck Driver Check-In</div>
+  <div class="sub">Enter your 4-digit code to check in</div>
+  <div class="pin-wrap">
+    <div class="pin-boxes" id="pinBoxes">
+      <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off" data-index="0">
+      <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off" data-index="1">
+      <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off" data-index="2">
+      <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off" data-index="3">
+    </div>
+  </div>
+  <div class="hint" id="entryHint">Your code is the last 4 digits of your mobile number</div>
+</section>
+
+<section class="card hidden" id="pageResult">
+  <div id="resultChecking">
+    <div class="spinner"></div>
+    <div class="sub" style="margin-top:0">Checking your details...</div>
+  </div>
+
+  <div id="resultBody" class="hidden">
+    <div class="welcome-name" id="welcomeName"></div>
+    <div class="welcome-company" id="welcomeCompany"></div>
+    <div id="statusBox"></div>
+    <div id="matchList" class="match-list hidden"></div>
+    <div id="docSection" class="hidden">
+      <div class="notice notice-danger">Upload current copies of the documents below to complete your check-in.</div>
+      <div id="docList" class="doc-list"></div>
+      <div id="uploadMessage"></div>
+    </div>
+    <div class="actions" id="resultActions"></div>
+  </div>
+</section>
+
+<div class="footer">VR-002-2026-v1.0 · Tuan Biomass Truck Check-In · Albioma</div>
+</main>
+
+<script>
+// NOTE: These should point at the same pa-proxy routes / Power Automate flows already used
+// for contractor induction, licence and insurance checks — but keyed on "mobile_last4" (a
+// 4-digit lookup) instead of a full normalised mobile number. If more than one driver shares
+// the same 4 digits, checkURL should return a "matches" array of {full_name, company, person_id}
+// so the driver can confirm which record is theirs (handled below).
+const CONFIG={
+  checkInURL:"/api/truck-check-in",       // logs the check-in event once confirmed clear
+  checkURL:"/api/truck-driver-check",     // single flow: looks up driver + induction + doc status by mobile_last4
+  ticketUploadURL:"/api/truck-doc-upload" // uploads any expired/missing documents
+};
+
+let currentDriver=null;
+
+function todayISO(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}`}
+function timeNow(){const n=new Date(),p=x=>String(x).padStart(2,"0");return `${p(n.getHours())}:${p(n.getMinutes())}`}
+function escapeHTML(str){return String(str||"").replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function stripFormulaChars(key,value){if(key==="content_base64")return value;if(typeof value==="string"&&/^[=+\-@]/.test(value))return "'"+value;return value}
+function fileToBase64(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(",")[1]);reader.onerror=reject;reader.readAsDataURL(file)})}
+
+function pinBoxes(){return [...document.querySelectorAll(".pin-box")]}
+
+function initPinBoxes(){
+  const boxes=pinBoxes();
+  boxes.forEach((box,i)=>{
+    box.addEventListener("input",()=>{
+      box.value=box.value.replace(/\D/g,"").slice(0,1);
+      box.classList.toggle("filled",!!box.value);
+      if(box.value&&i<boxes.length-1){boxes[i+1].focus()}
+      maybeAutoSubmit();
+    });
+    box.addEventListener("keydown",(e)=>{
+      if(e.key==="Backspace"&&!box.value&&i>0){boxes[i-1].focus()}
+    });
+    box.addEventListener("paste",(e)=>{
+      e.preventDefault();
+      const digits=(e.clipboardData.getData("text")||"").replace(/\D/g,"").slice(0,4).split("");
+      boxes.forEach((b,j)=>{b.value=digits[j]||"";b.classList.toggle("filled",!!b.value)});
+      const last=boxes[Math.min(digits.length,4)-1];
+      if(last)last.focus();
+      maybeAutoSubmit();
+    });
+  });
+  boxes[0].focus();
+}
+
+function maybeAutoSubmit(){
+  const code=pinBoxes().map(b=>b.value).join("");
+  if(code.length===4){
+    pinBoxes().forEach(b=>b.blur());
+    runCheck(code);
+  }
+}
+
+window.addEventListener("DOMContentLoaded",initPinBoxes);
+
+function resetToEntry(){
+  document.getElementById("pageResult").classList.add("hidden");
+  document.getElementById("pageEntry").classList.remove("hidden");
+  const boxes=pinBoxes();
+  boxes.forEach(b=>{b.value="";b.classList.remove("filled")});
+  document.getElementById("entryHint").textContent="Your code is the last 4 digits of your mobile number";
+  setTimeout(()=>boxes[0].focus(),50);
+}
+
+async function runCheck(code){
+  document.getElementById("pageEntry").classList.add("hidden");
+  document.getElementById("pageResult").classList.remove("hidden");
+  document.getElementById("resultChecking").classList.remove("hidden");
+  document.getElementById("resultBody").classList.add("hidden");
+
+  let data;
+  try{
+    const res=await fetch(CONFIG.checkURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mobile_last4:code,date:todayISO(),arrival_time:timeNow()},stripFormulaChars)});
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+    data=await res.json();
+  }catch(e){
+    showNoMatch(code,`We couldn't reach the check-in system. DEBUG: ${e && e.message ? e.message : e}`);
+    return;
+  }
+
+  if(Array.isArray(data.matches)&&data.matches.length>1){
+    showMultipleMatches(data.matches,code);
+    return;
+  }
+
+  if(!data.full_name){
+    showNoMatch(code,"No record was found for that code.");
+    return;
+  }
+
+  currentDriver={code:code,full_name:data.full_name,company:data.company||"",person_id:data.person_id||code};
+  showWelcome(data);
+}
+
+function showMultipleMatches(matches,code){
+  document.getElementById("resultChecking").classList.add("hidden");
+  const body=document.getElementById("resultBody");
+  body.classList.remove("hidden");
+  document.getElementById("welcomeName").textContent="Which driver are you?";
+  document.getElementById("welcomeCompany").textContent="More than one driver matches that code";
+  document.getElementById("statusBox").innerHTML="";
+  document.getElementById("docSection").classList.add("hidden");
+  const list=document.getElementById("matchList");
+  list.classList.remove("hidden");
+  list.innerHTML=matches.map((m,i)=>`<button class="match-opt" onclick="selectMatch(${i})">${escapeHTML(m.full_name)} — ${escapeHTML(m.company||"")}</button>`).join("");
+  window._pendingMatches=matches;
+  window._pendingCode=code;
+  document.getElementById("resultActions").innerHTML=`<button class="btn btn-secondary" onclick="resetToEntry()">Not me — start over</button>`;
+}
+
+function selectMatch(i){
+  const m=window._pendingMatches[i];
+  currentDriver={code:window._pendingCode,full_name:m.full_name,company:m.company||"",person_id:m.person_id||window._pendingCode};
+  document.getElementById("matchList").classList.add("hidden");
+  showWelcome(m);
+}
+
+function showNoMatch(code,reason){
+  document.getElementById("resultChecking").classList.add("hidden");
+  const body=document.getElementById("resultBody");
+  body.classList.remove("hidden");
+  document.getElementById("welcomeName").textContent="Welcome";
+  document.getElementById("welcomeCompany").textContent="";
+  document.getElementById("matchList").classList.add("hidden");
+  document.getElementById("docSection").classList.add("hidden");
+  document.getElementById("statusBox").innerHTML=`<div class="status-box status-danger">${escapeHTML(reason)} Please see the site office during business hours to be inducted.</div>`;
+  document.getElementById("resultActions").innerHTML=`
+    <button class="btn btn-secondary" onclick="resetToEntry()">Try a different code</button>`;
+}
+
+function parseExpiredDocs(rawDocs){
+  let list=[];
+  try{
+    if(typeof rawDocs==="string"){
+      rawDocs=rawDocs.replace(/[\u2018\u2019\u201c\u201d`]/g,'"');
+      rawDocs=JSON.parse(rawDocs);
+    }
+    if(Array.isArray(rawDocs)){
+      list=rawDocs.map(d=>{
+        if(typeof d==="string")return {document_type:d.replace(/^[`"]/,"").trim()};
+        const type=d.document_type||Object.values(d)[0]||"";
+        return {document_type:String(type).replace(/^[`"]/,"").trim(),category:d.category||""};
+      }).filter(d=>d.document_type);
+    }
+  }catch(e){console.warn("expired_docs parse error:",e,rawDocs);}
+  return list;
+}
+
+function needsExpiry(type){
+  return ["Public Liability Insurance","Workers Compensation Insurance","High Risk Work Licence","Driver Licence"].includes(type);
+}
+function needsHRWL(type){return type==="High Risk Work Licence"}
+function needsPolicyNumber(type){return type==="Public Liability Insurance"||type==="Workers Compensation Insurance"}
+function needsCoverage(type){return type==="Public Liability Insurance"}
+
+function hrwlCodeOptions(){
+  const codes=["LF","LO","DG","RB","RI","RA","SB","SI","SA","WP","CB","CD","CN","C2","C6","C1","C0","CP","CT","CS","CV","HM","HP","RS","PB","BS","BA","ES","TO"];
+  return codes.map(c=>`<option value="${c}">${c}</option>`).join("");
+}
+
+function showWelcome(data){
+  document.getElementById("resultChecking").classList.add("hidden");
+  document.getElementById("resultBody").classList.remove("hidden");
+  document.getElementById("welcomeName").textContent=`Welcome, ${data.full_name}`;
+  document.getElementById("welcomeCompany").textContent=data.company||"";
+
+  const inducted=data.inducted!==false;
+  const docsExpired=data.docs_expired==="true"||data.docs_expired===true;
+  const expiredDocs=docsExpired?parseExpiredDocs(data.expired_docs):[];
+
+  if(!inducted){
+    document.getElementById("statusBox").innerHTML=`<div class="status-box status-warn">Your site induction has expired or hasn't been completed. Please see the site office during business hours to be re-inducted before heading to site.</div>`;
+    document.getElementById("docSection").classList.add("hidden");
+    document.getElementById("resultActions").innerHTML=`<button class="btn btn-secondary" onclick="resetToEntry()">Done</button>`;
+    return;
+  }
+
+  if(docsExpired&&expiredDocs.length){
+    document.getElementById("statusBox").innerHTML=`<div class="status-box status-danger">Before you head to site, we need current copies of: <strong>${expiredDocs.map(d=>escapeHTML(d.document_type)).join(", ")}</strong>.</div>`;
+    renderDocSection(expiredDocs);
+    document.getElementById("resultActions").innerHTML=`<button class="btn btn-secondary" onclick="resetToEntry()">Cancel</button>`;
+    return;
+  }
+
+  document.getElementById("statusBox").innerHTML=`<div class="status-box status-ok">You're checked in and all clear. Head to site safely.</div>`;
+  document.getElementById("docSection").classList.add("hidden");
+  document.getElementById("resultActions").innerHTML=`<button class="btn btn-primary" onclick="resetToEntry()">Done</button>`;
+  logCheckIn("clear");
+}
+
+function renderDocSection(expiredDocs){
+  const section=document.getElementById("docSection");
+  section.classList.remove("hidden");
+  const list=document.getElementById("docList");
+  list.innerHTML=expiredDocs.map((d,i)=>{
+    const type=d.document_type;
+    return `
+    <div class="doc-item" data-index="${i}" data-type="${escapeHTML(type)}">
+      <div class="doc-item-title">${escapeHTML(type)}</div>
+      ${needsExpiry(type)?`
+        <label>Expiry Date *</label>
+        <input type="date" class="doc-expiry">
+      `:""}
+      ${needsPolicyNumber(type)?`
+        <label>Policy Number *</label>
+        <input type="text" class="doc-policy" placeholder="Enter policy number">
+      `:""}
+      ${needsCoverage(type)?`
+        <label>Coverage Amount *</label>
+        <input type="text" class="doc-coverage" placeholder="e.g. $20 million">
+      `:""}
+      ${needsHRWL(type)?`
+        <label>Licence Class *</label>
+        <select class="doc-hrwl"><option value="">Select code...</option>${hrwlCodeOptions()}</select>
+      `:""}
+      <label>Upload Document / Photo *</label>
+      <input type="file" class="file-input doc-file" accept="image/*,.pdf,.doc,.docx" onchange="showDocFile(this)">
+      <div class="file-list">No file selected.</div>
+    </div>`;
+  }).join("")+`<div class="actions"><button class="btn btn-primary" onclick="submitDocs()">Submit & Complete Check-In</button></div>`;
+}
+
+function showDocFile(input){
+  enforceFileSizeLimit(input);
+  const list=input.parentElement.querySelector(".file-list");
+  const f=input.files[0];
+  list.textContent=f?`${f.name} — ${(f.size/1024/1024).toFixed(2)} MB`:"No file selected.";
+}
+
+const MAX_FILE_MB=20;
+function enforceFileSizeLimit(input){
+  if(!input||!input.files||!input.files.length)return;
+  const f=input.files[0];
+  if(f.size>MAX_FILE_MB*1024*1024){
+    alert(`This file exceeds ${MAX_FILE_MB}MB and was not added: ${f.name}`);
+    input.value="";
+  }
+}
+
+async function submitDocs(){
+  const items=[...document.querySelectorAll(".doc-item")];
+  const documents=[];
+  for(const item of items){
+    const type=item.dataset.type;
+    const fileInput=item.querySelector(".doc-file");
+    const file=fileInput.files[0];
+    if(!file){msg_upload("danger",`Please upload a file for ${escapeHTML(type)}.`);return}
+    const expiryEl=item.querySelector(".doc-expiry");
+    const policyEl=item.querySelector(".doc-policy");
+    const coverageEl=item.querySelector(".doc-coverage");
+    const hrwlEl=item.querySelector(".doc-hrwl");
+    if(expiryEl&&!expiryEl.value){msg_upload("danger",`Please enter the expiry date for ${escapeHTML(type)}.`);return}
+    if(policyEl&&!policyEl.value.trim()){msg_upload("danger",`Please enter the policy number for ${escapeHTML(type)}.`);return}
+    if(coverageEl&&!coverageEl.value.trim()){msg_upload("danger",`Please enter the coverage amount for ${escapeHTML(type)}.`);return}
+    if(hrwlEl&&!hrwlEl.value){msg_upload("danger",`Please select a licence class for ${escapeHTML(type)}.`);return}
+    documents.push({
+      document_type:type,
+      expiry_date:expiryEl?expiryEl.value:"",
+      policy_number:policyEl?policyEl.value.trim():"",
+      coverage_amount:coverageEl?coverageEl.value.trim():"",
+      licence_class:hrwlEl?hrwlEl.value:"",
+      file:file
+    });
+  }
+
+  msg_upload("warn","Uploading documents...");
+  const uploadDocs=[];
+  for(const doc of documents){
+    uploadDocs.push({
+      document_type:doc.document_type,
+      expiry_date:doc.expiry_date,
+      policy_number:doc.policy_number,
+      coverage_amount:doc.coverage_amount,
+      licence_class:doc.licence_class,
+      attachments:[{file_name:doc.file.name,content_type:doc.file.type||"application/octet-stream",size:doc.file.size,content_base64:await fileToBase64(doc.file)}]
+    });
+  }
+
+  const upload={type:"truck_document_upload",person_id:currentDriver.person_id,mobile_last4:currentDriver.code,full_name:currentDriver.full_name,company:currentDriver.company,uploaded_at:new Date().toISOString(),documents:uploadDocs};
+
+  try{
+    const res=await fetch(CONFIG.ticketUploadURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(upload,stripFormulaChars)});
+    if(!res.ok)throw new Error(`HTTP ${res.status}`);
+  }catch(e){
+    msg_upload("danger","Upload failed. Please try again or see the site office.");
+    return;
+  }
+
+  document.getElementById("docSection").classList.add("hidden");
+  document.getElementById("statusBox").innerHTML=`<div class="status-box status-ok">Thanks — your documents have been received. You're checked in.</div>`;
+  document.getElementById("resultActions").innerHTML=`<button class="btn btn-primary" onclick="resetToEntry()">Done</button>`;
+  logCheckIn("docs_updated");
+}
+
+function msg_upload(type,text){document.getElementById("uploadMessage").innerHTML=text?`<div class="notice notice-${type==='danger'?'danger':'warn'}">${escapeHTML(text)}</div>`:""}
+
+async function logCheckIn(outcome){
+  if(!currentDriver)return;
+  try{
+    await fetch(CONFIG.checkInURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"truck_check_in",person_id:currentDriver.person_id,mobile_last4:currentDriver.code,full_name:currentDriver.full_name,company:currentDriver.company,date:todayISO(),arrival_time:timeNow(),outcome:outcome},stripFormulaChars)});
+  }catch(e){console.warn("Check-in log error:",e)}
+}
+</script>
+</body>
+</html>
