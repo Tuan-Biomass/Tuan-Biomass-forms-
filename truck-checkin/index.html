@@ -294,7 +294,6 @@ body{
 </style>
 </head>
 
-
 <body>
 
 <header class="site-header">
@@ -313,9 +312,7 @@ body{
 
 </header>
 
-
 <main class="wrap">
-
 
 <section class="card" id="pageEntry">
 
@@ -327,59 +324,24 @@ body{
     Enter your 4-digit code to check in
   </div>
 
-
   <div class="pin-wrap">
 
     <div class="pin-boxes" id="pinBoxes">
 
-      <input
-        type="tel"
-        class="pin-box"
-        maxlength="1"
-        inputmode="numeric"
-        autocomplete="off"
-        data-index="0"
-      >
-
-      <input
-        type="tel"
-        class="pin-box"
-        maxlength="1"
-        inputmode="numeric"
-        autocomplete="off"
-        data-index="1"
-      >
-
-      <input
-        type="tel"
-        class="pin-box"
-        maxlength="1"
-        inputmode="numeric"
-        autocomplete="off"
-        data-index="2"
-      >
-
-      <input
-        type="tel"
-        class="pin-box"
-        maxlength="1"
-        inputmode="numeric"
-        autocomplete="off"
-        data-index="3"
-      >
+      <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
+      <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
+      <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
+      <input type="tel" class="pin-box" maxlength="1" inputmode="numeric" autocomplete="off">
 
     </div>
 
   </div>
-
 
   <div class="hint" id="entryHint">
     Your code is the last 4 digits of your mobile number
   </div>
 
 </section>
-
-
 
 <section class="card hidden" id="pageResult">
 
@@ -392,7 +354,6 @@ body{
     </div>
 
   </div>
-
 
   <div id="resultBody" class="hidden">
 
@@ -410,15 +371,11 @@ body{
 
 </section>
 
-
-
 <div class="footer">
   VR-002-2026-v1.0 · Tuan Biomass Truck Check-In · Albioma
 </div>
 
-
 </main>
-
 
 <script>
 
@@ -531,6 +488,62 @@ function stripFormulaChars(key,value){
 
 
 /* =========================================================
+   EXPIRED DOCUMENT NAMES
+========================================================= */
+
+function getExpiredDocumentNames(rawDocs){
+
+  if(!rawDocs){
+    return [];
+  }
+
+  try{
+
+    let docs = rawDocs;
+
+    if(typeof docs === "string"){
+      docs = JSON.parse(docs);
+    }
+
+    if(!Array.isArray(docs)){
+      return [];
+    }
+
+    return docs
+      .map(doc => {
+
+        if(typeof doc === "string"){
+          return doc.trim();
+        }
+
+        if(doc && doc.document_type){
+          return String(doc.document_type).trim();
+        }
+
+        if(doc && doc["Insurance Type"]){
+          return String(doc["Insurance Type"]).trim();
+        }
+
+        return "";
+
+      })
+      .filter(Boolean);
+
+  }catch(e){
+
+    console.warn(
+      "Could not read expired document details:",
+      e
+    );
+
+    return [];
+
+  }
+
+}
+
+
+/* =========================================================
    PIN ENTRY
 ========================================================= */
 
@@ -547,9 +560,7 @@ function initPinBoxes(){
 
   const boxes = pinBoxes();
 
-
   boxes.forEach((box,i) => {
-
 
     box.addEventListener("input",() => {
 
@@ -563,14 +574,12 @@ function initPinBoxes(){
         !!box.value
       );
 
-
       if(
         box.value &&
         i < boxes.length - 1
       ){
         boxes[i+1].focus();
       }
-
 
       maybeAutoSubmit();
 
@@ -594,7 +603,6 @@ function initPinBoxes(){
 
       e.preventDefault();
 
-
       const digits =
         (
           e.clipboardData.getData("text") || ""
@@ -602,7 +610,6 @@ function initPinBoxes(){
         .replace(/\D/g,"")
         .slice(0,4)
         .split("");
-
 
       boxes.forEach((b,j) => {
 
@@ -616,7 +623,6 @@ function initPinBoxes(){
 
       });
 
-
       const last =
         boxes[
           Math.min(
@@ -625,18 +631,15 @@ function initPinBoxes(){
           ) - 1
         ];
 
-
       if(last){
         last.focus();
       }
-
 
       maybeAutoSubmit();
 
     });
 
   });
-
 
   boxes[0].focus();
 
@@ -649,7 +652,6 @@ function maybeAutoSubmit(){
     pinBoxes()
       .map(b => b.value)
       .join("");
-
 
   if(code.length === 4){
 
@@ -679,22 +681,18 @@ function resetToEntry(){
 
   currentDriver = null;
 
-
   document
     .getElementById("pageResult")
     .classList
     .add("hidden");
-
 
   document
     .getElementById("pageEntry")
     .classList
     .remove("hidden");
 
-
   const boxes =
     pinBoxes();
-
 
   boxes.forEach(b => {
 
@@ -705,12 +703,10 @@ function resetToEntry(){
 
   });
 
-
   document
     .getElementById("entryHint")
     .textContent =
       "Your code is the last 4 digits of your mobile number";
-
 
   setTimeout(
     () => boxes[0].focus(),
@@ -731,27 +727,22 @@ async function runCheck(code){
     .classList
     .add("hidden");
 
-
   document
     .getElementById("pageResult")
     .classList
     .remove("hidden");
-
 
   document
     .getElementById("resultChecking")
     .classList
     .remove("hidden");
 
-
   document
     .getElementById("resultBody")
     .classList
     .add("hidden");
 
-
   let data;
-
 
   try{
 
@@ -786,7 +777,6 @@ async function runCheck(code){
         }
       );
 
-
     if(!res.ok){
 
       throw new Error(
@@ -795,10 +785,8 @@ async function runCheck(code){
 
     }
 
-
     data =
       await res.json();
-
 
   }catch(e){
 
@@ -874,38 +862,31 @@ function showMultipleMatches(matches,code){
     .classList
     .add("hidden");
 
-
   document
     .getElementById("resultBody")
     .classList
     .remove("hidden");
-
 
   document
     .getElementById("welcomeName")
     .textContent =
       "Which driver are you?";
 
-
   document
     .getElementById("welcomeCompany")
     .textContent =
       "More than one driver matches that code";
 
-
   document
     .getElementById("statusBox")
     .innerHTML = "";
-
 
   const list =
     document
       .getElementById("matchList");
 
-
   list.classList
     .remove("hidden");
-
 
   list.innerHTML =
     matches
@@ -922,13 +903,11 @@ function showMultipleMatches(matches,code){
       )
       .join("");
 
-
   window._pendingMatches =
     matches;
 
   window._pendingCode =
     code;
-
 
   document
     .getElementById("resultActions")
@@ -948,7 +927,6 @@ function selectMatch(i){
   const m =
     window._pendingMatches[i];
 
-
   currentDriver = {
 
     code:
@@ -966,12 +944,10 @@ function selectMatch(i){
 
   };
 
-
   document
     .getElementById("matchList")
     .classList
     .add("hidden");
-
 
   showWelcome(m);
 
@@ -989,29 +965,24 @@ function showNoMatch(reason){
     .classList
     .add("hidden");
 
-
   document
     .getElementById("resultBody")
     .classList
     .remove("hidden");
-
 
   document
     .getElementById("welcomeName")
     .textContent =
       "Driver not found";
 
-
   document
     .getElementById("welcomeCompany")
     .textContent = "";
-
 
   document
     .getElementById("matchList")
     .classList
     .add("hidden");
-
 
   document
     .getElementById("statusBox")
@@ -1020,7 +991,6 @@ function showNoMatch(reason){
         ${escapeHTML(reason)}
         Please see the site office or operators.
       </div>`;
-
 
   document
     .getElementById("resultActions")
@@ -1046,24 +1016,20 @@ function showWelcome(data){
     .classList
     .add("hidden");
 
-
   document
     .getElementById("resultBody")
     .classList
     .remove("hidden");
-
 
   document
     .getElementById("matchList")
     .classList
     .add("hidden");
 
-
   document
     .getElementById("welcomeName")
     .textContent =
       `Welcome, ${data.full_name}`;
-
 
   document
     .getElementById("welcomeCompany")
@@ -1080,6 +1046,12 @@ function showWelcome(data){
     data.docs_expired === "true";
 
 
+  const expiredDocumentNames =
+    getExpiredDocumentNames(
+      data.expired_docs
+    );
+
+
 /* =========================================================
    INDUCTION EXPIRED
 ========================================================= */
@@ -1090,11 +1062,12 @@ function showWelcome(data){
       .getElementById("statusBox")
       .innerHTML =
         `<div class="status-box status-warn">
-          You're checked in, however your site induction has expired
-          or hasn't been completed.
+          <strong>You're checked in.</strong>
+          <br><br>
+          Your Tuan Biomass site induction has expired or has not been completed.
+          <br><br>
           Please see the site office or operators before continuing work on site.
         </div>`;
-
 
     document
       .getElementById("resultActions")
@@ -1106,11 +1079,9 @@ function showWelcome(data){
           Done
         </button>`;
 
-
     logCheckIn(
       "induction_expired"
     );
-
 
     return;
 
@@ -1118,36 +1089,59 @@ function showWelcome(data){
 
 
 /* =========================================================
-   DOCUMENTS EXPIRED
+   INSURANCE / LICENCE DETAILS EXPIRED
 ========================================================= */
 
   if(docsExpired){
 
+    let documentMessage =
+      "Your company's insurance or licence details require updating.";
+
+    if(expiredDocumentNames.length === 1){
+
+      documentMessage =
+        `${escapeHTML(expiredDocumentNames[0])} requires updating.`;
+
+    }
+
+    if(expiredDocumentNames.length > 1){
+
+      documentMessage =
+        `The following details require updating: <strong>${
+          expiredDocumentNames
+            .map(name => escapeHTML(name))
+            .join(", ")
+        }</strong>.`;
+
+    }
+
+
     document
       .getElementById("statusBox")
       .innerHTML =
-        `<div class="status-box status-danger">
-          You're checked in, however one or more required documents are expired
-          or need to be updated.
-          Please see the site office or operators before continuing work on site.
+        `<div class="status-box status-warn">
+          <strong>You're checked in.</strong>
+          <br><br>
+          ${documentMessage}
+          <br><br>
+          Your company has been notified and asked to provide current details.
+          <br><br>
+          Please see the site office or operators if required.
         </div>`;
-
 
     document
       .getElementById("resultActions")
       .innerHTML =
         `<button
-          class="btn btn-secondary"
+          class="btn btn-primary"
           onclick="resetToEntry()"
         >
           Done
         </button>`;
 
-
     logCheckIn(
       "documents_expired"
     );
-
 
     return;
 
@@ -1162,10 +1156,10 @@ function showWelcome(data){
     .getElementById("statusBox")
     .innerHTML =
       `<div class="status-box status-ok">
-        You're checked in and all clear.
+        <strong>You're checked in and all clear.</strong>
+        <br><br>
         Head to site safely.
       </div>`;
-
 
   document
     .getElementById("resultActions")
@@ -1176,7 +1170,6 @@ function showWelcome(data){
       >
         Done
       </button>`;
-
 
   logCheckIn(
     "clear"
@@ -1194,7 +1187,6 @@ async function logCheckIn(outcome){
   if(!currentDriver){
     return;
   }
-
 
   try{
 
