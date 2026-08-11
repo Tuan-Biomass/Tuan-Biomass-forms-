@@ -150,8 +150,6 @@ const CONFIG = {
   contacts: [
     { role: "Plant Manager",         name: "David Knight",    phone: "0439 013 224" },
     { role: "Safety Manager",        name: "Chris Foster",    phone: "0478 774 434" },
-    { role: "Principal Contractor",  name: "Brett Stevens",   phone: "0430 939 468" },
-    { role: "STL / QSL-WPC (Port)",  name: "QSL-Inductions",  phone: "0437 458 551" },
   ],
   siteRules_tuan: [
     "Contact the loader operator on Channel 34 before entering the site.",
@@ -167,23 +165,6 @@ const CONFIG = {
     "If no operator is found in the test room, return to your truck and use the radio to call for operators.",
     "Do not wander around the site without an authorised site worker present.",
     "Report all hazards, near misses, and incidents immediately to the site office or on-shift operator.",
-  ],
-  siteRules_port: [
-    "Access to the Tuan Biomass Storage Facility is only available via STL property.",
-    "All drivers must complete an induction at STL's Bundaberg Bulk Sugar Terminal before entering. Contact QSL-WPC on 0437 458 551 to arrange.",
-    "Follow all QSL directions and traffic signs while on STL property.",
-    "Announce arrival on Channel 35 before entering the storage facility — even if the site appears unattended.",
-    "Trucks must weigh in and weigh off through STL's weighbridge.",
-    "Maximum speed limit is 10 km/h.",
-    "All workers must remain at least 6 metres from the loader while it is in operation.",
-    "If a loader is operating, remain inside your truck until directed by the loader operator to exit.",
-    "If multiple trucks arrive, communicate with each other before exiting trucks to maintain safety.",
-    "Tip off as close as possible to existing piles, or as directed by the loader operator.",
-    "Check for overhead obstructions before raising the tipper. Ensure the truck is clear of building structures before tipping.",
-    "Stay clear of the truck while tipping. Do not stand near or under a raised tipper body.",
-    "After tipping, secure all tailgates and covers before moving. Ensure the truck is free of loose pellets before exiting the building.",
-    "Mobile phone use is prohibited while driving or walking.",
-    "Report all hazards, near misses, and incidents immediately.",
   ],
   hazards: [
     { hazard: "Being struck by moving plant", controls: ["Maximum speed 10 km/h within the work area.","All plant warning devices (flashing lights, reversing beepers) must be checked and operational before use.","All workers must wear high-visibility garments.","Mobile phone use prohibited while driving or walking.","Trucks must circulate clockwise around the ring road.","All drivers must use Channel 35 for communication.","Second pellet truck must park in the designated waiting area.","All trucks must give way to the loader."] },
@@ -475,32 +456,6 @@ function fileToBase64(file) {
       <button class="btn btn-primary"   id="s4Next">Next</button>
     </div>
   </div>
-
-  <!-- SCREEN 6: PORT UNLOADING -->
-  <div class="screen" id="screen-6">
-    <div class="card">
-      <div class="section-tag">Pellet Unloading</div>
-      <h2>Port of Bundaberg — Storage Facility Rules</h2>
-      <div class="alert-box"><strong>Important:</strong> Access to the Tuan Biomass Storage Facility is only available via STL property. All drivers must complete an induction at STL's Bundaberg Bulk Sugar Terminal before entering. Contact QSL-WPC on <strong>0437 458 551</strong> to arrange in advance.</div>
-      <ul class="rule-list" id="portRulesList"></ul>
-    </div>
-    <div class="card">
-      <div class="section-tag">Figures 3–5</div>
-      <h2>Storage Facility</h2>
-      <img src="/images/Port-Map.png" alt="Port of Bundaberg Site Map" class="img-full">
-      <p class="img-caption">Figure 3 — Port of Bundaberg Storage Facility site map</p>
-      <img src="/images/Igloo.jpg" alt="Storage Facility interior" class="img-full">
-      <p class="img-caption">Figure 4 — Storage Facility structure: take extra care when tipping near the building edge</p>
-      <img src="/images/Evacuation-Diagram-2.png" alt="Evacuation Diagram" class="img-full">
-      <p class="img-caption">Figure 5 — Storage Facility Evacuation Diagram. Assembly point: southwest corner of the facility</p>
-      <div class="info-box"><strong>Fire Extinguisher Locations:</strong> Located near each of the exits.<br><strong>Emergency Assembly Point:</strong> Southwest corner of the facility.</div>
-    </div>
-    <div class="btn-row">
-      <button class="btn btn-secondary" id="s5Back">Back</button>
-      <button class="btn btn-primary"   id="s5Next">Next</button>
-    </div>
-  </div>
-
   <!-- SCREEN 7: HAZARDS & EMERGENCY -->
   <div class="screen" id="screen-7">
     <div class="card">
@@ -640,11 +595,10 @@ const SCREENS = {
   "3":  { label: "CoR & Fatigue",        pct: 33  },
   "4":  { label: "PPE & Drug/Alcohol",   pct: 42  },
   "5":  { label: "Tuan Loading Rules",   pct: 51  },
-  "6":  { label: "Port Unloading Rules", pct: 60  },
-  "7":  { label: "Hazards & Emergency",  pct: 72  },
-  "8":  { label: "Quiz",                 pct: 82  },
-  "9":  { label: "Declaration",          pct: 92  },
-  "10": { label: "Complete",             pct: 100 },
+  "6":  { label: "Hazards & Emergency",  pct: 72  },
+  "7":  { label: "Quiz",                 pct: 82  },
+  "8":  { label: "Declaration",          pct: 92  },
+  "9": { label: "Complete",              pct: 100 },
 };
 
 function goTo(n) {
