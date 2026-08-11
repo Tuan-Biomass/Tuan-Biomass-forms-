@@ -540,14 +540,6 @@ function fileToBase64(file) {
   <!-- SCREEN 7: HAZARDS & EMERGENCY -->
   <div class="screen" id="screen-7">
     <div class="card">
-      <div class="section-tag">Hazard Controls</div>
-      <h2>Hazard Controls &amp; Safety Measures</h2>
-      <table class="table-style">
-        <thead><tr><th style="width:35%">Hazard</th><th>Controls</th></tr></thead>
-        <tbody id="hazardTable"></tbody>
-      </table>
-    </div>
-    <div class="card">
       <div class="section-tag">Emergency Procedures</div>
       <h2>In Case of an Emergency</h2>
       <ul class="rule-list">
@@ -659,11 +651,6 @@ CONFIG.contacts.forEach(c => {
 const trl = document.getElementById("tuanRulesList");
 CONFIG.siteRules_tuan.forEach((r,i) => trl.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`));
 
-
-const ht = document.getElementById("hazardTable");
-CONFIG.hazards.forEach(h => {
-  ht.insertAdjacentHTML("beforeend", `<tr><td style="font-weight:600;color:var(--warn);">${h.hazard}</td><td><ul>${h.controls.map(c=>`<li>${c}</li>`).join("")}</ul></td></tr>`);
-});
 
 // ── Screen navigation ─────────────────────────────────────────────────────────
 const SCREENS = {
