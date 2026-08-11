@@ -578,8 +578,6 @@ CONFIG.contacts.forEach(c => {
 const trl = document.getElementById("tuanRulesList");
 CONFIG.siteRules_tuan.forEach((r,i) => trl.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`));
 
-const prl = document.getElementById("portRulesList");
-CONFIG.siteRules_port.forEach((r,i) => prl.insertAdjacentHTML("beforeend", `<li><span class="rule-num green">${i+1}</span>${r}</li>`));
 
 const ht = document.getElementById("hazardTable");
 CONFIG.hazards.forEach(h => {
@@ -595,10 +593,10 @@ const SCREENS = {
   "3":  { label: "CoR & Fatigue",        pct: 33  },
   "4":  { label: "PPE & Drug/Alcohol",   pct: 42  },
   "5":  { label: "Tuan Loading Rules",   pct: 51  },
-  "6":  { label: "Hazards & Emergency",  pct: 72  },
-  "7":  { label: "Quiz",                 pct: 82  },
-  "8":  { label: "Declaration",          pct: 92  },
-  "9": { label: "Complete",              pct: 100 },
+  "7":  { label: "Hazards & Emergency",  pct: 72  },
+  "8":  { label: "Quiz",                 pct: 82  },
+  "9":  { label: "Declaration",          pct: 92  },
+  "10": { label: "Complete",             pct: 100 },
 };
 
 function goTo(n) {
@@ -634,10 +632,8 @@ document.getElementById("s2Next").addEventListener("click",  () => goTo("4"));
 document.getElementById("s3Back").addEventListener("click",  () => goTo("3"));
 document.getElementById("s3Next").addEventListener("click",  () => goTo("5"));
 document.getElementById("s4Back").addEventListener("click",  () => goTo("4"));
-document.getElementById("s4Next").addEventListener("click",  () => goTo("6"));
-document.getElementById("s5Back").addEventListener("click",  () => goTo("5"));
-document.getElementById("s5Next").addEventListener("click",  () => goTo("7"));
-document.getElementById("s6Back").addEventListener("click",  () => goTo("6"));
+document.getElementById("s4Next").addEventListener("click",  () => goTo("7"));
+document.getElementById("s6Back").addEventListener("click",  () => goTo("5"));
 document.getElementById("s6Next").addEventListener("click",  () => { resetQuiz(); goTo("8"); });
 document.getElementById("s7Back").addEventListener("click",  () => goTo("7"));
 document.getElementById("homeBtn").addEventListener("click", () => { location.reload(); });
