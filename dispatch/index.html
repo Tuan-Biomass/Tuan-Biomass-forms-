@@ -486,6 +486,25 @@ function fileToBase64(file) {
     </div>
   </div>
 
+  <!-- SCREEN 5d: OVERWEIGHT LOAD REPORTING -->
+  <div class="screen" id="screen-5d">
+    <div class="card">
+      <div class="section-tag">Weight Compliance</div>
+      <h2>Overweight Load Reporting</h2>
+      <p>If the weighbridge indicates that your vehicle may be overweight, you must report it immediately.</p>
+      <div class="alert-box"><strong>As soon as you become aware of the overload:</strong></div>
+      <ul class="rule-list">
+        <li><span class="rule-num red">1</span>Call (07) 4123 4734.</li>
+        <li><span class="rule-num red">2</span>Advise that your vehicle is overloaded.</li>
+        <li><span class="rule-num red">3</span>Provide your name, company, truck registration and recorded weight.</li>
+      </ul>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="s4dBack">Back</button>
+      <button class="btn btn-primary"   id="s4dNext">Next</button>
+    </div>
+  </div>
+
   <!-- SCREEN 7: HAZARDS & EMERGENCY -->
   <div class="screen" id="screen-7">
     <div class="card">
@@ -625,6 +644,7 @@ const SCREENS = {
   "5":  { label: "Tuan Loading Rules",   pct: 51  },
   "5b": { label: "Loading Process",      pct: 58  },
   "5c": { label: "Overweight Vehicles",  pct: 65  },
+  "5d": { label: "Overweight Reporting", pct: 68  },
   "7":  { label: "Hazards & Emergency",  pct: 72  },
   "8":  { label: "Quiz",                 pct: 82  },
   "9":  { label: "Declaration",          pct: 92  },
@@ -668,8 +688,10 @@ document.getElementById("s4Next").addEventListener("click",  () => goTo("5b"));
 document.getElementById("s4bBack").addEventListener("click", () => goTo("5"));
 document.getElementById("s4bNext").addEventListener("click", () => goTo("5c"));
 document.getElementById("s4cBack").addEventListener("click", () => goTo("5b"));
-document.getElementById("s4cNext").addEventListener("click", () => goTo("7"));
-document.getElementById("s6Back").addEventListener("click",  () => goTo("5c"));
+document.getElementById("s4cNext").addEventListener("click", () => goTo("5d"));
+document.getElementById("s4dBack").addEventListener("click", () => goTo("5c"));
+document.getElementById("s4dNext").addEventListener("click", () => goTo("7"));
+document.getElementById("s6Back").addEventListener("click",  () => goTo("5d"));
 document.getElementById("s6Next").addEventListener("click",  () => { resetQuiz(); goTo("8"); });
 document.getElementById("s7Back").addEventListener("click",  () => goTo("7"));
 document.getElementById("homeBtn").addEventListener("click", () => { location.reload(); });
