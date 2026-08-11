@@ -512,6 +512,27 @@ function fileToBase64(file) {
     </div>
   </div>
 
+  <!-- SCREEN 5e: TARPING REQUIREMENTS -->
+  <div class="screen" id="screen-5e">
+    <div class="card">
+      <div class="section-tag">Load Security</div>
+      <h2>Tarping Requirements</h2>
+      <p>All pellet loads must be fully covered and secured before leaving site.</p>
+      <ul class="rule-list">
+        <li><span class="rule-num green">1</span>Tarps must be waterproof and in good condition.</li>
+        <li><span class="rule-num green">2</span>Tarps with holes, damage or that are not waterproof may be refused loading at Tuan.</li>
+        <li><span class="rule-num green">3</span>The tarp must fully cover the load and have no loose sections.</li>
+        <li><span class="rule-num green">4</span>Do not climb onto the trailer or load to adjust the tarp.</li>
+        <li><span class="rule-num green">5</span>If you cannot safely operate or adjust the tarp, ask Tuan staff for assistance using mobile plant.</li>
+        <li><span class="rule-num green">6</span>Do not leave site until the load is properly covered and secured.</li>
+      </ul>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="s4eBack">Back</button>
+      <button class="btn btn-primary"   id="s4eNext">Next</button>
+    </div>
+  </div>
+
   <!-- SCREEN 7: HAZARDS & EMERGENCY -->
   <div class="screen" id="screen-7">
     <div class="card">
@@ -652,6 +673,7 @@ const SCREENS = {
   "5b": { label: "Loading Process",      pct: 58  },
   "5c": { label: "Overweight Vehicles",  pct: 65  },
   "5d": { label: "Overweight Reporting", pct: 68  },
+  "5e": { label: "Tarping Requirements", pct: 70  },
   "7":  { label: "Hazards & Emergency",  pct: 72  },
   "8":  { label: "Quiz",                 pct: 82  },
   "9":  { label: "Declaration",          pct: 92  },
@@ -697,8 +719,10 @@ document.getElementById("s4bNext").addEventListener("click", () => goTo("5c"));
 document.getElementById("s4cBack").addEventListener("click", () => goTo("5b"));
 document.getElementById("s4cNext").addEventListener("click", () => goTo("5d"));
 document.getElementById("s4dBack").addEventListener("click", () => goTo("5c"));
-document.getElementById("s4dNext").addEventListener("click", () => goTo("7"));
-document.getElementById("s6Back").addEventListener("click",  () => goTo("5d"));
+document.getElementById("s4dNext").addEventListener("click", () => goTo("5e"));
+document.getElementById("s4eBack").addEventListener("click", () => goTo("5d"));
+document.getElementById("s4eNext").addEventListener("click", () => goTo("7"));
+document.getElementById("s6Back").addEventListener("click",  () => goTo("5e"));
 document.getElementById("s6Next").addEventListener("click",  () => { resetQuiz(); goTo("8"); });
 document.getElementById("s7Back").addEventListener("click",  () => goTo("7"));
 document.getElementById("homeBtn").addEventListener("click", () => { location.reload(); });
