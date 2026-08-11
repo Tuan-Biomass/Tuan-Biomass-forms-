@@ -450,6 +450,14 @@ function fileToBase64(file) {
       <img src="/images/6m-Zone.png" alt="6 metre exclusion zone around loader" class="img-full">
       <p class="img-caption">Figure 2 — Front End Loader Operations: 6 metre exclusion zone</p>
     </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="s4Back">Back</button>
+      <button class="btn btn-primary"   id="s4Next">Next</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 5b: DISPATCH LOADING PROCESS -->
+  <div class="screen" id="screen-5b">
     <div class="card">
       <div class="section-tag">Loading Procedure</div>
       <h2>Dispatch Loading Process</h2>
@@ -458,10 +466,26 @@ function fileToBase64(file) {
       <img src="/images/Dispatch-Loading-Process.png" alt="Dispatch Loading Process — 11 step sequence from arrival to exit" class="img-full">
     </div>
     <div class="btn-row">
-      <button class="btn btn-secondary" id="s4Back">Back</button>
-      <button class="btn btn-primary"   id="s4Next">Next</button>
+      <button class="btn btn-secondary" id="s4bBack">Back</button>
+      <button class="btn btn-primary"   id="s4bNext">Next</button>
     </div>
   </div>
+
+  <!-- SCREEN 5c: OVERWEIGHT VEHICLE PROCEDURE -->
+  <div class="screen" id="screen-5c">
+    <div class="card">
+      <div class="section-tag">Weight Compliance</div>
+      <h2>Overweight Vehicle Procedure</h2>
+      <p>If a vehicle is identified or suspected to be overweight, it must not leave site until the load has been corrected.</p>
+      <p>Follow the process shown below to confirm the permitted mass, adjust the load and recheck the vehicle weight. If the vehicle remains overweight, repeat the adjustment process until the vehicle is compliant and safe to leave site.</p>
+      <img src="/images/Overweight-Vehicle-Procedure.png" alt="Overweight Vehicle Procedure flowchart" class="img-full">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="s4cBack">Back</button>
+      <button class="btn btn-primary"   id="s4cNext">Next</button>
+    </div>
+  </div>
+
   <!-- SCREEN 7: HAZARDS & EMERGENCY -->
   <div class="screen" id="screen-7">
     <div class="card">
@@ -599,6 +623,8 @@ const SCREENS = {
   "3":  { label: "CoR & Fatigue",        pct: 33  },
   "4":  { label: "PPE & Drug/Alcohol",   pct: 42  },
   "5":  { label: "Tuan Loading Rules",   pct: 51  },
+  "5b": { label: "Loading Process",      pct: 58  },
+  "5c": { label: "Overweight Vehicles",  pct: 65  },
   "7":  { label: "Hazards & Emergency",  pct: 72  },
   "8":  { label: "Quiz",                 pct: 82  },
   "9":  { label: "Declaration",          pct: 92  },
@@ -638,8 +664,12 @@ document.getElementById("s2Next").addEventListener("click",  () => goTo("4"));
 document.getElementById("s3Back").addEventListener("click",  () => goTo("3"));
 document.getElementById("s3Next").addEventListener("click",  () => goTo("5"));
 document.getElementById("s4Back").addEventListener("click",  () => goTo("4"));
-document.getElementById("s4Next").addEventListener("click",  () => goTo("7"));
-document.getElementById("s6Back").addEventListener("click",  () => goTo("5"));
+document.getElementById("s4Next").addEventListener("click",  () => goTo("5b"));
+document.getElementById("s4bBack").addEventListener("click", () => goTo("5"));
+document.getElementById("s4bNext").addEventListener("click", () => goTo("5c"));
+document.getElementById("s4cBack").addEventListener("click", () => goTo("5b"));
+document.getElementById("s4cNext").addEventListener("click", () => goTo("7"));
+document.getElementById("s6Back").addEventListener("click",  () => goTo("5c"));
 document.getElementById("s6Next").addEventListener("click",  () => { resetQuiz(); goTo("8"); });
 document.getElementById("s7Back").addEventListener("click",  () => goTo("7"));
 document.getElementById("homeBtn").addEventListener("click", () => { location.reload(); });
