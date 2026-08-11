@@ -385,6 +385,29 @@ function fileToBase64(file) {
     </div>
   </div>
 
+  <!-- SCREEN 2c: TRUCK CHECK-IN -->
+  <div class="screen" id="screen-2c">
+    <div class="card">
+      <div class="section-tag">On Arrival</div>
+      <h2>Truck Check-In</h2>
+      <p>All drivers must check in each time they visit the site. The Truck Check-In system records who is attending site and checks your current induction and compliance information.</p>
+      <div class="section-tag" style="margin-top:8px">When you arrive</div>
+      <ul class="rule-list">
+        <li><span class="rule-num green">1</span>Scan the QR code on the Truck Check-In sign using your phone.</li>
+        <li><span class="rule-num green">2</span>Enter your check-in code, which is the last 4 digits of your phone number.</li>
+        <li><span class="rule-num green">3</span>Follow the instructions displayed on your phone.</li>
+        <li><span class="rule-num green">4</span>Complete the check-in before continuing onto site.</li>
+      </ul>
+      <div class="info-box">Your phone number links your check-in to your existing driver record. The QR code and check-in instructions are displayed on the Truck Check-In sign.</div>
+      <div class="alert-box"><strong>Every visit:</strong> You must complete a new check-in for every site visit.</div>
+      <img src="/images/Truck-Check-In-Sign.png" alt="Tuan Biomass Truck Check-In sign with QR code" class="img-full">
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="s1cBack">Back</button>
+      <button class="btn btn-primary"   id="s1cNext">Next</button>
+    </div>
+  </div>
+
   <!-- SCREEN 3: CoR & FATIGUE -->
   <div class="screen" id="screen-3">
     <div class="card">
@@ -658,6 +681,7 @@ const SCREENS = {
   "1":  { label: "Licences",             pct: 8   },
   "2":  { label: "Contacts",             pct: 16  },
   "2b": { label: "Directions",           pct: 24  },
+  "2c": { label: "Truck Check-In",       pct: 28  },
   "3":  { label: "CoR & Fatigue",        pct: 33  },
   "4":  { label: "PPE & Drug/Alcohol",   pct: 42  },
   "5":  { label: "Tuan Loading Rules",   pct: 51  },
@@ -698,8 +722,10 @@ document.getElementById("licNext").addEventListener("click", () => goTo("2"));
 document.getElementById("s1Back").addEventListener("click",  () => goTo("1"));
 document.getElementById("s1Next").addEventListener("click",  () => goTo("2b"));
 document.getElementById("s1bBack").addEventListener("click", () => goTo("2"));
-document.getElementById("s1bNext").addEventListener("click", () => goTo("3"));
-document.getElementById("s2Back").addEventListener("click",  () => goTo("2b"));
+document.getElementById("s1bNext").addEventListener("click", () => goTo("2c"));
+document.getElementById("s1cBack").addEventListener("click", () => goTo("2b"));
+document.getElementById("s1cNext").addEventListener("click", () => goTo("3"));
+document.getElementById("s2Back").addEventListener("click",  () => goTo("2c"));
 document.getElementById("s2Next").addEventListener("click",  () => goTo("4"));
 document.getElementById("s3Back").addEventListener("click",  () => goTo("3"));
 document.getElementById("s3Next").addEventListener("click",  () => goTo("5"));
