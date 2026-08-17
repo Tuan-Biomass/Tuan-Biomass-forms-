@@ -641,6 +641,7 @@ async function sendToFlow(data) {
     time_inducted:          data.time,
     score:                  data.score,
     result:                 data.result,
+    acknowledged:           true,
     site:                   data.site,
     sharepoint_folder:      CONFIG.sharePointFolder,
     submitted_at:           new Date().toISOString(),
