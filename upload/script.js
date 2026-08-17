@@ -461,7 +461,7 @@ document.querySelector('[data-csp-hook="cspHook3"]').addEventListener("input", f
   formatDate(this)
 });
 
-document.querySelector('[data-csp-hook="cspHook4"]').addEventListener("blur", function(event) {
+document.querySelector('[data-csp-hook2="cspHook4"]').addEventListener("blur", function(event) {
   validateDateInput(this)
 });
 
