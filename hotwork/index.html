@@ -782,7 +782,7 @@
     </div>
     <div class="header-meta">
       <div class="permit-id-label">Permit No.</div>
-      <input class="permit-id-field" type="text" placeholder="HW-001" id="permitNo" oninput="syncPermitNo(this.value)">
+      <input class="permit-id-field" type="text" placeholder="HW-001" id="permitNo" data-csp-hook="cspHook1">
     </div>
   </div>
 
@@ -794,8 +794,8 @@
     <span style="color:#555">Last issued:</span>
     <span id="lastPermitDisplay" style="color:#0d0d0d;font-weight:600">HW 005 (—)</span>
     <span style="color:#a0a0a0;margin-left:4px">|</span>
-    <button onclick="showPermitLog()" style="background:none;border:1px solid #4a9e6b;color:#4a9e6b;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;cursor:pointer;border-radius:2px">View Log</button>
-    <button onclick="exportPermitLog()" style="background:none;border:1px solid #a0a0a0;color:#555;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;cursor:pointer;border-radius:2px">Export CSV</button>
+    <button data-csp-hook="cspHook2" style="background:none;border:1px solid #4a9e6b;color:#4a9e6b;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;cursor:pointer;border-radius:2px">View Log</button>
+    <button data-csp-hook="cspHook3" style="background:none;border:1px solid #a0a0a0;color:#555;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;cursor:pointer;border-radius:2px">Export CSV</button>
   </div>
 
   <div class="alert-banner">⚠ This permit must be displayed at the hot work location while work is in progress ⚠</div>
@@ -809,11 +809,11 @@
     <div class="section-body">
       <div class="info-row">A response of <strong>No</strong> to any item below must prevent hot work from commencing until the hazard is eliminated or control is met. This permit is valid for <strong>8 hours or one shift only</strong>.</div>
       <div class="prereq-list">
-        <div class="prereq-item" id="pq1" onclick="togglePrereq('pq1')">
+        <div class="prereq-item" id="pq1" data-csp-hook="cspHook4">
           <div class="prereq-cb">✓</div>
           <div class="prereq-text">There are no safer ways of completing this task without the application of heat, flame or spark</div>
         </div>
-        <div class="prereq-item" id="pq2" onclick="togglePrereq('pq2')">
+        <div class="prereq-item" id="pq2" data-csp-hook="cspHook5">
           <div class="prereq-cb">✓</div>
           <div class="prereq-text">Hot work cannot be relocated to a dedicated area (e.g. welding bay / maintenance workshop)</div>
         </div>
@@ -883,17 +883,17 @@
     </div>
     <div class="section-body">
       <div class="tool-grid" id="toolGrid">
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Angle Grinder</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Oxy-Acetylene Cutting</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Arc / MIG Welding</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>TIG Welding</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Plasma Cutter</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Brazing / Soldering</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Blow Lamp / Torch</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Open Flame Heater</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Demolition saw</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Bench Grinder</div>
-        <div class="tool-toggle" onclick="toggleTool(this)"><span class="tool-cb-box">✓</span>Other (specify below)</div>
+        <div class="tool-toggle" data-csp-hook="cspHook6"><span class="tool-cb-box">✓</span>Angle Grinder</div>
+        <div class="tool-toggle" data-csp-hook="cspHook7"><span class="tool-cb-box">✓</span>Oxy-Acetylene Cutting</div>
+        <div class="tool-toggle" data-csp-hook="cspHook8"><span class="tool-cb-box">✓</span>Arc / MIG Welding</div>
+        <div class="tool-toggle" data-csp-hook="cspHook9"><span class="tool-cb-box">✓</span>TIG Welding</div>
+        <div class="tool-toggle" data-csp-hook="cspHook10"><span class="tool-cb-box">✓</span>Plasma Cutter</div>
+        <div class="tool-toggle" data-csp-hook="cspHook11"><span class="tool-cb-box">✓</span>Brazing / Soldering</div>
+        <div class="tool-toggle" data-csp-hook="cspHook12"><span class="tool-cb-box">✓</span>Blow Lamp / Torch</div>
+        <div class="tool-toggle" data-csp-hook="cspHook13"><span class="tool-cb-box">✓</span>Open Flame Heater</div>
+        <div class="tool-toggle" data-csp-hook="cspHook14"><span class="tool-cb-box">✓</span>Demolition saw</div>
+        <div class="tool-toggle" data-csp-hook="cspHook15"><span class="tool-cb-box">✓</span>Bench Grinder</div>
+        <div class="tool-toggle" data-csp-hook="cspHook16"><span class="tool-cb-box">✓</span>Other (specify below)</div>
       </div>
       <div class="field-grid cols-1 mt-10">
         <div class="field">
@@ -919,27 +919,27 @@
         <div class="check-item" id="hw01">
           <div class="check-text">Fire hoses and extinguishers available and in working order.</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw01','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw01','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw01','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook17">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook18">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook19">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw02">
           <div class="check-text">Hot work equipment is in good repair<span class="note">Oxy-acetylene fitted with flashback arrestors; cables and hoses free of damage</span></div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw02','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw02','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw02','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook20">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook21">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook22">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw03">
           <div class="check-text">Fire watch is supplied with suitable extinguishers and/or hose reels at the hot work location</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw03','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw03','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw03','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook23">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook24">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook25">N/A</button>
           </div>
         </div>
 
@@ -948,63 +948,63 @@
         <div class="check-item" id="hw04">
           <div class="check-text">Flammable liquids, dust, lint, biomass fines and oil deposits removed from the area</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw04','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw04','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw04','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook26">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook27">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook28">N/A</button>
           </div>
         </div>
 
 <div class="check-item" id="hw04b">
           <div class="check-text">All operating machinery, air intakes, ducts, etc. have been identified and control measures are in place</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw04b','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw04b','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw04b','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook29">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook30">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook31">N/A</button>
           </div>
         </div>
 
 <div class="check-item" id="hw04c">
           <div class="check-text">If hot work is to be carried out over a conveyor, it has been covered or thoroughly wet down</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw04c','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw04c','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw04c','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook32">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook33">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook34">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw05">
           <div class="check-text">Explosive or flammable atmosphere eliminated</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw05','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw05','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw05','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook35">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook36">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook37">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw06">
           <div class="check-text">If there are lasers / sensitive electrical equipment in the area, control measures are in place</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw06','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw06','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw06','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook38">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook39">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook40">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw07">
           <div class="check-text">Combustible material removed; if not possible, covered with fire resistant barriers or sheeting</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw07','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw07','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw07','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook41">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook42">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook43">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw08">
           <div class="check-text">All wall and floor openings covered or have control measures in place e.g. elevated work locations </div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw08','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw08','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw08','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook44">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook45">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook46">N/A</button>
           </div>
         </div>
 
@@ -1013,27 +1013,27 @@
         <div class="check-item" id="hw10">
           <div class="check-text">Grecon system status reviewed prior to hot work commencing</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw10','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw10','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw10','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook47">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook48">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook49">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw11">
           <div class="check-text">Spark detection isolated to prevent false alarms<span class="note">Detection in adjoining areas must NOT be isolated</span></div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw11','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw11','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw11','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook50">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook51">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook52">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw12">
           <div class="check-text">Grecon reinstatement plan confirmed — system to be deisolated immediately on work completion</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw12','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw12','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw12','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook53">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook54">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook55">N/A</button>
           </div>
         </div>
 
@@ -1042,27 +1042,27 @@
         <div class="check-item" id="hw13">
           <div class="check-text">Construction is non-combustible and without combustible insulation or covering</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw13','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw13','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw13','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook56">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook57">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook58">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw14">
           <div class="check-text">Combustibles on either side of wall moved at least 1.5m away</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw14','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw14','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw14','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook59">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook60">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook61">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw15">
           <div class="check-text">Enclosed equipment cleaned of all combustibles</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw15','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw15','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw15','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook62">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook63">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook64">N/A</button>
           </div>
         </div>
 
@@ -1071,18 +1071,18 @@
         <div class="check-item" id="hw16">
           <div class="check-text">Confined Space Entry Permit issued (if applicable)</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw16','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw16','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw16','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook65">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook66">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook67">N/A</button>
           </div>
         </div>
 
         <div class="check-item" id="hw19">
           <div class="check-text">SWMS or JSA completed for the task</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('hw19','yes')">YES</button>
-            <button class="check-btn no"  onclick="setCheck('hw19','no')">NO</button>
-            <button class="check-btn na"  onclick="setCheck('hw19','na')">N/A</button>
+            <button class="check-btn yes" data-csp-hook="cspHook68">YES</button>
+            <button class="check-btn no"  data-csp-hook="cspHook69">NO</button>
+            <button class="check-btn na"  data-csp-hook="cspHook70">N/A</button>
           </div>
         </div>
 
@@ -1166,11 +1166,11 @@
 
  <!-- ACTIONS BAR -->
   <div class="actions-bar">
-    <button class="btn btn-primary" onclick="issuePermit()">✓ Issue Permit</button>
-    <button class="btn btn-secondary" onclick="window.print()">🖨 Print</button>
-    <button class="btn btn-secondary" onclick="clearForm()">↺ New Permit</button>
+    <button class="btn btn-primary" data-csp-hook="cspHook71">✓ Issue Permit</button>
+    <button class="btn btn-secondary" data-csp-hook="cspHook72">🖨 Print</button>
+    <button class="btn btn-secondary" data-csp-hook="cspHook73">↺ New Permit</button>
     <div class="spacer"></div>
-    <button class="btn btn-danger" onclick="cancelPermit()">✗ Cancel / Void</button>
+    <button class="btn btn-danger" data-csp-hook="cspHook74">✗ Cancel / Void</button>
   </div>
 
   <!-- PAGE BREAK -->
@@ -1303,113 +1303,9 @@
 
 </div><!-- /page -->
 
-<script>
-  // ── PERMIT LOG ──
-  let permitLog = [
-      ];
 
-  function updatePermitLogDisplay() {
-    document.getElementById('permitCountDisplay').textContent = permitLog.length + ' permit' + (permitLog.length !== 1 ? 's' : '') + ' issued this session';
-    if (permitLog.length > 0) {
-      const last = permitLog[permitLog.length - 1];
-      document.getElementById('lastPermitDisplay').textContent = last.number + ' (' + last.location + ')';
-    }
-  }
-
-  function showPermitLog() {
-    if (permitLog.length === 0) { alert('No permits issued yet this session.'); return; }
-    let msg = 'HOT WORK PERMIT LOG\n' + '─'.repeat(50) + '\n';
-    permitLog.forEach((p, i) => {
-      msg += (i+1) + '. ' + p.number + ' | ' + p.location + ' | ' + p.date + ' | ' + p.status + '\n';
-    });
-    alert(msg);
-  }
-
-  function exportPermitLog() {
-    if (permitLog.length === 0) { alert('No permits to export.'); return; }
-    let csv = 'Permit No,Location,Date,Time Issued,Status\n';
-    permitLog.forEach(p => {
-      csv += [p.number, p.location, p.date, p.issuedAt, p.status].join(',') + '\n';
-    });
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'HotWork_PermitLog_' + new Date().toISOString().split('T')[0] + '.csv';
-    a.click();
-  }
-
-  // ── CHECKLIST BUTTONS ──
-  function setCheck(id, val) {
-    const item = document.getElementById(id);
-    const btns = item.querySelectorAll('.check-btn');
-    btns.forEach(b => b.classList.remove('active-yes','active-no','active-na'));
-    btns.forEach(b => { if (b.classList.contains(val)) b.classList.add('active-' + val); });
-  }
-
-  // ── TOOL TOGGLES ──
-  function toggleTool(el) { el.classList.toggle('active'); }
-
-  // ── PREREQ TOGGLES ──
-  function togglePrereq(id) { document.getElementById(id).classList.toggle('confirmed'); }
-
-  // ── PERMIT NUMBER SYNC ──
-  function syncPermitNo(val) {
-    document.getElementById('permitNoDisplay').textContent = val || '—';
-  }
-
-  // ── ISSUE PERMIT ──
-  function issuePermit() {
-    const permitNo = document.getElementById('permitNo').value || 'PENDING';
-    const dateVal = document.getElementById('permitDate').value || new Date().toISOString().split('T')[0];
-    const locationInputs = document.querySelectorAll('.field input[type=text]');
-    const location = locationInputs[4] ? (locationInputs[4].value || '—') : '—';
-
-    document.getElementById('statusDisplay').textContent = '✓ ISSUED — ' + permitNo;
-    document.getElementById('permitNoDisplay').textContent = permitNo;
-
-    const entry = {
-      number: permitNo,
-      location: location,
-      date: dateVal,
-      issuedAt: new Date().toLocaleTimeString(),
-      status: 'ISSUED'
-    };
-    permitLog.push(entry);
-    updatePermitLogDisplay();
-  }
-
-  // ── CANCEL PERMIT ──
-  function cancelPermit() {
-    if (confirm('Mark this permit as CANCELLED / VOID?')) {
-      document.getElementById('statusDisplay').textContent = '✗ CANCELLED / VOID';
-      if (permitLog.length > 0) {
-        permitLog[permitLog.length - 1].status = 'CANCELLED';
-      }
-    }
-  }
-
-  // ── CLEAR FORM ──
-  function clearForm() {
-    if (confirm('Clear all form data and start fresh?')) {
-      document.querySelectorAll('input[type=text], input[type=date], input[type=time], textarea').forEach(el => {
-        el.value = '';
-      });
-      document.querySelectorAll('.check-btn').forEach(b => b.classList.remove('active-yes','active-no','active-na'));
-      document.querySelectorAll('.tool-toggle').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('[id^=pq]').forEach(p => p.classList.remove('confirmed'));
-      document.getElementById('statusDisplay').textContent = '— Not Yet Issued';
-      document.getElementById('permitNoDisplay').textContent = '—';
-      document.getElementById('permitDate').value = new Date().toISOString().split('T')[0];
-    }
-  }
-
-  // ── INIT ──
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('permitDate').value = new Date().toISOString().split('T')[0];
-    updatePermitLogDisplay();
-  });
-</script>
 
 <footer style="text-align:center;font-size:12px;color:#6b7280;padding:16px 12px 26px;border-top:1px solid #e5e7eb;margin-top:20px;"><a href="/privacy-policy.html" style="color:#1B4332;">Privacy &amp; Data Collection Policy</a></footer>
+<script src="/hotwork/script.js"></script>
 </body>
 </html>
