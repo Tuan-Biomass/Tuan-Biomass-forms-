@@ -415,9 +415,9 @@ function handleDocumentTypeChange(rowId) {
     if (val === "Public Liability Insurance")      { expiryWrap.style.display = "block"; pubLiab.style.display  = "block"; }
     if (val === "Workers Compensation Insurance")  { expiryWrap.style.display = "block"; workComp.style.display = "block"; }
   }
-  if (category === "licence" && val === "High Risk Work Licence") {
+  if (category === "licence" && (val === "High Risk Work Licence" || val === "Driver Licence")) {
     expiryWrap.style.display = "block";
-    hrwl.style.display = "block";
+    if (val === "High Risk Work Licence") hrwl.style.display = "block";
   }
   if (expiryWrap.style.display === "none") {
     expiryInput.value = "";

@@ -434,9 +434,9 @@ function handleDocumentTypeChange(rowId){
     }
   }
 
-  if(category==="licence" && val==="High Risk Work Licence"){
+  if(category==="licence" && (val==="High Risk Work Licence" || val==="Driver Licence")){
     expiryWrap.classList.remove("hidden");
-    hrwl.classList.remove("hidden");
+    if(val==="High Risk Work Licence") hrwl.classList.remove("hidden");
   }
 
   if(!(category==="licence" && val==="High Risk Work Licence")){

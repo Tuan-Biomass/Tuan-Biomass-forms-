@@ -478,7 +478,10 @@ document.getElementById("completeInductionBtn").onclick = async () => {
         dlAttachments.push({ file_name: file.name, content_type: file.type || 'application/octet-stream', size: file.size, content_base64: base64 });
       } catch(e) { console.warn('Could not read DL file', file.name, e); }
     }
-    if (dlAttachments.length) uploadDocuments.push({ category: 'licence', document_type: 'Driver Licence', expiry_date: '', licence_class: '', policy_number: '', coverage_amount: '', attachments: dlAttachments });
+    if (dlAttachments.length) {
+      const dlExpiry = (document.getElementById('dl_expiry') || {}).value || '';
+      uploadDocuments.push({ category: 'licence', document_type: 'Driver Licence', expiry_date: dlExpiry, licence_class: '', policy_number: '', coverage_amount: '', attachments: dlAttachments });
+    }
   }
 
   const rows = [...document.querySelectorAll(".document-row")];
