@@ -46,7 +46,6 @@ const CONFIG = {
     { question: "What should you do once unloading is complete?", options: ["Carry out maintenance on the ring road", "Park and wait for another load", "Move on promptly and keep the ring road clear", "Leave the truck on the ring road"], correct: 2, feedback: "Unload promptly and move on once unloading is complete to keep the ring road clear." },
     { question: "Can non-essential truck maintenance be carried out on the ring road?", options: ["Yes, if it takes less than 10 minutes", "Yes, if hazard lights are on", "No", "Only during day shift"], correct: 2, feedback: "No non-essential maintenance work is to be carried out on the ring road." },
     { question: "What must happen to the docket for each load?", options: ["Keep it in the truck", "Give it to the loader operator", "Place it on the docket spike before leaving site", "Send it to Tuan at the end of the week"], correct: 2, feedback: "Each docket must be placed on the docket spike before you leave site." },
-    { question: "How often must you complete the Truck Check-In?", options: ["Once per week", "Only after your induction expires", "Every time you visit the site", "Only on your first delivery"], correct: 2, feedback: "You must complete a new Truck Check-In for every site visit." },
     { question: "What is your Truck Check-In code?", options: ["Your truck registration", "The last four digits of your phone number", "Your licence number", "Your company ID"], correct: 1, feedback: "Your check-in code is the last four digits of your phone number." }
   ],
   passMark: 80,
