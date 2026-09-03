@@ -77,7 +77,7 @@ CONFIG.hazards.forEach(h => hazards.insertAdjacentHTML("beforeend", `<tr><td>${h
 
 // ── Screen navigation ─────────────────────────────────────────────────────────
 const screens = [...document.querySelectorAll(".screen")];
-const labels  = ["Registration","Licences & Documents","Contacts","Sign In & Docket Spike","CoR","PPE","Traffic","Ring Road Access","Stay in Truck","Emergency","Hazards","Acknowledgement","Quiz","Complete"];
+const labels  = ["Registration","Licences & Documents","Contacts","Docket Spike","CoR","PPE","Traffic","Ring Road Access","Stay in Truck","Emergency","Hazards","Acknowledgement","Quiz","Complete"];
 let current = 0, currentQ = 0, quizAnswers = [], lastScore = 0, lastCorrect = 0, lastPassed = false;
 
 function showScreen(n) {
