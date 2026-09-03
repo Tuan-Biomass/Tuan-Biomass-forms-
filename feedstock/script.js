@@ -77,7 +77,7 @@ CONFIG.hazards.forEach(h => hazards.insertAdjacentHTML("beforeend", `<tr><td>${h
 
 // ── Screen navigation ─────────────────────────────────────────────────────────
 const screens = [...document.querySelectorAll(".screen")];
-const labels  = ["Registration","Licences & Documents","Contacts","Truck Check-In","Sign In & Docket Spike","CoR","PPE","Traffic","Ring Road Access","Stay in Truck","Emergency","Hazards","Acknowledgement","Quiz","Complete"];
+const labels  = ["Registration","Licences & Documents","Contacts","Sign In & Docket Spike","CoR","PPE","Traffic","Ring Road Access","Stay in Truck","Emergency","Hazards","Acknowledgement","Quiz","Complete"];
 let current = 0, currentQ = 0, quizAnswers = [], lastScore = 0, lastCorrect = 0, lastPassed = false;
 
 function showScreen(n) {
@@ -365,7 +365,7 @@ function resetDocumentSections() {
 resetDocumentSections();
 
 // ── Quiz ──────────────────────────────────────────────────────────────────────
-function startQuiz() { currentQ = 0; quizAnswers = new Array(CONFIG.quiz.length).fill(null); showScreen(13); renderQuiz(); }
+function startQuiz() { currentQ = 0; quizAnswers = new Array(CONFIG.quiz.length).fill(null); showScreen(12); renderQuiz(); }
 function renderQuiz() {
   const q = CONFIG.quiz[currentQ];
   document.getElementById("quizCounter").textContent = `Question ${currentQ+1} of ${CONFIG.quiz.length}`;
@@ -385,7 +385,7 @@ function selectAnswer(i,el) {
   else document.getElementById("quizNextBtn").style.display = "inline-flex";
 }
 document.getElementById("quizNextBtn").onclick = () => { currentQ++; renderQuiz(); window.scrollTo({top:0,behavior:"smooth"}); };
-document.getElementById("quizBackBtn").onclick = () => showScreen(11);
+document.getElementById("quizBackBtn").onclick = () => showScreen(10);
 document.getElementById("quizSubmitBtn").onclick = () => {
   lastCorrect = quizAnswers.filter(Boolean).length;
   lastScore   = Math.round(lastCorrect / CONFIG.quiz.length * 100);
@@ -394,9 +394,9 @@ document.getElementById("quizSubmitBtn").onclick = () => {
   document.querySelectorAll("#ackList input").forEach(cb => cb.checked = false);
   document.getElementById("ackError").style.display = "none";
   document.getElementById("ackScoreBox").innerHTML = `<strong>Quiz Result</strong> ${lastScore}% — ${lastCorrect} of ${CONFIG.quiz.length} correct.`;
-  showScreen(12);
+  showScreen(11);
 };
-document.getElementById("ackBackBtn").onclick = () => showScreen(13);
+document.getElementById("ackBackBtn").onclick = () => showScreen(12);
 
 // ── File helper ───────────────────────────────────────────────────────────────
 function normaliseMobile(m){ return m.replace(/[^0-9]/g,""); }
@@ -530,7 +530,7 @@ document.getElementById("completeInductionBtn").onclick = async () => {
   document.getElementById("recordDocs").textContent             = docList.length ? docList.join(", ") : "None submitted";
   document.getElementById("recordDate").textContent             = new Date().toLocaleString("en-AU");
 
-  showScreen(14);
+  showScreen(13);
 
   // Fire induction webhook
   const inductionPayload = {
