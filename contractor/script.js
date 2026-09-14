@@ -101,7 +101,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
-const TOTAL_SCREENS = 10;
+const TOTAL_SCREENS = 11;
 let contractor = {};
 let currentScreen = 0;
 let currentQ = 0;
@@ -175,10 +175,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Some browsers block window.close() on tabs not opened by script — fall back to a message.
     setTimeout(() => {
       if (!window.closed) {
-        document.getElementById("sheetStatus").textContent = "You can now close this tab.";
+        document.getElementById("completeFinalMsg").textContent = "You can now close this tab.";
       }
     }, 300);
   });
+  document.getElementById("continueToCompleteBtn").addEventListener("click", () => goTo(10));
 });
 
 // ── Screen navigation ─────────────────────────────────────────────────────────
@@ -194,7 +195,7 @@ function goTo(n) {
 function updateProgress() {
   const pct = Math.round((currentScreen / (TOTAL_SCREENS - 1)) * 100);
   document.getElementById("progressFill").style.width = pct + "%";
-  const labels = ["Registration","Emergency & Contacts","Site Sign-In","Golden Rules","Site Rules","Hazards & PPE","SWMS","Documents & Acknowledgement","Quiz","Complete"];
+  const labels = ["Registration","Emergency & Contacts","Site Sign-In","Golden Rules","Site Rules","Hazards & PPE","SWMS","Documents & Acknowledgement","Quiz","Complete","Completed"];
   document.getElementById("progressLabel").textContent = labels[currentScreen] || "";
 }
 
