@@ -140,6 +140,7 @@ const SCREENS = {
   "8":  { label: "Quiz",                 pct: 82  },
   "9":  { label: "Declaration",          pct: 92  },
   "10": { label: "Complete",             pct: 100 },
+  "11": { label: "Completed",            pct: 100 },
 };
 
 function goTo(n) {
@@ -187,13 +188,14 @@ document.getElementById("s4eNext").addEventListener("click", () => goTo("7"));
 document.getElementById("s6Back").addEventListener("click",  () => goTo("5e"));
 document.getElementById("s6Next").addEventListener("click",  () => { resetQuiz(); goTo("8"); });
 document.getElementById("s7Back").addEventListener("click",  () => goTo("7"));
+document.getElementById("continueToCompleteBtn").addEventListener("click", () => goTo("11"));
 document.getElementById("homeBtn").addEventListener("click", () => { location.reload(); });
 document.getElementById("closeBtn").addEventListener("click", () => {
   window.close();
   // Some browsers block window.close() on tabs not opened by script — fall back to a message.
   setTimeout(() => {
     if (!window.closed) {
-      document.getElementById("completeStatus").textContent = "You can now close this tab.";
+      document.getElementById("completeFinalMsg").textContent = "You can now close this tab.";
     }
   }, 300);
 });

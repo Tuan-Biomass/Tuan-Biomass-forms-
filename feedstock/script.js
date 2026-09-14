@@ -75,7 +75,7 @@ CONFIG.hazards.forEach(h => hazards.insertAdjacentHTML("beforeend", `<tr><td>${h
 
 // ── Screen navigation ─────────────────────────────────────────────────────────
 const screens = [...document.querySelectorAll(".screen")];
-const labels  = ["Registration","Licences & Documents","Contacts","Docket Spike","CoR","PPE","Traffic","Ring Road Access","Stay in Truck","Emergency","Hazards","Acknowledgement","Quiz","Complete"];
+const labels  = ["Registration","Licences & Documents","Contacts","Docket Spike","CoR","PPE","Traffic","Ring Road Access","Stay in Truck","Emergency","Hazards","Acknowledgement","Quiz","Complete","Completed"];
 let current = 0, currentQ = 0, quizAnswers = [], lastScore = 0, lastCorrect = 0, lastPassed = false;
 
 function showScreen(n) {
@@ -96,13 +96,14 @@ document.getElementById("startBtn").onclick = () => {
 document.querySelectorAll("[data-next]").forEach(b => b.onclick = () => showScreen(current + 1));
 document.querySelectorAll("[data-back]").forEach(b => b.onclick = () => showScreen(current - 1));
 document.getElementById("beginQuizBtn").onclick = startQuiz;
+document.getElementById("continueToCompleteBtn").onclick = () => showScreen(14);
 document.getElementById("homeBtn").onclick = () => { location.reload(); };
 document.getElementById("closeBtn").onclick = () => {
   window.close();
   // Some browsers block window.close() on tabs not opened by script — fall back to a message.
   setTimeout(() => {
     if (!window.closed) {
-      document.getElementById("uploadStatusMsg").textContent = "You can now close this tab.";
+      document.getElementById("completeFinalMsg").textContent = "You can now close this tab.";
     }
   }, 300);
 };
