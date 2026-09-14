@@ -101,7 +101,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
-const TOTAL_SCREENS = 9;
+const TOTAL_SCREENS = 10;
 let contractor = {};
 let currentScreen = 0;
 let currentQ = 0;
@@ -188,13 +188,13 @@ function goTo(n) {
   document.getElementById("screen-" + currentScreen).classList.add("active");
   updateProgress();
   window.scrollTo({ top: 0, behavior: "smooth" });
-  if (n === 7) loadQuestion(0);
+  if (n === 8) loadQuestion(0);
 }
 
 function updateProgress() {
   const pct = Math.round((currentScreen / (TOTAL_SCREENS - 1)) * 100);
   document.getElementById("progressFill").style.width = pct + "%";
-  const labels = ["Registration","Emergency & Contacts","Golden Rules","Site Rules","Hazards & PPE","SWMS","Documents & Acknowledgement","Quiz","Complete"];
+  const labels = ["Registration","Emergency & Contacts","Site Sign-In","Golden Rules","Site Rules","Hazards & PPE","SWMS","Documents & Acknowledgement","Quiz","Complete"];
   document.getElementById("progressLabel").textContent = labels[currentScreen] || "";
 }
 
@@ -258,7 +258,7 @@ function proceedToQuiz() {
   const unchecked = ACK_ITEMS.map((_,i) => document.getElementById("ack"+i).checked).filter(v => !v).length;
   if (unchecked > 0) { alert("Please tick all acknowledgement boxes before proceeding to the quiz."); return; }
   contractor.docNotes = document.getElementById("docNotes").value.trim() || "—";
-  goTo(7);
+  goTo(8);
 }
 
 // ── Document upload (matches site register) ───────────────────────────────────
@@ -545,7 +545,7 @@ function showResult() {
   const now     = new Date();
   const dateStr = now.toLocaleDateString("en-AU", {day:"2-digit",month:"2-digit",year:"numeric"});
   const timeStr = now.toLocaleTimeString("en-AU", {hour:"2-digit",minute:"2-digit"});
-  goTo(8);
+  goTo(9);
   document.getElementById("resultBadge").textContent = "✓";
   document.getElementById("resultBadge").className   = "result-badge pass";
   document.getElementById("resultScore").textContent = pct + "%";
@@ -718,36 +718,44 @@ document.querySelector('[data-csp-hook="cspHook4"]').addEventListener("click", f
   goTo(2)
 });
 
-document.querySelector('[data-csp-hook="cspHook5"]').addEventListener("click", function(event) {
+document.querySelector('[data-csp-hook="cspHook20"]').addEventListener("click", function(event) {
   goTo(1)
 });
 
-document.querySelector('[data-csp-hook="cspHook6"]').addEventListener("click", function(event) {
+document.querySelector('[data-csp-hook="cspHook21"]').addEventListener("click", function(event) {
   goTo(3)
 });
 
-document.querySelector('[data-csp-hook="cspHook7"]').addEventListener("click", function(event) {
+document.querySelector('[data-csp-hook="cspHook5"]').addEventListener("click", function(event) {
   goTo(2)
 });
 
-document.querySelector('[data-csp-hook="cspHook8"]').addEventListener("click", function(event) {
+document.querySelector('[data-csp-hook="cspHook6"]').addEventListener("click", function(event) {
   goTo(4)
 });
 
-document.querySelector('[data-csp-hook="cspHook9"]').addEventListener("click", function(event) {
+document.querySelector('[data-csp-hook="cspHook7"]').addEventListener("click", function(event) {
   goTo(3)
 });
 
-document.querySelector('[data-csp-hook="cspHook10"]').addEventListener("click", function(event) {
+document.querySelector('[data-csp-hook="cspHook8"]').addEventListener("click", function(event) {
   goTo(5)
 });
 
-document.querySelector('[data-csp-hook="cspHook11"]').addEventListener("click", function(event) {
+document.querySelector('[data-csp-hook="cspHook9"]').addEventListener("click", function(event) {
   goTo(4)
 });
 
-document.querySelector('[data-csp-hook="cspHook12"]').addEventListener("click", function(event) {
+document.querySelector('[data-csp-hook="cspHook10"]').addEventListener("click", function(event) {
   goTo(6)
+});
+
+document.querySelector('[data-csp-hook="cspHook11"]').addEventListener("click", function(event) {
+  goTo(5)
+});
+
+document.querySelector('[data-csp-hook="cspHook12"]').addEventListener("click", function(event) {
+  goTo(7)
 });
 
 document.querySelector('[data-csp-hook="cspHook13"]').addEventListener("click", function(event) {
@@ -763,7 +771,7 @@ document.querySelector('[data-csp-hook="cspHook15"]').addEventListener("click", 
 });
 
 document.querySelector('[data-csp-hook="cspHook16"]').addEventListener("click", function(event) {
-  goTo(5)
+  goTo(6)
 });
 
 document.querySelector('[data-csp-hook="cspHook17"]').addEventListener("click", function(event) {
