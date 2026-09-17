@@ -261,7 +261,6 @@
       color: #555;
       page-break-after: always;
     }
-    .matrix-body { display: block !important; }
     .no-print { display: none !important; }
     .permit-status-bar, .section-header, .sig-box-header, .matrix-table th, .worker-copy-header, .alert-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
@@ -296,8 +295,8 @@
       <div class="log-stat"><span style="color:rgba(255,255,255,0.4);">Last issued:</span>&nbsp;<span class="log-last" id="lastIssuedLabel">&#8212;</span></div>
     </div>
     <div style="display:flex;gap:8px;">
-      <button class="log-btn" onclick="openLog()">View Log</button>
-      <button class="log-btn export" onclick="exportCSV()">Export CSV</button>
+      <button class="log-btn">View Log</button>
+      <button class="log-btn export">Export CSV</button>
     </div>
   </div>
 
@@ -308,7 +307,7 @@
 
   <!-- DECISION MATRIX (collapsible) -->
   <div class="section">
-    <div class="matrix-toggle" onclick="toggleMatrix()">
+    <div class="matrix-toggle">
       <div class="matrix-toggle-left">
         <div>
           <div class="matrix-toggle-title">Lockout Decision Matrix &mdash; LDM-001-2025-v1.0</div>
@@ -419,25 +418,25 @@
     <div class="section-body">
       <div class="reason-grid">
         <label class="reason-tile" id="rt-planned">
-          <input type="radio" name="reason" value="Planned Maintenance" onchange="selectReason(this)">
+          <input type="radio" name="reason" value="Planned Maintenance">
           <span>Planned Maintenance</span>
         </label>
         <label class="reason-tile" id="rt-emergency">
-          <input type="radio" name="reason" value="Emergency Breakdown" onchange="selectReason(this)">
+          <input type="radio" name="reason" value="Emergency Breakdown">
           <span>Emergency Breakdown</span>
         </label>
         <label class="reason-tile" id="rt-contractor">
-          <input type="radio" name="reason" value="Contractor Work" onchange="selectReason(this)">
+          <input type="radio" name="reason" value="Contractor Work">
           <span>Contractor Work</span>
         </label>
         <label class="reason-tile" id="rt-training">
-          <input type="radio" name="reason" value="Training / Onboarding" onchange="selectReason(this)">
+          <input type="radio" name="reason" value="Training / Onboarding">
           <span>Training / Onboarding</span>
         </label>
         <div class="reason-other-row" style="grid-column:span 2">
-          <input type="radio" name="reason" value="Other" id="reason-other-radio" onchange="selectReason(this)">
+          <input type="radio" name="reason" value="Other" id="reason-other-radio">
           <span>Other:</span>
-          <input type="text" id="reason-other-text" class="inline-input" placeholder="Specify..." onfocus="document.getElementById('reason-other-radio').checked=true;">
+          <input type="text" id="reason-other-text" class="inline-input" placeholder="Specify...">
         </div>
       </div>
     </div>
@@ -471,25 +470,25 @@
         <div class="check-item" id="rc1">
           <div class="check-text">Safe Work Assessment (SWA / JSA) completed for this task?</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('rc1','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('rc1','no')">NO</button>
-            <button class="check-btn na" onclick="setCheck('rc1','na')">N/A</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
+            <button class="check-btn na">N/A</button>
           </div>
         </div>
         <div class="check-item" id="rc2">
           <div class="check-text">SWMS or relevant site procedure reviewed by worker?</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('rc2','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('rc2','no')">NO</button>
-            <button class="check-btn na" onclick="setCheck('rc2','na')">N/A</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
+            <button class="check-btn na">N/A</button>
           </div>
         </div>
         <div class="check-item" id="rc3">
           <div class="check-text">Worker holds current isolation / LOTO competency?</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('rc3','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('rc3','no')">NO</button>
-            <button class="check-btn na" onclick="setCheck('rc3','na')">N/A</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
+            <button class="check-btn na">N/A</button>
           </div>
         </div>
       </div>
@@ -516,7 +515,7 @@
         <div class="ppe-item" style="cursor:default;">
           <input type="checkbox" id="ppe-other-cb">
           <span>Other:</span>
-          <input type="text" id="ppe-other-text" class="inline-input" placeholder="Specify..." onfocus="document.getElementById('ppe-other-cb').checked=true;" style="min-width:80px;">
+          <input type="text" id="ppe-other-text" class="inline-input" placeholder="Specify..." style="min-width:80px;">
         </div>
       </div>
     </div>
@@ -541,7 +540,7 @@
         <div class="iso-item" style="cursor:default;">
           <input type="checkbox" id="iso-other-cb">
           <span>Other:</span>
-          <input type="text" id="iso-other-text" class="inline-input" placeholder="Specify..." onfocus="document.getElementById('iso-other-cb').checked=true;" style="min-width:60px;">
+          <input type="text" id="iso-other-text" class="inline-input" placeholder="Specify..." style="min-width:60px;">
         </div>
       </div>
 
@@ -550,38 +549,38 @@
         <div class="check-item" id="lm1">
           <div class="check-text">Lockout padlock applied to all isolation points</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('lm1','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('lm1','no')">NO</button>
-            <button class="check-btn na" onclick="setCheck('lm1','na')">N/A</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
+            <button class="check-btn na">N/A</button>
           </div>
         </div>
         <div class="check-item" id="lm2">
           <div class="check-text">Out of service tag attached at each isolation point</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('lm2','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('lm2','no')">NO</button>
-            <button class="check-btn na" onclick="setCheck('lm2','na')">N/A</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
+            <button class="check-btn na">N/A</button>
           </div>
         </div>
         <div class="check-item" id="lm3">
           <div class="check-text">All isolation points confirmed locked out and tagged</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('lm3','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('lm3','no')">NO</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
           </div>
         </div>
         <div class="check-item" id="lm4">
           <div class="check-text">Equipment verified de-energised &mdash; zero energy state confirmed (checked for dead)</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('lm4','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('lm4','no')">NO</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
           </div>
         </div>
         <div class="check-item" id="lm5">
           <div class="check-text">All relevant workers notified that isolation is in place</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('lm5','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('lm5','no')">NO</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
           </div>
         </div>
       </div>
@@ -629,10 +628,10 @@
 <!-- ACTION BAR (screen only) -->
   <div class="action-bar no-print">
     <span class="action-bar-label">Actions:</span>
-    <button class="btn btn-primary" onclick="issueForm()">Issue Form</button>
-    <button class="btn btn-print" onclick="window.print()">Print / Save PDF</button>
-    <button class="btn btn-ghost" onclick="clearForm()">Clear Form</button>
-    <button class="btn btn-danger" onclick="voidForm()">Void</button>
+    <button class="btn btn-primary">Issue Form</button>
+    <button class="btn btn-print">Print / Save PDF</button>
+    <button class="btn btn-ghost">Clear Form</button>
+    <button class="btn btn-danger">Void</button>
   </div>
  <!-- PAGE BREAK -->
   <div class="page-break-hint">— Complete below section by hand after work is finished —</div>
@@ -694,22 +693,22 @@
         <div class="check-item" id="comp1">
           <div class="check-text">All lockout devices (locks and tags) removed from isolation points</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('comp1','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('comp1','no')">NO</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
           </div>
         </div>
         <div class="check-item" id="comp2">
           <div class="check-text">Equipment inspected and confirmed safe to return to service</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('comp2','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('comp2','no')">NO</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
           </div>
         </div>
         <div class="check-item" id="comp3">
           <div class="check-text">All workers clear of equipment and notified that isolation has been lifted</div>
           <div class="check-options">
-            <button class="check-btn yes" onclick="setCheck('comp3','yes')">YES</button>
-            <button class="check-btn no" onclick="setCheck('comp3','no')">NO</button>
+            <button class="check-btn yes">YES</button>
+            <button class="check-btn no">NO</button>
           </div>
         </div>
       </div>

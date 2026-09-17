@@ -154,3 +154,53 @@
       document.getElementById('wc-date').textContent = d.toLocaleDateString('en-AU', {day:'2-digit',month:'2-digit',year:'numeric'});
     }
   }
+
+  // ── CSP-SAFE EVENT WIRING (no inline onclick/onchange/onfocus) ──
+  document.addEventListener('DOMContentLoaded', function() {
+    // Yes/No/N-A checklist buttons — delegated by reading the parent .check-item's id
+    // and the button's own class (yes/no/na), matching setCheck(id, val)'s expectations.
+    document.querySelectorAll('.check-item .check-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.check-item');
+        const val = btn.classList.contains('yes') ? 'yes' : btn.classList.contains('no') ? 'no' : 'na';
+        if (item) setCheck(item.id, val);
+      });
+    });
+
+    // Reason radio tiles
+    document.querySelectorAll('input[name="reason"]').forEach(radio => {
+      radio.addEventListener('change', function() { selectReason(this); });
+    });
+
+    // "Other" text fields auto-check their paired radio/checkbox on focus
+    const otherPairs = [
+      ['reason-other-text', 'reason-other-radio'],
+      ['ppe-other-text', 'ppe-other-cb'],
+      ['iso-other-text', 'iso-other-cb']
+    ];
+    otherPairs.forEach(([textId, boxId]) => {
+      const textEl = document.getElementById(textId);
+      const boxEl = document.getElementById(boxId);
+      if (textEl && boxEl) textEl.addEventListener('focus', () => { boxEl.checked = true; });
+    });
+
+    // Matrix toggle
+    const matrixToggle = document.querySelector('.matrix-toggle');
+    if (matrixToggle) matrixToggle.addEventListener('click', toggleMatrix);
+
+    // Action bar buttons
+    const issueBtn = document.querySelector('.action-bar .btn-primary');
+    if (issueBtn) issueBtn.addEventListener('click', issueForm);
+    const printBtn = document.querySelector('.action-bar .btn-print');
+    if (printBtn) printBtn.addEventListener('click', () => window.print());
+    const clearBtn = document.querySelector('.action-bar .btn-ghost');
+    if (clearBtn) clearBtn.addEventListener('click', clearForm);
+    const voidBtn = document.querySelector('.action-bar .btn-danger');
+    if (voidBtn) voidBtn.addEventListener('click', voidForm);
+
+    // Permit log bar buttons
+    const viewLogBtn = document.querySelector('.log-btn:not(.export)');
+    if (viewLogBtn) viewLogBtn.addEventListener('click', openLog);
+    const exportBtn = document.querySelector('.log-btn.export');
+    if (exportBtn) exportBtn.addEventListener('click', exportCSV);
+  });
