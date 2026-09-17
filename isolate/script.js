@@ -73,6 +73,27 @@
     return res.json();
   }
 
+  function getSelectedReason() {
+    const checked = document.querySelector('input[name="reason"]:checked');
+    if (!checked) return '';
+    if (checked.id === 'reason-other-radio') {
+      const other = document.getElementById('reason-other-text');
+      return 'Other: ' + ((other && other.value) || '');
+    }
+    return checked.value || '';
+  }
+
+  function getCheckedList(selector) {
+    return [...document.querySelectorAll(selector)]
+      .filter(el => el.checked)
+      .map(el => {
+        const span = el.parentElement.querySelector('span');
+        return span ? span.textContent.trim() : '';
+      })
+      .filter(Boolean)
+      .join(', ');
+  }
+
   async function issueForm() {
     const equip = document.getElementById('equipment').value || '\u2014';
     const worker = document.getElementById('workerName').value || '\u2014';
@@ -81,6 +102,17 @@
 
     document.getElementById('statusDisplay').textContent = 'Issuing\u2026';
     document.getElementById('equipDisplay').textContent = equip;
+
+    let ppeSelected = getCheckedList('.ppe-item input[type="checkbox"]');
+    if (document.getElementById('ppe-other-cb') && document.getElementById('ppe-other-cb').checked) {
+      const otherText = (document.getElementById('ppe-other-text') || {}).value || '';
+      ppeSelected = [ppeSelected, otherText ? ('Other: ' + otherText) : ''].filter(Boolean).join(', ');
+    }
+    let isoPoints = getCheckedList('.iso-item input[type="checkbox"]');
+    if (document.getElementById('iso-other-cb') && document.getElementById('iso-other-cb').checked) {
+      const otherText = (document.getElementById('iso-other-text') || {}).value || '';
+      isoPoints = [isoPoints, otherText ? ('Other: ' + otherText) : ''].filter(Boolean).join(', ');
+    }
 
     try {
       const result = await submitToPermitRegister({
@@ -91,7 +123,13 @@
         recipient: worker,
         date: dateVal,
         time_issued: issuedAt,
-        status: 'ISSUED'
+        status: 'ISSUED',
+        task_description: (document.getElementById('taskDesc') || {}).value || '',
+        associated_plant: (document.getElementById('associatedPlant') || {}).value || '',
+        reason_for_isolation: getSelectedReason(),
+        ppe_selected: ppeSelected,
+        isolation_points: isoPoints,
+        lockout_notes: (document.getElementById('lockoutNotes') || {}).value || ''
       });
 
       const ref = result.permit_number || 'PENDING';

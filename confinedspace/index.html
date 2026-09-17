@@ -882,13 +882,13 @@
       <div class="field-grid cols-1 mt-10">
         <div class="field">
           <label>Description of Work to be Performed Inside</label>
-          <textarea placeholder="Describe the specific task to be carried out inside the confined space..."></textarea>
+          <textarea id="workDescription" placeholder="Describe the specific task to be carried out inside the confined space..."></textarea>
         </div>
       </div>
       <div class="field-grid cols-2 mt-10">
         <div class="field">
           <label>Tools / Equipment Taken In</label>
-          <textarea placeholder="List all tools and equipment entering the space..." style="min-height:38px"></textarea>
+          <textarea id="toolsEquipment" placeholder="List all tools and equipment entering the space..." style="min-height:38px"></textarea>
         </div>
         <div class="field">
           <label style="color:var(--orange);font-size:10px;font-weight:700;letter-spacing:0.12em">⚠ Known Hazards in This Space</label>
@@ -939,11 +939,11 @@ style="width:100%;min-height:220px;border:2px solid var(--red);border-radius:2px
       <div class="field-grid cols-3 mt-6">
         <div class="field">
           <label>Last Bump Test Date</label>
-          <input type="date">
+          <input type="date" id="bumpTestDate">
         </div>
         <div class="field">
           <label>Test Performed By</label>
-          <input type="text">
+          <input type="text" id="testPerformedBy">
         </div>
       </div>
 
@@ -991,7 +991,7 @@ style="width:100%;min-height:220px;border:2px solid var(--red);border-radius:2px
       <div class="field-grid cols-2 mt-10">
         <div class="field">
           <label>Ventilation Required?</label>
-          <select>
+          <select id="ventilationRequired">
             <option value="">— Select —</option>
             <option>No — natural ventilation adequate</option>
             <option>Yes — forced mechanical ventilation</option>
@@ -1000,7 +1000,7 @@ style="width:100%;min-height:220px;border:2px solid var(--red);border-radius:2px
         </div>
         <div class="field">
           <label>Ventilation Equipment Used</label>
-	<input type="text" 
+	<input type="text" id="ventilationEquipment">
         </div>
       </div>
 
@@ -1022,11 +1022,11 @@ style="width:100%;min-height:220px;border:2px solid var(--red);border-radius:2px
       <div class="field-grid cols-3">
         <div class="field">
           <label>Standby Person — Full Name</label>
-          <input type="text" placeholder="">
+          <input type="text" id="standbyPersonName" placeholder="">
         </div>
         <div class="field">
           <label>Communication Method</label>
-          <select>
+          <select id="communicationMethod">
             <option value="">— Select —</option>
             <option>Two-way radio</option>
             <option>Visual line of sight</option>
@@ -1039,7 +1039,7 @@ style="width:100%;min-height:220px;border:2px solid var(--red);border-radius:2px
       <div class="field-grid cols-2 mt-10">
         <div class="field">
           <label>Check-in Interval (minutes)</label>
-          <input type="number" placeholder="e.g. 5" min="1" max="30">
+          <input type="number" id="checkinInterval" placeholder="e.g. 5" min="1" max="30">
         </div>
         <div class="field">
           <label>Standby Notes / Agreed Signals</label>
@@ -1241,7 +1241,7 @@ style="width:100%;min-height:220px;border:2px solid var(--red);border-radius:2px
       <div class="field-grid cols-1 mt-10">
         <div class="field">
           <label>Rescue Method (non-entry retrieval — describe)</label>
-          <textarea placeholder="If the entrant becomes unresponsive or communication is lost, the standby person must raise the alarm and call 000 immediately. Only trained rescue personnel using appropriate equipment are permitted to enter the space for rescue."></textarea>
+          <textarea id="rescueMethod" placeholder="If the entrant becomes unresponsive or communication is lost, the standby person must raise the alarm and call 000 immediately. Only trained rescue personnel using appropriate equipment are permitted to enter the space for rescue."></textarea>
         </div>
       </div>
       <div class="field-grid cols-1 mt-6">
@@ -1511,6 +1511,6 @@ style="width:100%;min-height:220px;border:2px solid var(--red);border-radius:2px
 
 
 <footer style="text-align:center;font-size:12px;color:#6b7280;padding:16px 12px 26px;border-top:1px solid #e5e7eb;margin-top:20px;"><a href="/privacy-policy.html" target="_blank" rel="noopener" style="color:#1B4332;">Privacy &amp; Data Collection Policy</a></footer>
-<script src="/confinedspace/script.js?v=20260917041836"></script>
+<script src="/confinedspace/script.js?v=20260917043438"></script>
 </body>
 </html>

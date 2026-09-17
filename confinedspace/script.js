@@ -121,6 +121,16 @@
     return res.json();
   }
 
+  function getFieldValue(id) {
+    const el = document.getElementById(id);
+    return el ? (el.value || '') : '';
+  }
+
+  function getTextValue(id) {
+    const el = document.getElementById(id);
+    return el ? (el.textContent || '') : '';
+  }
+
   async function issuePermit() {
     const spaceId = document.getElementById('spaceId').value || '—';
     const dateVal = document.getElementById('entryDate').value || new Date().toISOString().split('T')[0];
@@ -137,7 +147,24 @@
         issued_by: (document.getElementById('issuingAuthorityName') || {}).value || '',
         date: dateVal,
         time_issued: issuedAt,
-        status: 'ISSUED'
+        status: 'ISSUED',
+        valid_from: getFieldValue('validFrom'),
+        valid_until: getFieldValue('validTo'),
+        work_description: getFieldValue('workDescription'),
+        tools_equipment: getFieldValue('toolsEquipment'),
+        known_hazards: getFieldValue('knownHazards'),
+        bump_test_date: getFieldValue('bumpTestDate'),
+        test_performed_by: getFieldValue('testPerformedBy'),
+        o2_reading: getFieldValue('o2reading'), o2_result: getTextValue('o2result'),
+        lel_reading: getFieldValue('lelreading'), lel_result: getTextValue('lelresult'),
+        co_reading: getFieldValue('coreading'), co_result: getTextValue('coresult'),
+        h2s_reading: getFieldValue('h2sreading'), h2s_result: getTextValue('h2sresult'),
+        ventilation_required: getFieldValue('ventilationRequired'),
+        ventilation_equipment: getFieldValue('ventilationEquipment'),
+        standby_person_name: getFieldValue('standbyPersonName'),
+        communication_method: getFieldValue('communicationMethod'),
+        checkin_interval: getFieldValue('checkinInterval'),
+        rescue_method: getFieldValue('rescueMethod')
       });
 
       const permitNo = result.permit_number || 'PENDING';
