@@ -109,6 +109,18 @@
   }
 
   // Issue permit
+  // ── PERMIT REGISTER (Power Automate) ──
+  const PERMIT_REGISTER_URL = '/api/permit-register';
+  function submitToPermitRegister(payload) {
+    fetch(PERMIT_REGISTER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {
+      document.getElementById('statusDisplay').textContent += ' (register sync failed — check connection)';
+    });
+  }
+
   function issuePermit() {
     const permitNo = document.getElementById('permitNo').value || 'PENDING';
     const spaceId = document.getElementById('spaceId').value || '—';
@@ -126,6 +138,16 @@
     permitLog.push(entry);
     try { localStorage.setItem('csPermitLog', JSON.stringify(permitLog)); } catch(e) {}
     updatePermitLogDisplay();
+
+    submitToPermitRegister({
+      permit_type: 'Confined Space',
+      permit_number: permitNo,
+      reference: spaceId,
+      issued_by: (document.getElementById('issuingAuthorityName') || {}).value || '',
+      date: dateVal,
+      time_issued: entry.issuedAt,
+      status: 'ISSUED'
+    });
   }
 
   // Cancel permit
@@ -135,6 +157,15 @@
       if (permitLog.length > 0) {
         permitLog[permitLog.length-1].status = 'CANCELLED';
         try { localStorage.setItem('csPermitLog', JSON.stringify(permitLog)); } catch(e) {}
+        submitToPermitRegister({
+          permit_type: 'Confined Space',
+          permit_number: permitLog[permitLog.length-1].number,
+          reference: permitLog[permitLog.length-1].space,
+          issued_by: (document.getElementById('issuingAuthorityName') || {}).value || '',
+          date: permitLog[permitLog.length-1].date,
+          time_issued: new Date().toLocaleTimeString(),
+          status: 'CANCELLED'
+        });
       }
     }
   }

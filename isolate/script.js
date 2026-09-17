@@ -61,6 +61,18 @@
     }
   }
 
+  // ── PERMIT REGISTER (Power Automate) ──
+  const PERMIT_REGISTER_URL = '/api/permit-register';
+  function submitToPermitRegister(payload) {
+    fetch(PERMIT_REGISTER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {
+      document.getElementById('statusDisplay').textContent += ' (register sync failed — check connection)';
+    });
+  }
+
   function issueForm() {
     const ref = document.getElementById('formRef').value || 'PENDING';
     const equip = document.getElementById('equipment').value || '\u2014';
@@ -68,8 +80,20 @@
     const dateVal = document.getElementById('formDate').value || new Date().toISOString().split('T')[0];
     document.getElementById('statusDisplay').textContent = 'ISSUED \u2014 ' + ref;
     document.getElementById('equipDisplay').textContent = equip;
-    formLog.push({ ref, equip, worker, date: dateVal, issuedAt: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}), status: 'ISSUED' });
+    const issuedAt = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    formLog.push({ ref, equip, worker, date: dateVal, issuedAt, status: 'ISSUED' });
     updateLogBar();
+
+    submitToPermitRegister({
+      permit_type: 'Isolation',
+      permit_number: ref,
+      reference: equip,
+      issued_by: (document.getElementById('lmName') || {}).value || '',
+      recipient: worker,
+      date: dateVal,
+      time_issued: issuedAt,
+      status: 'ISSUED'
+    });
   }
 
   function openLog() {
@@ -95,7 +119,20 @@
   function voidForm() {
     if (confirm('Mark this form as VOID?')) {
       document.getElementById('statusDisplay').textContent = 'VOID';
-      if (formLog.length > 0) { formLog[formLog.length-1].status = 'VOID'; updateLogBar(); }
+      if (formLog.length > 0) {
+        formLog[formLog.length-1].status = 'VOID';
+        updateLogBar();
+        submitToPermitRegister({
+          permit_type: 'Isolation',
+          permit_number: formLog[formLog.length-1].ref,
+          reference: formLog[formLog.length-1].equip,
+          issued_by: (document.getElementById('lmName') || {}).value || '',
+          recipient: formLog[formLog.length-1].worker,
+          date: formLog[formLog.length-1].date,
+          time_issued: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),
+          status: 'VOID'
+        });
+      }
     }
   }
 

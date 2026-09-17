@@ -53,6 +53,18 @@
   }
 
   // ── ISSUE PERMIT ──
+  // ── PERMIT REGISTER (Power Automate) ──
+  const PERMIT_REGISTER_URL = '/api/permit-register';
+  function submitToPermitRegister(payload) {
+    fetch(PERMIT_REGISTER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(() => {
+      document.getElementById('statusDisplay').textContent += ' (register sync failed — check connection)';
+    });
+  }
+
   function issuePermit() {
     const permitNo = document.getElementById('permitNo').value || 'PENDING';
     const dateVal = document.getElementById('permitDate').value || new Date().toISOString().split('T')[0];
@@ -71,6 +83,16 @@
     };
     permitLog.push(entry);
     updatePermitLogDisplay();
+
+    submitToPermitRegister({
+      permit_type: 'Hot Work',
+      permit_number: permitNo,
+      reference: location,
+      issued_by: (document.getElementById('issuerName') || {}).value || '',
+      date: dateVal,
+      time_issued: entry.issuedAt,
+      status: 'ISSUED'
+    });
   }
 
   // ── CANCEL PERMIT ──
@@ -79,6 +101,15 @@
       document.getElementById('statusDisplay').textContent = '✗ CANCELLED / VOID';
       if (permitLog.length > 0) {
         permitLog[permitLog.length - 1].status = 'CANCELLED';
+        submitToPermitRegister({
+          permit_type: 'Hot Work',
+          permit_number: permitLog[permitLog.length - 1].number,
+          reference: permitLog[permitLog.length - 1].location,
+          issued_by: (document.getElementById('issuerName') || {}).value || '',
+          date: permitLog[permitLog.length - 1].date,
+          time_issued: new Date().toLocaleTimeString(),
+          status: 'CANCELLED'
+        });
       }
     }
   }
