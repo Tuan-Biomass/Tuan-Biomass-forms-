@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isolation Request Form — Tuan Biomass</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+  :root {
+    --black: #0d0d0d;
+    --white: #ffffff;
+    --green: #4a9e6b;
+    --green-light: #edf7f1;
+    --green-mid: #c5e8d4;
+    --grey-100: #f5f5f5;
+    --grey-200: #e8e8e8;
+    --grey-400: #a0a0a0;
+    --grey-600: #555555;
+    --red: #c0392b;
+    --red-light: #fdecea;
+    --confirm-green: #1a7a4a;
+    --confirm-green-light: #e8f5ee;
+    --yellow: #e6a817;
+    --yellow-light: #fef9ec;
+    --blue: #1a5fa8;
+    --blue-light: #e8f0fb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    background: #ebebeb;
+    color: var(--black);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .page {
+    max-width: 900px;
+    margin: 24px auto;
+    background: var(--white);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.13);
+  }
+
+  /* HEADER */
+  .permit-header {
+    background: var(--black);
+    color: var(--white);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+  .header-stripe { background: var(--green); width: 8px; align-self: stretch; }
+  .header-content { padding: 18px 24px; }
+  .header-logo { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey-400); margin-bottom: 4px; font-family: 'IBM Plex Mono', monospace; }
+  .header-title { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+  .header-subtitle { font-size: 11px; color: var(--grey-400); margin-top: 3px; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.05em; }
+  .header-meta { padding: 18px 24px; text-align: right; border-left: 1px solid #2a2a2a; min-width: 185px; }
+  .permit-id-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-400); font-family: 'IBM Plex Mono', monospace; }
+  .permit-id-field {
+    background: transparent; border: none; border-bottom: 1px solid var(--grey-600);
+    color: var(--white); font-family: 'IBM Plex Mono', monospace; font-size: 16px; font-weight: 600;
+    width: 155px; text-align: right; outline: none; padding: 2px 0; margin-top: 2px; display: block; margin-left: auto;
+  }
+  .permit-id-field::placeholder { color: #444; }
+  .header-date-field {
+    background: transparent; border: none; border-bottom: 1px solid var(--grey-600);
+    color: var(--white); font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 600;
+    width: 155px; text-align: right; outline: none; padding: 2px 0; margin-top: 2px; display: block; margin-left: auto;
+  }
+
+  /* ALERT BANNER */
+  .alert-banner {
+    background: var(--green); color: var(--white); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.11em; text-transform: uppercase; text-align: center;
+    padding: 7px 16px; font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ACTION BAR */
+  .action-bar {
+    display: flex; gap: 8px; padding: 10px 20px; background: var(--grey-100);
+    border-bottom: 1px solid var(--grey-200); align-items: center; flex-wrap: wrap;
+  }
+  .action-bar-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-600); font-family: 'IBM Plex Mono', monospace; margin-right: 4px; }
+  .btn { font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; border: 1.5px solid; cursor: pointer; transition: all 0.15s; }
+  .btn-primary { background: var(--green); border-color: var(--green); color: var(--white); }
+  .btn-primary:hover { background: #3d8a5c; border-color: #3d8a5c; }
+  .btn-print { background: var(--black); border-color: var(--black); color: var(--white); }
+  .btn-print:hover { background: #2a2a2a; }
+  .btn-danger { background: var(--white); border-color: var(--red); color: var(--red); }
+  .btn-danger:hover { background: var(--red-light); }
+  .btn-ghost { background: var(--white); border-color: var(--grey-200); color: var(--grey-600); }
+  .btn-ghost:hover { border-color: var(--grey-400); color: var(--black); }
+
+  /* SECTION */
+  .section { border-bottom: 1px solid var(--grey-200); }
+  .section-header { display: flex; align-items: center; gap: 10px; padding: 10px 20px 8px; background: var(--grey-100); border-bottom: 1px solid var(--grey-200); }
+  .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; color: var(--green); letter-spacing: 0.1em; min-width: 22px; }
+  .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--black); flex: 1; }
+  .section-badge { font-size: 9px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; }
+  .badge-lm { background: var(--black); color: var(--white); }
+  .section-body { padding: 14px 20px; }
+  .mt-12 { margin-top: 12px; }
+  .mt-14 { margin-top: 14px; }
+
+  /* FIELD GRID */
+  .field-grid { display: grid; gap: 10px 16px; }
+  .field-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .field-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .field-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .field { display: flex; flex-direction: column; gap: 4px; }
+  .field label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-600); font-family: 'IBM Plex Mono', monospace; }
+  .field input[type="text"], .field input[type="date"], .field input[type="time"], .field select, .field textarea {
+    border: none; border-bottom: 1.5px solid var(--grey-200); background: transparent;
+    font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; padding: 4px 2px;
+    outline: none; color: var(--black); width: 100%; transition: border-color 0.15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-bottom-color: var(--green); }
+  .field textarea { resize: vertical; min-height: 52px; border: 1.5px solid var(--grey-200); border-radius: 2px; padding: 6px; }
+  .field textarea:focus { border-color: var(--green); }
+
+  /* CHECKLIST */
+  .checklist { display: flex; flex-direction: column; border: 1.5px solid var(--grey-200); border-radius: 2px; overflow: hidden; }
+  .check-group-title { background: var(--grey-100); font-size: 9.5px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey-600); font-family: 'IBM Plex Mono', monospace; padding: 6px 12px; border-bottom: 1px solid var(--grey-200); }
+  .check-item { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 8px 12px; border-bottom: 1px solid var(--grey-200); transition: background 0.1s; }
+  .check-item:last-child { border-bottom: none; }
+  .check-item:hover { background: var(--grey-100); }
+  .check-text { font-size: 12.5px; color: var(--black); }
+  .check-options { display: flex; gap: 6px; }
+  .check-btn { font-size: 11px; font-weight: 600; cursor: pointer; padding: 3px 10px; border-radius: 2px; border: 1.5px solid var(--grey-200); background: var(--white); transition: all 0.15s; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.05em; user-select: none; }
+  .check-btn.yes { color: var(--confirm-green); }
+  .check-btn.no { color: var(--red); }
+  .check-btn.na { color: var(--grey-400); }
+  .check-btn.active-yes { background: var(--confirm-green-light); border-color: var(--confirm-green); color: var(--confirm-green); }
+  .check-btn.active-no { background: var(--red-light); border-color: var(--red); color: var(--red); }
+  .check-btn.active-na { background: var(--grey-100); border-color: var(--grey-400); color: var(--grey-600); }
+
+  /* ISOLATION POINTS */
+  .iso-grid { display: grid; grid-template-columns: repeat(4, 1fr); border: 1.5px solid var(--grey-200); border-radius: 2px; overflow: hidden; }
+  .iso-item { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--grey-200); border-right: 1px solid var(--grey-200); cursor: pointer; transition: background 0.1s; user-select: none; }
+  .iso-item:hover { background: var(--green-light); }
+  .iso-item:nth-child(4n) { border-right: none; }
+  .iso-item input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--green); cursor: pointer; flex-shrink: 0; }
+  .iso-item span { font-size: 12px; font-weight: 500; }
+
+  /* PPE GRID */
+  .ppe-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid var(--grey-200); border-radius: 2px; overflow: hidden; }
+  .ppe-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid var(--grey-200); border-right: 1px solid var(--grey-200); cursor: pointer; transition: background 0.1s; user-select: none; }
+  .ppe-item:hover { background: var(--green-light); }
+  .ppe-item:nth-child(3n) { border-right: none; }
+  .ppe-item input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--green); cursor: pointer; flex-shrink: 0; }
+  .ppe-item span { font-size: 12px; font-weight: 500; }
+
+  /* REASON TILES */
+  .reason-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .reason-tile { border: 1.5px solid var(--grey-200); border-radius: 2px; padding: 9px 12px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 8px; user-select: none; }
+  .reason-tile input[type="radio"] { width: 14px; height: 14px; accent-color: var(--green); flex-shrink: 0; }
+  .reason-tile span { font-size: 12px; font-weight: 500; }
+  .reason-tile:hover { background: var(--green-light); border-color: var(--green-mid); }
+  .reason-tile.selected { background: var(--green-light); border-color: var(--green); }
+  .reason-other-row { border: 1.5px solid var(--grey-200); border-radius: 2px; padding: 8px 12px; display: flex; align-items: center; gap: 8px; grid-column: span 3; }
+  .reason-other-row input[type="radio"] { width: 14px; height: 14px; accent-color: var(--green); flex-shrink: 0; }
+  .reason-other-row span { font-size: 12px; font-weight: 500; white-space: nowrap; }
+  .inline-input { border: none; border-bottom: 1.5px solid var(--grey-200); background: transparent; font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; padding: 2px 4px; outline: none; flex: 1; transition: border-color 0.15s; }
+  .inline-input:focus { border-bottom-color: var(--green); }
+
+  /* DECISION MATRIX */
+  .matrix-toggle { display: flex; align-items: center; justify-content: space-between; cursor: pointer; padding: 9px 20px; background: var(--yellow-light); border-bottom: 1.5px solid var(--yellow); user-select: none; }
+  .matrix-toggle-left { display: flex; align-items: center; gap: 10px; }
+  .matrix-toggle-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #7a5a00; }
+  .matrix-toggle-sub { font-size: 10px; color: #a07a20; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.04em; margin-top: 1px; }
+  .matrix-chevron { font-size: 12px; color: #a07a20; font-family: 'IBM Plex Mono', monospace; font-weight: 700; transition: transform 0.2s; display: inline-block; }
+  .matrix-chevron.open { transform: rotate(180deg); }
+  .matrix-body { display: none; padding: 14px 20px; background: var(--yellow-light); border-bottom: 1.5px solid #f0d580; }
+  .matrix-body.visible { display: block; }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 12px; border: 1.5px solid #e0c84a; overflow: hidden; }
+  .matrix-table th { background: var(--black); color: var(--white); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; padding: 8px 12px; text-align: left; border-right: 1px solid #2a2a2a; }
+  .matrix-table th:last-child { border-right: none; }
+  .matrix-table td { padding: 8px 12px; border-bottom: 1px solid #e8d87a; border-right: 1px solid #e8d87a; vertical-align: top; line-height: 1.4; background: var(--yellow-light); }
+  .matrix-table td:last-child { border-right: none; }
+  .matrix-table tr:last-child td { border-bottom: none; }
+  .m-badge { display: inline-block; font-size: 9.5px; font-weight: 700; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.05em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; }
+  .m-badge-yes { background: var(--confirm-green-light); color: var(--confirm-green); }
+  .m-badge-lm { background: var(--black); color: var(--white); }
+  .m-badge-trained { background: var(--blue-light); color: var(--blue); }
+
+  /* SIGNATURE BOX */
+  .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .sig-box { border: 1.5px solid var(--grey-200); border-radius: 2px; overflow: hidden; }
+  .sig-box-header { background: var(--black); color: var(--white); font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; padding: 7px 12px; }
+  .sig-box-body { padding: 12px; }
+  .sig-line { margin-bottom: 10px; }
+  .sig-line:last-child { margin-bottom: 0; }
+  .sig-line label { display: block; font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-600); font-family: 'IBM Plex Mono', monospace; margin-bottom: 3px; }
+  .sig-line input[type="text"] { width: 100%; border: none; border-bottom: 1.5px solid var(--grey-200); background: transparent; font-family: 'IBM Plex Sans', sans-serif; font-size: 13px; padding: 4px 2px; outline: none; color: var(--black); transition: border-color 0.15s; }
+  .sig-line input:focus { border-bottom-color: var(--green); }
+
+  /* WORKER COPY */
+  .worker-copy-block { border: 2px dashed var(--grey-400); border-radius: 2px; margin: 14px 20px; overflow: hidden; }
+  .worker-copy-header { background: var(--black); color: var(--white); font-size: 9.5px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; font-family: 'IBM Plex Mono', monospace; padding: 6px 14px; display: flex; justify-content: space-between; align-items: center; }
+  .worker-copy-header span { color: var(--grey-400); font-weight: 400; font-size: 9px; }
+  .worker-copy-body { padding: 12px 14px; background: var(--grey-100); }
+
+  /* INFO NOTE */
+  .info-note { display: flex; align-items: flex-start; gap: 8px; background: var(--green-light); border: 1px solid var(--green-mid); border-radius: 2px; padding: 8px 12px; font-size: 11.5px; color: #1a4a30; }
+
+  /* STATUS FOOTER */
+  .permit-status-bar { background: var(--black); color: var(--white); display: grid; grid-template-columns: repeat(3, 1fr); font-family: 'IBM Plex Mono', monospace; }
+  .status-cell { padding: 10px 18px; border-right: 1px solid #2a2a2a; display: flex; flex-direction: column; gap: 2px; }
+  .status-cell:last-child { border-right: none; }
+  .status-cell .label { font-size: 8.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey-400); }
+  .status-cell .value { font-size: 11.5px; font-weight: 600; color: var(--white); }
+
+  /* PAGE BREAK HINT */
+  .page-break-hint {
+    text-align: center;
+    padding: 10px 0;
+    border-top: 2px dashed #4a9e6b;
+    border-bottom: 2px dashed #4a9e6b;
+    background: #edf7f1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #4a9e6b;
+  }
+
+  /* PERMIT LOG BAR */
+  .permit-log-bar {
+    background: #1a1a1a;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .log-stats { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .log-stat { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.5); font-size: 11px; letter-spacing: 0.05em; }
+  .log-badge { font-weight: 700; color: var(--green); letter-spacing: 0.06em; }
+  .log-last { font-weight: 700; color: var(--white); }
+  .log-btn { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 12px; border-radius: 2px; border: 1.5px solid rgba(255,255,255,0.25); background: transparent; color: var(--white); cursor: pointer; transition: all 0.15s; }
+  .log-btn:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+  .log-btn.export { border-color: var(--green); color: var(--green); }
+  .log-btn.export:hover { background: rgba(74,158,107,0.15); }
+
+  /* PRINT */
+  @media print {
+    body { background: white; font-size: 11px; }
+    .page { max-width: 100%; margin: 0; box-shadow: none; }
+    .action-bar { display: none !important; }
+    .page-break-hint {
+      border-color: #999;
+      background: #f5f5f5;
+      color: #555;
+      page-break-after: always;
+    }
+    .matrix-body { display: block !important; }
+    .no-print { display: none !important; }
+    .permit-status-bar, .section-header, .sig-box-header, .matrix-table th, .worker-copy-header, .alert-banner { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="permit-header">
+    <div class="header-stripe"></div>
+    <div class="header-content">
+      <div class="header-logo">Tuan Biomass &middot; Albioma</div>
+      <div class="header-title">Isolation Request Form</div>
+      <div class="header-subtitle">LOP-001-2024-v1.0 &mdash; Completed by Lockout Officer and issued to worker before work commences</div>
+    </div>
+    <div class="header-meta">
+      <div class="permit-id-label">Form Ref No.</div>
+      <input type="text" class="permit-id-field" id="formRef" placeholder="ISO-001" autocomplete="off">
+      <div class="permit-id-label" style="margin-top:8px;">Date</div>
+      <input type="date" id="formDate" class="header-date-field">
+    </div>
+  </div>
+
+  <!-- PERMIT LOG BAR -->
+  <div class="permit-log-bar no-print" id="logBar">
+    <div class="log-stats">
+      <div class="log-stat"><span style="color:rgba(255,255,255,0.4);letter-spacing:0.1em;text-transform:uppercase;font-size:10px;">Permit Log</span></div>
+      <span style="color:rgba(255,255,255,0.2);">|</span>
+      <div class="log-stat"><span class="log-badge" id="countBadge">0 forms issued this session</span></div>
+      <span style="color:rgba(255,255,255,0.2);">|</span>
+      <div class="log-stat"><span style="color:rgba(255,255,255,0.4);">Last issued:</span>&nbsp;<span class="log-last" id="lastIssuedLabel">&#8212;</span></div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="log-btn" onclick="openLog()">View Log</button>
+      <button class="log-btn export" onclick="exportCSV()">Export CSV</button>
+    </div>
+  </div>
+
+  <!-- ALERT BANNER -->
+  <div class="alert-banner">Lockout Officer completes this form &mdash; Print and hand to worker &mdash; Do not start work until isolation is verified</div>
+
+  
+
+  <!-- DECISION MATRIX (collapsible) -->
+  <div class="section">
+    <div class="matrix-toggle" onclick="toggleMatrix()">
+      <div class="matrix-toggle-left">
+        <div>
+          <div class="matrix-toggle-title">Lockout Decision Matrix &mdash; LDM-001-2025-v1.0</div>
+          <div class="matrix-toggle-sub">Expand to confirm isolation requirements before completing this form</div>
+        </div>
+      </div>
+      <span class="matrix-chevron" id="matrixChevron">&#9660;</span>
+    </div>
+    <div class="matrix-body" id="matrixBody">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th style="width:30%">Task Type / Condition</th>
+            <th style="width:12%">Lockout Required?</th>
+            <th style="width:24%">Who Performs Lockout?</th>
+            <th>Notes / Controls</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Planned maintenance or upgrade<br><span style="font-size:10.5px;color:var(--grey-600)">e.g. scheduled downtime</span></td>
+            <td><span class="m-badge m-badge-yes">Yes</span></td>
+            <td><span class="m-badge m-badge-lm">Lockout Officer</span></td>
+            <td style="font-size:11.5px;color:var(--grey-600)">Lockout Officer must coordinate and verify all isolations before work commences.</td>
+          </tr>
+          <tr>
+            <td>Emergency breakdown</td>
+            <td><span class="m-badge m-badge-yes">Yes</span></td>
+            <td><span class="m-badge m-badge-trained">Isolation Trained Worker</span></td>
+            <td style="font-size:11.5px;color:var(--grey-600)">Only if Lockout Officer not immediately available. Worker must follow the site isolation checklist.</td>
+          </tr>
+          <tr>
+            <td>Routine low-risk maintenance<br><span style="font-size:10.5px;color:var(--grey-600)">e.g. sensor cleaning, basic blockage</span></td>
+            <td><span class="m-badge m-badge-yes">Yes</span></td>
+            <td><span class="m-badge m-badge-trained">Isolation Trained Worker</span></td>
+            <td style="font-size:11.5px;color:var(--grey-600)">Lockout using personal lock and tag. Confirm zero energy state before task start.</td>
+          </tr>
+          <tr>
+            <td>Contractor work on site</td>
+            <td><span class="m-badge m-badge-yes">Yes</span></td>
+            <td><span class="m-badge m-badge-lm">Lockout Officer</span></td>
+            <td style="font-size:11.5px;color:var(--grey-600)">Lockout Officer must coordinate and verify all isolations. Contractor must hold a personal lock.</td>
+          </tr>
+          <tr>
+            <td>Multiple isolation points involved</td>
+            <td><span class="m-badge m-badge-yes">Yes</span></td>
+            <td><span class="m-badge m-badge-lm">Lockout Officer</span></td>
+            <td style="font-size:11.5px;color:var(--grey-600)">Complex lockouts must be centrally managed. Use group lockout hasp where required.</td>
+          </tr>
+          <tr>
+            <td>Single person, simple isolation</td>
+            <td><span class="m-badge m-badge-yes">Yes</span></td>
+            <td><span class="m-badge m-badge-trained">Isolation Trained Worker</span></td>
+            <td style="font-size:11.5px;color:var(--grey-600)">Must apply personal lock and tag with name and contact details. Verify isolation before proceeding.</td>
+          </tr>
+          <tr>
+            <td>Training or onboarding involving equipment</td>
+            <td><span class="m-badge m-badge-yes">Yes</span></td>
+            <td><span class="m-badge m-badge-lm">Lockout Officer</span></td>
+            <td style="font-size:11.5px;color:var(--grey-600)">Always supervised. Lockout Officer must be present throughout for safety and instruction.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 1: ISOLATION DETAILS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Isolation Details</span>
+      <span class="section-badge badge-lm">Lockout Officer</span>
+    </div>
+    <div class="section-body">
+      <div class="field-grid cols-2">
+        <div class="field">
+          <label>Worker / Person to Receive Isolation</label>
+          <input type="text" id="workerName" placeholder="">
+        </div>
+        <div class="field">
+          <label>Time of Request</label>
+          <input type="time" id="reqTime">
+        </div>
+      </div>
+      <div class="field-grid cols-1 mt-12">
+        <div class="field">
+          <label>Primary Equipment / Plant to be Isolated</label>
+          <input type="text" id="equipment" placeholder="">
+        </div>
+      </div>
+      <div class="field-grid cols-1 mt-12">
+        <div class="field">
+          <label>Associated / Affected Plant</label>
+          <div style="font-size:10.5px;color:var(--grey-400);margin-bottom:4px;font-family:'IBM Plex Mono',monospace;letter-spacing:0.03em;">Any other equipment connected to or affected by this isolation that workers need to be aware of</div>
+          <textarea id="associatedPlant" placeholder="e.g. Discharge conveyor (CV-04), feed auger upstream — not isolated but in close proximity to work area..." style="min-height:52px;"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: REASON FOR ISOLATION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Reason for Isolation</span>
+      <span class="section-badge badge-lm">Lockout Officer</span>
+    </div>
+    <div class="section-body">
+      <div class="reason-grid">
+        <label class="reason-tile" id="rt-planned">
+          <input type="radio" name="reason" value="Planned Maintenance" onchange="selectReason(this)">
+          <span>Planned Maintenance</span>
+        </label>
+        <label class="reason-tile" id="rt-emergency">
+          <input type="radio" name="reason" value="Emergency Breakdown" onchange="selectReason(this)">
+          <span>Emergency Breakdown</span>
+        </label>
+        <label class="reason-tile" id="rt-contractor">
+          <input type="radio" name="reason" value="Contractor Work" onchange="selectReason(this)">
+          <span>Contractor Work</span>
+        </label>
+        <label class="reason-tile" id="rt-training">
+          <input type="radio" name="reason" value="Training / Onboarding" onchange="selectReason(this)">
+          <span>Training / Onboarding</span>
+        </label>
+        <div class="reason-other-row" style="grid-column:span 2">
+          <input type="radio" name="reason" value="Other" id="reason-other-radio" onchange="selectReason(this)">
+          <span>Other:</span>
+          <input type="text" id="reason-other-text" class="inline-input" placeholder="Specify..." onfocus="document.getElementById('reason-other-radio').checked=true;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3: TASK DESCRIPTION -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <span class="section-title">Task Description</span>
+      <span class="section-badge badge-lm">Lockout Officer</span>
+    </div>
+    <div class="section-body">
+      <div class="field">
+        <label>Describe the work to be performed under isolation</label>
+        <textarea id="taskDesc" placeholder="Include scope, location, and any specific hazards associated with the task..." style="min-height:64px;"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: RISK CONTROLS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <span class="section-title">Risk Controls</span>
+      <span class="section-badge badge-lm">Lockout Officer</span>
+    </div>
+    <div class="section-body">
+      <div class="checklist">
+        <div class="check-group-title">Confirm before authorising isolation</div>
+        <div class="check-item" id="rc1">
+          <div class="check-text">Safe Work Assessment (SWA / JSA) completed for this task?</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('rc1','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('rc1','no')">NO</button>
+            <button class="check-btn na" onclick="setCheck('rc1','na')">N/A</button>
+          </div>
+        </div>
+        <div class="check-item" id="rc2">
+          <div class="check-text">SWMS or relevant site procedure reviewed by worker?</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('rc2','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('rc2','no')">NO</button>
+            <button class="check-btn na" onclick="setCheck('rc2','na')">N/A</button>
+          </div>
+        </div>
+        <div class="check-item" id="rc3">
+          <div class="check-text">Worker holds current isolation / LOTO competency?</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('rc3','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('rc3','no')">NO</button>
+            <button class="check-btn na" onclick="setCheck('rc3','na')">N/A</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: PPE REQUIREMENTS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <span class="section-title">PPE Requirements</span>
+      <span class="section-badge badge-lm">Lockout Officer</span>
+    </div>
+    <div class="section-body">
+      <div class="ppe-grid">
+        <label class="ppe-item"><input type="checkbox"><span>Safety Glasses</span></label>
+        <label class="ppe-item"><input type="checkbox"><span>Hearing Protection</span></label>
+        <label class="ppe-item"><input type="checkbox"><span>Gloves</span></label>
+        <label class="ppe-item"><input type="checkbox"><span>Long Sleeves / Pants</span></label>
+        <label class="ppe-item"><input type="checkbox"><span>Safety Boots</span></label>
+        <label class="ppe-item"><input type="checkbox"><span>Hard Hat</span></label>
+        <label class="ppe-item"><input type="checkbox"><span>Respirator</span></label>
+        <label class="ppe-item"><input type="checkbox"><span>Hi-Vis Clothing</span></label>
+        <div class="ppe-item" style="cursor:default;">
+          <input type="checkbox" id="ppe-other-cb">
+          <span>Other:</span>
+          <input type="text" id="ppe-other-text" class="inline-input" placeholder="Specify..." onfocus="document.getElementById('ppe-other-cb').checked=true;" style="min-width:80px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: ISOLATION POINTS -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <span class="section-title">Isolation Points Applied</span>
+      <span class="section-badge badge-lm">Lockout Officer</span>
+    </div>
+    <div class="section-body">
+      <div class="iso-grid">
+        <label class="iso-item"><input type="checkbox"><span>Electrical</span></label>
+        <label class="iso-item"><input type="checkbox"><span>Pneumatic</span></label>
+        <label class="iso-item"><input type="checkbox"><span>Hydraulic</span></label>
+        <label class="iso-item"><input type="checkbox"><span>Mechanical</span></label>
+        <label class="iso-item"><input type="checkbox"><span>Thermal</span></label>
+        <label class="iso-item"><input type="checkbox"><span>Chemical</span></label>
+        <label class="iso-item"><input type="checkbox"><span>Gravity / Stored Energy</span></label>
+        <div class="iso-item" style="cursor:default;">
+          <input type="checkbox" id="iso-other-cb">
+          <span>Other:</span>
+          <input type="text" id="iso-other-text" class="inline-input" placeholder="Specify..." onfocus="document.getElementById('iso-other-cb').checked=true;" style="min-width:60px;">
+        </div>
+      </div>
+
+      <div class="checklist mt-14">
+        <div class="check-group-title">Lockout Officer to confirm before issuing form to worker</div>
+        <div class="check-item" id="lm1">
+          <div class="check-text">Lockout padlock applied to all isolation points</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('lm1','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('lm1','no')">NO</button>
+            <button class="check-btn na" onclick="setCheck('lm1','na')">N/A</button>
+          </div>
+        </div>
+        <div class="check-item" id="lm2">
+          <div class="check-text">Out of service tag attached at each isolation point</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('lm2','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('lm2','no')">NO</button>
+            <button class="check-btn na" onclick="setCheck('lm2','na')">N/A</button>
+          </div>
+        </div>
+        <div class="check-item" id="lm3">
+          <div class="check-text">All isolation points confirmed locked out and tagged</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('lm3','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('lm3','no')">NO</button>
+          </div>
+        </div>
+        <div class="check-item" id="lm4">
+          <div class="check-text">Equipment verified de-energised &mdash; zero energy state confirmed (checked for dead)</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('lm4','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('lm4','no')">NO</button>
+          </div>
+        </div>
+        <div class="check-item" id="lm5">
+          <div class="check-text">All relevant workers notified that isolation is in place</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('lm5','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('lm5','no')">NO</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7: LOCKOUT Officer SIGN-OFF -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <span class="section-title">Lockout Officer Authorisation</span>
+      <span class="section-badge badge-lm">Lockout Officer</span>
+    </div>
+    <div class="section-body">
+      <div class="sig-grid">
+        <div class="sig-box">
+          <div class="sig-box-header">Sign-Off &mdash; Issue to Worker</div>
+          <div class="sig-box-body">
+            <div class="sig-line">
+              <label>Lockout Officer Name</label>
+              <input type="text" id="lmName" placeholder="">
+            </div>
+            <div class="sig-line">
+              <label>Date / Time Authorised</label>
+              <input type="text" id="lmDateTime" placeholder="">
+            </div>
+            <div class="sig-line">
+              <label>Signature</label>
+              <input type="text" id="lmSig" placeholder="">
+            </div>
+          </div>
+        </div>
+        <div class="sig-box">
+          <div class="sig-box-header">Additional Notes / Conditions</div>
+          <div class="sig-box-body">
+            <div class="field" style="margin-top:0;">
+              <label>Any specific conditions, limitations or instructions for the worker</label>
+              <textarea placeholder="e.g. Do not re-energise until Lockout Officer is physically present..." style="min-height:78px;"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- ACTION BAR (screen only) -->
+  <div class="action-bar no-print">
+    <span class="action-bar-label">Actions:</span>
+    <button class="btn btn-primary" onclick="issueForm()">Issue Form</button>
+    <button class="btn btn-print" onclick="window.print()">Print / Save PDF</button>
+    <button class="btn btn-ghost" onclick="clearForm()">Clear Form</button>
+    <button class="btn btn-danger" onclick="voidForm()">Void</button>
+  </div>
+ <!-- PAGE BREAK -->
+  <div class="page-break-hint">— Complete below section by hand after work is finished —</div>
+ <!-- WORKER COPY (TEAR-OFF) -->
+  <div class="worker-copy-block">
+    <div class="worker-copy-header">
+      Worker Copy &mdash; Retained by Worker During Task
+      <span>Detach and keep on person while isolation is active</span>
+    </div>
+    <div class="worker-copy-body">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px 14px;margin-bottom:12px;">
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-600);font-family:'IBM Plex Mono',monospace;margin-bottom:3px;">Form Ref No.</div>
+          <div style="font-size:13px;font-weight:600;border-bottom:1.5px solid var(--grey-400);padding:2px 2px;min-height:24px;" id="wc-ref">&mdash;</div>
+        </div>
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-600);font-family:'IBM Plex Mono',monospace;margin-bottom:3px;">Date</div>
+          <div style="font-size:13px;font-weight:600;border-bottom:1.5px solid var(--grey-400);padding:2px 2px;min-height:24px;" id="wc-date">&mdash;</div>
+        </div>
+        <div style="grid-column:span 2;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-600);font-family:'IBM Plex Mono',monospace;margin-bottom:3px;">Equipment Isolated</div>
+          <div style="font-size:13px;font-weight:600;border-bottom:1.5px solid var(--grey-400);padding:2px 2px;min-height:24px;" id="wc-equipment">&mdash;</div>
+        </div>
+        <div style="grid-column:span 2;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-600);font-family:'IBM Plex Mono',monospace;margin-bottom:3px;">Issued By (Lockout Officer)</div>
+          <div style="font-size:13px;font-weight:600;border-bottom:1.5px solid var(--grey-400);padding:2px 2px;min-height:24px;" id="wc-lm">&mdash;</div>
+        </div>
+        <div style="grid-column:span 2;">
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-600);font-family:'IBM Plex Mono',monospace;margin-bottom:3px;">Worker Name</div>
+          <div style="font-size:13px;font-weight:600;border-bottom:1.5px solid var(--grey-400);padding:2px 2px;min-height:24px;" id="wc-worker">&mdash;</div>
+        </div>
+      </div>
+      <div style="font-size:11.5px;color:var(--grey-600);border-top:1px solid var(--grey-200);padding-top:10px;margin-bottom:8px;">
+        I confirm I have been briefed on the isolation, understand the scope of work, and will not attempt to re-energise equipment without Lockout Officer authorisation.
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-600);font-family:'IBM Plex Mono',monospace;margin-bottom:3px;">Worker Signature</div>
+          <div style="border-bottom:1.5px solid var(--grey-400);height:28px;"></div>
+        </div>
+        <div>
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--grey-600);font-family:'IBM Plex Mono',monospace;margin-bottom:3px;">Date / Time Received</div>
+          <div style="border-bottom:1.5px solid var(--grey-400);height:28px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: RETURN TO SERVICE -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <span class="section-title">Return to Service &mdash; Completion</span>
+      <span class="section-badge badge-lm">Lockout Officer</span>
+    </div>
+    <div class="section-body">
+      <div class="checklist">
+        <div class="check-group-title">Before removing isolation &mdash; confirm all of the following</div>
+        <div class="check-item" id="comp1">
+          <div class="check-text">All lockout devices (locks and tags) removed from isolation points</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('comp1','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('comp1','no')">NO</button>
+          </div>
+        </div>
+        <div class="check-item" id="comp2">
+          <div class="check-text">Equipment inspected and confirmed safe to return to service</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('comp2','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('comp2','no')">NO</button>
+          </div>
+        </div>
+        <div class="check-item" id="comp3">
+          <div class="check-text">All workers clear of equipment and notified that isolation has been lifted</div>
+          <div class="check-options">
+            <button class="check-btn yes" onclick="setCheck('comp3','yes')">YES</button>
+            <button class="check-btn no" onclick="setCheck('comp3','no')">NO</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sig-grid mt-14">
+        <div class="sig-box">
+          <div class="sig-box-header">Return to Service Sign-Off</div>
+          <div class="sig-box-body">
+            <div class="sig-line">
+              <label>Time Returned to Service</label>
+              <input type="text" id="rtsTime" placeholder="">
+            </div>
+            <div class="sig-line">
+              <label>Lockout Officer Name</label>
+              <input type="text" id="rtsLMName" placeholder="">
+            </div>
+            <div class="sig-line">
+              <label>Signature</label>
+              <input type="text" id="rtsSig" placeholder="">
+            </div>
+            <div class="sig-line">
+              <label>Date</label>
+              <input type="text" id="rtsDate" placeholder="">
+            </div>
+          </div>
+        </div>
+        <div class="sig-box">
+          <div class="sig-box-header">Record Filing</div>
+          <div class="sig-box-body">
+            <div class="info-note" style="margin-bottom:10px;">
+              <span style="font-size:13px;flex-shrink:0;">i</span>
+              <span>Completed forms must be retained in the site WHS records system. File by Form Ref No.</span>
+            </div>
+            <div class="sig-line">
+              <label>Filed / Archived By</label>
+              <input type="text" placeholder="">
+            </div>
+            <div class="sig-line">
+              <label>Filing Location / System Ref</label>
+              <input type="text" placeholder="SMS filing cabinet &mdash; LOTO folder">
+            </div>
+            <div class="sig-line">
+              <label>Incident / Near Miss During Isolation?</label>
+              <div style="display:flex;gap:14px;margin-top:6px;">
+                <label style="display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--black);cursor:pointer;font-family:'IBM Plex Sans',sans-serif;">
+                  <input type="checkbox" style="width:14px;height:14px;accent-color:var(--confirm-green)"> No incidents
+                </label>
+                <label style="display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--red);cursor:pointer;font-family:'IBM Plex Sans',sans-serif;">
+                  <input type="checkbox" style="width:14px;height:14px;accent-color:var(--red)"> Yes &mdash; report raised
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS FOOTER -->
+  <div class="permit-status-bar">
+    <div class="status-cell">
+      <span class="label">Form Status</span>
+      <span class="value" id="statusDisplay">&#8212; Not Yet Issued</span>
+    </div>
+    <div class="status-cell">
+      <span class="label">Equipment</span>
+      <span class="value" id="equipDisplay">&#8212;</span>
+    </div>
+    <div class="status-cell">
+      <span class="label">Document Ref</span>
+      <span class="value">LOP-001-2024-v1.0 &middot; Tuan Biomass</span>
+    </div>
+  </div>
+
+</div>
+
+<footer style="text-align:center;font-size:12px;color:#6b7280;padding:16px 12px 26px;border-top:1px solid #e5e7eb;margin-top:20px;"><a href="/privacy-policy.html" target="_blank" rel="noopener" style="color:#1B4332;">Privacy &amp; Data Collection Policy</a></footer>
+<script src="/isolate/script.js"></script>
+</body>
+</html>
