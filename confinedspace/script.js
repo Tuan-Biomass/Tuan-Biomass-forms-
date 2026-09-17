@@ -143,6 +143,7 @@
       const permitNo = result.permit_number || 'PENDING';
       document.getElementById('permitNo').value = permitNo;
       document.getElementById('statusDisplay').textContent = '✓ ISSUED — ' + permitNo;
+      alert('Permit ' + permitNo + ' has been issued.');
 
       const entry = { number: permitNo, space: spaceId, date: dateVal, issuedAt, status: 'ISSUED' };
       permitLog.push(entry);

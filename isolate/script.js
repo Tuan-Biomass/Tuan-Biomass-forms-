@@ -98,6 +98,7 @@
       document.getElementById('formRef').value = ref;
       document.getElementById('wc-ref').textContent = ref;
       document.getElementById('statusDisplay').textContent = 'ISSUED \u2014 ' + ref;
+      alert('Form ' + ref + ' has been issued.');
 
       formLog.push({ ref, equip, worker, date: dateVal, issuedAt, status: 'ISSUED' });
       updateLogBar();

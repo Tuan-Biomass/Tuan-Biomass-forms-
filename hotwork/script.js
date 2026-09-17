@@ -88,6 +88,7 @@
       document.getElementById('permitNo').value = permitNo;
       syncPermitNo(permitNo);
       document.getElementById('statusDisplay').textContent = '✓ ISSUED — ' + permitNo;
+      alert('Permit ' + permitNo + ' has been issued.');
 
       permitLog.push({ number: permitNo, location, date: dateVal, issuedAt, status: 'ISSUED' });
       updatePermitLogDisplay();
