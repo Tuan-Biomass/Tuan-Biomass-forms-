@@ -111,43 +111,46 @@
   // Issue permit
   // ── PERMIT REGISTER (Power Automate) ──
   const PERMIT_REGISTER_URL = '/api/permit-register';
-  function submitToPermitRegister(payload) {
-    fetch(PERMIT_REGISTER_URL, {
+  async function submitToPermitRegister(payload) {
+    const res = await fetch(PERMIT_REGISTER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).catch(() => {
-      document.getElementById('statusDisplay').textContent += ' (register sync failed — check connection)';
     });
+    if (!res.ok) throw new Error('Register request failed');
+    return res.json();
   }
 
-  function issuePermit() {
-    const permitNo = document.getElementById('permitNo').value || 'PENDING';
+  async function issuePermit() {
     const spaceId = document.getElementById('spaceId').value || '—';
     const dateVal = document.getElementById('entryDate').value || new Date().toISOString().split('T')[0];
-    document.getElementById('statusDisplay').textContent = '✓ ISSUED — ' + permitNo;
-    document.getElementById('spaceIdDisplay').textContent = spaceId;
-    // Log the permit
-    const entry = {
-      number: permitNo,
-      space: spaceId,
-      date: dateVal,
-      issuedAt: new Date().toLocaleTimeString(),
-      status: 'ISSUED'
-    };
-    permitLog.push(entry);
-    try { localStorage.setItem('csPermitLog', JSON.stringify(permitLog)); } catch(e) {}
-    updatePermitLogDisplay();
+    const issuedAt = new Date().toLocaleTimeString();
 
-    submitToPermitRegister({
-      permit_type: 'Confined Space',
-      permit_number: permitNo,
-      reference: spaceId,
-      issued_by: (document.getElementById('issuingAuthorityName') || {}).value || '',
-      date: dateVal,
-      time_issued: entry.issuedAt,
-      status: 'ISSUED'
-    });
+    document.getElementById('statusDisplay').textContent = 'Issuing…';
+    document.getElementById('spaceIdDisplay').textContent = spaceId;
+
+    try {
+      const result = await submitToPermitRegister({
+        permit_type: 'Confined Space',
+        permit_number: '',
+        reference: spaceId,
+        issued_by: (document.getElementById('issuingAuthorityName') || {}).value || '',
+        date: dateVal,
+        time_issued: issuedAt,
+        status: 'ISSUED'
+      });
+
+      const permitNo = result.permit_number || 'PENDING';
+      document.getElementById('permitNo').value = permitNo;
+      document.getElementById('statusDisplay').textContent = '✓ ISSUED — ' + permitNo;
+
+      const entry = { number: permitNo, space: spaceId, date: dateVal, issuedAt, status: 'ISSUED' };
+      permitLog.push(entry);
+      try { localStorage.setItem('csPermitLog', JSON.stringify(permitLog)); } catch(e) {}
+      updatePermitLogDisplay();
+    } catch (e) {
+      document.getElementById('statusDisplay').textContent = '✗ Could not reach the permit register — check connection and try again.';
+    }
   }
 
   // Cancel permit
@@ -165,6 +168,8 @@
           date: permitLog[permitLog.length-1].date,
           time_issued: new Date().toLocaleTimeString(),
           status: 'CANCELLED'
+        }).catch(() => {
+          document.getElementById('statusDisplay').textContent += ' (register sync failed — check connection)';
         });
       }
     }

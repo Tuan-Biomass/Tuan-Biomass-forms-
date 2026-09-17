@@ -63,37 +63,47 @@
 
   // ── PERMIT REGISTER (Power Automate) ──
   const PERMIT_REGISTER_URL = '/api/permit-register';
-  function submitToPermitRegister(payload) {
-    fetch(PERMIT_REGISTER_URL, {
+  async function submitToPermitRegister(payload) {
+    const res = await fetch(PERMIT_REGISTER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).catch(() => {
-      document.getElementById('statusDisplay').textContent += ' (register sync failed — check connection)';
     });
+    if (!res.ok) throw new Error('Register request failed');
+    return res.json();
   }
 
-  function issueForm() {
-    const ref = document.getElementById('formRef').value || 'PENDING';
+  async function issueForm() {
     const equip = document.getElementById('equipment').value || '\u2014';
     const worker = document.getElementById('workerName').value || '\u2014';
     const dateVal = document.getElementById('formDate').value || new Date().toISOString().split('T')[0];
-    document.getElementById('statusDisplay').textContent = 'ISSUED \u2014 ' + ref;
-    document.getElementById('equipDisplay').textContent = equip;
     const issuedAt = new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-    formLog.push({ ref, equip, worker, date: dateVal, issuedAt, status: 'ISSUED' });
-    updateLogBar();
 
-    submitToPermitRegister({
-      permit_type: 'Isolation',
-      permit_number: ref,
-      reference: equip,
-      issued_by: (document.getElementById('lmName') || {}).value || '',
-      recipient: worker,
-      date: dateVal,
-      time_issued: issuedAt,
-      status: 'ISSUED'
-    });
+    document.getElementById('statusDisplay').textContent = 'Issuing\u2026';
+    document.getElementById('equipDisplay').textContent = equip;
+
+    try {
+      const result = await submitToPermitRegister({
+        permit_type: 'Isolation',
+        permit_number: '',
+        reference: equip,
+        issued_by: (document.getElementById('lmName') || {}).value || '',
+        recipient: worker,
+        date: dateVal,
+        time_issued: issuedAt,
+        status: 'ISSUED'
+      });
+
+      const ref = result.permit_number || 'PENDING';
+      document.getElementById('formRef').value = ref;
+      document.getElementById('wc-ref').textContent = ref;
+      document.getElementById('statusDisplay').textContent = 'ISSUED \u2014 ' + ref;
+
+      formLog.push({ ref, equip, worker, date: dateVal, issuedAt, status: 'ISSUED' });
+      updateLogBar();
+    } catch (e) {
+      document.getElementById('statusDisplay').textContent = 'Could not reach the permit register \u2014 check connection and try again.';
+    }
   }
 
   function openLog() {
@@ -131,6 +141,8 @@
           date: formLog[formLog.length-1].date,
           time_issued: new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),
           status: 'VOID'
+        }).catch(() => {
+          document.getElementById('statusDisplay').textContent += ' (register sync failed — check connection)';
         });
       }
     }

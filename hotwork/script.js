@@ -55,44 +55,45 @@
   // ── ISSUE PERMIT ──
   // ── PERMIT REGISTER (Power Automate) ──
   const PERMIT_REGISTER_URL = '/api/permit-register';
-  function submitToPermitRegister(payload) {
-    fetch(PERMIT_REGISTER_URL, {
+  async function submitToPermitRegister(payload) {
+    const res = await fetch(PERMIT_REGISTER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }).catch(() => {
-      document.getElementById('statusDisplay').textContent += ' (register sync failed — check connection)';
     });
+    if (!res.ok) throw new Error('Register request failed');
+    return res.json();
   }
 
-  function issuePermit() {
-    const permitNo = document.getElementById('permitNo').value || 'PENDING';
+  async function issuePermit() {
     const dateVal = document.getElementById('permitDate').value || new Date().toISOString().split('T')[0];
     const locationInputs = document.querySelectorAll('.field input[type=text]');
     const location = locationInputs[4] ? (locationInputs[4].value || '—') : '—';
+    const issuedAt = new Date().toLocaleTimeString();
 
-    document.getElementById('statusDisplay').textContent = '✓ ISSUED — ' + permitNo;
-    document.getElementById('permitNoDisplay').textContent = permitNo;
+    document.getElementById('statusDisplay').textContent = 'Issuing…';
 
-    const entry = {
-      number: permitNo,
-      location: location,
-      date: dateVal,
-      issuedAt: new Date().toLocaleTimeString(),
-      status: 'ISSUED'
-    };
-    permitLog.push(entry);
-    updatePermitLogDisplay();
+    try {
+      const result = await submitToPermitRegister({
+        permit_type: 'Hot Work',
+        permit_number: '',
+        reference: location,
+        issued_by: (document.getElementById('issuerName') || {}).value || '',
+        date: dateVal,
+        time_issued: issuedAt,
+        status: 'ISSUED'
+      });
 
-    submitToPermitRegister({
-      permit_type: 'Hot Work',
-      permit_number: permitNo,
-      reference: location,
-      issued_by: (document.getElementById('issuerName') || {}).value || '',
-      date: dateVal,
-      time_issued: entry.issuedAt,
-      status: 'ISSUED'
-    });
+      const permitNo = result.permit_number || 'PENDING';
+      document.getElementById('permitNo').value = permitNo;
+      syncPermitNo(permitNo);
+      document.getElementById('statusDisplay').textContent = '✓ ISSUED — ' + permitNo;
+
+      permitLog.push({ number: permitNo, location, date: dateVal, issuedAt, status: 'ISSUED' });
+      updatePermitLogDisplay();
+    } catch (e) {
+      document.getElementById('statusDisplay').textContent = '✗ Could not reach the permit register — check connection and try again.';
+    }
   }
 
   // ── CANCEL PERMIT ──
@@ -109,6 +110,8 @@
           date: permitLog[permitLog.length - 1].date,
           time_issued: new Date().toLocaleTimeString(),
           status: 'CANCELLED'
+        }).catch(() => {
+          document.getElementById('statusDisplay').textContent += ' (register sync failed — check connection)';
         });
       }
     }
