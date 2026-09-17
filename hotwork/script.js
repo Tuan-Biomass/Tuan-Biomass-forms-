@@ -65,6 +65,15 @@
     return res.json();
   }
 
+  function getCheckState(id) {
+    const item = document.getElementById(id);
+    if (!item) return '';
+    if (item.querySelector('.check-btn.active-yes')) return 'YES';
+    if (item.querySelector('.check-btn.active-no')) return 'NO';
+    if (item.querySelector('.check-btn.active-na')) return 'N/A';
+    return '';
+  }
+
   async function issuePermit() {
     const dateVal = document.getElementById('permitDate').value || new Date().toISOString().split('T')[0];
     const location = (document.getElementById('locationZone') || {}).value || '—';
@@ -80,7 +89,16 @@
         issued_by: (document.getElementById('issuerName') || {}).value || '',
         date: dateVal,
         time_issued: issuedAt,
-        status: 'ISSUED'
+        status: 'ISSUED',
+        valid_from: (document.getElementById('validFrom') || {}).value || '',
+        valid_until: (document.getElementById('validTo') || {}).value || '',
+        person_doing_work: (document.getElementById('personDoingWork') || {}).value || '',
+        employee_or_contractor: (document.getElementById('employeeContractor') || {}).value || '',
+        location_detail: (document.getElementById('locationDetail') || {}).value || '',
+        work_description: (document.getElementById('workDescription') || {}).value || '',
+        fire_watch_name: (document.getElementById('fireWatchName') || {}).value || '',
+        standby_person_name: (document.getElementById('standbyPersonName') || {}).value || '',
+        swms_completed: getCheckState('hw19')
       });
 
       const permitNo = result.permit_number || 'PENDING';
