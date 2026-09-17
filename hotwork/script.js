@@ -67,8 +67,7 @@
 
   async function issuePermit() {
     const dateVal = document.getElementById('permitDate').value || new Date().toISOString().split('T')[0];
-    const locationInputs = document.querySelectorAll('.field input[type=text]');
-    const location = locationInputs[4] ? (locationInputs[4].value || '—') : '—';
+    const location = (document.getElementById('locationZone') || {}).value || '—';
     const issuedAt = new Date().toLocaleTimeString();
 
     document.getElementById('statusDisplay').textContent = 'Issuing…';
