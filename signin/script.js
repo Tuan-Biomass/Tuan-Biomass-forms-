@@ -26,7 +26,7 @@ function showPage(page){
   }
   window._keepNotice=false;
   if(page==="home")renderHome();
-  if(page==="signin")setDefaultDateTime();
+  if(page==="signin"){document.getElementById("signInConfirmation")?.remove();setDefaultDateTime();}
   window.scrollTo(0,0);
 }
 function setDefaultDateTime(){document.getElementById("signinDate").value=todayISO();document.getElementById("timeIn").value=timeNow()}
@@ -52,24 +52,31 @@ function selectRadio(group,val){
 
 function msg(id,type,text){document.getElementById(id).innerHTML=text?`<div class="notice notice-${type}">${text}</div>`:""}
 
+let lookupInProgress=false;
 async function autoFillFromMobile(){
+  if(lookupInProgress)return;
   const mobile=document.getElementById("mobileNumber").value.trim();
-  if(!mobile||mobile.length<8)return;
+  if(!mobile||mobile.length<8){msg("autofillHint","danger","Please enter your mobile number first.");return;}
+  lookupInProgress=true;
+  const lookupButton=document.getElementById("lookupBtn");
+  lookupButton.disabled=true;
   const hint=document.getElementById("autofillHint");
   hint.innerHTML='<div class="autofill-hint">Looking up contractor details...</div>';
   try{
     const res=await fetch(CONFIG.inductionCheckURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({mobile_number:mobile,person_id:normaliseMobile(mobile),lookup_only:"true"}, stripFormulaChars)});
-    if(!res.ok){hint.innerHTML="";return}
+    if(!res.ok){msg("autofillHint","danger","Lookup unavailable. Please try again or contact the site office.");return;}
     const data=await res.json();
+    if(document.getElementById("mobileNumber").value.trim()!==mobile||state.inducted==="escorted")return;
     if(data.full_name){
       document.getElementById("fullName").value=data.full_name;
       document.getElementById("company").value=data.company||"";
-      hint.innerHTML='<div class="autofill-hint">✓ Details filled from contractor register</div>';
+      msg("autofillHint","warn","Details found. You are NOT signed in yet. Check your details and press Sign In below.");
       if(data.inducted){selectRadio("inducted","yes")}
     }else{
       hint.innerHTML='<div class="autofill-hint">No existing record found — please enter details manually</div>';
     }
-  }catch(e){hint.innerHTML="";console.warn("Autofill lookup failed:",e)}
+  }catch(e){msg("autofillHint","danger","Lookup unavailable. Please try again or contact the site office.");console.warn("Autofill lookup failed:",e)}
+  finally{lookupInProgress=false;lookupButton.disabled=false;}
 }
 
 function validateSignIn(){
@@ -85,8 +92,14 @@ function validateSignIn(){
   return true
 }
 
+let signInInProgress=false;
 async function submitSignIn(){
+  if(signInInProgress||lookupInProgress)return;
   if(!validateSignIn())return;
+  signInInProgress=true;
+  const signInButton=document.querySelector('[data-csp-hook="cspHook9"]');
+  signInButton.disabled=true;
+  try{
   const fullName=document.getElementById("fullName").value.trim();
   const company=document.getElementById("company").value.trim();
   const mobileNumber=document.getElementById("mobileNumber").value.trim();
@@ -114,8 +127,17 @@ async function submitSignIn(){
   msg("signinMessage","warn","Signing in...");
   try{
     const res=await fetch(CONFIG.webhookURL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"sign_in",...record}, stripFormulaChars)});
-    if(res.ok){const data=await res.json();if(data.entry_id){record.entry_id=data.entry_id;sessionStorage.setItem(`entryID_${record.id}`,data.entry_id);localStorage.setItem(`entryID_${record.id}`,data.entry_id)}}
-  }catch(e){console.warn("Sign-in webhook error:",e)}
+    if(!res.ok)throw new Error("HTTP "+res.status);
+    const data=await res.json();
+    if(String(data.success).toLowerCase()!=="true"||typeof data.entry_id!=="string"||!data.entry_id.trim())throw new Error("Missing sign-in confirmation");
+    record.entry_id=data.entry_id;
+  }catch(e){
+    console.warn("Sign-in confirmation error:",e);
+    msg("signinMessage","danger","Sign-in was not confirmed. Do not proceed to site. Contact the site office to check the register before trying again.");
+    return;
+  }
+  sessionStorage.setItem(`entryID_${record.id}`,record.entry_id);
+  localStorage.setItem(`entryID_${record.id}`,record.entry_id);
   const records=loadRecords();records.push(record);saveRecords(records);
   if(CONFIG.docCheckURL&&state.inducted==="yes"&&mobileNumber){
     try{
@@ -161,6 +183,20 @@ async function submitSignIn(){
     }catch(e){console.warn("Doc check error:",e)}
   }
   clearSignInForm();showPage("home");
+  showSignInConfirmation();
+  }finally{signInInProgress=false;signInButton.disabled=false;}
+}
+
+function showSignInConfirmation(){
+  let notice=document.getElementById("signInConfirmation");
+  if(!notice){
+    notice=document.createElement("div");
+    notice.id="signInConfirmation";
+    notice.setAttribute("role","status");
+    document.querySelector("#pageHome .big-signin").after(notice);
+  }
+  notice.className="notice notice-success";
+  notice.textContent="Successfully signed in. Your attendance has been recorded.";
 }
 
 async function checkInductionStatus(fullName,company,mobileNumber,date,arrivalTime){
@@ -647,10 +683,6 @@ document.querySelector('[data-csp-hook="cspHook4"]').addEventListener("click", f
 
 document.querySelector('[data-csp-hook="cspHook5"]').addEventListener("click", function(event) {
   selectRadio('inducted','escorted')
-});
-
-document.querySelector('[data-csp-hook="cspHook6"]').addEventListener("blur", function(event) {
-  autoFillFromMobile()
 });
 
 document.querySelector('[data-csp-hook="cspHook7"]').addEventListener("click", function(event) {
