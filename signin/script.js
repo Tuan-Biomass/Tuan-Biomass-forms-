@@ -70,7 +70,7 @@ async function autoFillFromMobile(){
     if(data.full_name){
       document.getElementById("fullName").value=data.full_name;
       document.getElementById("company").value=data.company||"";
-      msg("autofillHint","warn","Details found. You are NOT signed in yet. Check your details and press Sign In below.");
+      msg("autofillHint","warn","Details found. You are NOT signed in yet.");
       if(data.inducted){selectRadio("inducted","yes")}
     }else{
       hint.innerHTML='<div class="autofill-hint">No existing record found — please enter details manually</div>';
